@@ -1,4 +1,5 @@
 package com.example.kurslinemobileapp
 
-class TestClass {
-}
+data class TestClass (
+    val emin : String
+        )
