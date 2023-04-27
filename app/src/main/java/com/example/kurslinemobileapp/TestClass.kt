@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp
 
 class TestClass {
-    private  val emin : String = "Emin773"
+    private  val emin : String = "Emin775"
+
 }
