@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="greenColor">#25A244</color>
+    <color name="mainPageBackgroundColor">#ECECEC</color>
+    <color name="grayColor1"> #929292</color>
+    <color name="redColor">#DE1111</color>
+    <color name="colorForCourseIntheMainScreen">#78BFDB</color>
 </resources>
