@@ -20,7 +20,7 @@
         app:itemRippleColor="@color/white"
         app:menu="@menu/nav_menu"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
