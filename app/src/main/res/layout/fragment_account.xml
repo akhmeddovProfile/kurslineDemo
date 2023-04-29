@@ -9,6 +9,7 @@
 
 
         <ImageView
+            android:id="@+id/backtoMainPage"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_baseline_arrow_back_ios_24"
@@ -25,11 +26,21 @@
         android:textColor="@color/greenColor"
         android:textSize="36dp"
         android:textStyle="bold" />
+    <ScrollView
+        android:layout_below="@+id/accountText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
     <ImageView
         android:layout_marginTop="5dp"
         android:id="@+id/linearforLogo"
-        android:layout_below="@+id/accountText"
+
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/grayColor1"/>
@@ -176,5 +187,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"/>
-
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
