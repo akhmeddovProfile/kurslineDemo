@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.UI
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class AccountFragment : Fragment() {
 
@@ -29,6 +31,22 @@ class AccountFragment : Fragment() {
         button2.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
         }
+
+        // Get the SharedPreferences object
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+// Get the saved account information from SharedPreferences
+        val name = sharedPreferences.getString("name", "")
+        val surname = sharedPreferences.getString("surname", "")
+        val phone = sharedPreferences.getString("phone", "")
+        val email = sharedPreferences.getString("email", "")
+
+// Display the account information in the UI
+        view.accountNameEditText.setText(name)
+        view.accountSurnameEditText.setText(surname)
+        view.accountPhoneEditText.setText(phone)
+        view.accountMailEditText.setText(email)
+
 
 
         return view
