@@ -81,10 +81,11 @@
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:inputType="textPersonName"
+                    android:inputType="textPassword"
                     android:hint="Şifrə daxil edin"/>
             </com.google.android.material.textfield.TextInputLayout>
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"

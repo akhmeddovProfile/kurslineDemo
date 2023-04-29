@@ -35,12 +35,7 @@ class RegisterFragment : Fragment() {
         val password = view.passwordEditText.text.toString()
         val password2 = view.confirmPasswordEditText.text.toString()
 // Save the user's account information to SharedPreferences
-        if (name.isBlank() || surname.isBlank() || phone.isBlank() || email.isBlank() || password.isBlank() || password2.isBlank()) {
-            // Show an error message and don't proceed to the next fragment
-            Toast.makeText(requireContext(), "Please fill all the required fields", Toast.LENGTH_SHORT).show()
-        } else if(password == password2){
-            Toast.makeText(requireContext(), "Passwords don't match", Toast.LENGTH_SHORT).show()
-        }else {
+
             // Save the user's account information to SharedPreferences and switch to the login fragment
             sharedPreferences.edit().apply {
                 putString("name", name)
@@ -49,12 +44,12 @@ class RegisterFragment : Fragment() {
                 putString("email", email)
                 putString("password", password)
                 apply()
+                val button = view.findViewById<Button>(R.id.registerButton)
+                button.setOnClickListener {
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                }
             }
 
-           view.registerButton.setOnClickListener {
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-            }
-        }
 
         return view
     }
