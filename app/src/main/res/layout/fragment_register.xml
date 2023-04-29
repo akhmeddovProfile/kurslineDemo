@@ -176,7 +176,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="25dp"
                 android:layout_below="@id/confirmPassworContainer"
                 android:background="@drawable/button_bg"
                 android:text="Qeydiyyatdan keç"

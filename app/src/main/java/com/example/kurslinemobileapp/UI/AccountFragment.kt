@@ -18,13 +18,20 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_account, container, false)
+        val view = inflater.inflate(R.layout.fragment_account, container, false)
+
         val button = view.findViewById<Button>(R.id.nextButton)
         button.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
         }
+
+        val button2 = view.findViewById<Button>(R.id.nextLogin)
+        button2.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
+        }
+
+
         return view
 
     }
-
 }
