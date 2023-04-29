@@ -7,38 +7,6 @@
     android:background="@color/white"
     tools:context=".UI.AccountFragment">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:id="@+id/nextButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/montserrat"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button_bg"
-        android:text="register"
-        android:textAllCaps="false"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:visibility="gone"
-        android:layout_below="@+id/nextButton"
-        android:id="@+id/nextLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/montserrat"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button_bg"
-        android:text="login"
-        android:textAllCaps="false"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"/>
 
         <ImageView
             android:layout_width="40dp"
@@ -94,9 +62,9 @@
             android:lines="1"
             android:editable="false"
             android:clickable="false"
+            android:inputType="none"
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
-            android:inputType="textPersonName"
             android:hint="Adınız"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,9 +85,11 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:lines="1"
+            android:editable="false"
+            android:clickable="false"
+            android:inputType="none"
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
-            android:inputType="textPersonName"
             android:hint="Soyadınız"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +112,9 @@
             android:lines="1"
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
-            android:inputType="phone"
+            android:editable="false"
+            android:clickable="false"
+            android:inputType="none"
             android:hint="Telefon nömrəsi"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,9 +137,44 @@
             android:lines="1"
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
-            android:inputType="textEmailAddress"
+            android:editable="false"
+            android:clickable="false"
+            android:inputType="none"
             android:hint="Email"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:visibility="visible"
+        android:id="@+id/nextButton"
+        android:layout_below="@+id/acountMailContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_bg"
+        android:text="register"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:visibility="visible"
+        android:layout_below="@+id/nextButton"
+        android:id="@+id/nextLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_bg"
+        android:text="login"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
 </RelativeLayout>

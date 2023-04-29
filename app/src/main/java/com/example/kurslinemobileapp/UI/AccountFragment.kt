@@ -40,14 +40,17 @@ class AccountFragment : Fragment() {
         val surname = sharedPreferences.getString("surname", "")
         val phone = sharedPreferences.getString("phone", "")
         val email = sharedPreferences.getString("email", "")
-
+        if (name == null || surname == null || phone == null || email == null) {
+            // Required data is missing, navigate to RegistrationFragment
+            findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
+        } else {
+            // Required data is present, display it
+            view.accountNameEditText.setText("kerim")
+            view.accountSurnameEditText.setText(surname)
+            view.accountPhoneEditText.setText(phone)
+            view.accountMailEditText.setText(email)
+        }
 // Display the account information in the UI
-        view.accountNameEditText.setText(name)
-        view.accountSurnameEditText.setText(surname)
-        view.accountPhoneEditText.setText(phone)
-        view.accountMailEditText.setText(email)
-
-
 
         return view
 

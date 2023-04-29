@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_register.view.*
 class RegisterFragment : Fragment() {
 
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +47,7 @@ class RegisterFragment : Fragment() {
                 apply()
                 val button = view.findViewById<Button>(R.id.registerButton)
                 button.setOnClickListener {
-                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_accountFragment)
                 }
             }
 
