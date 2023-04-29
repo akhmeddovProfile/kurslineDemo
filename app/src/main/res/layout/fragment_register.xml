@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     tools:context=".UI.RegisterFragment">
 
     <ImageView
@@ -16,34 +18,173 @@
         android:id="@+id/registerText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/registerImage"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
         android:text="Qeydiyyat"
-        android:textStyle="bold"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
-        android:gravity="center_horizontal"
-        android:layout_alignBottom="@+id/registerImage"
-        android:fontFamily="@font/nunito"/>
+        android:textStyle="bold" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailContainer"
+    <ScrollView
+        android:background="@color/white"
+        android:layout_below="@+id/registerText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameContainer"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:lines="1"
+        android:textColor="@color/black"
         android:fontFamily="@font/montserrat"
-        android:inputType="textEmailAddress"
+        android:inputType="textPersonName"
         android:hint="Adınızı daxil edin*"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/surnameContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/nameContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/surnameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Soyadınızı daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/surnameContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="phone"
+                    android:hint="Telefon nömrəsi daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mailContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/phoneContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textEmailAddress"
+                    android:hint="Mail daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/mailContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPassword"
+                    android:hint="Şifrə daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirmPassworContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/passwordContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirmPasswordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPassword"
+                    android:hint="Şifrəni təkrar daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/confirmPassworContainer"
+                android:background="@drawable/button_bg"
+                android:text="Qeydiyyatdan keç"
+                android:textAllCaps="false"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
