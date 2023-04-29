@@ -19,6 +19,7 @@
         android:background="@drawable/status_view"
         >
         <TextView
+            android:id="@+id/statusforproduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
@@ -85,7 +86,7 @@
     <TextView
         android:layout_alignParentStart="true"
         android:layout_marginStart="12dp"
-        android:id="@+id/productPrice"
+        android:id="@+id/productOwnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
