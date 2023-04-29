@@ -11,4 +11,5 @@
     <string name="filter">Filter</string>
     <string name="filterFromAtoZ">A-dan Z-ə</string>
     <string name="filterforPrice">Qiymətə görə</string>
+    <string name="favcoursenotfound">Burada heç bir kurs tapılmadı</string>
 </resources>

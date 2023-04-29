@@ -32,7 +32,7 @@ class MainPageFragment : Fragment() {
     private fun imageforHighlight(){
      val imageWithTextList= listOf(
          Highlight(R.drawable.mainpagehiglight,"Ən çox baxılanlar"),
-         Highlight(R.drawable.yenielan,"")
+         Highlight(R.drawable.yenielan,"1345 yeni kurs")
      )
         val recylerviewForHighlight=viewMain.findViewById<RecyclerView>(R.id.recylerViewforHighlight)
         val adapter = HiglightForMainListAdapter(imageWithTextList)
