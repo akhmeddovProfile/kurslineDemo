@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.HiglightForMainListAdapter
+import com.example.kurslinemobileapp.adapter.MainListProductAdapter
 import com.example.kurslinemobileapp.model.mainpage.Highlight
+import com.example.kurslinemobileapp.model.mainpage.Product
 
 
 class MainPageFragment : Fragment() {
@@ -22,6 +24,7 @@ class MainPageFragment : Fragment() {
         viewMain =  inflater.inflate(R.layout.fragment_main_page, container, false)
 
         imageforHighlight()
+        getProducts()
         return viewMain
 
     }
@@ -35,5 +38,20 @@ class MainPageFragment : Fragment() {
         val adapter = HiglightForMainListAdapter(imageWithTextList)
         recylerviewForHighlight.adapter=adapter
         recylerviewForHighlight.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+    }
+
+    private fun getProducts(){
+        val productInformation= listOf(
+            Product("Online",
+                R.drawable.vip_icon,
+                R.drawable.yenielan,
+                "Mobile Programming",
+                "Aim Tech",
+                "This course for test")
+        )
+        val recyclerviewForProducts=viewMain.findViewById<RecyclerView>(R.id.recylerViewForProductList)
+        val adapter=MainListProductAdapter(productInformation)
+        recyclerviewForProducts.adapter=adapter
+        recyclerviewForProducts.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
     }
 }
