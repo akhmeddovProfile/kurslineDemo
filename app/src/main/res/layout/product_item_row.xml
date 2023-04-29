@@ -6,7 +6,7 @@
     android:layout_marginStart="13dp"
     android:layout_marginTop="20dp"
     android:background="@drawable/productview"
-    android:translationZ="1dp"
+    android:translationZ="0dp"
     android:layout_width="194dp"
     android:layout_height="wrap_content"
     >

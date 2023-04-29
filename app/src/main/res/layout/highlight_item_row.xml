@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="144dp"
     android:layout_height="92dp"
+    android:padding="8dp"
     android:adjustViewBounds="true"
     app:cardCornerRadius="20dp">
     <ImageView
