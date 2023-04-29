@@ -18,7 +18,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_account, container, false)
+        val view = inflater.inflate(R.layout.fragment_account, container, false)
 
         val button = view.findViewById<Button>(R.id.nextButton)
         button.setOnClickListener {
@@ -34,5 +34,4 @@ class AccountFragment : Fragment() {
         return view
 
     }
-
 }
