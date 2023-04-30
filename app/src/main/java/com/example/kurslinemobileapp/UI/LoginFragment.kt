@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 import kotlinx.android.synthetic.main.fragment_register.view.*
 
@@ -19,26 +21,26 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_login, container, false)
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        // Get the user's input data
-        val email = view.emailLoginEditText.text.toString()
-        val password = view.passwordLoginEditText.text.toString()
+        val loginButton = view.findViewById<Button>(R.id.loginButton)
+        loginButton.setOnClickListener {
+            val email = emailLoginEditText.text.toString()
+            val password = passwordLoginEditText.text.toString()
 
-// Check if any of the required fields are empty
-            // Get the saved account information from SharedPreferences
-            val savedEmail = sharedPreferences.getString("email", "")
-            val savedPassword = sharedPreferences.getString("password", "")
+            // Retrieve user registration data from shared preferences
+            val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val savedEmail = sharedPreferences.getString("email", null)
+            val savedPassword = sharedPreferences.getString("password", null)
 
-            // Check if the login is successful
-            if (email == savedEmail && password == savedPassword) {
-                // Login successful, switch to the account fragment
-                view.loginButton.setOnClickListener {
-                    findNavController().navigate(R.id.action_loginFragment_to_accountFragment)
-                }
+            // Validate user input
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            } else if (email == savedEmail && password == savedPassword) {
+                findNavController().navigate(R.id.action_loginFragment_to_accountFragment)
+                Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show()
             } else {
-                // Login failed, show an error message
-                Toast.makeText(requireContext(), "Invalid email or password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Incorrect email or password", Toast.LENGTH_SHORT).show()
             }
+        }
 
 
         return view

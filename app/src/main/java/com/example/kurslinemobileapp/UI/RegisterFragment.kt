@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_register.view.*
 
 class RegisterFragment : Fragment() {
@@ -26,31 +27,39 @@ class RegisterFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
         // Get the SharedPreferences object
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-// Get the user's input data
-        val name = view.nameEditText.text.toString()
-        val surname = view.surnameEditText.text.toString()
-        val phone = view.phoneEditText.text.toString()
-        val email = view.mailEditText.text.toString()
-        val password = view.passwordEditText.text.toString()
-        val password2 = view.confirmPasswordEditText.text.toString()
-// Save the user's account information to SharedPreferences
 
-            // Save the user's account information to SharedPreferences and switch to the login fragment
-            sharedPreferences.edit().apply {
-                putString("name", name)
-                putString("surname", surname)
-                putString("phone", phone)
-                putString("email", email)
-                putString("password", password)
-                apply()
-                val button = view.findViewById<Button>(R.id.registerButton)
-                button.setOnClickListener {
-                    findNavController().navigate(R.id.action_registerFragment_to_accountFragment)
-                }
+        val registerButton = view.findViewById<Button>(R.id.registerButton)
+        registerButton.setOnClickListener {
+            val name = view.nameEditText.text.toString()
+            val surname =view.surnameEditText.text.toString()
+            val email = view.mailEditText.text.toString()
+            val phone =view.phoneEditText.text.toString()
+            val password = view.passwordEditText.text.toString()
+            val password2 = view.confirmPasswordEditText.text.toString()
+            // Validate input fields
+            if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            } else {
+                // Save user registration data to shared preferences
+                val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                editor.putString("name", name)
+                editor.putString("surname", surname)
+                editor.putString("email", email)
+                editor.putString("phone", phone)
+                editor.putString("password", password)
+                editor.putBoolean("is_registered", true)
+                editor.apply()
+                Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                // Switch to login fragment
             }
+        }
 
+        view.accountHavetoLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
 
         return view
     }

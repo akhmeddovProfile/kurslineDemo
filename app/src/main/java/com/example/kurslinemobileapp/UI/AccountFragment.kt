@@ -22,15 +22,6 @@ class AccountFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
-        val button = view.findViewById<Button>(R.id.nextButton)
-        button.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
-        }
-
-        val button2 = view.findViewById<Button>(R.id.nextLogin)
-        button2.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
-        }
 
         // Get the SharedPreferences object
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -40,12 +31,15 @@ class AccountFragment : Fragment() {
         val surname = sharedPreferences.getString("surname", "")
         val phone = sharedPreferences.getString("phone", "")
         val email = sharedPreferences.getString("email", "")
-        if (name == null || surname == null || phone == null || email == null) {
-            // Required data is missing, navigate to RegistrationFragment
+        val isRegistered = sharedPreferences.getBoolean("is_registered", false)
+
+        if (!isRegistered) {
+// User is not registered, navigate to the registration fragment
             findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
-        } else {
+// User is already registered, stay on the current fragment/activity
+        }else {
             // Required data is present, display it
-            view.accountNameEditText.setText("kerim")
+            view.accountNameEditText.setText(name)
             view.accountSurnameEditText.setText(surname)
             view.accountPhoneEditText.setText(phone)
             view.accountMailEditText.setText(email)
