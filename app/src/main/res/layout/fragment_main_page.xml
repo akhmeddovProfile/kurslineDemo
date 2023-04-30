@@ -7,26 +7,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainPageBackgroundColor">
-    <RelativeLayout
-        android:gravity="center_horizontal"
+    <LinearLayout
         android:id="@+id/linearforLogo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:gravity="center"
         >
+
         <ImageView
             android:id="@+id/logoTipImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="427dp"
+            android:layout_height="83dp"
             android:src="@drawable/mainpagehiglight"
             />
-    </RelativeLayout>
-
+    </LinearLayout>
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/lineforLogo2"
+        android:layout_below="@+id/linearforLogo"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_below="@+id/linearforLogo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
     <RelativeLayout
         android:id="@+id/linearforHighlight"
@@ -38,16 +46,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recylerViewforHighlight"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="92dp"
             />
 
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="400dp"
+            android:layout_width="wrap_content"
             android:id="@+id/textinputlayoutforselectcourse"
             android:layout_below="@+id/recylerViewforHighlight"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             app:boxBackgroundColor="@color/white"
@@ -63,7 +71,7 @@
             app:endIconTintMode="src_atop">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/select_course"
-                android:layout_width="match_parent"
+                android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:focusable="false"
@@ -75,7 +83,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="400dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/textinputfilter"
@@ -94,7 +102,7 @@
             app:endIconTintMode="src_atop">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/filter"
-                android:layout_width="match_parent"
+                android:layout_width="400dp"
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:focusable="false"
@@ -106,7 +114,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="180dp"
+            android:layout_width="wrap_content"
             android:id="@+id/textinputFromAtoZ"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -125,7 +133,7 @@
             app:endIconTintMode="src_atop">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/filterfromAtoZ"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:focusable="false"
@@ -137,7 +145,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="180dp"
+            android:layout_width="wrap_content"
             android:id="@+id/textinputFilterForPrice"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -156,7 +164,7 @@
             app:endIconTintMode="src_atop">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/filterforPrice"
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:focusable="false"
