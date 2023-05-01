@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".UI.FavoritesFragment">
+
+    <TextView
+        android:id="@+id/favoritesMainText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Seçilmişlər"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_below="@+id/favoritesMainText"
+        android:id="@+id/lineFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+    <ScrollView
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/favoritesMainText"
+        android:id="@+id/favoritesRl"
+        android:visibility="gone"
+        android:background="@color/mainPageBackgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/notFoundFavoritesCourseText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Burada heç bir kurs tapılmadı"
+            android:fontFamily="@font/nunito"
+            android:textColor="@color/colorForCourseIntheMainScreen"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/notfoundpreview"
+            android:layout_below="@+id/notFoundFavoritesCourseText"/>
+
+    </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

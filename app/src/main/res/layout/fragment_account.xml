@@ -40,7 +40,6 @@
     <ImageView
         android:layout_marginTop="5dp"
         android:id="@+id/linearforLogo"
-
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/grayColor1"/>
