@@ -5,6 +5,76 @@
     android:layout_height="match_parent"
     tools:context=".UI.ProductDetailFragment">
 
+    <ScrollView
+        android:id="@+id/scrollViewforProductDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Scrool View for Product Description">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/productDetailImage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:src="@drawable/favoriteitemnotfoundphoto" />
+            <TextView
+                android:id="@+id/courseownerName"
+                android:layout_width="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="Aim Tech"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="27dp"
+                android:layout_below="@+id/productDetailImage"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/coursecontentname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mobile Programming"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginStart="27dp"
+                android:layout_below="@+id/courseownerName"
+                />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="37dp"
+            android:background="@drawable/detailpricebackground"
+            android:text="50 AZN"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito"
+            android:textStyle="bold"
+            android:layout_below="@+id/productDetailImage"
+            android:layout_marginTop="46dp"
+            android:layout_marginStart="300dp"
+            />
+            <TextView
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/coursecontentname"
+                android:layout_marginStart="17dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:text="Text messaging, or texting, is the act of composing and sending electronic messages, typically consisting of alphabetic and numeric characters, between two or more users of mobile devices, desktops/laptops, or another type of compatible computer. Text messages may be sent over a cellular network, or may also be sent via satellite or Internet connection.
+
+The term originally referred to messages sent using the Short Message Service (SMS). It has grown beyond alphanumeric text to include multimedia messages using the Multimedia Messaging Service (MMS) containing digital images, videos, and sound content, as well as ideograms known as emoji (happy faces, sad faces, and other icons), and instant messenger applications (usually the term is used when on mobile devices)."
+                />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

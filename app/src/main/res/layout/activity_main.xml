@@ -19,7 +19,7 @@
         app:itemRippleColor="@color/white"
         app:menu="@menu/nav_menu"/>
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -27,4 +27,5 @@
         android:layout_above="@id/bottom_nav"
         app:defaultNavHost="true"
         app:navGraph="@navigation/my_nav" />
+
 </RelativeLayout>
