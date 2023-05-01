@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        /*
         val mainpageFragment=MainPageFragment()
         val registrationpageFragment=RegisterFragment()
         val favoritesFragment=FavoritePageFragment()
@@ -40,16 +41,19 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-/*
+
+         */
+
      val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
          bottomNavigationView = binding.bottomNav
-        setupWithNavController(bottomNavigationView,navController)*/
+        setupWithNavController(bottomNavigationView,navController)
     }
 
-
+/*
     private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
         replace(R.id.fragmentContainerView,fragment)
         commit()
     }
+*/
 }

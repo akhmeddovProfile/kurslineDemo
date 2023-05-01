@@ -11,16 +11,16 @@
     >
     <RelativeLayout
         android:id="@+id/relativeForCourseStatus"
-        android:layout_width="42dp"
-        android:layout_height="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/status_view"
         >
         <TextView
             android:id="@+id/statusforproduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="42dp"
+            android:layout_height="14dp"
             android:textSize="10sp"
             android:text="Online"
             android:gravity="center"
@@ -41,8 +41,8 @@
         />
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="168dp"
-        android:layout_height="135dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         app:cardCornerRadius="10dp"
         android:layout_marginStart="12dp"

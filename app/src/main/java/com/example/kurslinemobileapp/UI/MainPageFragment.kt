@@ -23,11 +23,15 @@ class MainPageFragment : Fragment() {
         // Inflate the layout for this fragment
         viewMain =  inflater.inflate(R.layout.fragment_main_page, container, false)
 
+
         imageforHighlight()
         getProducts()
+
+
         return viewMain
 
     }
+
 
     private fun imageforHighlight(){
      val imageWithTextList= listOf(
