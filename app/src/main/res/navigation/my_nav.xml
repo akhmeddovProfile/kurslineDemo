@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_accountFragment_to_mainPageFragment"
             app:destination="@id/mainPageFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_businessRegister"
+            app:destination="@id/businessRegister" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -55,4 +58,9 @@
             android:id="@+id/action_favoritesFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/businessRegister"
+        android:name="com.example.kurslinemobileapp.UI.BusinessRegister"
+        android:label="fragment_business_register"
+        tools:layout="@layout/fragment_business_register" />
 </navigation>

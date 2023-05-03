@@ -44,6 +44,10 @@ class AccountFragment : Fragment() {
             view.accountPhoneEditText.setText(phone)
             view.accountMailEditText.setText(email)
         }
+
+        view.goToBusinessCreate.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_businessRegister)
+        }
 // Display the account information in the UI
 
 
