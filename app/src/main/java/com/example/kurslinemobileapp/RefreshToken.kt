@@ -1,9 +1,9 @@
-package com.example.kurslinemobileapp.modelRegisterLogin
+package com.example.kurslinemobileapp
 
 
 import com.google.gson.annotations.SerializedName
 
-data class AccessToken(
+data class RefreshToken(
     @SerializedName("expiresAt")
     val expiresAt: String,
     @SerializedName("token")
