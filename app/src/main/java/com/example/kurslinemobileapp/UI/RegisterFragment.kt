@@ -2,6 +2,7 @@ package com.example.kurslinemobileapp.UI
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,12 +13,19 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.apiForProject
+import com.example.kurslinemobileapp.modelRegisterLogin.RegisterModel
+import com.example.kurslinemobileapp.modelRegisterLogin.RegisterResponse
+import com.example.kurslinemobileapp.service.RetrofitService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_register.view.*
 
 class RegisterFragment : Fragment() {
-
-
+    var compositeDisposable = CompositeDisposable()
+        var BASE_URL = "https://kursline.az/"
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,30 +39,43 @@ class RegisterFragment : Fragment() {
 
         val registerButton = view.findViewById<Button>(R.id.registerButton)
         registerButton.setOnClickListener {
+
             val name = view.nameEditText.text.toString()
             val surname =view.surnameEditText.text.toString()
             val email = view.mailEditText.text.toString()
             val phone =view.phoneEditText.text.toString()
             val password = view.passwordEditText.text.toString()
             val password2 = view.confirmPasswordEditText.text.toString()
+
+
             // Validate input fields
             if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty() || phone.isEmpty()) {
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
                 // Save user registration data to shared preferences
-
+                val request = RegisterModel(
+                    name,
+                    email,
+                    phone,
+                    password,
+                    1
+                )
                 val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
+
+                /*
                 editor.putString("name", name)
                 editor.putString("surname", surname)
                 editor.putString("email", email)
                 editor.putString("phone", phone)
                 editor.putString("password", password)
+
+                 */
                 editor.putBoolean("is_registered", true)
                 editor.apply()
-                Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                // Switch to login fragment
+
+                register(name,email,phone,password,1)
+
             }
         }
 
@@ -65,4 +86,18 @@ class RegisterFragment : Fragment() {
         return view
     }
 
+    private fun register(username:String, email:String,phone:String,password:String,gender:Int){
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(BASE_URL).retrofit.create(apiForProject::class.java)
+        val request = RegisterModel(username, email,phone,password,gender)
+        compositeDisposable?.add(retrofit.createAPI(request)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponse, { throwable-> println(throwable) }))
+    }
+
+    private fun handleResponse(response : RegisterResponse){
+        println("Response: " + response)
+        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+    }
 }
