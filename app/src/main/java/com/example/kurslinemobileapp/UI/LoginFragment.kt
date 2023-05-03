@@ -15,6 +15,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.login.LogInAPi
 import com.example.kurslinemobileapp.modelRegisterLogin.LogInResponse
 import com.example.kurslinemobileapp.modelRegisterLogin.LoginRequestModel
+import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.MainThreadDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -58,7 +59,7 @@ class LoginFragment : Fragment() {
 
         private fun login(email:String, password:String){
             compositeDisposableLogin= CompositeDisposable()
-            val retrofitService=RetrofitService().retrofit.create(LogInAPi::class.java)
+            val retrofitService=RetrofitService(Constant.BASE_URL).retrofit.create(LogInAPi::class.java)
             val request=LoginRequestModel(email,password)
             compositeDisposableLogin!!.add(retrofitService.postLogin(request)
                 .subscribeOn(Schedulers.io())
