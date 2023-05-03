@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp
+package com.example.kurslinemobileapp.modelRegisterLogin
 
 
 import com.google.gson.annotations.SerializedName
