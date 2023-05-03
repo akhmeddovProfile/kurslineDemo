@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitService {
     val client = OkHttpService().httpClient.build()
-    val url = "https://kursline.az/"
+    val url = Constant.BASE_URL
     val retrofit = Retrofit.Builder()
         .baseUrl(url)
         .addConverterFactory(GsonConverterFactory.create())
