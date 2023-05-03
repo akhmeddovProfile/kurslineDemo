@@ -25,23 +25,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        /*
-        val mainpageFragment=MainPageFragment()
-        val registrationpageFragment=RegisterFragment()
-        val favoritesFragment=FavoritePageFragment()
 
-        makeCurrentFragment(mainpageFragment)
-
-        binding.bottomNav.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.mainPageFragment->makeCurrentFragment(mainpageFragment)
-                R.id.accountFragment->makeCurrentFragment(registrationpageFragment)
-                R.id.favorites->makeCurrentFragment(favoritesFragment)
-            }
-            true
-        }
-
-         */
         val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val isRegistered = sharedPreferences.getBoolean("is_registered", false)
         if (!isRegistered) {

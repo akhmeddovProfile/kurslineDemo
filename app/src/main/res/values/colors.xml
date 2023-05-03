@@ -12,4 +12,5 @@
     <color name="grayColor1"> #929292</color>
     <color name="redColor">#DE1111</color>
     <color name="colorForCourseIntheMainScreen">#78BFDB</color>
+    <color name="grayColor2">#CAC4C4</color>
 </resources>

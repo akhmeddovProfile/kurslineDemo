@@ -13,4 +13,7 @@
     <string name="filterforPrice">Qiymətə görə</string>
     <string name="favcoursenotfound">Burada heç bir kurs tapılmadı</string>
     <string name="catagory">Kateqoria</string>
+    <string name="region">Region</string>
+    <string name="rejim">Rejim</string>
+    <string name="contact">Əlaqə</string>
 </resources>
