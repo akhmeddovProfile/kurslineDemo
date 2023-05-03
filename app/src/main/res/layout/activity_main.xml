@@ -19,7 +19,21 @@
         app:itemRippleColor="@color/white"
         app:menu="@menu/nav_menu"/>
 
-    <FrameLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/goToUploadActivity"
+        android:visibility="gone"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:tint="@color/white"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        app:backgroundTint="@color/greenColor"
+        app:elevation="10dp"
+        android:foreground="@drawable/ic_baseline_add_24" />
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"

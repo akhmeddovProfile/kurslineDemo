@@ -26,6 +26,14 @@
         android:textColor="@color/greenColor"
         android:textSize="36dp"
         android:textStyle="bold" />
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/linearforLogo"
+        android:layout_width="match_parent"
+        android:layout_below="@id/accountText"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+
     <ScrollView
         android:layout_below="@+id/accountText"
         android:layout_width="match_parent"
@@ -37,18 +45,11 @@
             android:layout_height="wrap_content">
 
 
-    <ImageView
-        android:layout_marginTop="5dp"
-        android:id="@+id/linearforLogo"
 
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/grayColor1"/>
 
     <ImageView
         android:layout_marginTop="20dp"
         android:id="@+id/myProfileImage"
-        android:layout_below="@+id/linearforLogo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
@@ -62,6 +63,10 @@
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/grayColor1"
+        app:hintTextColor="@color/grayColor1"
+        android:textColorHint="@color/grayColor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -87,6 +92,10 @@
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/grayColor1"
+        app:hintTextColor="@color/grayColor1"
+        android:textColorHint="@color/grayColor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -112,6 +121,10 @@
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/grayColor1"
+        app:hintTextColor="@color/grayColor1"
+        android:textColorHint="@color/grayColor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -137,6 +150,10 @@
         android:layout_marginHorizontal="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/grayColor1"
+        app:hintTextColor="@color/grayColor1"
+        android:textColorHint="@color/grayColor1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

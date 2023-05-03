@@ -11,7 +11,7 @@
         android:title="@string/my_account"
         />
     <item
-        android:id="@+id/favorites"
+        android:id="@+id/favoritesFragment"
         android:icon="@drawable/favorite_border_24"
         android:title="@string/favorites"/>
     <item
