@@ -38,12 +38,284 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseTitleContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseTitleEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Başlıq daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/coursePhoneNumberContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/courseTitleContainer"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/coursePhoneEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="phone"
+                    android:hint="Telefon nömrəsi*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseMailContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/coursePhoneNumberContainer"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseMailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textEmailAddress"
+                    android:hint="Mail daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseRegionContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/courseMailContainer"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseRegionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Region Seçin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseCategoryContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/courseRegionContainer"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseCategoryEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Kateqoriya Seçin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseAboutContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/courseCategoryContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="#78BFDB"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseAboutEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Kurs haqqında*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseTeacherContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/courseAboutContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="#78BFDB"
+                app:endIconDrawable="@drawable/ic_baseline_contact_page_24"
+                app:endIconMode="custom"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseTeacherEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Müəllimləri qeyd edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/coursePriceContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/courseTeacherContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="#78BFDB"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/coursePriceEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="number"
+                    android:hint="Qiymət daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseModeContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/coursePriceContainer"
+                android:layout_marginTop="20dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseModeEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Rejim Seçin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/courseModeContainer"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/addCoursePhotos">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_baseline_add_photo_alternate_24"/>
+                <TextView
+                    android:textSize="24sp"
+                    android:textColor="#78BFDB"
+                    android:fontFamily="@font/montserrat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Şəkil əlavə edin"/>
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>
