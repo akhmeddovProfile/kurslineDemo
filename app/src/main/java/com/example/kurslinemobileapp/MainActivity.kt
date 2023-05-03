@@ -1,12 +1,18 @@
 package com.example.kurslinemobileapp
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_account.view.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +42,20 @@ class MainActivity : AppCompatActivity() {
         }
 
          */
-
+        val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val isRegistered = sharedPreferences.getBoolean("is_registered", false)
+        if (!isRegistered) {
+// User is not registered, navigate to the registration fragment
+            goToUploadActivity.visibility = View.GONE
+// User is already registered, stay on the current fragment/activity
+        }else {
+            // Required data is present, display it
+            goToUploadActivity.visibility = View.VISIBLE
+        }
+        goToUploadActivity.setOnClickListener{
+            val intent = Intent(this@MainActivity,CourseUploadActivity::class.java)
+            startActivity(intent)
+        }
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
          bottomNavigationView = binding.bottomNav

@@ -26,6 +26,14 @@
         android:textColor="@color/greenColor"
         android:textSize="36dp"
         android:textStyle="bold" />
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/linearforLogo"
+        android:layout_width="match_parent"
+        android:layout_below="@id/accountText"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+
     <ScrollView
         android:layout_below="@+id/accountText"
         android:layout_width="match_parent"
@@ -37,17 +45,11 @@
             android:layout_height="wrap_content">
 
 
-    <ImageView
-        android:layout_marginTop="5dp"
-        android:id="@+id/linearforLogo"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/grayColor1"/>
+
 
     <ImageView
         android:layout_marginTop="20dp"
         android:id="@+id/myProfileImage"
-        android:layout_below="@+id/linearforLogo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
