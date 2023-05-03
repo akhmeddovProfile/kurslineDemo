@@ -1,6 +1,6 @@
 package com.example.kurslinemobileapp.modelRegisterLogin
 
-data class LoginModel (
+data class LoginRequestModel (
     var email : String,
     var password : String
     )
