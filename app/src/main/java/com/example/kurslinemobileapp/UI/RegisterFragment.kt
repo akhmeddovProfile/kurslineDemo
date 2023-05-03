@@ -42,6 +42,7 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
                 // Save user registration data to shared preferences
+
                 val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putString("name", name)
