@@ -22,11 +22,10 @@ class AccountFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
-
         // Get the SharedPreferences object
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
-// Get the saved account information from SharedPreferences
+        // Get the saved account information from SharedPreferences
         val name = sharedPreferences.getString("name", "")
         val surname = sharedPreferences.getString("surname", "")
         val phone = sharedPreferences.getString("phone", "")
@@ -34,10 +33,10 @@ class AccountFragment : Fragment() {
         val isRegistered = sharedPreferences.getBoolean("is_registered", false)
 
         if (!isRegistered) {
-// User is not registered, navigate to the registration fragment
+            // User is not registered, navigate to the registration fragment
             findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
-// User is already registered, stay on the current fragment/activity
         }else {
+            // User is already registered, stay on the current fragment/activity
             // Required data is present, display it
             view.accountNameEditText.setText(name)
             view.accountSurnameEditText.setText(surname)
@@ -48,13 +47,12 @@ class AccountFragment : Fragment() {
         view.goToBusinessCreate.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_businessRegister)
         }
-// Display the account information in the UI
-
+            // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)
         }
-        return view
 
+        return view
     }
 }
