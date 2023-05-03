@@ -100,14 +100,247 @@
 
             <ImageView
                 android:layout_marginTop="5dp"
-                android:id="@+id/linearforLogo"
+                android:id="@+id/imageView1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/catagory"
+                android:layout_below="@+id/catagoryTitle"
                 android:src="@color/grayColor1"/>
 
 
+            <TextView
+                android:id="@+id/region"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/catagory"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/region"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/regionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/catagoryTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="217dp"
+                android:layout_marginEnd="15dp"
+                android:text="Sumqayit"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
 
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/imageView2"
+                android:layout_below="@+id/regionTitle"
+                android:src="@color/grayColor1"/>
+
+            <TextView
+                android:id="@+id/rejim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/regionTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/rejim"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/rejimTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/regionTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="217dp"
+                android:layout_marginEnd="15dp"
+                android:text="Online/Offline"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/imageView3"
+                android:layout_below="@+id/rejimTitle"
+                android:src="@color/grayColor1"/>
+
+            <TextView
+                android:id="@+id/teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rejimTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="Müəllim"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/teacherTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rejimTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="217dp"
+                android:layout_marginEnd="15dp"
+                android:text="Emin Əhmədov/Kərim Məmmədov"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/teacherTitle"
+                android:src="@color/grayColor1"/>
+
+            <TextView
+                android:id="@+id/contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/teacherTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/contact"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/contactTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/teacherTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="217dp"
+                android:layout_marginEnd="15dp"
+                android:text="055-738-51-16"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/imageView5"
+                android:layout_below="@+id/contactTitle"
+                android:src="@color/grayColor1"/>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutClickUpForward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView5"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="31dp"
+                android:background="@drawable/bck_upforwandvip"
+                >
+            <TextView
+                android:id="@+id/upForwardTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="İrəli çək"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="35dp"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                />
+
+                <TextView
+                    android:id="@+id/priceforUpForward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20 AZN-dən"
+                    android:layout_marginStart="35dp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/colorForCourseIntheMainScreen"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/upForwardTitle"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="122dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/upward_24"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutClickVIP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView5"
+                android:layout_marginStart="227dp"
+                android:layout_marginTop="31dp"
+
+                android:background="@drawable/bck_upforwandvip"
+                >
+                <TextView
+                    android:id="@+id/vipTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VIP"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="35dp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:id="@+id/priceforVIP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20 AZN-dən"
+                    android:layout_marginStart="35dp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/colorForCourseIntheMainScreen"
+                    android:textSize="15sp"
+                    android:layout_below="@+id/vipTitle"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="122dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/vip_icon"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/deleteCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bck_deletecourse"
+                android:layout_marginStart="17dp"
+                android:layout_below="@+id/relativeLayoutClickUpForward"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
 
     </ScrollView>
