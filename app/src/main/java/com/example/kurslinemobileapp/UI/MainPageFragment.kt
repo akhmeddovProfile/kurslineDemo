@@ -15,47 +15,49 @@ import com.example.kurslinemobileapp.model.mainpage.Product
 
 
 class MainPageFragment : Fragment() {
-    private lateinit var viewMain:View
+    private lateinit var viewMain: View
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        viewMain =  inflater.inflate(R.layout.fragment_main_page, container, false)
-
+        viewMain = inflater.inflate(R.layout.fragment_main_page, container, false)
 
         imageforHighlight()
         getProducts()
 
-
         return viewMain
-
     }
 
-
-    private fun imageforHighlight(){
-     val imageWithTextList= listOf(
-         Highlight(R.drawable.mainpagehiglight,"Ən çox baxılanlar"),
-         Highlight(R.drawable.yenielan,"1345 yeni kurs")
-     )
-        val recylerviewForHighlight=viewMain.findViewById<RecyclerView>(R.id.recylerViewforHighlight)
+    private fun imageforHighlight() {
+        val imageWithTextList = listOf(
+            Highlight(R.drawable.mainpagehiglight, "Ən çox baxılanlar"),
+            Highlight(R.drawable.yenielan, "1345 yeni kurs")
+        )
+        val recylerviewForHighlight =
+            viewMain.findViewById<RecyclerView>(R.id.recylerViewforHighlight)
         val adapter = HiglightForMainListAdapter(imageWithTextList)
-        recylerviewForHighlight.adapter=adapter
-        recylerviewForHighlight.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        recylerviewForHighlight.adapter = adapter
+        recylerviewForHighlight.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun getProducts(){
-        val productInformation= listOf(
-            Product("Online",
+    private fun getProducts() {
+        val productInformation = listOf(
+            Product(
+                "Online",
                 R.drawable.vip_icon,
                 R.drawable.yenielan,
                 "Mobile Programming",
                 "Aim Tech",
-                "This course for test")
+                "This course for test"
+            )
         )
-        val recyclerviewForProducts=viewMain.findViewById<RecyclerView>(R.id.recylerViewForProductList)
-        val adapter=MainListProductAdapter(productInformation)
-        recyclerviewForProducts.adapter=adapter
-        recyclerviewForProducts.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        val recyclerviewForProducts =
+            viewMain.findViewById<RecyclerView>(R.id.recylerViewForProductList)
+        val adapter = MainListProductAdapter(productInformation)
+        recyclerviewForProducts.adapter = adapter
+        recyclerviewForProducts.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 }

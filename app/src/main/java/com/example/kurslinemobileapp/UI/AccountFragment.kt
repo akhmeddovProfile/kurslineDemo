@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -23,31 +24,23 @@ class AccountFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
         // Get the SharedPreferences object
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
         // Get the saved account information from SharedPreferences
-        val name = sharedPreferences.getString("name", "")
-        val surname = sharedPreferences.getString("surname", "")
-        val phone = sharedPreferences.getString("phone", "")
-        val email = sharedPreferences.getString("email", "")
-        val isRegistered = sharedPreferences.getBoolean("is_registered", false)
-
+        val isRegistered = sharedPreferences.getBoolean("token", false)
         if (!isRegistered) {
             // User is not registered, navigate to the registration fragment
             findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
-        }else {
+        } else {
             // User is already registered, stay on the current fragment/activity
-            // Required data is present, display it
-            view.accountNameEditText.setText(name)
-            view.accountSurnameEditText.setText(surname)
-            view.accountPhoneEditText.setText(phone)
-            view.accountMailEditText.setText(email)
+            Toast.makeText(requireContext(), "Already logged", Toast.LENGTH_SHORT).show()
         }
 
         view.goToBusinessCreate.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_businessRegister)
         }
-            // Display the account information in the UI
+        // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
             findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)

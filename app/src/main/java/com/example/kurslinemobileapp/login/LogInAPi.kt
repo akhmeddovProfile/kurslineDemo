@@ -10,6 +10,6 @@ import retrofit2.http.POST
 interface LogInAPi {
     @POST("user-login/")
     fun postLogin(
-        @Body params:LoginRequestModel
-    ):Observable<LogInResponse>
+        @Body params: LoginRequestModel
+    ): Observable<LogInResponse>
 }

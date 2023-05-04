@@ -18,38 +18,31 @@ import kotlinx.android.synthetic.main.fragment_account.view.*
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var binding:ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-
         val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val isRegistered = sharedPreferences.getBoolean("is_registered", false)
+        val isRegistered = sharedPreferences.getBoolean("token", false)
         if (!isRegistered) {
 // User is not registered, navigate to the registration fragment
             goToUploadActivity.visibility = View.GONE
 // User is already registered, stay on the current fragment/activity
-        }else {
+        } else {
             // Required data is present, display it
             goToUploadActivity.visibility = View.VISIBLE
         }
-        goToUploadActivity.setOnClickListener{
-            val intent = Intent(this@MainActivity,CourseUploadActivity::class.java)
+        goToUploadActivity.setOnClickListener {
+            val intent = Intent(this@MainActivity, CourseUploadActivity::class.java)
             startActivity(intent)
         }
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
-         bottomNavigationView = binding.bottomNav
-        setupWithNavController(bottomNavigationView,navController)
+        bottomNavigationView = binding.bottomNav
+        setupWithNavController(bottomNavigationView, navController)
     }
-
-/*
-    private fun makeCurrentFragment(fragment: Fragment) = supportFragmentManager.beginTransaction().apply {
-        replace(R.id.fragmentContainerView,fragment)
-        commit()
-    }
-*/
 }

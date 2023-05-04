@@ -10,7 +10,6 @@ import com.example.kurslinemobileapp.R
 
 class ProductDetailFragment : Fragment() {
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -18,6 +17,4 @@ class ProductDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_product_detail, container, false)
     }
-
-
 }
