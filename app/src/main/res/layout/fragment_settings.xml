@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".UI.SettingsFragment">
+
+    <TextView
+        android:id="@+id/favoritesMainText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Tənzimləmələr"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_below="@+id/favoritesMainText"
+        android:id="@+id/lineFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+    <ScrollView
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/favoritesMainText"
+        android:id="@+id/favoritesRl"
+        android:background="@color/mainPageBackgroundColor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:id="@+id/goToMyAccount">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_account_circle_24"
+                    android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mənim hesabım"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/goToMyAccount"
+                android:id="@+id/nightLightMode">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_wb_twilight_24"
+                    android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tərtibat rejimi"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/nightLightMode"
+                android:id="@+id/languageMode">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_language_24"
+                    android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dil seçimi edin"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/languageMode"
+                android:id="@+id/helpLl">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_help_24"
+                    android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kömək"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/helpLl"
+                android:id="@+id/allCoursesLl">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_school_24"
+                    android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kurslar"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/allCoursesLl"
+                android:id="@+id/otherSettings">
+                <TextView
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="İstifadəçi şərtləri"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="1dp"
+                    android:src="@color/grayColor1"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Məxfilik sisyasəti"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="1dp"
+                    android:src="@color/grayColor1"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Qaydalar"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+
+                <ImageView
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="1dp"
+                    android:src="@color/grayColor1"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:padding="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bizimlə əlaqə"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

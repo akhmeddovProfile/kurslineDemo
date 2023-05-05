@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".CourseUploadActivity">
 
     <ImageView
@@ -317,6 +318,26 @@
                     android:text="Şəkil əlavə edin"/>
             </LinearLayout>
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_below="@id/addCoursePhotos"
+                android:id="@+id/viewPagerCourseUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/uploadCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginBottom="20dp"
+                android:layout_below="@id/viewPagerCourseUpload"
+                android:background="@drawable/button_bg"
+                android:text="Kursu əlavə et"
+                android:textAllCaps="false"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -210,20 +210,6 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
 
-            <TextView
-                android:id="@+id/accountHavetoLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/registerButton"
-                android:translationZ="5dp"
-                android:elevation="5dp"
-                android:fontFamily="@font/nunito"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_horizontal"
-                android:text="Hesabınız var? Daxil olun!"
-                android:textColor="@color/greenColor"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
         </RelativeLayout>
     </ScrollView>

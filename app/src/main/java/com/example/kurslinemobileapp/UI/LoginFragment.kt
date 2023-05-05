@@ -25,6 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : Fragment() {
 
@@ -39,7 +40,9 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
-
+        view.goToRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_mainRegister)
+        }
         val loginButton = view.findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
             val email = emailLoginEditText.text.toString()

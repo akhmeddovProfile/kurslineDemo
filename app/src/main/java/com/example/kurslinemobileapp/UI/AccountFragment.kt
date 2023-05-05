@@ -31,7 +31,7 @@ class AccountFragment : Fragment() {
         val isRegistered = sharedPreferences.getBoolean("token", false)
         if (!isRegistered) {
             // User is not registered, navigate to the registration fragment
-            findNavController().navigate(R.id.action_accountFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
         } else {
             // User is already registered, stay on the current fragment/activity
             Toast.makeText(requireContext(), "Already logged", Toast.LENGTH_SHORT).show()
