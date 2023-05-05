@@ -18,4 +18,7 @@
     <string name="contact">Əlaqə</string>
     <string name="gray_text">Şifrəni unutmusunuz?</string>
     <string name="green_text"> Şifrəni yeniləyin</string>
+    <string name="deletecourse">Kursu sil</string>
+    <string name="editCourse">Redakte et</string>
+    <string name="sameCourse">Oxşar kurslar</string>
 </resources>
