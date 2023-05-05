@@ -16,4 +16,6 @@
     <string name="region">Region</string>
     <string name="rejim">Rejim</string>
     <string name="contact">Əlaqə</string>
+    <string name="gray_text">Şifrəni unutmusunuz?</string>
+    <string name="green_text"> Şifrəni yeniləyin</string>
 </resources>

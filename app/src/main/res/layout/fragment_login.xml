@@ -92,6 +92,34 @@
                     android:inputType="textPassword"
                     android:hint="Şifrə daxil edin"/>
             </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/resetPassword"
+                android:layout_below="@+id/passwordLoginContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+                <TextView
+                    android:fontFamily="@font/nunito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Şifrəni unutmusunuz? "
+                    android:textColor="@color/grayColor1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:fontFamily="@font/nunito"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Şifrəni yeniləyin"
+                    android:textColor="@color/greenColor"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
@@ -100,7 +128,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="10dp"
-                android:layout_below="@id/passwordLoginContainer"
+                android:layout_below="@id/resetPassword"
                 android:background="@drawable/button_bg"
                 android:text="Daxil olun"
                 android:textAllCaps="false"
