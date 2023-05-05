@@ -13,4 +13,11 @@
         <item name="android:statusBarColor">@color/greenColor</item>
         <!-- Customize your theme here. -->
     </style>
+    
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/nunito</item>
+        <item name="android:textColor">@color/greenColor</item>
+    </style>
+
 </resources>
