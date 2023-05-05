@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.modelRegisterLogin
+package com.example.kurslinemobileapp.api.register
 
 data class RegisterResponse(
     val announcements: List<Any>,
