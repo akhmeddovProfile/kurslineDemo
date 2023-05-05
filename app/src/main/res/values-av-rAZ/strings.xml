@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KurslineMobileApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Əsas</string>
+    <string name="my_account">Kabinet</string>
+    <string name="favorites">Seçilmişlər</string>
+    <string name="setting">Tənzimləmələr</string>
+    <string name="the_most_of_seen">Ən çox baxılanlar</string>
+    <string name="select_course">Kurs Seçin</string>
+    <string name="filter">Filter</string>
+    <string name="filterFromAtoZ">A-dan Z-ə</string>
+    <string name="filterforPrice">Qiymətə görə</string>
+    <string name="favcoursenotfound">Burada heç bir kurs tapılmadı</string>
+    <string name="catagory">Kateqoria</string>
+    <string name="region">Region</string>
+    <string name="rejim">Rejim</string>
+    <string name="contact">Əlaqə</string>
+    <string name="gray_text">Şifrəni unutmusunuz?</string>
+    <string name="green_text"> Şifrəni yeniləyin</string>
+    <string name="deletecourse">Kursu sil</string>
+    <string name="editCourse">Redakte et</string>
+    <string name="sameCourse">Oxşar kurslar</string>
+</resources>
