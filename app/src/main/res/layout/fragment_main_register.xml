@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+android:background="@color/white"
+    tools:context=".UI.MainRegister">
+
+   <ImageView
+       android:id="@+id/mainRegisterImage"
+       android:layout_width="match_parent"
+       android:layout_height="400dp"
+       android:background="@drawable/createaccount"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/goToUserRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/mainRegisterImage"
+        android:background="@drawable/button_bg"
+        android:text="İstifadəçi hesabı yarat"
+        android:textAllCaps="false"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/goToBusinessRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/goToUserRegister"
+        android:background="@drawable/button_bg"
+        android:text="Biznes hesabı yarat"
+        android:textAllCaps="false"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+</RelativeLayout>

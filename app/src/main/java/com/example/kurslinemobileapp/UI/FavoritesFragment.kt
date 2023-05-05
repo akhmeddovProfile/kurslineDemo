@@ -25,7 +25,7 @@ class FavoritesFragment : Fragment() {
 
         if (!isRegistered) {
 // User is not registered, navigate to the registration fragment
-            findNavController().navigate(R.id.action_favoritesFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_favoritesFragment_to_loginFragment)
 // User is already registered, stay on the current fragment/activity
         } else {
             // Required data is present, display it

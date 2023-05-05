@@ -58,9 +58,6 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        view.accountHavetoLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-        }
 
         return view
     }

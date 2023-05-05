@@ -179,12 +179,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:gravity="center_horizontal"
-                android:text="Biznes hesabınız yoxdur?"
+                android:text="Elan yerləşdirmək üçün"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/greenColor"
                 android:textSize="24dp"
-                android:layout_below="@+id/acountMailContainer"
-                android:textStyle="bold"/>
+                android:layout_below="@+id/acountMailContainer" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/goToBusinessCreate"
                 android:layout_width="match_parent"
