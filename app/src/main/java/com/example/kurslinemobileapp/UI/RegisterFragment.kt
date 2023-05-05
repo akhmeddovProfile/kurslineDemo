@@ -11,9 +11,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.modelRegisterLogin.RegisterModel
-import com.example.kurslinemobileapp.modelRegisterLogin.RegisterResponse
-import com.example.kurslinemobileapp.register.RegisterAPI
+import com.example.kurslinemobileapp.api.register.RegisterRequest
+import com.example.kurslinemobileapp.api.register.RegisterResponse
+import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -74,7 +74,7 @@ class RegisterFragment : Fragment() {
     ) {
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
-        val request = RegisterModel(username, email, phone, password, gender)
+        val request = RegisterRequest(username, email, phone, password, gender)
         compositeDisposable?.add(retrofit.createAPI(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

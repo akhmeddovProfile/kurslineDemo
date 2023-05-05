@@ -1,6 +1,9 @@
-package com.example.kurslinemobileapp.modelRegisterLogin
+package com.example.kurslinemobileapp.api.login
 
 
+import com.example.kurslinemobileapp.model.login.AccessToken
+import com.example.kurslinemobileapp.model.login.RefreshToken
+import com.example.kurslinemobileapp.model.login.UserInfo
 import com.google.gson.annotations.SerializedName
 
 data class LogInResponse(
