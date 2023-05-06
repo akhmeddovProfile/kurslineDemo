@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.ProductDetailFragment">
 
     <ScrollView
@@ -332,15 +333,134 @@
 
             <RelativeLayout
                 android:id="@+id/deleteCourse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
                 android:background="@drawable/bck_deletecourse"
                 android:layout_marginStart="17dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
                 android:layout_below="@+id/relativeLayoutClickUpForward"
-                />
+                android:visibility="gone"
+                >
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@string/deletecourse"
+                android:fontFamily="@font/nunito"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/editCourse"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:background="@drawable/detailpricebackground"
+                android:layout_marginStart="213dp"
+                android:layout_marginTop="7dp"
+                android:gravity="center"
+                android:layout_below="@+id/relativeLayoutClickVIP"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/editCourse"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_marginTop="18dp"
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/deleteCourse"
+                android:src="@color/grayColor1"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewUserComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/imageView6"
+                />
+            <LinearLayout
+                android:id="@+id/linearlayoutforinputComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recyclerViewUserComment"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                >
+              <ImageView
+                  android:id="@+id/userimageforcomment"
+                  android:layout_width="40dp"
+                  android:layout_height="40dp"
+                  android:background="@drawable/circle_shape"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginStart="5dp"
+                  />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/commentforUser"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/grayColor3"
+                    app:hintTextColor="@color/grayColor1"
+                    android:textColorHint="@color/grayColor1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/commentEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:lines="1"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPassword"
+                        android:hint="Şərh əlavə edin"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutforsamecourse"
+                android:layout_below="@+id/linearlayoutforinputComment"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:background="@color/grayColor3"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/sameCoursetextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sameCourse"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/greenColor"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="140dp"
+
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewforSameCourse"
+                    android:layout_below="@+id/sameCoursetextView"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            
         </RelativeLayout>
 
     </ScrollView>

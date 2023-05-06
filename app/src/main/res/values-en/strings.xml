@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KurslineMobileApp</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="my_account">My Account</string>
+    <string name="favorites">Favorite</string>
+    <string name="setting">Setting</string>
+    <string name="the_most_of_seen">The most of seen</string>
+    <string name="select_course">Choose Course</string>
+    <string name="filter">Filter</string>
+    <string name="filterFromAtoZ">From A to Z</string>
+    <string name="filterforPrice">For Price</string>
+    <string name="favcoursenotfound">No courses found here</string>
+    <string name="catagory">Category</string>
+    <string name="region">Region</string>
+    <string name="rejim">Mode</string>
+    <string name="contact">Contact</string>
+    <string name="gray_text">Forget your password ?</string>
+    <string name="green_text"> Update password</string>
+    <string name="deletecourse">Delete Course</string>
+    <string name="editCourse">Edit course</string>
+    <string name="sameCourse">Similar courses</string>
+</resources>
