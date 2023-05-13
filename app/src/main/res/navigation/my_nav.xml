@@ -3,13 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/mainPageFragment">
+    app:startDestination="@id/mainPageFragment2">
 
-    <fragment
-        android:id="@+id/mainPageFragment"
-        android:name="com.example.kurslinemobileapp.UI.MainPageFragment"
-        android:label="fragment_main_page"
-        tools:layout="@layout/fragment_main_page" />
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.kurslinemobileapp.UI.AccountFragment"
@@ -22,11 +17,11 @@
             android:id="@+id/action_accountFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_accountFragment_to_mainPageFragment"
-            app:destination="@id/mainPageFragment" />
-        <action
             android:id="@+id/action_accountFragment_to_businessRegister"
             app:destination="@id/businessRegister" />
+        <action
+            android:id="@+id/action_accountFragment_to_mainPageFragment2"
+            app:destination="@id/mainPageFragment2" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -90,4 +85,9 @@
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mainPageFragment2"
+        android:name="com.example.kurslinemobileapp.UI.MainPageFragment2"
+        android:label="fragment_main_page2"
+        tools:layout="@layout/fragment_main_page2" />
 </navigation>

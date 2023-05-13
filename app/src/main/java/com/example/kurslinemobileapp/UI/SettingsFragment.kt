@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.UI
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
@@ -52,30 +53,7 @@ class SettingsFragment : Fragment() {
             val intent = Intent(requireContext(),AllCompaniesActivity::class.java)
             startActivity(intent)
         }
-/*
 
-        val language = sharedPreferences.getString("language", "DEFAULT")
-        if(language.equals("av")){
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Language Selected")
-            builder.setMessage("You have selected 'Azerbaijan' language.")
-            builder.setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-            }
-            val alertDialog = builder.create()
-            alertDialog.show()
-        }
-        if (language.equals("en")){
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Language Selected")
-            builder.setMessage("You have selected 'English' language.")
-            builder.setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
-                dialog.dismiss()
-            }
-            val alertDialog = builder.create()
-            alertDialog.show()
-        }
-*/
 
         view.languageMode.setOnClickListener {
             showChangeLanguage()
@@ -106,17 +84,8 @@ class SettingsFragment : Fragment() {
         mdialog.show()
     }
 
-/*
-    private fun setLocale(activity: Activity, languageCode: String?) {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        val resources: Resources = activity.resources
-        val config: Configuration = resources.getConfiguration()
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.getDisplayMetrics())
-    }
-*/
 
+    @SuppressLint("SuspiciousIndentation")
     private fun setLocate (Lang: String) {
         val locale =Locale (Lang)
         Locale.setDefault(locale)

@@ -13,16 +13,13 @@ import com.example.kurslinemobileapp.adapter.MainListProductAdapter
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.model.mainpage.Product
 
-
-class MainPageFragment : Fragment() {
+class MainPageFragment2 : Fragment() {
     private lateinit var viewMain: View
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        viewMain = inflater.inflate(R.layout.fragment_main_page, container, false)
-
+        viewMain=inflater.inflate(R.layout.fragment_main_page2, container, false)
         imageforHighlight()
         getProducts()
 
