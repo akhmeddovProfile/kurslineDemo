@@ -56,62 +56,9 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət adını daxil edin*"/>
+                    android:hint="Adınızı daxil edin*"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/regionNameContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/companyNameContainer"
-                android:layout_marginTop="10dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/regionNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="textPersonName"
-                    android:hint="Region*"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addressNameContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/regionNameContainer"
-                android:layout_marginTop="10dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addressNameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="textPersonName"
-                    android:hint="Address*"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/companyEmailContainer"
@@ -119,7 +66,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/addressNameContainer"
+                android:layout_below="@+id/companyNameContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -137,7 +84,117 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Email*"/>
+                    android:hint="Email daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/companyPasswordContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/companyEmailContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyPassvorEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPassword"
+                    android:hint="Şifrə daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/companyFullNameContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/companyPasswordContainer"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyFullNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Şirkət adınızı daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/companyRegionContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/companyFullNameContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyRegionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Region Seçin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/companyAddressContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/companyRegionContainer"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyAdressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Adress*"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -146,7 +203,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/companyEmailContainer"
+                android:layout_below="@+id/companyAddressContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
