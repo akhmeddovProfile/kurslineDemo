@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".UI.AccountFragment">
+
+
+    <ImageView
+        android:id="@+id/backtoMainPage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:id="@+id/accountText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Filter"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold" />
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/linearforLogo"
+        android:layout_width="match_parent"
+        android:layout_below="@id/accountText"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="1dp"
+    android:layout_below="@+id/linearforLogo"
+    android:id="@+id/filterScroll"
+    android:background="@color/grayColor3">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+            android:id="@+id/goToMyAccount">
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Regionlar"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/goToMyAccount"
+            android:id="@+id/nightLightMode">
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kurslar"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/nightLightMode"
+            android:id="@+id/languageMode">
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Repititorlar"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/languageMode"
+            android:id="@+id/helpLl">
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kateqoriyalar"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/helpLl"
+            android:layout_marginTop="28dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nunito"
+            android:text="Status"
+            android:textSize="20sp"
+            android:layout_marginStart="23dp"
+            android:id="@+id/statustxt"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/allcourses"
+    android:layout_width="wrap_content"
+    android:layout_height="35dp"
+    android:layout_below="@+id/statustxt"
+    android:background="@drawable/button_filter"
+    android:text="Hamısı"
+    android:textSize="18sp"
+    android:textColor="@color/white"
+    android:fontFamily="@font/nunito"
+    android:layout_marginStart="9dp"
+    android:layout_marginTop="28dp"
+    />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/coursefilter"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_below="@+id/statustxt"
+            android:background="@drawable/button_filter"
+            android:text="Kurs"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito"
+            android:layout_marginStart="138dp"
+            android:layout_marginTop="28dp"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/repititorfilter"
+            android:layout_width="105dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/statustxt"
+            android:background="@drawable/button_filter"
+            android:text="Repİtİtor"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="28dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/allcourses"
+            android:layout_marginTop="28dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nunito"
+            android:text="Qiymət aralığı"
+            android:textSize="20sp"
+            android:layout_marginStart="23dp"
+            android:id="@+id/priceforfilter"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</ScrollView>
+
+</RelativeLayout>

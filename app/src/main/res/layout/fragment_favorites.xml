@@ -6,6 +6,13 @@
     android:background="@color/white"
     tools:context=".UI.FavoritesFragment">
 
+    <ImageView
+        android:id="@+id/backtoMainFromCourseUpload"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"/>
     <TextView
         android:id="@+id/favoritesMainText"
         android:layout_width="match_parent"
