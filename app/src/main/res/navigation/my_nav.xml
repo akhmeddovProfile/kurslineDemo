@@ -17,9 +17,6 @@
             android:id="@+id/action_accountFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_accountFragment_to_businessRegister"
-            app:destination="@id/businessRegister" />
-        <action
             android:id="@+id/action_accountFragment_to_mainPageFragment2"
             app:destination="@id/mainPageFragment2" />
     </fragment>
@@ -57,11 +54,6 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/businessRegister"
-        android:name="com.example.kurslinemobileapp.UI.BusinessRegister"
-        android:label="fragment_business_register"
-        tools:layout="@layout/fragment_business_register" />
-    <fragment
         android:id="@+id/mainRegister"
         android:name="com.example.kurslinemobileapp.UI.MainRegister"
         android:label="fragment_main_register"
@@ -69,9 +61,6 @@
         <action
             android:id="@+id/action_mainRegister_to_registerFragment"
             app:destination="@id/registerFragment" />
-        <action
-            android:id="@+id/action_mainRegister_to_businessRegister"
-            app:destination="@id/businessRegister" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
