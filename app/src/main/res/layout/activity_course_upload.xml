@@ -42,85 +42,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/courseTitleContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/courseTitleEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="textPersonName"
-                    android:hint="Başlıq daxil edin*"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/coursePhoneNumberContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/courseTitleContainer"
-                android:layout_marginTop="20dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/coursePhoneEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="phone"
-                    android:hint="Telefon nömrəsi*"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/courseMailContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/coursePhoneNumberContainer"
-                android:layout_marginTop="20dp"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/courseMailEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="textEmailAddress"
-                    android:hint="Mail daxil edin*"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/courseRegionContainer"
@@ -128,7 +50,6 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/courseMailContainer"
                 android:layout_marginTop="20dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -321,8 +242,9 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:layout_below="@id/addCoursePhotos"
                 android:id="@+id/viewPagerCourseUpload"
+                android:layout_margin="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="140dp"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/uploadCourse"
                 android:layout_width="match_parent"
@@ -330,7 +252,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="40dp"
                 android:layout_below="@id/viewPagerCourseUpload"
                 android:background="@drawable/button_bg"
                 android:text="Kursu əlavə et"
