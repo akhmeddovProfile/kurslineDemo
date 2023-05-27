@@ -43,7 +43,7 @@ class AccountFragment : Fragment() {
         // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)
+           // findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)
         }
 
         return view
