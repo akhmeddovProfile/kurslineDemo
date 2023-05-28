@@ -1,10 +1,9 @@
-package com.example.kurslinemobileapp
+package com.example.kurslinemobileapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import com.example.kurslinemobileapp.UI.TabforCompanies
-import com.example.kurslinemobileapp.UI.TabforTeachers
+import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.FragmentAdapterForTabLyout
 import com.google.android.material.tabs.TabLayout
 

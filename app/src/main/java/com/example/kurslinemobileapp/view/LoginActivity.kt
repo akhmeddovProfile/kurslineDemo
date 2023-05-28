@@ -1,20 +1,12 @@
-package com.example.kurslinemobileapp.UI
+package com.example.kurslinemobileapp.view
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import com.example.kurslinemobileapp.MainActivity
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.login.LogInResponse
@@ -24,39 +16,34 @@ import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_login.view.*
+import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginFragment : Fragment() {
-
+class LoginActivity : AppCompatActivity() {
     private var compositeDisposableLogin: CompositeDisposable? = null
     private lateinit var sharedPreferences: SharedPreferences
-    @SuppressLint("ResourceAsColor")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
-        view.goToRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_mainRegister)
+        goToRegister.setOnClickListener {
+            val intent = Intent(this@LoginActivity,MainRegisterActivity::class.java)
+            startActivity(intent)
         }
-        val loginButton = view.findViewById<Button>(R.id.loginButton)
+
         loginButton.setOnClickListener {
             val email = emailLoginEditText.text.toString()
             val password = passwordLoginEditText.text.toString()
             // Validate user input
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 login(email, password)
-                findNavController().navigate(R.id.action_loginFragment_to_accountFragment)
+                val intent = Intent(this@LoginActivity,MainActivity::class.java)
+                startActivity(intent)
             }
         }
-        return view
     }
 
     private fun login(email: String, password: String) {
@@ -77,8 +64,8 @@ class LoginFragment : Fragment() {
     private fun handleResponseLogin(response: LogInResponse) {
         println("Response: " + response)
 
-        Toast.makeText(requireContext(), "Succesfully Login", Toast.LENGTH_SHORT).show()
-        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        Toast.makeText(this, "Succesfully Login", Toast.LENGTH_SHORT).show()
+        sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         sharedPreferences.edit().putString("token", response.accessToken.token).apply()
         editor.putBoolean("token", true)

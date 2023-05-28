@@ -1,13 +1,11 @@
-package com.example.kurslinemobileapp.UI
+package com.example.kurslinemobileapp.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,9 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
-import com.example.kurslinemobileapp.AllCompaniesActivity
 import com.example.kurslinemobileapp.R
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import java.util.Locale
@@ -50,7 +46,7 @@ class SettingsFragment : Fragment() {
         }
 
         view.allCoursesLl.setOnClickListener {
-            val intent = Intent(requireContext(),AllCompaniesActivity::class.java)
+            val intent = Intent(requireContext(), AllCompaniesActivity::class.java)
             startActivity(intent)
         }
 

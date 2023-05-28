@@ -1,15 +1,13 @@
-package com.example.kurslinemobileapp
+package com.example.kurslinemobileapp.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import androidx.viewpager2.widget.ViewPager2
+import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
 import com.example.kurslinemobileapp.model.Photo
-import kotlinx.android.synthetic.main.activity_all_companies.*
 import kotlinx.android.synthetic.main.activity_course_upload.*
 
 

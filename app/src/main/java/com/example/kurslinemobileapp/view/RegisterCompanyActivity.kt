@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.UI
+package com.example.kurslinemobileapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

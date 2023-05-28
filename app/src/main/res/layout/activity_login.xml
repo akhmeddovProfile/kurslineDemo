@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".UI.LoginFragment">
+    tools:context=".view.LoginActivity">
 
 
 
@@ -161,7 +161,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
-      </RelativeLayout>
+        </RelativeLayout>
     </ScrollView>
 
 </RelativeLayout>

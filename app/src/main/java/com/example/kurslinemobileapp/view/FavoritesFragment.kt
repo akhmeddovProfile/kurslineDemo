@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.UI
+package com.example.kurslinemobileapp.view
 
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
-import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
 
 class FavoritesFragment : Fragment() {
