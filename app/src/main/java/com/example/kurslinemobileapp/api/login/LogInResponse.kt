@@ -1,6 +1,5 @@
 package com.example.kurslinemobileapp.api.login
 
-
 import com.example.kurslinemobileapp.model.login.AccessToken
 import com.example.kurslinemobileapp.model.login.RefreshToken
 import com.example.kurslinemobileapp.model.login.UserInfo

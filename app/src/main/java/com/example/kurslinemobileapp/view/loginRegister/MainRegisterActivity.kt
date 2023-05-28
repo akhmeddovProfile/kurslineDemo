@@ -17,7 +17,7 @@ class MainRegisterActivity : AppCompatActivity() {
         }
 
         goToBusinessRegister.setOnClickListener {
-           val intent = Intent(this@MainRegisterActivity, RegisterCompanyActivity::class.java)
+            val intent = Intent(this@MainRegisterActivity, RegisterCompanyActivity::class.java)
             startActivity(intent)
         }
     }

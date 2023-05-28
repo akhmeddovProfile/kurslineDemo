@@ -31,7 +31,7 @@ class UserAccountFragment : Fragment() {
         if (!isRegistered) {
             // User is not registered, navigate to the registration fragment
             val intent = Intent(activity, LoginActivity::class.java)
-           activity?.startActivity(intent)
+            activity?.startActivity(intent)
             activity?.finish()
         } else {
             // User is already registered, stay on the current fragment/activity
@@ -45,7 +45,7 @@ class UserAccountFragment : Fragment() {
         // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
-           // findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)
+            // findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)
         }
 
         return view

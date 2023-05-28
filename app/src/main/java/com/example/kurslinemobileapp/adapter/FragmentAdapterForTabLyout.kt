@@ -4,12 +4,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
-class FragmentAdapterForTabLyout(fm : FragmentManager) : FragmentStatePagerAdapter(fm,
-    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class FragmentAdapterForTabLyout(fm: FragmentManager) : FragmentStatePagerAdapter(
+    fm,
+    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+) {
 
-    var fragmentList : ArrayList<Fragment> = ArrayList()
-    var fragmenttitle : ArrayList<String> = ArrayList()
-
+    var fragmentList: ArrayList<Fragment> = ArrayList()
+    var fragmenttitle: ArrayList<String> = ArrayList()
 
     override fun getCount(): Int {
         return fragmentList.size
@@ -23,7 +24,7 @@ class FragmentAdapterForTabLyout(fm : FragmentManager) : FragmentStatePagerAdapt
         return fragmenttitle[position]
     }
 
-    fun addFragment(fragment: Fragment,title : String){
+    fun addFragment(fragment: Fragment, title: String) {
         fragmentList.add(fragment)
         fragmenttitle.add(title)
     }

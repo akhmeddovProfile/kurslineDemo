@@ -26,7 +26,7 @@ class FavoritesFragment : Fragment() {
         if (!isRegistered) {
 // User is not registered, navigate to the registration fragment
             val intent = Intent(activity, LoginActivity::class.java)
-           activity?.startActivity(intent)
+            activity?.startActivity(intent)
             activity?.finish()
 // User is already registered, stay on the current fragment/activity
         } else {

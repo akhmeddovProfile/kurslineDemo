@@ -4,5 +4,5 @@ import com.example.kurslinemobileapp.model.login.UserInfo
 
 data class RegisterCompanyResponse(
     val userInfo: UserInfo,
-    val isSuccess:Boolean
+    val isSuccess: Boolean
 )

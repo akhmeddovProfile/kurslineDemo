@@ -13,15 +13,18 @@ import kotlinx.android.synthetic.main.activity_course_upload.*
 
 class CourseUploadActivity : AppCompatActivity() {
     private val selectedPhotos = mutableListOf<Photo>()
+
     companion object {
         private const val REQUEST_CODE_GALLERY = 1
     }
+
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_upload)
 
-        val adapter = PhotoPagerAdapter(emptyList()) // Customize the adapter implementation as needed
+        val adapter =
+            PhotoPagerAdapter(emptyList()) // Customize the adapter implementation as needed
         viewPagerCourseUpload.adapter = adapter
 
         addCoursePhotos.setOnClickListener {

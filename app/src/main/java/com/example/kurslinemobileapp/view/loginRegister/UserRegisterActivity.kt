@@ -27,7 +27,7 @@ class UserRegisterActivity : AppCompatActivity() {
             val surname = surnameEditText.text.toString()
             val email = mailEditText.text.toString()
             val phone = phoneEditText.text.toString()
-            val password =passwordEditText.text.toString()
+            val password = passwordEditText.text.toString()
             val password2 = confirmPasswordEditText.text.toString()
             // Validate input fields
             if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty() || phone.isEmpty()) {
@@ -47,28 +47,29 @@ class UserRegisterActivity : AppCompatActivity() {
             }
         }
     }
-        private fun register(
-            username: String,
-            email: String,
-            phone: String,
-            password: String,
-            gender: Int
-        ) {
-            compositeDisposable = CompositeDisposable()
-            val retrofit =
-                RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
-            val request = UserRegisterRequest(username, email, phone, password, gender)
-            compositeDisposable?.add(
-                retrofit.createAPI(request)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::handleResponse, { throwable -> println(throwable) })
-            )
-        }
 
-        private fun handleResponse(response: UserRegisterResponse) {
-            println("Response: " + response)
-            val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
-            startActivity(intent)
-        }
+    private fun register(
+        username: String,
+        email: String,
+        phone: String,
+        password: String,
+        gender: Int
+    ) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
+        val request = UserRegisterRequest(username, email, phone, password, gender)
+        compositeDisposable?.add(
+            retrofit.createAPI(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResponse, { throwable -> println(throwable) })
+        )
     }
+
+    private fun handleResponse(response: UserRegisterResponse) {
+        println("Response: " + response)
+        val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
+        startActivity(intent)
+    }
+}

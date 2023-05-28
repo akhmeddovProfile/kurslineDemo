@@ -15,16 +15,16 @@ interface RegisterAPI {
     @Multipart
     @POST("company-register/")
     fun createCompany(
-        @Part ("userFullName") userFullName:RegisterCompanyRequest,
-        @Part ("email") email:RegisterCompanyRequest,
-        @Part ("mobileNumber") mobileNumber:RegisterCompanyRequest,
-        @Part ("password") password:RegisterCompanyRequest,
-        @Part ("gender") gender:RegisterCompanyRequest,
-        @Part ("companyName") companyName:RegisterCompanyRequest,
-        @Part ("companyAddress") companyAddress:RegisterCompanyRequest,
-        @Part ("companyAbout") companyAbout:RegisterCompanyRequest,
-        @Part ("companyCategoryId") companyCategoryId:RegisterCompanyRequest,
-        @Part ("photos") photos:MultipartBody.Part
-    ):retrofit2.Call<RegisterCompanyResponse>
+        @Part("userFullName") userFullName: RegisterCompanyRequest,
+        @Part("email") email: RegisterCompanyRequest,
+        @Part("mobileNumber") mobileNumber: RegisterCompanyRequest,
+        @Part("password") password: RegisterCompanyRequest,
+        @Part("gender") gender: RegisterCompanyRequest,
+        @Part("companyName") companyName: RegisterCompanyRequest,
+        @Part("companyAddress") companyAddress: RegisterCompanyRequest,
+        @Part("companyAbout") companyAbout: RegisterCompanyRequest,
+        @Part("companyCategoryId") companyCategoryId: RegisterCompanyRequest,
+        @Part("photos") photos: MultipartBody.Part
+    ): retrofit2.Call<RegisterCompanyResponse>
 
 }

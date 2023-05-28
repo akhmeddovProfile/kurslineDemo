@@ -9,7 +9,8 @@ import com.example.kurslinemobileapp.model.uploadPhoto.Photo
 class PhotoPagerAdapter(var photoList: List<Photo>) : RecyclerView.Adapter<PhotoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.viewpager_imagecontainer, parent, false)
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.viewpager_imagecontainer, parent, false)
         return PhotoViewHolder(itemView)
     }
 

@@ -14,7 +14,8 @@ class BusinessTransactionProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_business_transactions_profile, container, false)
+        val view =
+            inflater.inflate(R.layout.fragment_business_transactions_profile, container, false)
 
         return view
     }

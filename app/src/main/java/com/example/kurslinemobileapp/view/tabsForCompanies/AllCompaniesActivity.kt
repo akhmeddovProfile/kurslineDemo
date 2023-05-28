@@ -16,8 +16,8 @@ class AllCompaniesActivity : AppCompatActivity() {
         var tablayout = findViewById(R.id.tablayout) as TabLayout
 
         val fragmentAdapter = FragmentAdapterForTabLyout(supportFragmentManager)
-        fragmentAdapter.addFragment(TabforCompanies(),"Kurslar")
-        fragmentAdapter.addFragment(TabforTeachers(),"Repititorlar")
+        fragmentAdapter.addFragment(TabforCompanies(), "Kurslar")
+        fragmentAdapter.addFragment(TabforTeachers(), "Repititorlar")
 
         viewPager.adapter = fragmentAdapter
         tablayout.setupWithViewPager(viewPager)

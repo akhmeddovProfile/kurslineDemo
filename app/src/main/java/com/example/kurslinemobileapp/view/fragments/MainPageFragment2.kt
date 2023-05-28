@@ -19,7 +19,7 @@ class MainPageFragment2 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewMain=inflater.inflate(R.layout.fragment_main_page2, container, false)
+        viewMain = inflater.inflate(R.layout.fragment_main_page2, container, false)
         imageforHighlight()
         getProducts()
 

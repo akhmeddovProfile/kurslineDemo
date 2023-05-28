@@ -9,5 +9,4 @@ data class ProductDetail(
     val region: String,
     val teacherNames: List<String>,
     val heartButton: ImageView
-
 )

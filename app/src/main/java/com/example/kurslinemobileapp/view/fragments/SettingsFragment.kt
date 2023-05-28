@@ -28,7 +28,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_settings, container, false)
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         val sharedPreferences =
             requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -41,7 +41,7 @@ class SettingsFragment : Fragment() {
             if (!isRegistered) {
                 // User is not registered, navigate to the registration fragment
                 val intent = Intent(activity, LoginActivity::class.java)
-              activity?.startActivity(intent)
+                activity?.startActivity(intent)
                 activity?.finish()
             } else {
                 // User is already registered, stay on the current fragment/activity
@@ -62,44 +62,55 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showChangeLanguage() {
-        val listofItems= arrayOf("Azərbaycan","English")
+        val listofItems = arrayOf("Azərbaycan", "English")
 
-        val mBuilder=AlertDialog.Builder(requireContext())
+        val mBuilder = AlertDialog.Builder(requireContext())
         mBuilder.setTitle("Choose Language")
-        mBuilder.setSingleChoiceItems(listofItems,-1){dialog,which->
-            if (which==0){
-            setLocate("av")
-                Toast.makeText(requireContext(),"Azərbaycan dilinə dəyişdirildi",Toast.LENGTH_SHORT).show()
+        mBuilder.setSingleChoiceItems(listofItems, -1) { dialog, which ->
+            if (which == 0) {
+                setLocate("av")
+                Toast.makeText(
+                    requireContext(),
+                    "Azərbaycan dilinə dəyişdirildi",
+                    Toast.LENGTH_SHORT
+                ).show()
                 requireActivity().recreate()
 
-            }
-            else if(which==1){
+            } else if (which == 1) {
                 setLocate("en")
-                Toast.makeText(requireContext(),"Application language change to English",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Application language change to English",
+                    Toast.LENGTH_SHORT
+                ).show()
                 requireActivity().recreate()
             }
             dialog.dismiss()
         }
-        val mdialog=mBuilder.create()
+        val mdialog = mBuilder.create()
         mdialog.show()
     }
 
 
     @SuppressLint("SuspiciousIndentation")
-    private fun setLocate (Lang: String) {
-        val locale =Locale (Lang)
+    private fun setLocate(Lang: String) {
+        val locale = Locale(Lang)
         Locale.setDefault(locale)
-        val config = Configuration ()
-        config.locale= locale
-                requireActivity().resources?.updateConfiguration (config, requireActivity().resources.displayMetrics)
-        val editor = context?.getSharedPreferences("Settings",Context.MODE_PRIVATE)?.edit()
-        editor?.putString ("My_Lang", Lang)
+        val config = Configuration()
+        config.locale = locale
+        requireActivity().resources?.updateConfiguration(
+            config,
+            requireActivity().resources.displayMetrics
+        )
+        val editor = context?.getSharedPreferences("Settings", Context.MODE_PRIVATE)?.edit()
+        editor?.putString("My_Lang", Lang)
         editor?.apply()
     }
-    private fun loadLocate () {
 
-        val sharedPreferences =context?.getSharedPreferences("Settings", Activity.MODE_PRIVATE)
-        val language =sharedPreferences?.getString( "My_Lang","")
+    private fun loadLocate() {
+
+        val sharedPreferences = context?.getSharedPreferences("Settings", Activity.MODE_PRIVATE)
+        val language = sharedPreferences?.getString("My_Lang", "")
         setLocate(language!!)
     }
 }

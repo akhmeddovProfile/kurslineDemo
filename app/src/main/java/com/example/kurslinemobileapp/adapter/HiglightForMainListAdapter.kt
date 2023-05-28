@@ -12,7 +12,6 @@ import com.example.kurslinemobileapp.model.mainpage.Highlight
 class HiglightForMainListAdapter(private val items: List<Highlight>) :
     RecyclerView.Adapter<HiglightForMainListAdapter.ImageRowViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageRowViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.highlight_item_row, parent, false)
@@ -33,6 +32,5 @@ class HiglightForMainListAdapter(private val items: List<Highlight>) :
         val imageView: ImageView = itemView.findViewById(R.id.imageforHighlight)
         val textView: TextView = itemView.findViewById(R.id.highlightName)
     }
-
 
 }

@@ -8,10 +8,10 @@ data class CompanyRegisterInfo(
     @SerializedName("name")
     val name: String,
     @SerializedName("email")
-    val email:String,
+    val email: String,
     @SerializedName("mobileNumber")
-    val mobileNumber:String,
+    val mobileNumber: String,
     @SerializedName("photo")
-    val photo:String
+    val photo: String
 
 )
