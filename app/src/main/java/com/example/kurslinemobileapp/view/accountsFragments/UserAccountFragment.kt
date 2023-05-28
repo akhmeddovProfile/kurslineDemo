@@ -13,7 +13,7 @@ import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import kotlinx.android.synthetic.main.fragment_account.view.*
 
-class AccountFragment : Fragment() {
+class UserAccountFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
