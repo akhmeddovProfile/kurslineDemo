@@ -280,8 +280,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="122dp"
                     android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@id/upForwardTitle"
                     android:src="@drawable/upward_24"
                     />
 
@@ -294,7 +294,6 @@
                 android:layout_below="@+id/imageView5"
                 android:layout_marginStart="227dp"
                 android:layout_marginTop="31dp"
-
                 android:background="@drawable/bck_upforwandvip"
                 >
                 <TextView
@@ -324,7 +323,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="122dp"
+                    android:layout_toRightOf="@id/vipTitle"
                     android:layout_marginTop="15dp"
                     android:src="@drawable/vip_icon"
                     />

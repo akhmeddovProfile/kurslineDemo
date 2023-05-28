@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid
-        android:color="@color/grayColor2">
+        android:color="@color/grayColor3">
     </solid>
     <corners
         android:radius="8dp">
