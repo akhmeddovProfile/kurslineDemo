@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view.activities
+package com.example.kurslinemobileapp.view.courseFmAc
 
 import android.annotation.SuppressLint
 import android.app.Activity

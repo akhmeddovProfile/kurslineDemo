@@ -46,14 +46,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.activities.AllCompaniesActivity"
+            android:name=".view.tabsForCompanies.AllCompaniesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.activities.CourseUploadActivity"
+            android:name=".view.courseFmAc.CourseUploadActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

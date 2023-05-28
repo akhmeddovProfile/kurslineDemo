@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view.fragments
+package com.example.kurslinemobileapp.view.accountsFragments
 
 import android.content.Context
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view.fragments
+package com.example.kurslinemobileapp.view.accountsFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.kurslinemobileapp.R
 
-
-class ProductDetailFragment : Fragment() {
+class BusinessTransactionProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_detail, container, false)
+        val view =  inflater.inflate(R.layout.fragment_business_transactions_profile, container, false)
+
+        return view
     }
+
 }

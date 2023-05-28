@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
+import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
