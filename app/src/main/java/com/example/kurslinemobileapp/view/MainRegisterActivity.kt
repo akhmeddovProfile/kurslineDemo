@@ -12,7 +12,7 @@ class MainRegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_register)
 
         goToUserRegister.setOnClickListener {
-            val intent = Intent(this@MainRegisterActivity,RegisterCompanyActivity::class.java)
+            val intent = Intent(this@MainRegisterActivity,UserRegisterActivity::class.java)
             startActivity(intent)
         }
 

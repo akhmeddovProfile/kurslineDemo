@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,14 +29,16 @@ class AccountFragment : Fragment() {
         val isRegistered = sharedPreferences.getBoolean("token", false)
         if (!isRegistered) {
             // User is not registered, navigate to the registration fragment
-            findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
+            val intent = Intent(requireContext(),LoginActivity::class.java)
+            startActivity(intent)
         } else {
             // User is already registered, stay on the current fragment/activity
             Toast.makeText(requireContext(), "Already logged", Toast.LENGTH_SHORT).show()
         }
 
         view.goToBusinessCreate.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_businessRegister)
+            val intent = Intent(requireContext(),RegisterCompanyActivity::class.java)
+            startActivity(intent)
         }
         // Display the account information in the UI
 

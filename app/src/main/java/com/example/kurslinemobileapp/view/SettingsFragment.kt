@@ -38,7 +38,8 @@ class SettingsFragment : Fragment() {
         view.goToMyAccount.setOnClickListener {
             if (!isRegistered) {
                 // User is not registered, navigate to the registration fragment
-                findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
+                val intent = Intent(requireContext(),LoginActivity::class.java)
+                startActivity(intent)
             } else {
                 // User is already registered, stay on the current fragment/activity
                 findNavController().navigate(R.id.action_settingsFragment_to_accountFragment)

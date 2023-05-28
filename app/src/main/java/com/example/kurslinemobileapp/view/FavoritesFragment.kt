@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,7 +25,8 @@ class FavoritesFragment : Fragment() {
 
         if (!isRegistered) {
 // User is not registered, navigate to the registration fragment
-            findNavController().navigate(R.id.action_favoritesFragment_to_loginFragment)
+            val intent = Intent(requireContext(),LoginActivity::class.java)
+            startActivity(intent)
 // User is already registered, stay on the current fragment/activity
         } else {
             // Required data is present, display it
