@@ -11,7 +11,7 @@
         android:id="@+id/registerBusinessPhoto"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/register"/>
+        android:background="@drawable/businessreg"/>
 
     <TextView
         android:id="@+id/businessRegisterText"

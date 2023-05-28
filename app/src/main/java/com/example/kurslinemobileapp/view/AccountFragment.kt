@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -29,8 +30,9 @@ class AccountFragment : Fragment() {
         val isRegistered = sharedPreferences.getBoolean("token", false)
         if (!isRegistered) {
             // User is not registered, navigate to the registration fragment
-            val intent = Intent(requireContext(),LoginActivity::class.java)
-            startActivity(intent)
+            val intent = Intent(activity, LoginActivity::class.java)
+           activity?.startActivity(intent)
+            activity?.finish()
         } else {
             // User is already registered, stay on the current fragment/activity
             Toast.makeText(requireContext(), "Already logged", Toast.LENGTH_SHORT).show()
