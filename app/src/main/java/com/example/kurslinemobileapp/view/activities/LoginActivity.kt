@@ -1,13 +1,11 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.activities
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.kurslinemobileapp.MainActivity
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.login.LogInResponse
@@ -28,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         goToRegister.setOnClickListener {
-            val intent = Intent(this@LoginActivity,MainRegisterActivity::class.java)
+            val intent = Intent(this@LoginActivity, MainRegisterActivity::class.java)
             startActivity(intent)
         }
 
@@ -41,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                     .show()
             } else {
                 login(email, password)
-                val intent = Intent(this@LoginActivity,MainActivity::class.java)
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
             }
         }

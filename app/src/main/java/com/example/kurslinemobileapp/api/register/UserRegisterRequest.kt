@@ -1,6 +1,6 @@
 package com.example.kurslinemobileapp.api.register
 
-data class RegisterRequest(
+data class UserRegisterRequest(
     var fullName: String,
     var email: String,
     var mobileNumber: String,

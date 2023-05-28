@@ -1,6 +1,6 @@
 package com.example.kurslinemobileapp.api.register
 
-data class RegisterResponse(
+data class UserRegisterResponse(
     val announcements: List<Any>,
     val comments: List<Any>,
     val companies: List<Any>,

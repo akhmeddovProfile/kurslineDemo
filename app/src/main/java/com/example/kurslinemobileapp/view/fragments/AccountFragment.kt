@@ -1,6 +1,5 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.view.activities.LoginActivity
+import com.example.kurslinemobileapp.view.activities.RegisterCompanyActivity
 import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class AccountFragment : Fragment() {
@@ -39,7 +39,7 @@ class AccountFragment : Fragment() {
         }
 
         view.goToBusinessCreate.setOnClickListener {
-            val intent = Intent(requireContext(),RegisterCompanyActivity::class.java)
+            val intent = Intent(requireContext(), RegisterCompanyActivity::class.java)
             startActivity(intent)
         }
         // Display the account information in the UI

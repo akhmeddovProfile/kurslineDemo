@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp
+package com.example.kurslinemobileapp.view.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,8 +8,8 @@ import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
-import com.example.kurslinemobileapp.view.CourseUploadActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 

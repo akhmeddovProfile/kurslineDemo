@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +12,12 @@ class MainRegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_register)
 
         goToUserRegister.setOnClickListener {
-            val intent = Intent(this@MainRegisterActivity,UserRegisterActivity::class.java)
+            val intent = Intent(this@MainRegisterActivity, UserRegisterActivity::class.java)
             startActivity(intent)
         }
 
         goToBusinessRegister.setOnClickListener {
-           val intent = Intent(this@MainRegisterActivity,RegisterCompanyActivity::class.java)
+           val intent = Intent(this@MainRegisterActivity, RegisterCompanyActivity::class.java)
             startActivity(intent)
         }
     }

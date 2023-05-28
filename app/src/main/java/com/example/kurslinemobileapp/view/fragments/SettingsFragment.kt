@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.view.activities.AllCompaniesActivity
+import com.example.kurslinemobileapp.view.activities.LoginActivity
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import java.util.Locale
 
@@ -38,7 +40,7 @@ class SettingsFragment : Fragment() {
         view.goToMyAccount.setOnClickListener {
             if (!isRegistered) {
                 // User is not registered, navigate to the registration fragment
-                val intent = Intent(activity,LoginActivity::class.java)
+                val intent = Intent(activity, LoginActivity::class.java)
               activity?.startActivity(intent)
                 activity?.finish()
             } else {

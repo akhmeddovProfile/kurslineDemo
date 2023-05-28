@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.MainRegisterActivity">
+    tools:context=".view.activities.MainRegisterActivity">
 
     <ImageView
         android:id="@+id/mainRegisterImage"

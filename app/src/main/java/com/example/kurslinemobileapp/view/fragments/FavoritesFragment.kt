@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.fragments
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.view.activities.LoginActivity
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
 
 class FavoritesFragment : Fragment() {
@@ -25,7 +25,7 @@ class FavoritesFragment : Fragment() {
 
         if (!isRegistered) {
 // User is not registered, navigate to the registration fragment
-            val intent = Intent(activity,LoginActivity::class.java)
+            val intent = Intent(activity, LoginActivity::class.java)
            activity?.startActivity(intent)
             activity?.finish()
 // User is already registered, stay on the current fragment/activity

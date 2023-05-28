@@ -1,11 +1,10 @@
 package com.example.kurslinemobileapp.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.model.Photo
+import com.example.kurslinemobileapp.model.uploadPhoto.Photo
 
 class PhotoPagerAdapter(var photoList: List<Photo>) : RecyclerView.Adapter<PhotoViewHolder>() {
 

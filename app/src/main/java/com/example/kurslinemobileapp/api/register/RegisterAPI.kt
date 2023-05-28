@@ -1,7 +1,6 @@
 package com.example.kurslinemobileapp.api.register
 
 import io.reactivex.Observable
-import okhttp3.Call
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.Multipart
@@ -11,7 +10,7 @@ import retrofit2.http.Part
 interface RegisterAPI {
 
     @POST("user-register/")
-    fun createAPI(@Body registerRequest: RegisterRequest): Observable<RegisterResponse>
+    fun createAPI(@Body registerRequest: UserRegisterRequest): Observable<UserRegisterResponse>
 
     @Multipart
     @POST("company-register/")

@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.activities
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.register.RegisterAPI
-import com.example.kurslinemobileapp.api.register.RegisterRequest
-import com.example.kurslinemobileapp.api.register.RegisterResponse
+import com.example.kurslinemobileapp.api.register.UserRegisterRequest
+import com.example.kurslinemobileapp.api.register.UserRegisterResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -57,7 +57,7 @@ class UserRegisterActivity : AppCompatActivity() {
             compositeDisposable = CompositeDisposable()
             val retrofit =
                 RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
-            val request = RegisterRequest(username, email, phone, password, gender)
+            val request = UserRegisterRequest(username, email, phone, password, gender)
             compositeDisposable?.add(
                 retrofit.createAPI(request)
                     .subscribeOn(Schedulers.io())
@@ -66,7 +66,7 @@ class UserRegisterActivity : AppCompatActivity() {
             )
         }
 
-        private fun handleResponse(response: RegisterResponse) {
+        private fun handleResponse(response: UserRegisterResponse) {
             println("Response: " + response)
             val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
             startActivity(intent)

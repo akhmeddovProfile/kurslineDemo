@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view
+package com.example.kurslinemobileapp.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
