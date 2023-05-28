@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view.activities
+package com.example.kurslinemobileapp.view
 
 import android.content.Context
 import android.content.Intent
