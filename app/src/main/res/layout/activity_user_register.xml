@@ -59,37 +59,11 @@
                     android:hint="Adınızı daxil edin*"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/surnameContainer"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/nameContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/surnameEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="textPersonName"
-                    android:hint="Soyadınızı daxil edin*"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phoneContainer"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/surnameContainer"
+                android:layout_below="@+id/nameContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
