@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.view.activities.AllCompaniesActivity
-import com.example.kurslinemobileapp.view.activities.LoginActivity
+import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import java.util.Locale
 

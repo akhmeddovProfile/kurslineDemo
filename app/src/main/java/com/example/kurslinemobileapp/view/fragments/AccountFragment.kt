@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.view.activities.LoginActivity
-import com.example.kurslinemobileapp.view.activities.RegisterCompanyActivity
+import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
+import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class AccountFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view.activities
+package com.example.kurslinemobileapp.view.loginRegister
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

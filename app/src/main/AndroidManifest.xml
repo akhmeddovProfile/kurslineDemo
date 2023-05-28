@@ -18,28 +18,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.activities.UserRegisterActivity"
+            android:name=".view.loginRegister.UserRegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.activities.MainRegisterActivity"
+            android:name=".view.loginRegister.MainRegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.activities.LoginActivity"
+            android:name=".view.loginRegister.LoginActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.activities.RegisterCompanyActivity"
+            android:name=".view.loginRegister.RegisterCompanyActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

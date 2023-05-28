@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.view.activities
+package com.example.kurslinemobileapp.view.loginRegister
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,7 @@ import com.example.kurslinemobileapp.api.login.LogInResponse
 import com.example.kurslinemobileapp.api.login.LoginRequest
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.activities.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
