@@ -24,13 +24,12 @@ class UserRegisterActivity : AppCompatActivity() {
 
         registerButton.setOnClickListener {
             val name = nameEditText.text.toString()
-            val surname = surnameEditText.text.toString()
             val email = mailEditText.text.toString()
             val phone = phoneEditText.text.toString()
             val password = passwordEditText.text.toString()
             val password2 = confirmPasswordEditText.text.toString()
             // Validate input fields
-            if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty() || phone.isEmpty()) {
+            if (name.isEmpty() ||   email.isEmpty() || password.isEmpty() || password2.isEmpty() || phone.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
                     .show()
             } else if (password != password2) {
