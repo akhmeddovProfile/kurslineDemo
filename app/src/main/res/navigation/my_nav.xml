@@ -32,5 +32,9 @@
         android:id="@+id/mainPageFragment2"
         android:name="com.example.kurslinemobileapp.view.fragments.MainPageFragment2"
         android:label="fragment_main_page2"
-        tools:layout="@layout/fragment_main_page2" />
+        tools:layout="@layout/fragment_main_page2" >
+        <action
+            android:id="@+id/action_mainPageFragment2_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+    </fragment>
 </navigation>
