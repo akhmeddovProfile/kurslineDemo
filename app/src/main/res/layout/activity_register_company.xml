@@ -140,6 +140,35 @@
                     android:hint="Şirkət adınızı daxil edin*"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/uploadphotoContainer"
+                android:layout_below="@+id/companyAddressContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:endIconDrawable="@drawable/upload"
+                app:endIconMode="custom"
+                app:endIconTintMode="src_atop">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Şirkət loqonuzu daxil edin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/companyRegionContainer"
@@ -203,7 +232,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/companyAddressContainer"
+                android:layout_below="@+id/uploadphotoContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
