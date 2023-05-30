@@ -63,7 +63,6 @@ class SettingsFragment : Fragment() {
 
     private fun showChangeLanguage() {
         val listofItems = arrayOf("Azərbaycan", "English")
-
         val mBuilder = AlertDialog.Builder(requireContext())
         mBuilder.setTitle("Choose Language")
         mBuilder.setSingleChoiceItems(listofItems, -1) { dialog, which ->
@@ -108,7 +107,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun loadLocate() {
-
         val sharedPreferences = context?.getSharedPreferences("Settings", Activity.MODE_PRIVATE)
         val language = sharedPreferences?.getString("My_Lang", "")
         setLocate(language!!)

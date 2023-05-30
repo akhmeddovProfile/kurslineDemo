@@ -22,4 +22,5 @@
     <string name="deletecourse">Kursu sil</string>
     <string name="editCourse">Redakte et</string>
     <string name="sameCourse">Oxşar kurslar</string>
+    <string name="choose_city">Şəhər seçin</string>
 </resources>

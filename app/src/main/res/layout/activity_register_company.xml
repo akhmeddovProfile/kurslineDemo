@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/companyNameEditText"
+                    android:id="@+id/nameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:fontFamily="@font/montserrat"
