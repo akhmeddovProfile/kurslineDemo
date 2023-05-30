@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_register_company.*
 import java.io.IOException
@@ -46,9 +48,13 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var companyStatus:String
     lateinit var companyCategory:String
     lateinit var aboutCompany:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_company)
+
+        sharedPreferences=getSharedPreferences(sharedkeyname,Context.MODE_PRIVATE)
+        editor=sharedPreferences.edit()
 
         createBusinessAccountBtn.setOnClickListener {
             block=true
