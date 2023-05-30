@@ -42,7 +42,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
-                register(name, email, phone, password, 1)
+                register(name, email, phone, password, 2)
             }
         }
     }

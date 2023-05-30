@@ -1,31 +1,5 @@
 package com.example.kurslinemobileapp.api.register
 
 data class UserRegisterResponse(
-    val announcements: List<Any>,
-    val comments: List<Any>,
-    val companies: List<Any>,
-    val favorites: List<Any>,
-    val isEmailVerified: Boolean,
-    val mailAttempCount: Int,
-    val mailAttemptTime: Any,
-    val mailVerificationToken: String,
-    val mailVerifiedAt: Any,
-    val passwordHash: String,
-    val passwordResetAttempCount: Int,
-    val passwordResetAttemptTime: Any,
-    val passwordResetExpires: Any,
-    val passwordResetToken: Any,
-    val passwordSalt: String,
-    val refreshToken: String,
-    val tokenCreated: Any,
-    val tokenExpires: Any,
-    val userEmail: String,
-    val userFullName: String,
-    val userGender: Any,
-    val userGenderId: Int,
-    val userId: Int,
-    val userImage: Any,
-    val userPhone: Any,
-    val userStatus: Any,
-    val userStatusId: Int
+    val isSuccess: Boolean
 )
