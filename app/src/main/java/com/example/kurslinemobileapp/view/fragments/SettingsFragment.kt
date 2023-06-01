@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment
+import com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment
 import com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import kotlinx.android.synthetic.main.fragment_settings.view.*
@@ -45,7 +47,15 @@ class SettingsFragment : Fragment() {
                 activity?.finish()
             } else {
                 // User is already registered, stay on the current fragment/activity
-                findNavController().navigate(R.id.action_settingsFragment_to_accountFragment)
+                val userType = sharedPreferences.getString("userType",null)
+                // User is already registered, stay on the current fragment/activity
+                if (userType == "İstifadəçi") {
+                    findNavController().navigate(R.id.action_settingsFragment_to_accountFragment)
+                } else if(userType == "Kurs") {
+                    findNavController().navigate(R.id.action_settingsFragment_to_businessAccountFragment)
+                }else{
+                    println("User not found")
+                }
             }
         }
 
