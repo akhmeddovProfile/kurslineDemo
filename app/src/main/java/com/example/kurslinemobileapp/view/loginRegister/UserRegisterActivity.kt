@@ -37,8 +37,7 @@ class UserRegisterActivity : AppCompatActivity() {
                     .show()
             } else {
                 // Save user registration data to shared preferences
-                val sharedPreferences =
-                    this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()

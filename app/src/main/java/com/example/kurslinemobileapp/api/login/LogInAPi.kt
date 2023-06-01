@@ -8,5 +8,5 @@ interface LogInAPi {
     @POST("user-login/")
     fun postLogin(
         @Body params: LoginRequest
-    ): Observable<LogInResponse>
+    ): Observable<LoginResponseX>
 }

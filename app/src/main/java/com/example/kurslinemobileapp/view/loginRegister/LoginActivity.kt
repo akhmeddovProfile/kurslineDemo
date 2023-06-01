@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
-import com.example.kurslinemobileapp.api.login.LogInResponse
 import com.example.kurslinemobileapp.api.login.LoginRequest
+import com.example.kurslinemobileapp.api.login.LoginResponseX
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
@@ -61,9 +61,8 @@ class LoginActivity : AppCompatActivity() {
         )
     }
 
-    private fun handleResponseLogin(response: LogInResponse) {
+    private fun handleResponseLogin(response: LoginResponseX) {
         println("Response: " + response)
-
         Toast.makeText(this, "Succesfully Login", Toast.LENGTH_SHORT).show()
         sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
