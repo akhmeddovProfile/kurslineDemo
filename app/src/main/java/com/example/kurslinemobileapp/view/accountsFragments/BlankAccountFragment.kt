@@ -63,7 +63,23 @@ class BlankAccountFragment : Fragment() {
 
                 // Commit the transaction
                 transaction.commit()
-            }else{
+            }else if(userType == "Repititor") {
+                // Required data is present, display it
+                val fragmentManager = requireFragmentManager()
+
+                // Start a fragment transaction
+                val transaction = fragmentManager.beginTransaction()
+
+                // Replace the first fragment with the second fragment
+                transaction.replace(R.id.frameLayoutforChange, BusinessTransactionProfileFragment())
+                transaction.setReorderingAllowed(true)
+
+                // Add the transaction to the back stack
+                transaction.addToBackStack(null)
+
+                // Commit the transaction
+                transaction.commit()
+            } else{
               println("User not found")
             }
         }

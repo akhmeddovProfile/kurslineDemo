@@ -43,7 +43,15 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, CourseUploadActivity::class.java)
                 startActivity(intent)
             }
-        }else{
+        }else if(userType == "Repititor") {
+            // Required data is present, display it
+            goToUploadActivity.visibility = View.VISIBLE
+            goToUploadActivity.setOnClickListener {
+                val intent = Intent(this@MainActivity, CourseUploadActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        else{
             goToUploadActivity.visibility = View.GONE
         }
 
