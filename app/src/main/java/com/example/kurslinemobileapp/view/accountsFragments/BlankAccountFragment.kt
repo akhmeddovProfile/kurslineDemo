@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
@@ -21,7 +22,7 @@ class BlankAccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_blank_account, container, false)
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = requireActivity().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         // Get the saved account information from SharedPreferences
         val isRegistered = sharedPreferences.getBoolean("token", false)
         if (!isRegistered) {
