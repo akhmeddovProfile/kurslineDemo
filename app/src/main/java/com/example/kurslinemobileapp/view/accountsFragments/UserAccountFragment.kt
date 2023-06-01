@@ -23,20 +23,6 @@ class UserAccountFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
         // Get the SharedPreferences object
-        val sharedPreferences =
-            requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-
-        // Get the saved account information from SharedPreferences
-        val isRegistered = sharedPreferences.getBoolean("token", false)
-        if (!isRegistered) {
-            // User is not registered, navigate to the registration fragment
-            val intent = Intent(activity, LoginActivity::class.java)
-            activity?.startActivity(intent)
-            activity?.finish()
-        } else {
-            // User is already registered, stay on the current fragment/activity
-            Toast.makeText(requireContext(), "Already logged", Toast.LENGTH_SHORT).show()
-        }
 
         view.goToBusinessCreate.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCompanyActivity::class.java)

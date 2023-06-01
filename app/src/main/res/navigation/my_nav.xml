@@ -9,11 +9,7 @@
         android:id="@+id/accountFragment"
         android:name="com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" >
-        <action
-            android:id="@+id/action_accountFragment_to_mainPageFragment2"
-            app:destination="@id/mainPageFragment2" />
-    </fragment>
+        tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.kurslinemobileapp.view.fragments.FavoritesFragment"
@@ -27,14 +23,23 @@
         <action
             android:id="@+id/action_settingsFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_businessAccountFragment"
+            app:destination="@id/businessAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainPageFragment2"
         android:name="com.example.kurslinemobileapp.view.fragments.MainPageFragment2"
         android:label="fragment_main_page2"
-        tools:layout="@layout/fragment_main_page2" >
-        <action
-            android:id="@+id/action_mainPageFragment2_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_main_page2" />
+    <fragment
+        android:id="@+id/blankAccountFragment"
+        android:name="com.example.kurslinemobileapp.view.accountsFragments.BlankAccountFragment"
+        android:label="fragment_blank_account"
+        tools:layout="@layout/fragment_blank_account" />
+    <fragment
+        android:id="@+id/businessAccountFragment"
+        android:name="com.example.kurslinemobileapp.view.accountsFragments.BusinessAccountFragment"
+        android:label="fragment_business_account"
+        tools:layout="@layout/fragment_business_account" />
 </navigation>
