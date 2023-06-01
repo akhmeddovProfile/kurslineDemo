@@ -41,7 +41,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
-                register(name, email, phone, password, "2")
+                register(name, email, phone, password, 1)
             }
         }
     }
@@ -51,7 +51,7 @@ class UserRegisterActivity : AppCompatActivity() {
         email: String,
         phone: String,
         password: String,
-        gender: String
+        gender: Int
     ) {
         compositeDisposable = CompositeDisposable()
         val retrofit =
@@ -71,5 +71,6 @@ class UserRegisterActivity : AppCompatActivity() {
         println("Response: " + response)
         val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

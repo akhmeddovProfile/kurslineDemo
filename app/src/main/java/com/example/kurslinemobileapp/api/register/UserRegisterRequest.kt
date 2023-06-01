@@ -5,5 +5,5 @@ data class UserRegisterRequest(
     var email: String,
     var mobileNumber: String,
     var password: String,
-    var gender: String
+    var gender: Int
 )

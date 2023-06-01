@@ -53,6 +53,8 @@ class SettingsFragment : Fragment() {
                     findNavController().navigate(R.id.action_settingsFragment_to_accountFragment)
                 } else if(userType == "Kurs") {
                     findNavController().navigate(R.id.action_settingsFragment_to_businessAccountFragment)
+                } else if(userType == "Repititor") {
+                    findNavController().navigate(R.id.action_settingsFragment_to_businessAccountFragment)
                 }else{
                     println("User not found")
                 }

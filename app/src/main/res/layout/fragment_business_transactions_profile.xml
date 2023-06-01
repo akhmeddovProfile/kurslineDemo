@@ -18,9 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tofiq Agayev"
-        android:fontFamily="@font/montserrat"
+        android:fontFamily="@font/nunito"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginStart="20dp"
@@ -35,9 +35,11 @@
 
     <ImageView
         android:layout_below="@+id/businessTransProfileImage"
-        android:id="@+id/lineFavorites"
+        android:id="@+id/lineBusinessTransaction"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:src="@color/grayColor1"/>
+
+
 </RelativeLayout>
