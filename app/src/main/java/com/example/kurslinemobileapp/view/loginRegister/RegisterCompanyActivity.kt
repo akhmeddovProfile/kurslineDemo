@@ -19,12 +19,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.register.RegisterAPI
+import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
+import com.example.kurslinemobileapp.service.RetrofitService
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.io.IOException
 
 class RegisterCompanyActivity : AppCompatActivity() {
+
+    var compositeDisposable = CompositeDisposable()
     //local data save
     private  var block : Boolean  =true
     lateinit var editor: SharedPreferences.Editor
@@ -137,10 +149,60 @@ class RegisterCompanyActivity : AppCompatActivity() {
         companyPhoto.setOnClickListener {
             selectCertificate(it)
         }
+
+
     }
 
 
-    private fun selectCertificate(view: View){
+    fun sendCompanydata(
+        companyCategoryId: String,
+        companyAbout: String,
+        companyAddress: String,
+        companyName: String,
+        gender: String,
+        password: String,
+        mobileNumber: String,
+        email: String,
+        userFullName: String,
+        imagePath: String
+    )
+
+    {
+        val file=File(imagePath)
+        val reqFile:RequestBody=RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        val photos:MultipartBody.Part=MultipartBody.Part.createFormData("photos",file.name,reqFile)
+
+        val username:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), userFullName)
+        val companyemail:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+        val companyNumber:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), mobileNumber)
+        val companyPassword:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), password)
+        val companyGender:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), gender)
+        val address:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), companyAddress)
+        val name:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
+        val about:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), companyAbout)
+        val categoryid:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
+
+     /*   compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
+        *//*val request = RegisterCompanyRequest()*//*
+        retrofit.createCompany(username,companyemail, companyNumber, companyPassword, companyGender, address,name,categoryid,about,photos)
+
+        compositeDisposable.add(
+            retrofit.createCompany(username,companyemail, companyNumber, companyPassword, companyGender, address,name,categoryid,about,photos)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResponse,
+                    { throwable ->
+                        println(throwable) })
+        )*/
+
+
+    }
+
+
+
+     fun selectCertificate(view: View){
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -156,7 +218,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
             activityResultLauncher.launch(intentToGallery)
         }
     }
-    private fun downloadPhotoFromGalery() {
+
+     fun downloadPhotoFromGalery() {
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -201,6 +264,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
             }
         }
     }
+
+
+
+
 
     override fun onPause() {
         getValues()

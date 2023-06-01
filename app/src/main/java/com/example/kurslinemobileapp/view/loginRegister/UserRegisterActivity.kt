@@ -42,7 +42,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
-                register(name, email, phone, password, 2)
+                register(name, email, phone, password, "2")
             }
         }
     }
@@ -52,17 +52,19 @@ class UserRegisterActivity : AppCompatActivity() {
         email: String,
         phone: String,
         password: String,
-        gender: Int
+        gender: String
     ) {
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
         val request = UserRegisterRequest(username, email, phone, password, gender)
-        compositeDisposable?.add(
+        compositeDisposable.add(
             retrofit.createAPI(request)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleResponse, { throwable -> println(throwable) })
+                .subscribe(this::handleResponse,
+                    { throwable ->
+                    println(throwable) })
         )
     }
 
