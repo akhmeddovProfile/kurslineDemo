@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.register.RegisterAPI
+import com.example.kurslinemobileapp.api.register.*
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -82,6 +82,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyCategoryContainer = companyCategoryEditText.text.toString().trim()
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
 
+
+
+
             if (companyNameContainer.isEmpty()){
                 nameEditText.error=" Name required"
                 nameEditText.requestFocus()
@@ -140,16 +143,19 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 block=false
             }
 
+            downloadPhotoFromGalery()
 
+            companyPhoto.setOnClickListener {
+                selectCertificate(it)
+            }
+
+            //burada galeriyadan seklin url nece goture bilerem?
+            //1.hemen url bunun yerine isletmeliyem -> companyPhoto.text.toString()
+            //2.galeriyadan sekli 258 setrde gotururem
+            sendCompanydata(companyCategoryContainer,aboutCompanyContainer,companyAddressContainer,companyNameContainer,companyModeContainer,companyPasswordContainer,
+                companyPhoneContainer,companyEmailContainer,companyFullNameContainer,companyPhoto.text.toString())
 
         }
-
-        downloadPhotoFromGalery()
-
-        companyPhoto.setOnClickListener {
-            selectCertificate(it)
-        }
-
 
     }
 
@@ -182,25 +188,30 @@ class RegisterCompanyActivity : AppCompatActivity() {
         val about:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), companyAbout)
         val categoryid:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
 
-     /*   compositeDisposable = CompositeDisposable()
+
+        compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
-        *//*val request = RegisterCompanyRequest()*//*
-        retrofit.createCompany(username,companyemail, companyNumber, companyPassword, companyGender, address,name,categoryid,about,photos)
+/*
+        val request = RegisterCompanyRequest(username.toString(),companyemail.toString(),companyNumber.toString(),companyPassword.toString(),companyGender.hashCode(),address.toString(),name.toString(),about.toString(),categoryid.toString())
+*/
 
         compositeDisposable.add(
-            retrofit.createCompany(username,companyemail, companyNumber, companyPassword, companyGender, address,name,categoryid,about,photos)
+            retrofit.createCompany(username,companyemail,companyNumber,companyPassword,companyGender,name,address,about,categoryid,photos)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
                         println(throwable) })
-        )*/
-
+        )
 
     }
 
-
+    private fun handleResponse(response: RegisterCompanyResponse) {
+        println("Response: " + response.isSuccess)
+        val intent = Intent(this@RegisterCompanyActivity, LoginActivity::class.java)
+        startActivity(intent)
+    }
 
      fun selectCertificate(view: View){
 
