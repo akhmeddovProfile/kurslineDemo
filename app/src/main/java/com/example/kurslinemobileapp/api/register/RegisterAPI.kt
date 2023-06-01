@@ -2,6 +2,7 @@ package com.example.kurslinemobileapp.api.register
 
 import io.reactivex.Observable
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -15,16 +16,16 @@ interface RegisterAPI {
     @Multipart
     @POST("company-register/")
     fun createCompany(
-        @Part("userFullName") userFullName: RegisterCompanyRequest,
-        @Part("email") email: RegisterCompanyRequest,
-        @Part("mobileNumber") mobileNumber: RegisterCompanyRequest,
-        @Part("password") password: RegisterCompanyRequest,
-        @Part("gender") gender: RegisterCompanyRequest,
-        @Part("companyName") companyName: RegisterCompanyRequest,
-        @Part("companyAddress") companyAddress: RegisterCompanyRequest,
-        @Part("companyAbout") companyAbout: RegisterCompanyRequest,
-        @Part("companyCategoryId") companyCategoryId: RegisterCompanyRequest,
-        @Part("photos") photos: MultipartBody.Part
+        @Part("userFullName") userFullName: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("mobileNumber") mobileNumber: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("companyName") companyName: RequestBody,
+        @Part("companyAddress") companyAddress: RequestBody,
+        @Part("companyAbout") companyAbout: RequestBody,
+        @Part("companyCategoryId") companyCategoryId: RequestBody,
+        @Part photos: MultipartBody.Part
     ): retrofit2.Call<RegisterCompanyResponse>
 
 }
