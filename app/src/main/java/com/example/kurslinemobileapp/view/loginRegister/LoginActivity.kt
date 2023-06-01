@@ -64,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
     private fun handleResponseLogin(response: LoginResponseX) {
         val intent = Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intent)
+        finish()
         println("Response: " + response)
         Toast.makeText(this, "Succesfully Login", Toast.LENGTH_SHORT).show()
         sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
