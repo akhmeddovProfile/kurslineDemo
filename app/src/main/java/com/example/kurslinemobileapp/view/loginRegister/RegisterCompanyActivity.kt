@@ -1,16 +1,20 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -19,7 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.register.*
+import com.example.kurslinemobileapp.api.register.RegisterAPI
+import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -32,7 +37,9 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
+import java.io.InputStream
 
 class RegisterCompanyActivity : AppCompatActivity() {
 
@@ -47,7 +54,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     var selectedBitmap : Bitmap? = null
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
-
+    val REQUEST_EXTERNAL_STORAGE = 100
     //Variable
     lateinit var name:String
     lateinit var companyEmail:String
@@ -143,17 +150,19 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 block=false
             }
 
-            downloadPhotoFromGalery()
-
-            companyPhoto.setOnClickListener {
-                selectCertificate(it)
-            }
 
             //burada galeriyadan seklin url nece goture bilerem?
             //1.hemen url bunun yerine isletmeliyem -> companyPhoto.text.toString()
             //2.galeriyadan sekli 258 setrde gotururem
-            sendCompanydata(companyCategoryContainer,aboutCompanyContainer,companyAddressContainer,companyNameContainer,companyModeContainer,companyPasswordContainer,
+            sendCompanydata("2",aboutCompanyContainer,companyAddressContainer,companyNameContainer,"1",companyPasswordContainer,
                 companyPhoneContainer,companyEmailContainer,companyFullNameContainer,companyPhoto.text.toString())
+
+        }
+        /*downloadPhotoFromGalery()*/
+
+        companyPhoto.setOnClickListener {
+            /*selectCertificate(it)*/
+            launchGalleryIntent()
 
         }
 
@@ -213,7 +222,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-     fun selectCertificate(view: View){
+/*     fun selectCertificate(view: View){
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -254,7 +263,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                             )
                             certificateImage.setImageBitmap(selectedBitmap)
                         }
-                        val cervicatePath = selectedPicture?.path
+                        val cervicatePath = getPathFromURI(selectedPicture)
                         companyPhoto.setText(cervicatePath!!.substring((cervicatePath.length - 8) , cervicatePath.length)+".JPG")
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -274,12 +283,73 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 Toast.makeText(this@RegisterCompanyActivity, "Permisson needed!", Toast.LENGTH_LONG).show()
             }
         }
+    }*/
+
+
+    @SuppressLint("NewApi")
+    fun getPathFromURI(uri: Uri?): String? {
+        var filePath = ""
+        val wholeID = DocumentsContract.getDocumentId(uri)
+
+        // Split at colon, use second item in the array
+        val id = wholeID.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+        val column = arrayOf(MediaStore.Images.Media.DATA)
+
+        // where id is equal to
+        val sel = MediaStore.Images.Media._ID + "=?"
+        val cursor: Cursor? = this.getContentResolver().query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            column, sel, arrayOf<String>(id), null
+        )
+        val columnIndex = cursor?.getColumnIndex(column[0])
+        if (cursor!!.moveToFirst()) {
+            filePath = cursor.getString(columnIndex!!)
+        }
+        cursor.close()
+        return filePath
     }
 
+    fun launchGalleryIntent() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_EXTERNAL_STORAGE)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_EXTERNAL_STORAGE && resultCode == RESULT_OK) {
+            var path: String? = null
+            val clipData = data!!.clipData
+            if (clipData != null) {
+                for (i in 0 until clipData.itemCount) {
+                    val imageUri = clipData.getItemAt(i).uri
+                    Log.d("URI", imageUri.path!!)
+                    try {
+                        val inputStream: InputStream? =
+                            this.getContentResolver().openInputStream(imageUri)
+                        //                        Static.sellectImageIsChange = true;
 
+                        path =getPathFromURI(imageUri)
 
-
-
+                        Log.d("TAG", "File Path: $path")
+                    } catch (e: FileNotFoundException) {
+                        e.printStackTrace()
+                    }
+                }
+            } else {
+                val imageUri = data.data
+                try {
+                    val inputStream: InputStream? =
+                        this.getContentResolver().openInputStream(imageUri!!)
+                    path = getPathFromURI(imageUri)
+                    companyPhoto.setText(path!!)
+                    //                    Static.sellectImageIsChange = true;
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
     override fun onPause() {
         getValues()
         super.onPause()
