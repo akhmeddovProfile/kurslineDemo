@@ -46,7 +46,6 @@ import java.io.IOException
 import java.io.InputStream
 
 class RegisterCompanyActivity : AppCompatActivity() {
-
     var compositeDisposable = CompositeDisposable()
     //local data save
     private  var block : Boolean  =true
@@ -348,5 +347,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
         editor.commit()
 
     }
+
 
 }

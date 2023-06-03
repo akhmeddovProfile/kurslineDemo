@@ -337,7 +337,7 @@
                     android:id="@+id/companyCategoryEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="true"
+                    android:editable="false"
                     android:focusable="false"
                     android:hint="@string/select_course"
                     android:inputType="none"
