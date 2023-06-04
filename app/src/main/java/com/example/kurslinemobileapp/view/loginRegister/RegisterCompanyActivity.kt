@@ -1,38 +1,31 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
 
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.CategoryAdapter
+import com.example.kurslinemobileapp.adapter.RegionAdapter
+import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -42,10 +35,12 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.IOException
 import java.io.InputStream
 
 class RegisterCompanyActivity : AppCompatActivity() {
+    private lateinit var categoryApi: CompanyDatasAPI
+    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var regionAdapter: RegionAdapter
     var compositeDisposable = CompositeDisposable()
     //local data save
     private  var block : Boolean  =true
@@ -78,6 +73,13 @@ class RegisterCompanyActivity : AppCompatActivity() {
         sharedPreferences=getSharedPreferences(sharedkeyname,Context.MODE_PRIVATE)
         editor=sharedPreferences.edit()
 
+
+        companyCategoryEditText.setOnClickListener {
+            showBottomSheetDialog()
+        }
+        companyRegionEditText.setOnClickListener {
+            showBottomSheetDialogRegions()
+        }
         createBusinessAccountBtn.setOnClickListener {
             block=true
             val companyNameContainer = nameEditText.text.toString().trim()
@@ -91,9 +93,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyStatusContainer = compantStatusEditText.text.toString().trim()
             val companyCategoryContainer = companyCategoryEditText.text.toString().trim()
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
-
-
-
 
             if (companyNameContainer.isEmpty()){
                 nameEditText.error=" Name required"
@@ -152,6 +151,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block=false
             }
+
+
 
 
             //burada galeriyadan seklin url nece goture bilerem?
@@ -346,6 +347,53 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
         editor.commit()
 
+    }
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
+    private fun showBottomSheetDialog() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView = bottomSheetView.findViewById(R.id.recyclerViewCategories)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(retrofit.getCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ categories ->
+                println("1")
+                categoryAdapter = CategoryAdapter(categories.categories)
+                recyclerViewCategories.adapter = categoryAdapter
+                regionAdapter.setChanged(categories.regions)
+                println("2")
+            }, { throwable-> println("MyTests: $throwable") }))
+
+        dialog.show()
+    }
+
+    @SuppressLint("MissingInflatedId")
+    private fun showBottomSheetDialogRegions() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerviewRegions: RecyclerView = bottomSheetView.findViewById(R.id.recyclerViewRegions)
+        recyclerviewRegions.setHasFixedSize(true)
+        recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(retrofit.getRegions()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ reg ->
+                println("3")
+                regionAdapter = RegionAdapter(reg.regions)
+                recyclerviewRegions.adapter = regionAdapter
+                regionAdapter.setChanged(reg.regions)
+                println("4")
+            }, { throwable-> println("MyTestsRegions: $throwable") }))
+
+        dialog.show()
     }
 
 
