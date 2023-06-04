@@ -123,8 +123,63 @@ sharedPreferences.edit().putString("user_type", response.).apply()
         resources.updateConfiguration(config, resources.getDisplayMetrics())
     }
 */
-/*
-        val request = RegisterCompanyRequest(username.toString(),companyemail.toString(),companyNumber.toString(),companyPassword.toString(),companyGender.hashCode(),address.toString(),name.toString(),about.toString(),categoryid.toString())
-*/
+/*    @SuppressLint("NewApi")
+    fun getPathFromURI(uri: Uri?): String? {
+        var filePath = ""
+        val wholeID = DocumentsContract.getDocumentId(uri)
+
+        // Split at colon, use second item in the array
+        val id = wholeID.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+        val column = arrayOf(MediaStore.Images.Media.DATA)
+
+        // where id is equal to
+        val sel = MediaStore.Images.Media._ID + "=?"
+        val cursor: Cursor? = this.getContentResolver().query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            column, sel, arrayOf<String>(id), null
+        )
+        val columnIndex = cursor?.getColumnIndex(column[0])
+        if (cursor!!.moveToFirst()) {
+            filePath = cursor.getString(columnIndex!!)
+        }
+        cursor.close()
+        return filePath
+    }*/
+/*    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_EXTERNAL_STORAGE && resultCode == RESULT_OK) {
+            var path: String? = null
+            val clipData = data!!.clipData
+            if (clipData != null) {
+                for (i in 0 until clipData.itemCount) {
+                    val imageUri = clipData.getItemAt(i).uri
+                    Log.d("URI", imageUri.path!!)
+                    try {
+                        val inputStream: InputStream? =
+                            this.getContentResolver().openInputStream(imageUri)
+                        // Static.sellectImageIsChange = true;
+
+                        path =getPathFromURI(imageUri)
+
+                        Log.d("TAG", "File Path: $path")
+                    } catch (e: FileNotFoundException) {
+                        e.printStackTrace()
+                    }
+                }
+            } else {
+                val imageUri = data.data
+                try {
+                    val inputStream: InputStream? =
+                        this.getContentResolver().openInputStream(imageUri!!)
+                    path = getPathFromURI(imageUri)
+                    companyPhoto.setText(path!!)
+                    //                    Static.sellectImageIsChange = true;
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }*/
 
 

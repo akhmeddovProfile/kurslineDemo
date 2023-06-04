@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
+import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
@@ -38,7 +39,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-class RegisterCompanyActivity : AppCompatActivity() {
+class RegisterCompanyActivity : AppCompatActivity(),CategoryAdapter.ListenerItemClick {
     private lateinit var categoryApi: CompanyDatasAPI
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var regionAdapter: RegionAdapter
@@ -156,17 +157,14 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
 
-            //burada galeriyadan seklin url nece goture bilerem?
-            //1.hemen url bunun yerine isletmeliyem -> companyPhoto.text.toString()
-            //2.galeriyadan sekli 258 setrde gotururem
+
             sendCompanydata("2",aboutCompanyContainer,companyAddressContainer,companyNameContainer,"1",companyPasswordContainer,
                 companyPhoneContainer,companyEmailContainer,companyFullNameContainer,companyPhoto.text.toString())
 
         }
-        /*downloadPhotoFromGalery()*/
 
         companyPhoto.setOnClickListener {
-            /*selectCertificate(it)*/
+
             launchGalleryIntent()
 
         }
@@ -226,28 +224,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
 
-/*    @SuppressLint("NewApi")
-    fun getPathFromURI(uri: Uri?): String? {
-        var filePath = ""
-        val wholeID = DocumentsContract.getDocumentId(uri)
 
-        // Split at colon, use second item in the array
-        val id = wholeID.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
-        val column = arrayOf(MediaStore.Images.Media.DATA)
-
-        // where id is equal to
-        val sel = MediaStore.Images.Media._ID + "=?"
-        val cursor: Cursor? = this.getContentResolver().query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            column, sel, arrayOf<String>(id), null
-        )
-        val columnIndex = cursor?.getColumnIndex(column[0])
-        if (cursor!!.moveToFirst()) {
-            filePath = cursor.getString(columnIndex!!)
-        }
-        cursor.close()
-        return filePath
-    }*/
 
     fun launchGalleryIntent() {
 
@@ -279,42 +256,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
         return path
     }
 
-/*    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_EXTERNAL_STORAGE && resultCode == RESULT_OK) {
-            var path: String? = null
-            val clipData = data!!.clipData
-            if (clipData != null) {
-                for (i in 0 until clipData.itemCount) {
-                    val imageUri = clipData.getItemAt(i).uri
-                    Log.d("URI", imageUri.path!!)
-                    try {
-                        val inputStream: InputStream? =
-                            this.getContentResolver().openInputStream(imageUri)
-                        // Static.sellectImageIsChange = true;
-
-                        path =getPathFromURI(imageUri)
-
-                        Log.d("TAG", "File Path: $path")
-                    } catch (e: FileNotFoundException) {
-                        e.printStackTrace()
-                    }
-                }
-            } else {
-                val imageUri = data.data
-                try {
-                    val inputStream: InputStream? =
-                        this.getContentResolver().openInputStream(imageUri!!)
-                    path = getPathFromURI(imageUri)
-                    companyPhoto.setText(path!!)
-                    //                    Static.sellectImageIsChange = true;
-                } catch (e: FileNotFoundException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }*/
 
     override fun onPause() {
         getValues()
@@ -385,7 +326,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ categories ->
                 println("1")
-                categoryAdapter = CategoryAdapter(categories.categories)
+                categoryAdapter = CategoryAdapter(categories.categories,this@RegisterCompanyActivity)
                 recyclerViewCategories.adapter = categoryAdapter
                 regionAdapter.setChanged(categories.regions)
                 println("2")
@@ -415,6 +356,15 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 println("4")
             }, { throwable-> println("MyTestsRegions: $throwable") }))
         dialog.show()
+    }
+
+    override fun onCategoryItemCLick(category: Category, position: Int) {
+        val intent=Intent(applicationContext,RegisterCompanyActivity::class.java)
+        intent.putExtra("categoryId",category.categoryId)
+        intent.putExtra("categoryName",category.categoryName)
+        intent.putExtra("categoryPosition",position)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
 

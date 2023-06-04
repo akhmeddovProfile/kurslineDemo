@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.api.companyData.Category
 
-class CategoryAdapter (var categories: List<Category>) :
+class CategoryAdapter (var categories: List<Category>,val listener:ListenerItemClick) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     private var onItemClickListener: ((Category) -> Unit)? = null
 
@@ -20,6 +20,11 @@ class CategoryAdapter (var categories: List<Category>) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = categories[position]
         holder.bind(category)
+
+        holder.itemView.setOnClickListener {
+            listener.onCategoryItemCLick(categories.get(position),position)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -33,6 +38,11 @@ class CategoryAdapter (var categories: List<Category>) :
 
     fun setOnItemClickListener(listener: (Category) -> Unit) {
         onItemClickListener = listener
+    }
+
+    //Emin
+    interface ListenerItemClick{
+        fun onCategoryItemCLick(category: Category,position: Int)
     }
 
    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
