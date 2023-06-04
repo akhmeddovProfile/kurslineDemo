@@ -391,6 +391,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 regionAdapter = RegionAdapter(reg.regions)
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg.regions)
+                regionAdapter.setOnItemClickListener { region ->
+                    companyRegionEditText.setText(region.regionName)
+                    dialog.dismiss()
+                }
                 println("4")
             }, { throwable -> println("MyTestsRegions: $throwable") })
         )
@@ -417,6 +421,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 modeAdapter = ModeAdapter(mode.isOnlines)
                 recyclerViewMode.adapter = modeAdapter
                 modeAdapter.setChanged(mode.isOnlines)
+                modeAdapter.setOnItemClickListener { mode ->
+                    companyModeEditText.setText(mode.isOnlineName)
+                    dialog.dismiss()
+                }
                 println("4")
             }, { throwable -> println("MyTestsRegions: $throwable") })
         )
@@ -443,6 +451,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 statusAdapter = StatusAdapter(status.statuses)
                 recyclerViewStatus.adapter = statusAdapter
                 statusAdapter.setChanged(status.statuses)
+                statusAdapter.setOnItemClickListener { status ->
+                    compantStatusEditText.setText(status.statusName)
+                    dialog.dismiss()
+                }
                 println("4")
             }, { throwable -> println("MyTestsRegions: $throwable") })
         )

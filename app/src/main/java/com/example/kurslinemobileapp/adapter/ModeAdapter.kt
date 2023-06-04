@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.IsOnline
 import com.example.kurslinemobileapp.api.companyData.Region
 
@@ -12,6 +13,10 @@ import com.example.kurslinemobileapp.api.companyData.Region
 class ModeAdapter (var modes: List<IsOnline>) :
     RecyclerView.Adapter<ModeAdapter.ModeViewHolder>() {
     private var onItemClickListener: ((IsOnline) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (IsOnline) -> Unit) {
+        onItemClickListener = listener
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
         return ModeViewHolder(view)
@@ -29,9 +34,6 @@ class ModeAdapter (var modes: List<IsOnline>) :
     fun setChanged(modes: List<IsOnline>){
         this.modes = modes
         notifyDataSetChanged()
-    }
-    fun setOnItemClickListener(listener: (IsOnline) -> Unit) {
-        onItemClickListener = listener
     }
 
     inner class ModeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
