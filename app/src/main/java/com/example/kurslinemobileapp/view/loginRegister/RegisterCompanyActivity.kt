@@ -65,6 +65,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var companyStatus: String
     lateinit var companyCategory: String
     lateinit var aboutCompany: String
+    lateinit var categoryId : String
+    lateinit var statusId : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,18 +159,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
-            sendCompanydata(
-                "2",
-                aboutCompanyContainer,
-                companyAddressContainer,
-                companyNameContainer,
-                "1",
-                companyPasswordContainer,
-                companyPhoneContainer,
-                companyEmailContainer,
-                companyFullNameContainer,
-                companyPhoto.text.toString()
+            sendCompanydata(categoryId, aboutCompanyContainer, companyAddressContainer, companyNameContainer, statusId, companyPasswordContainer, companyPhoneContainer, companyEmailContainer, companyFullNameContainer, companyPhoto.text.toString()
             )
+
 
         }
         companyPhoto.setOnClickListener {
@@ -235,17 +228,16 @@ class RegisterCompanyActivity : AppCompatActivity() {
                         println(throwable)
                     })
         )
-
     }
 
     private fun handleResponse(response: RegisterCompanyResponse) {
         println("Response: " + response.isSuccess)
         val intent = Intent(this@RegisterCompanyActivity, LoginActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     fun launchGalleryIntent() {
-
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
@@ -352,6 +344,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 recyclerViewCategories.adapter = categoryAdapter
                 categoryAdapter.setChanged(categories.categories)
                 categoryAdapter.setOnItemClickListener { category ->
+                     categoryId = category.categoryId.toString()
                     companyCategoryEditText.setText(category.categoryName)
                     dialog.dismiss()
                 }
@@ -441,6 +434,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 statusAdapter.setChanged(status.statuses)
                 statusAdapter.setOnItemClickListener { status ->
                     compantStatusEditText.setText(status.statusName)
+                    statusId = status.statusId.toString()
                     dialog.dismiss()
                 }
             }, { throwable -> println("MyTestStatus: $throwable") })
