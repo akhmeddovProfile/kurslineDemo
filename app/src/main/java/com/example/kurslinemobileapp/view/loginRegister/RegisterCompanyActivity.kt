@@ -205,9 +205,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
-/*
-        val request = RegisterCompanyRequest(username.toString(),companyemail.toString(),companyNumber.toString(),companyPassword.toString(),companyGender.hashCode(),address.toString(),name.toString(),about.toString(),categoryid.toString())
-*/
 
         compositeDisposable.add(
             retrofit.createCompany(username,companyemail,companyNumber,companyPassword,companyGender,name,address,about,categoryid,photos)

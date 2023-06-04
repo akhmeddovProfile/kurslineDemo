@@ -123,3 +123,8 @@ sharedPreferences.edit().putString("user_type", response.).apply()
         resources.updateConfiguration(config, resources.getDisplayMetrics())
     }
 */
+/*
+        val request = RegisterCompanyRequest(username.toString(),companyemail.toString(),companyNumber.toString(),companyPassword.toString(),companyGender.hashCode(),address.toString(),name.toString(),about.toString(),categoryid.toString())
+*/
+
+
