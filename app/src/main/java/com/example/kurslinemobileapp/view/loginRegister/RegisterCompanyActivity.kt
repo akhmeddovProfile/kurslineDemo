@@ -360,6 +360,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 categoryAdapter = CategoryAdapter(categories.categories)
                 recyclerViewCategories.adapter = categoryAdapter
                 categoryAdapter.setChanged(categories.categories)
+                categoryAdapter.setOnItemClickListener { category ->
+                    companyCategoryEditText.setText(category.categoryName)
+                    dialog.dismiss()
+                }
                 println("2")
             }, { throwable -> println("MyTests: $throwable") })
         )
