@@ -389,7 +389,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 regionAdapter.setChanged(reg.regions)
                 println("4")
             }, { throwable-> println("MyTestsRegions: $throwable") }))
-
         dialog.show()
     }
 
