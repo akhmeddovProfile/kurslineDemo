@@ -157,11 +157,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
-
-
-
-
-
             sendCompanydata(
                 "2",
                 aboutCompanyContainer,
@@ -176,13 +171,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
             )
 
         }
-
         companyPhoto.setOnClickListener {
-
             launchGalleryIntent()
-
         }
-
     }
 
 
@@ -364,7 +355,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     companyCategoryEditText.setText(category.categoryName)
                     dialog.dismiss()
                 }
-                println("2")
             }, { throwable -> println("MyTests: $throwable") })
         )
 
@@ -387,7 +377,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ reg ->
-                println("3")
+                println("2")
                 regionAdapter = RegionAdapter(reg.regions)
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg.regions)
@@ -395,7 +385,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     companyRegionEditText.setText(region.regionName)
                     dialog.dismiss()
                 }
-                println("4")
             }, { throwable -> println("MyTestsRegions: $throwable") })
         )
         dialog.show()
@@ -425,8 +414,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     companyModeEditText.setText(mode.isOnlineName)
                     dialog.dismiss()
                 }
-                println("4")
-            }, { throwable -> println("MyTestsRegions: $throwable") })
+            }, { throwable -> println("MyTestMode: $throwable") })
         )
         dialog.show()
     }
@@ -447,7 +435,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ status ->
-                println("3")
+                println("4")
                 statusAdapter = StatusAdapter(status.statuses)
                 recyclerViewStatus.adapter = statusAdapter
                 statusAdapter.setChanged(status.statuses)
@@ -455,8 +443,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     compantStatusEditText.setText(status.statusName)
                     dialog.dismiss()
                 }
-                println("4")
-            }, { throwable -> println("MyTestsRegions: $throwable") })
+            }, { throwable -> println("MyTestStatus: $throwable") })
         )
         dialog.show()
     }
