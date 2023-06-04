@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,7 +12,6 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
-
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +23,7 @@ import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.Constant.PICK_IMAGE_REQUEST
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -225,7 +226,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
 
-    @SuppressLint("NewApi")
+/*    @SuppressLint("NewApi")
     fun getPathFromURI(uri: Uri?): String? {
         var filePath = ""
         val wholeID = DocumentsContract.getDocumentId(uri)
@@ -246,15 +247,39 @@ class RegisterCompanyActivity : AppCompatActivity() {
         }
         cursor.close()
         return filePath
-    }
+    }*/
 
     fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_EXTERNAL_STORAGE)
+
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val selectedImageUri = data?.data
+            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
+            if (imagePath != null) {
+                companyPhoto.setText(imagePath)
+                println(imagePath)
+            }
+        }
     }
 
+    private fun getRealPathFromURI(uri: Uri): String? {
+        var path: String? = null
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                path = it.getString(columnIndex)
+            }
+        }
+        return path
+    }
+
+/*    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_EXTERNAL_STORAGE && resultCode == RESULT_OK) {
@@ -267,7 +292,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     try {
                         val inputStream: InputStream? =
                             this.getContentResolver().openInputStream(imageUri)
-                        //                        Static.sellectImageIsChange = true;
+                        // Static.sellectImageIsChange = true;
 
                         path =getPathFromURI(imageUri)
 
@@ -289,7 +314,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 }
             }
         }
-    }
+    }*/
 
     override fun onPause() {
         getValues()
