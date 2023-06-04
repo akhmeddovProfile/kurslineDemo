@@ -9,4 +9,8 @@ interface CompanyDatasAPI {
     fun getCategories(): Observable<CompanyRegisterData>
     @GET("GetRegisterDatas/")
     fun getRegions(): Observable<CompanyRegisterData>
+    @GET("GetRegisterDatas/")
+    fun getModes(): Observable<CompanyRegisterData>
+    @GET("GetRegisterDatas/")
+    fun getStatus(): Observable<CompanyRegisterData>
 }
