@@ -65,8 +65,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var companyStatus: String
     lateinit var companyCategory: String
     lateinit var aboutCompany: String
-    lateinit var categoryId : String
-    lateinit var statusId : String
+    lateinit var categoryId: String
+    lateinit var statusId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +74,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
-
 
         companyCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
@@ -88,6 +87,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compantStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
+        
         createBusinessAccountBtn.setOnClickListener {
             block = true
             val companyNameContainer = nameEditText.text.toString().trim()
@@ -159,7 +159,17 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
-            sendCompanydata(companyCategoryContainer, aboutCompanyContainer, companyAddressContainer, companyNameContainer, companyStatusContainer, companyPasswordContainer, companyPhoneContainer, companyEmailContainer, companyFullNameContainer, companyPhoto.text.toString()
+            sendCompanydata(
+                companyNameContainer,
+                companyEmailContainer,
+                companyPhoneContainer,
+                companyPasswordContainer,
+                companyStatusContainer,
+                companyFullNameContainer,
+                companyAddressContainer,
+                aboutCompanyContainer,
+                companyCategoryContainer,
+                companyPhoto.text.toString()
             )
         }
         companyPhoto.setOnClickListener {
@@ -169,22 +179,21 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
     fun sendCompanydata(
-        companyCategoryId: String,
-        companyAbout: String,
-        companyAddress: String,
-        companyName: String,
-        gender: String,
-        password: String,
-        mobileNumber: String,
-        email: String,
         userFullName: String,
+        email: String,
+        mobileNumber: String,
+        password: String,
+        gender: String,
+        companyName: String,
+        companyAddress: String,
+        companyAbout: String,
+        companyCategoryId: String,
         imagePath: String
     ) {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val photos: MultipartBody.Part =
             MultipartBody.Part.createFormData("photos", file.name, reqFile)
-
         val username: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), userFullName)
         val companyemail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
@@ -333,20 +342,21 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(retrofit.getCategories()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ categories ->
-                println("1")
-                categoryAdapter = CategoryAdapter(categories.categories)
-                recyclerViewCategories.adapter = categoryAdapter
-                categoryAdapter.setChanged(categories.categories)
-                categoryAdapter.setOnItemClickListener { category ->
-                     categoryId = category.categoryId.toString()
-                    companyCategoryEditText.setText(category.categoryName)
-                    dialog.dismiss()
-                }
-            }, { throwable -> println("MyTests: $throwable") })
+        compositeDisposable.add(
+            retrofit.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ categories ->
+                    println("1")
+                    categoryAdapter = CategoryAdapter(categories.categories)
+                    recyclerViewCategories.adapter = categoryAdapter
+                    categoryAdapter.setChanged(categories.categories)
+                    categoryAdapter.setOnItemClickListener { category ->
+                        categoryId = category.categoryId.toString()
+                        companyCategoryEditText.setText(category.categoryName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTests: $throwable") })
         )
 
         dialog.show()
@@ -364,25 +374,26 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(retrofit.getRegions()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ reg ->
-                println("2")
-                regionAdapter = RegionAdapter(reg.regions)
-                recyclerviewRegions.adapter = regionAdapter
-                regionAdapter.setChanged(reg.regions)
-                regionAdapter.setOnItemClickListener { region ->
-                    companyRegionEditText.setText(region.regionName)
-                    dialog.dismiss()
-                }
-            }, { throwable -> println("MyTestsRegions: $throwable") })
+        compositeDisposable.add(
+            retrofit.getRegions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ reg ->
+                    println("2")
+                    regionAdapter = RegionAdapter(reg.regions)
+                    recyclerviewRegions.adapter = regionAdapter
+                    regionAdapter.setChanged(reg.regions)
+                    regionAdapter.setOnItemClickListener { region ->
+                        companyRegionEditText.setText(region.regionName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTestsRegions: $throwable") })
         )
         dialog.show()
     }
 
     @SuppressLint("MissingInflatedId")
-    private fun showBottomSheetDialogMode(){
+    private fun showBottomSheetDialogMode() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_mode, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -393,25 +404,26 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(retrofit.getModes()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ mode ->
-                println("3")
-                modeAdapter = ModeAdapter(mode.isOnlines)
-                recyclerViewMode.adapter = modeAdapter
-                modeAdapter.setChanged(mode.isOnlines)
-                modeAdapter.setOnItemClickListener { mode ->
-                    companyModeEditText.setText(mode.isOnlineName)
-                    dialog.dismiss()
-                }
-            }, { throwable -> println("MyTestMode: $throwable") })
+        compositeDisposable.add(
+            retrofit.getModes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ mode ->
+                    println("3")
+                    modeAdapter = ModeAdapter(mode.isOnlines)
+                    recyclerViewMode.adapter = modeAdapter
+                    modeAdapter.setChanged(mode.isOnlines)
+                    modeAdapter.setOnItemClickListener { mode ->
+                        companyModeEditText.setText(mode.isOnlineName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTestMode: $throwable") })
         )
         dialog.show()
     }
 
     @SuppressLint("MissingInflatedId")
-    private fun showBottomSheetDialogStatus(){
+    private fun showBottomSheetDialogStatus() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_status, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -422,20 +434,21 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(retrofit.getStatus()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ status ->
-                println("4")
-                statusAdapter = StatusAdapter(status.statuses)
-                recyclerViewStatus.adapter = statusAdapter
-                statusAdapter.setChanged(status.statuses)
-                statusAdapter.setOnItemClickListener { status ->
-                    compantStatusEditText.setText(status.statusName)
-                    statusId = status.statusId.toString()
-                    dialog.dismiss()
-                }
-            }, { throwable -> println("MyTestStatus: $throwable") })
+        compositeDisposable.add(
+            retrofit.getStatus()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ status ->
+                    println("4")
+                    statusAdapter = StatusAdapter(status.statuses)
+                    recyclerViewStatus.adapter = statusAdapter
+                    statusAdapter.setChanged(status.statuses)
+                    statusAdapter.setOnItemClickListener { status ->
+                        compantStatusEditText.setText(status.statusName)
+                        statusId = status.statusId.toString()
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTestStatus: $throwable") })
         )
         dialog.show()
     }
