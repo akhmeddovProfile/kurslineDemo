@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     >
     <RelativeLayout
-        android:id="@+id/relativeForCourseStatus"
+        android:id="@+id/relativeForCourseMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -17,15 +17,36 @@
         android:background="@drawable/status_view"
         >
         <TextView
-            android:id="@+id/statusforproduct"
+            android:id="@+id/modeforproduct"
             android:layout_width="42dp"
             android:layout_height="14dp"
             android:textSize="10sp"
-            android:text="Online"
+            android:text="Offline"
             android:gravity="center"
             android:fontFamily="@font/nunito"
             android:layout_marginStart="5dp"
             android:textColor="@color/colorForCourseIntheMainScreen"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeForproductStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/button_bg"
+        >
+        <TextView
+            android:id="@+id/statusforproduct"
+            android:layout_width="42dp"
+            android:layout_height="14dp"
+            android:textSize="10sp"
+            android:text="Repititor"
+            android:gravity="center"
+            android:fontFamily="@font/nunito"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/white"
             />
     </RelativeLayout>
 

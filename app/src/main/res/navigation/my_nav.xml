@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/mainPageFragment2">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/accountFragment"
@@ -28,11 +28,6 @@
             app:destination="@id/businessAccountFragment" />
     </fragment>
     <fragment
-        android:id="@+id/mainPageFragment2"
-        android:name="com.example.kurslinemobileapp.view.fragments.MainPageFragment2"
-        android:label="fragment_main_page2"
-        tools:layout="@layout/fragment_main_page2" />
-    <fragment
         android:id="@+id/blankAccountFragment"
         android:name="com.example.kurslinemobileapp.view.accountsFragments.BlankAccountFragment"
         android:label="fragment_blank_account"
@@ -42,4 +37,9 @@
         android:name="com.example.kurslinemobileapp.view.accountsFragments.BusinessAccountFragment"
         android:label="fragment_business_account"
         tools:layout="@layout/fragment_business_account" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.kurslinemobileapp.view.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>

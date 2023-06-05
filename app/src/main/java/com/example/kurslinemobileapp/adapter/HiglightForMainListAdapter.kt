@@ -29,8 +29,8 @@ class HiglightForMainListAdapter(private val items: List<Highlight>) :
     }
 
     inner class ImageRowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageforHighlight)
-        val textView: TextView = itemView.findViewById(R.id.highlightName)
+        val imageView: ImageView = itemView.findViewById(R.id.imageText)
+        val textView: TextView = itemView.findViewById(R.id.textImage)
     }
 
 }
