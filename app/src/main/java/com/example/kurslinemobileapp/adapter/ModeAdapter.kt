@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.IsOnline
 import com.example.kurslinemobileapp.api.companyData.Region
@@ -40,6 +41,7 @@ class ModeAdapter (var modes: List<IsOnline>) :
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
         fun bind(mode: IsOnline) {
+            textViewName.setTextColor(R.color.black)
             textViewName.text = mode.isOnlineName
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(mode)

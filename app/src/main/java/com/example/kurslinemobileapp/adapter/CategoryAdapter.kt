@@ -1,10 +1,12 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
 
 class CategoryAdapter (var categories: List<Category>) :
@@ -38,7 +40,9 @@ class CategoryAdapter (var categories: List<Category>) :
    inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
+        @SuppressLint("ResourceAsColor")
         fun bind(category: Category) {
+            textViewName.setTextColor(R.color.black)
             textViewName.text = category.categoryName
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(category)

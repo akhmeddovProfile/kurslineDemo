@@ -141,32 +141,6 @@
                     android:hint="Şifrə daxil edin*"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/confirmPassworContainer"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/passwordContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/confirmPasswordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:lines="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:inputType="textPassword"
-                    android:hint="Şifrəni təkrar daxil edin*"/>
-            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/registerButton"
@@ -176,11 +150,11 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="25dp"
-                android:layout_below="@id/confirmPassworContainer"
+                android:layout_below="@id/passwordContainer"
                 android:background="@drawable/button_bg"
                 android:text="Qeydiyyatdan keç"
                 android:textAllCaps="false"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
 

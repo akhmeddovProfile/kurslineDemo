@@ -14,27 +14,43 @@ import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
+import kotlinx.android.synthetic.main.activity_user_register.nameEditText
 
 class UserRegisterActivity : AppCompatActivity() {
+    private var block: Boolean = true
     var compositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_register)
 
         registerButton.setOnClickListener {
-            val name = nameEditText.text.toString()
-            val email = mailEditText.text.toString()
-            val phone = phoneEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            val password2 = confirmPasswordEditText.text.toString()
+            block = true
+            val name = nameEditText.text.toString().trim()
+            val email = mailEditText.text.toString().trim()
+            val phone = phoneEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
             // Validate input fields
-            if (name.isEmpty() ||   email.isEmpty() || password.isEmpty() || password2.isEmpty() || phone.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
-                    .show()
-            } else if (password != password2) {
-                Toast.makeText(this, "Passwords is not equal", Toast.LENGTH_SHORT)
-                    .show()
+            if (name.isEmpty()) {
+                nameEditText.error = " Name required"
+                nameEditText.requestFocus()
+                block = false
+            }
+            if (email.isEmpty()) {
+                mailEditText.error = " Email required"
+                mailEditText.requestFocus()
+                 block = false
+            }
+            if (phone.isEmpty()) {
+                phoneEditText.error = " Phone required"
+                phoneEditText.requestFocus()
+                block = false
+            }
+            if (password.isEmpty()) {
+                passwordEditText.error = " Password required"
+                passwordEditText.requestFocus()
+                block = false
             } else {
                 // Save user registration data to shared preferences
                 val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
