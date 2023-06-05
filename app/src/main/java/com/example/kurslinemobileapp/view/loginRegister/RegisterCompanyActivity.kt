@@ -98,8 +98,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyAddressContainer = companyAdressEditText.text.toString().trim()
             val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
             val companyModeContainer = companyModeEditText.text.toString().trim()
-            val companyStatusContainer = compantStatusEditText.text.toString().trim()
-            val companyCategoryContainer = companyCategoryEditText.text.toString().trim()
+            val companyStatusContainer = statusId
+            val companyCategoryContainer = categoryId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
 
             if (companyNameContainer.isEmpty()) {
@@ -159,10 +159,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
-            sendCompanydata(categoryId, aboutCompanyContainer, companyAddressContainer, companyNameContainer, statusId, companyPasswordContainer, companyPhoneContainer, companyEmailContainer, companyFullNameContainer, companyPhoto.text.toString()
+            sendCompanydata(companyCategoryContainer, aboutCompanyContainer, companyAddressContainer, companyNameContainer, companyStatusContainer, companyPasswordContainer, companyPhoneContainer, companyEmailContainer, companyFullNameContainer, companyPhoto.text.toString()
             )
-
-
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
