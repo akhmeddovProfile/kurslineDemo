@@ -43,7 +43,7 @@ class MainPageFragment2 : Fragment(){
         mainList2 = ArrayList<GetAllAnnouncement>()
         viewMain.recylerViewForProductList.layoutManager = GridLayoutManager(requireContext(),2)
         getProducts()
-
+        imageforHighlight()
         return viewMain
     }
 

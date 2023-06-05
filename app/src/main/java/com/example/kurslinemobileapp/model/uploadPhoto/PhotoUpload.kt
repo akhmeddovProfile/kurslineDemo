@@ -2,4 +2,4 @@ package com.example.kurslinemobileapp.model.uploadPhoto
 
 import android.net.Uri
 
-data class Photo(val uri: Uri)
+data class PhotoUpload(val uri: Uri)

@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
-import com.example.kurslinemobileapp.model.uploadPhoto.Photo
+import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import kotlinx.android.synthetic.main.activity_course_upload.*
 
 
 class CourseUploadActivity : AppCompatActivity() {
-    private val selectedPhotos = mutableListOf<Photo>()
+    private val selectedPhotos = mutableListOf<PhotoUpload>()
 
     companion object {
         private const val REQUEST_CODE_GALLERY = 1
@@ -42,12 +42,12 @@ class CourseUploadActivity : AppCompatActivity() {
                 selectedPhotos.clear() // Clear the existing selection
                 for (i in 0 until clipData!!.itemCount) {
                     val uri = clipData.getItemAt(i).uri
-                    selectedPhotos.add(Photo(uri))
+                    selectedPhotos.add(PhotoUpload(uri))
                 }
             } else if (data?.data != null) {
                 val uri = data.data
                 selectedPhotos.clear() // Clear the existing selection
-                selectedPhotos.add(Photo(uri!!))
+                selectedPhotos.add(PhotoUpload(uri!!))
             }
 
             val adapter = viewPagerCourseUpload.adapter as? PhotoPagerAdapter
