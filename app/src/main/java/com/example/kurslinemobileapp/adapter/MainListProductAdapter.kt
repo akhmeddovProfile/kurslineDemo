@@ -7,10 +7,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.model.mainpage.Product
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.product_item_row.view.*
 
-class MainListProductAdapter(private val items: List<Product>) :
+class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
+
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val statusView: TextView = itemView.findViewById(R.id.statusforproduct)
         val imageVIPView: ImageView = itemView.findViewById(R.id.vip_product)
@@ -29,12 +35,14 @@ class MainListProductAdapter(private val items: List<Product>) :
 
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         val productRow = items[position]
-        holder.statusView.text = productRow.status
-        holder.imageVIPView.setImageResource(productRow.vipIcon)
-        holder.productimage.setImageResource(productRow.productImage)
-        holder.producttitle.text = productRow.productTitle
-        holder.productOwnerName.text = productRow.ownerName
-        holder.productDescription.text = productRow.productDescription
+        val url = "1"
+         val photo = Photo(url)
+        Picasso.get().load(photo.url).into(holder.itemView.productImage)
+        holder.statusView.text = productRow.announcemenets.get(position).isRejim
+        //holder.imageVIPView.setImageResource(productRow.vipIcon)
+        holder.producttitle.text = productRow.announcemenets.get(position).announcemementName
+        holder.productOwnerName.text = productRow.announcemenets.get(position).companyName
+        holder.productDescription.text = productRow.announcemenets.get(position).announcemementDesc
     }
 
     override fun getItemCount(): Int {

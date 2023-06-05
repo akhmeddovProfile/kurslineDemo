@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.courseFmAc.ProductDetailFragment">
+    tools:context=".view.courseFmAc.ProductDetailActivity">
 
     <ScrollView
         android:id="@+id/scrollViewforProductDescription"
@@ -46,19 +46,19 @@
                 android:layout_below="@+id/courseownerName"
                 />
 
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="37dp"
-            android:background="@drawable/detailpricebackground"
-            android:text="50 AZN"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:fontFamily="@font/nunito"
-            android:textStyle="bold"
-            android:layout_below="@+id/productDetailImage"
-            android:layout_marginTop="46dp"
-            android:layout_marginStart="300dp"
-            />
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="37dp"
+                android:background="@drawable/detailpricebackground"
+                android:text="50 AZN"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:fontFamily="@font/nunito"
+                android:textStyle="bold"
+                android:layout_below="@+id/productDetailImage"
+                android:layout_marginTop="46dp"
+                android:layout_marginStart="300dp"
+                />
             <TextView
                 android:id="@+id/aboutCourse"
                 android:layout_width="wrap_content"
@@ -253,18 +253,18 @@
                 android:layout_marginTop="31dp"
                 android:background="@drawable/bck_upforwandvip"
                 >
-            <TextView
-                android:id="@+id/upForwardTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="İrəli çək"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="35dp"
-                android:fontFamily="@font/nunito"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                />
+                <TextView
+                    android:id="@+id/upForwardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="İrəli çək"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="35dp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    />
 
                 <TextView
                     android:id="@+id/priceforUpForward"
@@ -341,14 +341,14 @@
                 android:layout_below="@+id/relativeLayoutClickUpForward"
                 android:visibility="gone"
                 >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/deletecourse"
-                android:fontFamily="@font/nunito"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deletecourse"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -395,14 +395,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="15dp"
                 >
-              <ImageView
-                  android:id="@+id/userimageforcomment"
-                  android:layout_width="40dp"
-                  android:layout_height="40dp"
-                  android:background="@drawable/circle_shape"
-                  android:layout_marginTop="20dp"
-                  android:layout_marginStart="5dp"
-                  />
+                <ImageView
+                    android:id="@+id/userimageforcomment"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/circle_shape"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="5dp"
+                    />
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/commentforUser"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -459,7 +459,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
-            
+
         </RelativeLayout>
 
     </ScrollView>

@@ -13,9 +13,10 @@ class CourseBusinessProfile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_business_profile)
-        getProducts()
+      //  getProducts()
     }
 
+    /*
     private fun getProducts() {
         val productInformation = listOf(
             Product(
@@ -40,4 +41,6 @@ class CourseBusinessProfile : AppCompatActivity() {
         recyclerviewForProducts.adapter = adapter
         recyclerviewForProducts.layoutManager = GridLayoutManager(this,2)
     }
+
+     */
 }
