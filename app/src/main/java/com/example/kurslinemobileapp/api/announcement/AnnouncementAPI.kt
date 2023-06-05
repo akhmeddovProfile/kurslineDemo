@@ -11,5 +11,5 @@ interface AnnouncementAPI {
     fun getAnnouncement() : Observable<GetAllAnnouncement>
 
     @GET("GetAnnouncementById/{annouuncementId}")
-    fun getDataById(@Path("id") id: String): Observable<AnnouncementDetailModel>
+    fun getDataById(@Path("annouuncementId") id: Int): Observable<AnnouncementDetailModel>
 }

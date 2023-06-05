@@ -1,6 +1,8 @@
 package com.example.kurslinemobileapp.view.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +38,7 @@ class HomeFragment : Fragment() {
     private lateinit var mainList : ArrayList<GetAllAnnouncement>
     private lateinit var mainList2 : ArrayList<GetAllAnnouncement>
     private lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -97,9 +100,12 @@ class HomeFragment : Fragment() {
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
-            intent.putExtra("id",response.announcemenets.get(0).id)
             activity?.startActivity(intent)
-            println("responseId: " +  intent.putExtra("id",response.announcemenets.get(0).id))
+            println("responseId: " + response.announcemenets.get(0).id)
+            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("id", response.announcemenets.get(0).id).apply()
+            editor.apply()
         }
     }
 
