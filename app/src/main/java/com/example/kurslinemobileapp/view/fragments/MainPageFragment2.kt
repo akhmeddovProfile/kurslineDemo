@@ -21,6 +21,7 @@ import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.model.mainpage.Product
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -44,6 +45,20 @@ class MainPageFragment2 : Fragment(){
         viewMain.recylerViewForProductList.layoutManager = GridLayoutManager(requireContext(),2)
         getProducts()
         imageforHighlight()
+        viewMain.textinputfilter.setOnClickListener {
+            val fragmentManager = requireFragmentManager()
+            // Start a fragment transaction
+            val transaction = fragmentManager.beginTransaction()
+
+            // Replace the first fragment with the second fragment
+            transaction.replace(R.id.frameLayoutforChange, FilterFragment())
+            transaction.setReorderingAllowed(true)
+
+            // Add the transaction to the back stack
+            transaction.addToBackStack(null)
+            // Commit the transaction
+            transaction.commit()
+        }
         return viewMain
     }
 
@@ -59,6 +74,7 @@ class MainPageFragment2 : Fragment(){
     private fun handleResponse(response : GetAllAnnouncement){
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
+        println("responseElan: " + response)
         mainListProductAdapter = MainListProductAdapter(mainList2)
         val recyclerviewForProducts =
             viewMain.findViewById<RecyclerView>(R.id.recylerViewForProductList)
