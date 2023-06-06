@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:id="@+id/transactionProfileRl"
     tools:context=".view.accountsFragments.BusinessTransactionProfileFragment">
 
     <ImageView
@@ -26,6 +27,7 @@
         android:layout_marginStart="20dp"
         android:layout_toRightOf="@+id/businessTransProfileImage"/>
     <ImageView
+        android:id="@+id/goToBusinessAccountFragment"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
