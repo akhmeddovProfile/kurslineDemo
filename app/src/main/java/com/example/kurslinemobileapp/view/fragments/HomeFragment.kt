@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -76,6 +77,15 @@ class HomeFragment : Fragment() {
 
             // Commit the transaction
             transaction.commit()
+        }
+
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val userType = sharedPreferences.getString("userType",null)
+        if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
+            view.createAccountTextMain.visibility = View.GONE
+        }
+        else{
+            view.createAccountTextMain.visibility = View.VISIBLE
         }
 
         return view

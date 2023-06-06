@@ -1,17 +1,21 @@
 package com.example.kurslinemobileapp.view.courseFmAc
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
 
 class ProductDetailActivity : AppCompatActivity() {
@@ -20,14 +24,22 @@ class ProductDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
 
-        val sharedPreferences =
-            this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        productDetail_Rl.visibility = View.GONE
+
+        val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("id",0)
         println("gelenid" + id)
+
+        val userType = sharedPreferences.getString("userType",null)
+        if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
+            linearlayoutforinputComment.visibility = View.VISIBLE
+        }
+        else{
+            linearlayoutforinputComment.visibility = View.GONE
+        }
+
         getDataFromServer(id)
-
     }
-
 
     private fun getDataFromServer(id: Int) {
         compositeDisposable = CompositeDisposable()
@@ -41,6 +53,7 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun handleResponse(response: AnnouncementDetailModel) {
+        productDetail_Rl.visibility = View.VISIBLE
        // Picasso.get().load(response.photos).into(productDetailImage)
         val image = response.photos
         val companyName = response.companyName
@@ -52,8 +65,13 @@ class ProductDetailActivity : AppCompatActivity() {
         val modeId = response.isOnline
         val teacherName = response.teacher
         val phoneNumber = response.phone
+        if (response.isVIP == true){
+            vip_product_for_detail.visibility = View.VISIBLE
+        }else{
+            vip_product_for_detail.visibility = View.GONE
+        }
         courseownerName.setText(companyName)
-        detailCoursePrice.setText(price)
+        detailCoursePrice.setText(price + " AZN")
         coursecontentname.setText(courseName)
         aboutCourse.setText(courseDesc)
         catagoryTitle.setText(categoryId)

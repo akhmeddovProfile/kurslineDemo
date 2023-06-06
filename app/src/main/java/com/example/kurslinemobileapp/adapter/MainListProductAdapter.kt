@@ -57,6 +57,11 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
         holder.producttitle.text = productRow.announcemenets.get(position).announcemementName
         holder.productOwnerName.text = productRow.announcemenets.get(position).companyName
         holder.productDescription.text = productRow.announcemenets.get(position).announcemementDesc
+        if(productRow.announcemenets.get(position).isVIP == true){
+            holder.imageVIPView.visibility = View.VISIBLE
+        }else{
+            holder.imageVIPView.visibility = View.GONE
+        }
         holder.bind(productRow)
     }
 
