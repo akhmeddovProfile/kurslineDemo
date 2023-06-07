@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
         println("Response: " + response)
+        println("userId: " + response.userInfo.id)
         Toast.makeText(this, "Succesfully Login", Toast.LENGTH_SHORT).show()
         sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

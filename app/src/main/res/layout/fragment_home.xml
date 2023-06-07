@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayoutMain"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/mainPageBackgroundColor"
+    tools:context=".view.fragments.HomeFragment">
+
+    <RelativeLayout
+        android:id="@+id/mainFirstRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/logoTextMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="Logo"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/greenColor"
+            android:textSize="36dp" />
+
+        <TextView
+            android:id="@+id/createAccountTextMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="Hesab yarat"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/greenColor"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mainFirstRl">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:elevation="5dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/topProductsRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mainChooseCourseContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/topProductsRV"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mainChooseCourseEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Kurs Seçin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mainFilterContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mainChooseCourseContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
+                app:endIconMode="custom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mainFilterEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Filtr"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:layout_marginTop="40dp"
+                android:id="@+id/line1Main"
+                android:layout_width="match_parent"
+                android:layout_below="@id/mainFilterContainer"
+                android:layout_height="1dp"
+                android:src="@color/grayColor1"/>
+            <TextView
+                android:id="@+id/vipAnnouncementTextMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="VIP elanlar"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/line1Main"
+                android:textColor="@color/greenColor"
+                android:layout_marginRight="10dp"
+                android:textSize="16dp" />
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/line2Main"
+                android:layout_width="match_parent"
+                android:layout_below="@id/vipAnnouncementTextMain"
+                android:layout_height="1dp"
+                android:src="@color/grayColor1"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:elevation="5dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/allCoursesRV"
+                android:layout_below="@id/line2Main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

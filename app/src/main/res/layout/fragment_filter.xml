@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/filterRl"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".view.accountsFragments.UserAccountFragment">
@@ -52,7 +53,7 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:layout_marginTop="20dp"
-            android:id="@+id/goToMyAccount">
+            android:id="@+id/filterRegion">
 
             <TextView
                 android:layout_gravity="center"
@@ -72,8 +73,8 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/goToMyAccount"
-            android:id="@+id/nightLightMode">
+            android:layout_below="@+id/filterRegion"
+            android:id="@+id/filterCourses">
 
             <TextView
                 android:layout_gravity="center"
@@ -93,8 +94,8 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/nightLightMode"
-            android:id="@+id/languageMode">
+            android:layout_below="@+id/filterCourses"
+            android:id="@+id/filterTeachers">
 
             <TextView
                 android:layout_gravity="center"
@@ -113,8 +114,8 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/languageMode"
-            android:id="@+id/helpLl">
+            android:layout_below="@+id/filterTeachers"
+            android:id="@+id/filterCategory">
 
             <TextView
                 android:layout_gravity="center"
@@ -127,10 +128,72 @@
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="150dp"
+            android:id="@+id/textinputFromAtoZ"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_below="@+id/filterCategory"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/grayColor1"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/grayColor1"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            app:boxStrokeWidth="0dp"
+            app:endIconDrawable="@drawable/filter_list_icon"
+            app:endIconMode="custom"
+            app:endIconTintMode="src_atop">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/filterfromAtoZ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="@string/filterFromAtoZ"
+                android:fontFamily="@font/montserrat"
+                android:inputType="none"
+                android:textColor="@color/grayColor1"
+                android:textColorHint="@color/mainPageBackgroundColor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="150dp"
+            android:id="@+id/textinputFilterForPrice"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_below="@+id/filterCategory"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/grayColor1"
+            app:hintTextColor="@color/black"
+            android:textColorHint="@color/grayColor1"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="80dp"
+            android:layout_toRightOf="@+id/textinputFromAtoZ"
+            app:boxStrokeWidth="0dp"
+            app:endIconDrawable="@drawable/filter_list_icon"
+            app:endIconMode="custom"
+            app:endIconTintMode="src_atop">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/filterforPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="@string/filterforPrice"
+                android:fontFamily="@font/montserrat"
+                android:inputType="none"
+                android:textColor="@color/grayColor1"
+                android:textColorHint="@color/mainPageBackgroundColor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/helpLl"
+            android:layout_below="@+id/textinputFilterForPrice"
             android:layout_marginTop="28dp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
@@ -147,10 +210,11 @@
             android:layout_below="@+id/statustxt"
             android:background="@drawable/button_filter"
             android:text="Hamısı"
+            android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="9dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="28dp"
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -160,10 +224,12 @@
             android:layout_below="@+id/statustxt"
             android:background="@drawable/button_filter"
             android:text="Kurs"
+            android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="138dp"
+           android:layout_toRightOf="@id/allcourses"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -172,11 +238,13 @@
             android:layout_height="35dp"
             android:layout_below="@+id/statustxt"
             android:background="@drawable/button_filter"
-            android:text="Repİtİtor"
+            android:text="Repititor"
+            android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/white"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="260dp"
+            android:layout_toRightOf="@+id/coursefilter"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />
 
@@ -202,6 +270,8 @@
             android:layout_marginTop="20dp"
             android:background="@color/white"
             android:hint="min"
+            android:textColor="@color/grayColor1"
+            android:textColorHint="@color/grayColor1"
             android:fontFamily="@font/nunito"
             android:gravity="center"
             />
@@ -211,14 +281,90 @@
             android:layout_width="90dp"
             android:layout_height="31dp"
             android:layout_below="@id/priceforfilter"
-            android:layout_marginStart="132dp"
+           android:layout_toRightOf="@+id/minprice"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
+            android:textColor="@color/grayColor1"
+            android:textColorHint="@color/grayColor1"
             android:background="@color/white"
             android:hint="max"
             android:fontFamily="@font/nunito"
             android:gravity="center"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/minprice"
+            android:layout_marginTop="28dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nunito"
+            android:text="Rejim"
+            android:textSize="20sp"
+            android:layout_marginStart="23dp"
+            android:id="@+id/modeText"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/allModesbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_below="@+id/modeText"
+            android:background="@drawable/button_filter"
+            android:text="Hamısı"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="28dp"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/offlineModebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_below="@+id/modeText"
+            android:background="@drawable/button_filter"
+            android:text="Offline"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito"
+            android:layout_toRightOf="@id/allModesbtn"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="28dp"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/onlinemodeBtn"
+            android:layout_width="105dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/modeText"
+            android:background="@drawable/button_filter"
+            android:text="Online"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/nunito"
+            android:layout_toRightOf="@id/offlineModebtn"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="28dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/showCoursesFilterBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/onlinemodeBtn"
+            android:background="@drawable/button_bg"
+            android:text="Kursları gör"
+            android:textAllCaps="false"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"/>
 
     </RelativeLayout>
 

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/productDetail_Rl"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.courseFmAc.ProductDetailActivity">
 
@@ -21,6 +23,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:src="@drawable/favoriteitemnotfoundphoto" />
+            <ImageButton
+                android:id="@+id/favorite_button_for_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/favorite_border_for_product"
+                android:background="@android:color/transparent"
+               android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="30dp"
+                android:scaleType="centerCrop" />
+            <ImageView
+                android:id="@+id/vip_product_for_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/vip_icon"
+              android:layout_below="@id/favorite_button_for_detail"
+                android:visibility="visible"
+                />
             <TextView
                 android:id="@+id/courseownerName"
                 android:layout_width="wrap_content"
@@ -47,6 +70,7 @@
                 />
 
             <TextView
+                android:id="@+id/detailCoursePrice"
                 android:layout_width="90dp"
                 android:layout_height="37dp"
                 android:background="@drawable/detailpricebackground"
@@ -91,7 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/aboutCourse"
                 android:layout_marginTop="33dp"
-                android:layout_marginStart="217dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
                 android:layout_marginEnd="15dp"
                 android:text="It/Proqramlasdirma"
                 android:fontFamily="@font/nunito"
@@ -126,7 +151,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/catagoryTitle"
                 android:layout_marginTop="33dp"
-                android:layout_marginStart="217dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
                 android:layout_marginEnd="15dp"
                 android:text="Sumqayit"
                 android:fontFamily="@font/nunito"
@@ -160,7 +186,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/regionTitle"
                 android:layout_marginTop="33dp"
-                android:layout_marginStart="217dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
                 android:layout_marginEnd="15dp"
                 android:text="Online/Offline"
                 android:fontFamily="@font/nunito"
@@ -194,7 +221,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rejimTitle"
                 android:layout_marginTop="33dp"
-                android:layout_marginStart="217dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
                 android:layout_marginEnd="15dp"
                 android:text="Emin Əhmədov/Kərim Məmmədov"
                 android:fontFamily="@font/nunito"
@@ -228,7 +256,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/teacherTitle"
                 android:layout_marginTop="33dp"
-                android:layout_marginStart="217dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
                 android:layout_marginEnd="15dp"
                 android:text="055-738-51-16"
                 android:fontFamily="@font/nunito"
@@ -249,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageView5"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="31dp"
                 android:background="@drawable/bck_upforwandvip"
                 >
@@ -259,7 +288,7 @@
                     android:layout_height="wrap_content"
                     android:text="İrəli çək"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -271,16 +300,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20 AZN-dən"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/colorForCourseIntheMainScreen"
                     android:textSize="15sp"
                     android:layout_below="@+id/upForwardTitle"
                     />
                 <ImageView
+                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="30dp"
+                   android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/upForwardTitle"
                     android:src="@drawable/upward_24"
                     />
@@ -292,7 +324,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageView5"
-                android:layout_marginStart="227dp"
+                android:layout_toRightOf="@id/relativeLayoutClickUpForward"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="31dp"
                 android:background="@drawable/bck_upforwandvip"
                 >
@@ -302,7 +336,7 @@
                     android:layout_height="wrap_content"
                     android:text="VIP"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginStart="30dp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -314,19 +348,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20 AZN-dən"
-                    android:layout_marginStart="35dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="5dp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/colorForCourseIntheMainScreen"
                     android:textSize="15sp"
                     android:layout_below="@+id/vipTitle"
                     />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/vipTitle"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/vip_icon"
-                    />
+                    android:layout_marginEnd="30dp"
+                    android:layout_toRightOf="@id/priceforVIP"
+                    android:src="@drawable/vip_icon" />
 
             </RelativeLayout>
 
@@ -422,10 +460,11 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/commentEditText"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="wrap_content"
                         android:lines="1"
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat"
+                        android:layout_marginEnd="20dp"
                         android:inputType="textPassword"
                         android:hint="Şərh əlavə edin"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -439,19 +478,20 @@
                 android:layout_width="match_parent"
                 android:background="@color/grayColor3"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/sameCoursetextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sameCourse"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/nunito"
+                    android:gravity="center_horizontal"
+                    android:text="@string/sameCourse"
                     android:textColor="@color/greenColor"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="140dp"
 
-                    />
+                    android:textStyle="bold" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewforSameCourse"
                     android:layout_below="@+id/sameCoursetextView"

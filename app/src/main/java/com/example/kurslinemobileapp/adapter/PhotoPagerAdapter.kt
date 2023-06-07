@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.model.uploadPhoto.Photo
+import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 
-class PhotoPagerAdapter(var photoList: List<Photo>) : RecyclerView.Adapter<PhotoViewHolder>() {
+class PhotoPagerAdapter(var photoList: List<PhotoUpload>) : RecyclerView.Adapter<PhotoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val itemView = LayoutInflater.from(parent.context)

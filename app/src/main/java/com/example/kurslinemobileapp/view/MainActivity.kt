@@ -36,14 +36,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 // User is already registered, stay on the current fragment/activity
-        } else if(userType == "Kurs") {
-            // Required data is present, display it
-            goToUploadActivity.visibility = View.VISIBLE
-            goToUploadActivity.setOnClickListener {
-                val intent = Intent(this@MainActivity, CourseUploadActivity::class.java)
-                startActivity(intent)
-            }
-        }else if(userType == "Repititor") {
+        } else if(userType == "Kurs" || userType == "Repititor") {
             // Required data is present, display it
             goToUploadActivity.visibility = View.VISIBLE
             goToUploadActivity.setOnClickListener {

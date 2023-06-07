@@ -87,10 +87,11 @@ class RegisterCompanyActivity : AppCompatActivity() {
         compantStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
-        
+        categoryId = ""
+        statusId = ""
         createBusinessAccountBtn.setOnClickListener {
             block = true
-            val companyNameContainer = nameEditText.text.toString().trim()
+            val companyNameContainer = companyNameEditText.text.toString().trim()
             val companyEmailContainer = companyEmailEditText.text.toString().trim()
             val companyPasswordContainer = companyPasswordEdit.text.toString().trim()
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
@@ -103,8 +104,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
 
             if (companyNameContainer.isEmpty()) {
-                nameEditText.error = " Name required"
-                nameEditText.requestFocus()
+                companyNameEditText.error = " Name required"
+                companyNameEditText.requestFocus()
                 block = false
             }
             if (companyEmailContainer.isEmpty()) {
@@ -281,8 +282,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
     }
 
     private fun getValues() {
-        if (nameEditText.text?.isEmpty()!!) {
-            name = nameEditText.text.toString().trim()
+        if (companyNameEditText.text?.isEmpty()!!) {
+            name = companyNameEditText.text.toString().trim()
             editor.putString("companyName", name).apply()
         }
         if (companyEmailEditText.text?.isEmpty()!!) {
