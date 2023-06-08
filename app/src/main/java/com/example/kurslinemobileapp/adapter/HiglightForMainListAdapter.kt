@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.mainpage.Highlight
+import com.squareup.picasso.Picasso
 
 class HiglightForMainListAdapter(private val items: List<Highlight>) :
     RecyclerView.Adapter<HiglightForMainListAdapter.ImageRowViewHolder>() {
@@ -20,7 +21,10 @@ class HiglightForMainListAdapter(private val items: List<Highlight>) :
 
     override fun onBindViewHolder(holder: ImageRowViewHolder, position: Int) {
         val imageRow = items[position]
-        holder.imageView.setImageResource(imageRow.highlightImage)
+        Picasso.get()
+            .load(imageRow.highlightImage)
+            .transform(ResizeTransformation(300, 300)) // Adjust the size as per your requirements
+            .into(holder.imageView)
         holder.textView.text = imageRow.highlightName
     }
 

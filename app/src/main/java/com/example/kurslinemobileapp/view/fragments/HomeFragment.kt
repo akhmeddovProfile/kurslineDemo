@@ -53,7 +53,18 @@ class HomeFragment : Fragment() {
         val coursesRV = view.findViewById<RecyclerView>(R.id.allCoursesRV)
         coursesRV.layoutManager = GridLayoutManager(requireContext(),2)
         getProducts()
-      //  imageforHighlight()
+
+        val imageWithTextList = listOf(
+            Highlight(R.drawable.mainpagehiglight, "Ən çox baxılanlar"),
+            Highlight(R.drawable.yenielan, "1345 yeni kurs"),
+            Highlight(R.drawable.vip, "234 VIP kurs")
+        )
+        val recylerviewForHighlight =
+            view.findViewById<RecyclerView>(R.id.topProductsRV)
+        val adapter = HiglightForMainListAdapter(imageWithTextList)
+        recylerviewForHighlight.adapter = adapter
+        recylerviewForHighlight.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
 
         createAccount.setOnClickListener {
@@ -118,5 +129,4 @@ class HomeFragment : Fragment() {
             editor.apply()
         }
     }
-
 }
