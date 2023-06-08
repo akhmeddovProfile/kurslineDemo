@@ -43,5 +43,97 @@
         android:layout_height="1dp"
         android:src="@color/grayColor1"/>
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalBusinessScrollView"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/lineBusinessTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/business_button_bg"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/button1BusinessTrans"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Gözləmədə olan"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:fontFamily="@font/nunito"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/business_button_bg_2"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/button2BusinessTrans"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Aktiv kurslar"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:fontFamily="@font/nunito"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/business_button_bg_2"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/button3BusinessTrans"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Deaktiv kurslar"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:fontFamily="@font/nunito"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@drawable/business_button_bg_2"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/button4BusinessTrans"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Dərc edilməmiş kurslar"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:fontFamily="@font/nunito"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/horizontalBusinessScrollView">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/notFoundBusinessTransCourseText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Burada heç bir kurs tapılmadı"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/notfoundpreview"
+                android:layout_below="@+id/notFoundBusinessTransCourseText"/>
+        </RelativeLayout>
+    </ScrollView>
+
+
 
 </RelativeLayout>

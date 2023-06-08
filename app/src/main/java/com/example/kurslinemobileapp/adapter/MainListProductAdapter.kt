@@ -50,7 +50,7 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
         val productRow = items[position]
         val url = "1"
          val photo = Photo(url)
-        Picasso.get().load(photo.url).into(holder.itemView.productImage)
+        Picasso.get().load(photo.url).transform(ResizeTransformation(300, 300)).into(holder.itemView.productImage)
         holder.modeView.text = productRow.announcemenets.get(position).isOnline
         holder.statusView.text = productRow.announcemenets.get(position).isRejim
         //holder.imageVIPView.setImageResource(productRow.vipIcon)

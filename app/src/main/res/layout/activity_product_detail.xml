@@ -130,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/catagoryTitle"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
 
 
             <TextView
@@ -166,7 +166,7 @@
                 android:layout_height="1dp"
                 android:id="@+id/imageView2"
                 android:layout_below="@+id/regionTitle"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
 
             <TextView
                 android:id="@+id/rejim"
@@ -201,7 +201,7 @@
                 android:layout_height="1dp"
                 android:id="@+id/imageView3"
                 android:layout_below="@+id/rejimTitle"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
 
             <TextView
                 android:id="@+id/teacher"
@@ -236,7 +236,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/teacherTitle"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
 
             <TextView
                 android:id="@+id/contact"
@@ -271,7 +271,7 @@
                 android:layout_height="1dp"
                 android:id="@+id/imageView5"
                 android:layout_below="@+id/contactTitle"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
 
             <RelativeLayout
                 android:id="@+id/relativeLayoutClickUpForward"
@@ -307,15 +307,15 @@
                     android:textSize="15sp"
                     android:layout_below="@+id/upForwardTitle"
                     />
+
                 <ImageView
-                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="30dp"
-                   android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/upForwardTitle"
-                    android:src="@drawable/upward_24"
-                    />
+                    android:src="@drawable/upward_24" />
 
             </RelativeLayout>
 
@@ -360,7 +360,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="30dp"
                     android:layout_toRightOf="@id/priceforVIP"
@@ -416,7 +415,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/deleteCourse"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewUserComment"

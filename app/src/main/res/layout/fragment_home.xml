@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_below="@id/mainFilterContainer"
                 android:layout_height="1dp"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
             <TextView
                 android:id="@+id/vipAnnouncementTextMain"
                 android:layout_width="wrap_content"
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_below="@id/vipAnnouncementTextMain"
                 android:layout_height="1dp"
-                android:src="@color/grayColor1"/>
+                android:src="@color/grayColor2"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:elevation="5dp"
                 android:layout_marginTop="10dp"
