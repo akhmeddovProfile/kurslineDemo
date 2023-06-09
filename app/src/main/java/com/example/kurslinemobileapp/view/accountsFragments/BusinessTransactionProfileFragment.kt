@@ -17,6 +17,7 @@ class BusinessTransactionProfileFragment : Fragment() {
     private lateinit var button2: Button
     private lateinit var button3: Button
     private lateinit var button4: Button
+    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,11 +69,9 @@ class BusinessTransactionProfileFragment : Fragment() {
             if (button == selectedButton) {
                 // Set selected button background
                 button.setBackgroundResource(R.drawable.business_button_bg)
-                button.setTextColor(R.color.white)
             } else {
                 // Set unselected button background
                 button.setBackgroundResource(R.drawable.business_button_bg_2)
-                button.setTextColor(R.color.black)
             }
         }
 

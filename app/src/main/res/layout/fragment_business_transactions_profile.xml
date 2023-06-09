@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="Gözləmədə olan"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:padding="5dp"
                 android:fontFamily="@font/nunito"/>
 

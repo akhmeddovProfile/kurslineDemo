@@ -42,8 +42,8 @@
         android:label="fragment_business_account"
         tools:layout="@layout/fragment_business_account" >
         <action
-            android:id="@+id/action_businessAccountFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_businessAccountFragment_to_businessTransactionProfileFragment"
+            app:destination="@id/businessTransactionProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -61,5 +61,14 @@
         <action
             android:id="@+id/action_filterFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/businessTransactionProfileFragment"
+        android:name="com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment"
+        android:label="fragment_business_transactions_profile"
+        tools:layout="@layout/fragment_business_transactions_profile" >
+        <action
+            android:id="@+id/action_businessTransactionProfileFragment_to_businessAccountFragment"
+            app:destination="@id/businessAccountFragment" />
     </fragment>
 </navigation>
