@@ -93,8 +93,6 @@
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
-                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
-                app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -105,6 +103,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:hint="Filtr"
+                    android:drawableEnd="@drawable/filtericon"
+                    android:drawableTintMode="src_in"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"

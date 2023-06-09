@@ -142,8 +142,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             app:boxStrokeWidth="0dp"
-            app:endIconDrawable="@drawable/filter_list_icon"
-            app:endIconMode="custom"
             app:endIconTintMode="src_atop">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/filterfromAtoZ"
@@ -151,6 +149,8 @@
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:focusable="false"
+                android:drawableEnd="@drawable/tune"
+                android:drawableTintMode="src_in"
                 android:hint="@string/filterFromAtoZ"
                 android:fontFamily="@font/montserrat"
                 android:inputType="none"
@@ -173,8 +173,7 @@
             android:layout_marginStart="80dp"
             android:layout_toRightOf="@+id/textinputFromAtoZ"
             app:boxStrokeWidth="0dp"
-            app:endIconDrawable="@drawable/filter_list_icon"
-            app:endIconMode="custom"
+
             app:endIconTintMode="src_atop">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/filterforPrice"
@@ -182,6 +181,8 @@
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:focusable="false"
+                android:drawableEnd="@drawable/tune"
+                android:drawableTintMode="src_in"
                 android:hint="@string/filterforPrice"
                 android:fontFamily="@font/montserrat"
                 android:inputType="none"
@@ -270,6 +271,8 @@
             android:layout_marginTop="20dp"
             android:background="@color/white"
             android:hint="min"
+            android:drawableEnd="@drawable/expand_more"
+            android:drawableTintMode="src_in"
             android:textColor="@color/grayColor1"
             android:textColorHint="@color/grayColor1"
             android:fontFamily="@font/nunito"
@@ -284,6 +287,8 @@
            android:layout_toRightOf="@+id/minprice"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
+            android:drawableEnd="@drawable/expand_less"
+            android:drawableTintMode="src_in"
             android:textColor="@color/grayColor1"
             android:textColorHint="@color/grayColor1"
             android:background="@color/white"
@@ -357,7 +362,7 @@
             android:textSize="20sp"
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="25dp"
             android:layout_below="@id/onlinemodeBtn"
             android:background="@drawable/button_bg"
             android:text="Kursları gör"

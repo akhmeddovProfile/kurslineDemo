@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
@@ -31,7 +32,7 @@ class UserAccountFragment : Fragment() {
         // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
-            // findNavController().navigate(R.id.action_accountFragment_to_mainPageFragment)
+            findNavController().navigate(R.id.action_accountFragment_to_homeFragment)
         }
 
         return view

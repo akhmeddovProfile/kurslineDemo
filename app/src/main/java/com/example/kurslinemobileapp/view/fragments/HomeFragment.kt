@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -74,20 +75,7 @@ class HomeFragment : Fragment() {
 
         val goToFilter = view.findViewById<TextInputEditText>(R.id.mainFilterEditText)
         goToFilter.setOnClickListener {
-            val fragmentManager = requireFragmentManager()
-
-            // Start a fragment transaction
-            val transaction = fragmentManager.beginTransaction()
-
-            // Replace the first fragment with the second fragment
-            transaction.replace(R.id.relativeLayoutMain, FilterFragment())
-            transaction.setReorderingAllowed(true)
-
-            // Add the transaction to the back stack
-            transaction.addToBackStack(null)
-
-            // Commit the transaction
-            transaction.commit()
+            findNavController().navigate(R.id.action_homeFragment_to_filterFragment)
         }
 
         val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)

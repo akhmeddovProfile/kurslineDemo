@@ -55,8 +55,6 @@
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
-                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
-                app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -67,6 +65,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:hint="Region Seçin"
+                    android:drawableEnd="@drawable/drowpdown"
+                    android:drawableTintMode="src_in"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -80,13 +80,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/courseRegionContainer"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
-                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
-                app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -97,6 +95,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:hint="Kateqoriya Seçin"
+                    android:drawableEnd="@drawable/drowpdown"
+                    android:drawableTintMode="src_in"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -122,7 +122,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/courseAboutEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -141,8 +141,6 @@
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="#78BFDB"
-                app:endIconDrawable="@drawable/ic_baseline_contact_page_24"
-                app:endIconMode="custom"
                 android:textColorHint="@color/grayColor1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +149,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/courseTeacherEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/addpeople"
+                    android:drawableTintMode="src_in"
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -178,7 +178,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/coursePriceEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="wrap_content"
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -193,13 +193,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/coursePriceContainer"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
-                app:endIconDrawable="@drawable/ic_baseline_arrow_drop_down_24"
-                app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -210,6 +208,8 @@
                     android:editable="false"
                     android:focusable="false"
                     android:hint="Rejim Seçin"
+                    android:drawableEnd="@drawable/drowpdown"
+                    android:drawableTintMode="src_in"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -231,6 +231,7 @@
                     android:layout_height="40dp"
                     android:background="@drawable/ic_baseline_add_photo_alternate_24"/>
                 <TextView
+                    android:layout_gravity="center"
                     android:textSize="24sp"
                     android:textColor="#78BFDB"
                     android:fontFamily="@font/montserrat"
@@ -238,13 +239,30 @@
                     android:layout_height="wrap_content"
                     android:text="Şəkil əlavə edin"/>
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/leftArrow"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:visibility="gone"
+                android:background="@drawable/ic_baseline_chevron_left_24"
+                android:layout_below="@+id/addCoursePhotos"/>
             <androidx.viewpager2.widget.ViewPager2
-                android:layout_below="@id/addCoursePhotos"
                 android:id="@+id/viewPagerCourseUpload"
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"/>
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addCoursePhotos"
+                android:layout_toRightOf="@+id/leftArrow"
+                android:layout_toLeftOf="@+id/rightarrow"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp" />
+            <ImageView
+                android:id="@+id/rightarrow"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:visibility="gone"
+                android:background="@drawable/ic_baseline_chevron_right_24"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/addCoursePhotos"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/uploadCourse"
                 android:layout_width="match_parent"

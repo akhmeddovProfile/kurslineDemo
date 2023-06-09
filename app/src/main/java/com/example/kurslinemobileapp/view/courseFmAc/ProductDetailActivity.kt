@@ -71,6 +71,10 @@ class ProductDetailActivity : AppCompatActivity() {
             vip_product_for_detail.visibility = View.GONE
         }
         courseownerName.setText(companyName)
+        courseownerName.setOnClickListener {
+            val intent = Intent(this@ProductDetailActivity,CourseBusinessProfile::class.java)
+            startActivity(intent)
+        }
         detailCoursePrice.setText(price + " AZN")
         coursecontentname.setText(courseName)
         aboutCourse.setText(courseDesc)
