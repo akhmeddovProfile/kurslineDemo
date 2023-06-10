@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
         mainList2 = ArrayList<GetAllAnnouncement>()
         val coursesRV = view.findViewById<RecyclerView>(R.id.allCoursesRV)
         coursesRV.layoutManager = GridLayoutManager(requireContext(),2)
-        getProducts()
+        //getProducts()
 
         val imageWithTextList = listOf(
             Highlight(R.drawable.mainpagehiglight, "Ən çox baxılanlar"),
