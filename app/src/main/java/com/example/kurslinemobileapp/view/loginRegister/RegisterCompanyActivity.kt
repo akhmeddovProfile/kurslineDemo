@@ -102,7 +102,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
-
+val photo = companyPhoto.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
                 companyNameEditText.error = " Name required"
                 companyNameEditText.requestFocus()
@@ -160,18 +160,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
-            sendCompanydata(
-                companyNameContainer,
-                companyEmailContainer,
-                companyPhoneContainer,
-                companyPasswordContainer,
-                companyStatusContainer,
-                companyFullNameContainer,
-                companyAddressContainer,
-                aboutCompanyContainer,
-                companyCategoryContainer,
-                companyPhoto.text.toString()
-            )
+            sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,companyStatusContainer,
+                companyFullNameContainer, companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,photo,companyModeContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
@@ -189,13 +179,15 @@ class RegisterCompanyActivity : AppCompatActivity() {
         companyAddress: String,
         companyAbout: String,
         companyCategoryId: String,
-        imagePath: String
+        imagePath: String,
+        companyStatusId:String,
+        companyRegionId:String
     ) {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        val photos: MultipartBody.Part =
+        val photo: MultipartBody.Part =
             MultipartBody.Part.createFormData("photos", file.name, reqFile)
-        val username: RequestBody =
+        val companyUsername: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), userFullName)
         val companyemail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
         val companyNumber: RequestBody =
@@ -210,6 +202,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
         val about: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyAbout)
         val categoryid: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
+        val regionId: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId)
+        val statusId: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId)
 
 
         compositeDisposable = CompositeDisposable()
@@ -217,18 +213,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.createCompany(
-                username,
-                companyemail,
-                companyNumber,
-                companyPassword,
-                companyGender,
-                name,
-                address,
-                about,
-                categoryid,
-                photos
-            )
+            retrofit.createCompany(companyUsername,companyemail,companyNumber,companyPassword,companyGender,name,address,about,categoryid,photo,statusId,regionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,

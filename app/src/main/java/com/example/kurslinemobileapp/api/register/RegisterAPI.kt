@@ -26,7 +26,9 @@ interface RegisterAPI {
         @Part("companyAddress") companyAddress: RequestBody,
         @Part("companyAbout") companyAbout: RequestBody,
         @Part("companyCategoryId") companyCategoryId: RequestBody,
-        @Part photos: MultipartBody.Part
+        @Part photos: MultipartBody.Part,
+        @Part("companyStatusId") companyStatusId: RequestBody,
+        @Part("companyRegionId") companyRegionId: RequestBody
     ):Single<RegisterCompanyResponse>
 
 }
