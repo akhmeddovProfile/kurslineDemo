@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.api.createAnnouncement
+package com.example.kurslinemobileapp.api.announcement.createAnnouncement
 
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

@@ -10,12 +10,25 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
+import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
+import com.example.kurslinemobileapp.api.getInfo.InfoAPI
+import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
+import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
+import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_product_detail.*
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class UserAccountFragment : Fragment() {
-
+    private lateinit var compositeDisposable: CompositeDisposable
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,6 +37,12 @@ class UserAccountFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
         // Get the SharedPreferences object
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val id = sharedPreferences.getInt("userID",0)
+        val token = sharedPreferences.getString("USERTOKENNN","")
+        println("userID"+id)
+        println("userToken"+token)
+    getDataFromServer(id,token!!)
 
         view.goToBusinessCreate.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCompanyActivity::class.java)
@@ -36,5 +55,27 @@ class UserAccountFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun getDataFromServer(id: Int,token:String) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
+        compositeDisposable.add(retrofit.getUserInfo(id,token)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponse,
+                { throwable -> println("MyTests: $throwable") }
+            ))
+    }
+
+    private fun handleResponse(response: UserInfoModel) {
+        Picasso.get().load(response.photo.toString()).into(myProfileImage)
+        val userFullName = response.fullName
+        val userPhoneNumber = response.mobileNumber
+        val userEmail  = response.email
+
+        accountNameEditText.setText(userFullName)
+        accountPhoneEditText.setText(userPhoneNumber)
+        accountMailEditText.setText(userEmail)
     }
 }
