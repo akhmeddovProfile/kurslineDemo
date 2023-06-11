@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +55,7 @@ class TabforCompanies : Fragment() {
     }
 
     private fun handleResponse(response : CompanyTeacherModel){
+        val position : Int? = null
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
         println("companies: " + response)
@@ -62,8 +64,7 @@ class TabforCompanies : Fragment() {
         recyclerviewForCompanies.adapter = companyTeacherAdapter
         companyTeacherAdapter.notifyDataSetChanged()
         companyTeacherAdapter.setOnItemClickListener {
-            val intent = Intent(activity, CourseBusinessProfile::class.java)
-            activity?.startActivity(intent)
+
         }
     }
 }

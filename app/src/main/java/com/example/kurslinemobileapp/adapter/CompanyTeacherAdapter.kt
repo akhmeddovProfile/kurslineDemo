@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
@@ -25,6 +26,7 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) 
         val companyName: TextView = itemView.findViewById(R.id.companyTeacherCname)
         val companyCategory: TextView = itemView.findViewById(R.id.companyTeacherCategory)
         val companyImage: ImageView = itemView.findViewById(R.id.companyTeacherTabImage)
+        val companyPhone : ImageView = itemView.findViewById(R.id.phoneCompanyTeacher)
         fun bind(elan: CompanyTeacherModel) {
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(elan)
