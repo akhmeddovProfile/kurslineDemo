@@ -102,7 +102,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
-val photo = companyPhoto.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
                 companyNameEditText.error = " Name required"
                 companyNameEditText.requestFocus()
@@ -161,7 +160,7 @@ val photo = companyPhoto.text.toString().trim()
                 block = false
             }
             sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,companyStatusContainer,
-                companyFullNameContainer, companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,photo,companyModeContainer,companyRegionContainer)
+                companyFullNameContainer, companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyModeContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
