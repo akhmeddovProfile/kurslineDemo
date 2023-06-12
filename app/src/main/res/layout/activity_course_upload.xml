@@ -43,9 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/courseRegionContainer"
+                android:id="@+id/courseNameContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
@@ -54,6 +53,35 @@
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Kursun adı"
+                    android:drawableTintMode="src_in"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseRegionContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:layout_below="@+id/courseCategoryContainer"
                 android:textColorHint="@color/grayColor1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +107,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/courseRegionContainer"
+                android:layout_below="@+id/courseModeContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -109,7 +137,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/courseCategoryContainer"
+                android:layout_below="@+id/courseNameContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -187,12 +215,41 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/courseAddressContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                android:layout_below="@+id/coursePriceContainer"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/courseAddressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Kursun adresi"
+                    android:drawableTintMode="src_in"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/courseModeContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/coursePriceContainer"
+                android:layout_below="@+id/courseAddressContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -217,9 +274,9 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:layout_below="@+id/courseModeContainer"
+                android:layout_below="@+id/courseRegionContainer"
                 android:gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="25dp"
                 android:layout_marginEnd="25dp"
                 android:layout_width="match_parent"

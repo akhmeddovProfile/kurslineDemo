@@ -11,6 +11,7 @@ import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.login.LoginRequest
 import com.example.kurslinemobileapp.api.login.LoginResponseX
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -68,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
         println("Response: " + response)
         println("userId: " + response.userInfo.id)
         Toast.makeText(this, "Succesfully Login", Toast.LENGTH_SHORT).show()
-        sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        sharedPreferences = this.getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         sharedPreferences.edit().putString("token", response.accessToken.token).apply()
         editor.putBoolean("token", true)

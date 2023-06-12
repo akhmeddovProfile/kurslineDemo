@@ -139,11 +139,12 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 companyPhoneEditText.requestFocus()
                 block = false
             }
-            if (companyModeContainer.isEmpty()) {
+/*            if (companyModeContainer.isEmpty()) {
                 companyModeEditText.error = "Mode required"
                 companyModeEditText.requestFocus()
                 block = false
-            }
+            }*/
+
             if (companyStatusContainer.isEmpty()) {
                 compantStatusEditText.error = "Status required"
                 compantStatusEditText.requestFocus()
@@ -159,8 +160,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
-            sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,companyStatusContainer,
-                companyFullNameContainer, companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyModeContainer,companyRegionContainer)
+            sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,"1",
+                companyNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
@@ -437,4 +438,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
         )
         dialog.show()
     }
+
+
 }
