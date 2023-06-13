@@ -3,15 +3,20 @@ package com.example.kurslinemobileapp.view.courseFmAc
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.view.View
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.CategoryAdapter
+import com.example.kurslinemobileapp.adapter.ModeAdapter
 import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreataAnnouncementApi
@@ -29,12 +34,18 @@ import kotlinx.android.synthetic.main.activity_all_companies.*
 import kotlinx.android.synthetic.main.activity_course_upload.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import retrofit2.create
+import java.io.ByteArrayOutputStream
 
 
 class CourseUploadActivity : AppCompatActivity() {
     private val selectedPhotos = mutableListOf<PhotoUpload>()
     var compositeDisposable = CompositeDisposable()
     private lateinit var regionAdapter: RegionAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var modeAdapter: ModeAdapter
+
+    lateinit var categoryId: String
+
     private var block: Boolean = true
     companion object {
         private const val REQUEST_CODE_GALLERY = 1
@@ -105,6 +116,7 @@ class CourseUploadActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_GALLERY)
             leftArrow.visibility = View.VISIBLE
             rightarrow.visibility = View.VISIBLE
+
         }
 
         val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpload)
@@ -133,21 +145,38 @@ class CourseUploadActivity : AppCompatActivity() {
         }
 
         courseCategoryEditText.setOnClickListener {
-
+            showBottomSheetDialog()
         }
+
+        courseModeEditText.setOnClickListener {
+            showBottomSheetDialogMode()
+        }
+
+        val imageList = mutableListOf<PhotoUpload>()
+
+        for (photoUpload in selectedPhotos) {
+            val base64Image = encodeImageToBase64(photoUpload.uri)
+            val imageData = PhotoUpload(photoUpload.photoName,base64Image.toUri())
+            imageList.add(imageData)
+            println("Base64"+base64Image)
+        }
+
     }
 
     private fun sendAnnouncementData(
         nameofAnnouncement:String,
-        nameofCategory:String,
+        nameofAddress:String,
         aboutTheCourse:String,
         nameofTeachers:String,
         priceofCourse:Int,
-        modeofCourse:String
+        modeofCourse:String,
+        imgofCourse:PhotoUpload,
+        categoryofCourse:String,
+        regionofCourse:String
     ) {
         compositeDisposable= CompositeDisposable()
         val retrofitService=RetrofitService(Constant.BASE_URL).retrofit.create(CreataAnnouncementApi::class.java)
-        //val request=CreateAnnouncementRequest(nameofAnnouncement,nameofCategory,aboutTheCourse,nameofTeachers,priceofCourse,modeofCourse)
+        //val request=CreateAnnouncementRequest(nameofAnnouncement,nameofAddress,aboutTheCourse.toInt(),nameofTeachers,priceofCourse,modeofCourse.toInt(),categoryofCourse.toInt(),imgofCourse.photoName,regionofCourse)
     }
 
     private fun updateNavigationButtons(position: Int) {
@@ -161,15 +190,19 @@ class CourseUploadActivity : AppCompatActivity() {
                 val clipData = data.clipData
                 selectedPhotos.clear() // Clear the existing selection
                 for (i in 0 until clipData!!.itemCount) {
-                    val name =clipData.getItemAt(i).text.toString()
+//                    val name =clipData.getItemAt(i).text.toString()
                     val uri = clipData.getItemAt(i).uri
-                    selectedPhotos.add(PhotoUpload(name,uri))
+                    val photoName = "selected_photo_$i.jpg"
+                    selectedPhotos.add(PhotoUpload(photoName,uri))
+
+                    println(selectedPhotos)
                 }
             } else if (data?.data != null) {
                 val uri = data.data
                 val imagePath = uri?.let { getRealPathFromURI(it) }
                 selectedPhotos.clear() // Clear the existing selection
                 selectedPhotos.add(PhotoUpload(imagePath!!,uri!!))
+                println(selectedPhotos)
             }
 
             val adapter = viewPagerCourseUpload.adapter as? PhotoPagerAdapter
@@ -192,6 +225,49 @@ class CourseUploadActivity : AppCompatActivity() {
         }
         return path
     }
+
+    fun encodeImageToBase64(imageUri: Uri): String {
+        val inputStream = contentResolver.openInputStream(imageUri)
+        val imageBytes = inputStream?.readBytes()
+        inputStream?.close()
+
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
+
+    }
+
+
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
+    private fun showBottomSheetDialog() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewCategories)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ categories ->
+                    println("1")
+                    categoryAdapter = CategoryAdapter(categories.categories)
+                    recyclerViewCategories.adapter = categoryAdapter
+                    categoryAdapter.setChanged(categories.categories)
+                    categoryAdapter.setOnItemClickListener { category ->
+                        categoryId = category.categoryId.toString()
+                        courseCategoryEditText.setText(category.categoryName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTests: $throwable") })
+        )
+
+        dialog.show()
+    }
+
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
@@ -214,10 +290,39 @@ class CourseUploadActivity : AppCompatActivity() {
                     recyclerviewRegions.adapter = regionAdapter
                     regionAdapter.setChanged(reg.regions)
                     regionAdapter.setOnItemClickListener { region ->
-                        companyRegionEditText.setText(region.regionName)
+                        courseRegionEditText.setText(region.regionName)
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTestsRegions: $throwable") })
+        )
+        dialog.show()
+    }
+    @SuppressLint("MissingInflatedId")
+    private fun showBottomSheetDialogMode() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_mode, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewMode: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewMode)
+        recyclerViewMode.setHasFixedSize(true)
+        recyclerViewMode.setLayoutManager(LinearLayoutManager(this))
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getModes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ mode ->
+                    println("3")
+                    modeAdapter = ModeAdapter(mode.isOnlines)
+                    recyclerViewMode.adapter = modeAdapter
+                    modeAdapter.setChanged(mode.isOnlines)
+                    modeAdapter.setOnItemClickListener { mode ->
+                        courseModeEditText.setText(mode.isOnlineName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTestMode: $throwable") })
         )
         dialog.show()
     }

@@ -139,11 +139,11 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 companyPhoneEditText.requestFocus()
                 block = false
             }
-/*            if (companyModeContainer.isEmpty()) {
+           if (companyModeContainer.isEmpty()) {
                 companyModeEditText.error = "Mode required"
                 companyModeEditText.requestFocus()
                 block = false
-            }*/
+            }
 
             if (companyStatusContainer.isEmpty()) {
                 compantStatusEditText.error = "Status required"
@@ -159,9 +159,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.error = "About Company required"
                 aboutCompanyEditText.requestFocus()
                 block = false
+                sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,1,
+                    companyNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer.toInt(),companyPhoto.text.toString(),companyStatusContainer.toInt(),companyRegionContainer.toInt())
             }
-            sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,"1",
-                companyNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
@@ -174,19 +174,19 @@ class RegisterCompanyActivity : AppCompatActivity() {
         email: String,
         mobileNumber: String,
         password: String,
-        gender: String,
+        gender: Int,
         companyName: String,
         companyAddress: String,
         companyAbout: String,
-        companyCategoryId: String,
+        companyCategoryId: Int,
         imagePath: String,
-        companyStatusId:String,
-        companyRegionId:String
+        companyStatusId:Int,
+        companyRegionId:Int
     ) {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val photo: MultipartBody.Part =
-            MultipartBody.Part.createFormData("photos", file.name, reqFile)
+           MultipartBody.Part.createFormData("photos", file.name, reqFile)
         val companyUsername: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), userFullName)
         val companyemail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
@@ -195,17 +195,17 @@ class RegisterCompanyActivity : AppCompatActivity() {
         val companyPassword: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), password)
         val companyGender: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), gender)
+            RequestBody.create("text/plain".toMediaTypeOrNull(), gender.toString())
         val address: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyAddress)
         val name: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
         val about: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyAbout)
         val categoryid: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId.toString())
         val regionId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId)
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId.toString())
         val statusId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId)
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId.toString())
 
 
         compositeDisposable = CompositeDisposable()
