@@ -15,6 +15,7 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Anno
 import com.example.kurslinemobileapp.api.getInfo.InfoAPI
 import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
@@ -37,7 +38,7 @@ class UserAccountFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_account, container, false)
 
         // Get the SharedPreferences object
-        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         println("userID"+id)
@@ -60,7 +61,7 @@ class UserAccountFragment : Fragment() {
     private fun getDataFromServer(id: Int,token:String) {
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
-        compositeDisposable.add(retrofit.getUserInfo(id,token)
+        compositeDisposable.add(retrofit.getUserInfo(token,id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,

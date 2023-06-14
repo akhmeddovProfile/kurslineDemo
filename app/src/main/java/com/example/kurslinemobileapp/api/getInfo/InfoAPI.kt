@@ -7,6 +7,5 @@ import retrofit2.http.Path
 
 interface InfoAPI {
     @GET("GetUserbyId/{userId}")
-    fun getUserInfo( @Path("userId") userId: Int,
-        @Header("Authorization") token: String): Observable<UserInfoModel>
+    fun getUserInfo(@Header("Authorization") token: String,@Path("userId") userId: Int ): Observable<UserInfoModel>
 }

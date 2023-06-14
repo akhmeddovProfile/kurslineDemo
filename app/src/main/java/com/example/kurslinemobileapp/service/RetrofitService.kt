@@ -16,13 +16,4 @@ class RetrofitService(url: String) {
         .client(client)
         .build()
 
-
-    val instance: RegisterAPI by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(OkHttpClient())
-            .build()
-        retrofit.create(RegisterAPI::class.java)
-    }
 }
