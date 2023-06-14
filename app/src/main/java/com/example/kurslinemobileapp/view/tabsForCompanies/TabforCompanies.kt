@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,9 @@ import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TabforCompanies : Fragment() {
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
@@ -63,8 +67,5 @@ class TabforCompanies : Fragment() {
         val recyclerviewForCompanies = requireView().findViewById<RecyclerView>(R.id.recyclerviewForCompanyteacher)
         recyclerviewForCompanies.adapter = companyTeacherAdapter
         companyTeacherAdapter.notifyDataSetChanged()
-        companyTeacherAdapter.setOnItemClickListener {
-
-        }
     }
 }

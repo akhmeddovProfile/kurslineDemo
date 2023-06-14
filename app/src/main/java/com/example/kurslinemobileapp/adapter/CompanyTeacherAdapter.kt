@@ -16,11 +16,6 @@ import kotlinx.android.synthetic.main.product_item_row.view.*
 
 class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) :
     RecyclerView.Adapter<CompanyTeacherAdapter.CompanyTeacherHolder>() {
-    private var onItemClickListener: ((CompanyTeacherModel) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: (CompanyTeacherModel) -> Unit) {
-        onItemClickListener = listener
-    }
 
     inner class CompanyTeacherHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val companyName: TextView = itemView.findViewById(R.id.companyTeacherCname)
@@ -28,9 +23,7 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) 
         val companyImage: ImageView = itemView.findViewById(R.id.companyTeacherTabImage)
         val companyPhone : ImageView = itemView.findViewById(R.id.phoneCompanyTeacher)
         fun bind(elan: CompanyTeacherModel) {
-            itemView.setOnClickListener {
-                onItemClickListener?.invoke(elan)
-            }
+
         }
     }
 
