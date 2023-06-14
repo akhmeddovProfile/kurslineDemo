@@ -35,7 +35,11 @@
         android:id="@+id/blankAccountFragment"
         android:name="com.example.kurslinemobileapp.view.accountsFragments.BlankAccountFragment"
         android:label="fragment_blank_account"
-        tools:layout="@layout/fragment_blank_account" />
+        tools:layout="@layout/fragment_blank_account" >
+        <action
+            android:id="@+id/action_blankAccountFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/businessAccountFragment"
         android:name="com.example.kurslinemobileapp.view.accountsFragments.BusinessAccountFragment"
