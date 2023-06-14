@@ -30,12 +30,13 @@ import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class UserAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var view : ViewGroup
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_account, container, false)
+         view = inflater.inflate(R.layout.fragment_account, container, false) as ViewGroup
 
         // Get the SharedPreferences object
         val sharedPreferences = requireContext().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
@@ -75,8 +76,8 @@ class UserAccountFragment : Fragment() {
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
 
-        accountNameEditText.setText(userFullName)
-        accountPhoneEditText.setText(userPhoneNumber)
-        accountMailEditText.setText(userEmail)
+        view.accountNameEditText.setText(userFullName)
+        view.accountPhoneEditText.setText(userPhoneNumber)
+        view.accountMailEditText.setText(userEmail)
     }
 }
