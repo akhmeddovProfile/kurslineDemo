@@ -42,6 +42,7 @@ class UserAccountFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
+        val authHeader = "Bearer $token"
         println("userID"+id)
         println("userToken"+token)
     getDataFromServer(id,token!!)

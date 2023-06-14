@@ -53,6 +53,7 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun getDataFromServer(id: Int,token:String) {
+
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
         compositeDisposable.add(retrofit.getUserInfo(token,id)
