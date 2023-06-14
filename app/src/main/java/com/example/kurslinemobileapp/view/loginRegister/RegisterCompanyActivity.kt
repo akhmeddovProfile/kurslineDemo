@@ -159,7 +159,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.error = "About Company required"
                 aboutCompanyEditText.requestFocus()
                 block = false
-                sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,1,
+                sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,
                     companyNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer.toInt(),companyPhoto.text.toString(),companyStatusContainer.toInt(),companyRegionContainer.toInt())
             }
         }
@@ -174,7 +174,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
         email: String,
         mobileNumber: String,
         password: String,
-        gender: Int,
         companyName: String,
         companyAddress: String,
         companyAbout: String,
@@ -194,8 +193,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
             RequestBody.create("text/plain".toMediaTypeOrNull(), mobileNumber)
         val companyPassword: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), password)
-        val companyGender: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), gender.toString())
         val address: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyAddress)
         val name: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
@@ -213,7 +210,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.createCompany(companyUsername,companyemail,companyNumber,companyPassword,companyGender,name,address,about,categoryid,photo,statusId,regionId)
+            retrofit.createCompany(companyUsername,companyemail,companyNumber,companyPassword,name,address,about,categoryid,photo,statusId,regionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,

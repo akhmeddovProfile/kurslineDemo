@@ -5,7 +5,7 @@ data class UserInfoModel(
     val companyAddress: Any,
     val companyCategoryId: Any,
     val companyName: Any,
-    val companyPhoto: Any,
+    val companyPhoto: String,
     val email: String,
     val fullName: String,
     val gender: Int,

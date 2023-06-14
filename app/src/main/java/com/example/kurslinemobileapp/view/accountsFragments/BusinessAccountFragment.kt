@@ -67,25 +67,8 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-        val companyPhoto = response.companyPhoto
-
-        if (companyPhoto is String) {
-            // Handle URL case
-            Picasso.get()
-                .load(companyPhoto)
-                .into(myBusinessImage)
-        } else if (companyPhoto is Int) {
-            // Handle resource ID case
-            Picasso.get()
-                .load(companyPhoto)
-                .into(myBusinessImage)
-        } else if (companyPhoto is Drawable) {
-            // Handle drawable case
-            myBusinessImage.setImageDrawable(companyPhoto)
-        } else {
-            // Handle other cases or provide a default image
-        }
-
+       // val companyPhoto = response.companyPhoto
+        //Picasso.get().load(companyPhoto).into(myBusinessImage)
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email

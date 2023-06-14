@@ -21,7 +21,6 @@ interface RegisterAPI {
         @Part("email") email: RequestBody,
         @Part("mobileNumber") mobileNumber: RequestBody,
         @Part("password") password: RequestBody,
-        @Part("gender") gender: RequestBody,
         @Part("companyName") companyName: RequestBody,
         @Part("companyAddress") companyAddress: RequestBody,
         @Part("companyAbout") companyAbout: RequestBody,
