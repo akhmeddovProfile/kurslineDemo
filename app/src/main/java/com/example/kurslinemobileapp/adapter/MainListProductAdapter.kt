@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.product_item_row.view.*
 
 class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
-    private var onItemClickListener: ((GetAllAnnouncement) -> Unit)? = null
+    private var onItemClickListener: ((Announcemenet) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (GetAllAnnouncement) -> Unit) {
+    fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -33,7 +33,7 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
         val productDescription: TextView =
             itemView.findViewById(R.id.productDescriptionIntheMainScreen)
 
-        fun bind(elan: GetAllAnnouncement) {
+        fun bind(elan: Announcemenet) {
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(elan)
             }
@@ -47,23 +47,24 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
     }
 
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
-        val productRow = items[position]
+        val productRow = items[position].announcemenets[position]
         val url = "1"
-         val photo = Photo(url)
-        Picasso.get().load(photo.url).transform(ResizeTransformation(300, 300)).into(holder.itemView.productImage)
-        holder.modeView.text = productRow.announcemenets.get(position).isOnline
-        holder.statusView.text = productRow.announcemenets.get(position).isRejim
+        val photo = Photo(url)
+        Picasso.get().load(photo.url).transform(ResizeTransformation(300, 300)).into(holder.productimage)
+        holder.modeView.text = productRow.isOnline
+        holder.statusView.text = productRow.isRejim
         //holder.imageVIPView.setImageResource(productRow.vipIcon)
-        holder.producttitle.text = productRow.announcemenets.get(position).announcemementName
-        holder.productOwnerName.text = productRow.announcemenets.get(position).companyName
-        holder.productDescription.text = productRow.announcemenets.get(position).announcemementDesc
-        if(productRow.announcemenets.get(position).isVIP == true){
+        holder.producttitle.text = productRow.announcemementName
+        holder.productOwnerName.text = productRow.companyName
+        holder.productDescription.text = productRow.announcemementDesc
+        if (productRow.isVIP == true) {
             holder.imageVIPView.visibility = View.VISIBLE
-        }else{
+        } else {
             holder.imageVIPView.visibility = View.GONE
         }
         holder.bind(productRow)
     }
+
 
     override fun getItemCount(): Int {
         return items.size

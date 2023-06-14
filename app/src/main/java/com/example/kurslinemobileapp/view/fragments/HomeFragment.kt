@@ -111,10 +111,10 @@ class HomeFragment : Fragment() {
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
             activity?.startActivity(intent)
-            println("responseId: " + response.announcemenets.get(0).id)
             sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
-            sharedPreferences.edit().putInt("id", response.announcemenets.get(0).id).apply()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            println("gedenId-----"+it.id)
             editor.apply()
         }
     }

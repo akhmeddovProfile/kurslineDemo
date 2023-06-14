@@ -27,7 +27,7 @@ class ProductDetailActivity : AppCompatActivity() {
         productDetail_Rl.visibility = View.GONE
 
         val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val id = sharedPreferences.getInt("id",0)
+        val id = sharedPreferences.getInt("announcementId",0)
         println("gelenid" + id)
 
         val userType = sharedPreferences.getString("userType",null)
