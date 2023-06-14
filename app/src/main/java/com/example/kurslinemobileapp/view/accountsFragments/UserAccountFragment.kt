@@ -44,8 +44,8 @@ class UserAccountFragment : Fragment() {
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
         println("userID"+id)
-        println("userToken"+token)
-    getDataFromServer(id,token!!)
+        println("userToken"+authHeader)
+    getDataFromServer(id,authHeader)
 
         view.goToBusinessCreate.setOnClickListener {
             val intent = Intent(requireContext(), RegisterCompanyActivity::class.java)
