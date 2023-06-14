@@ -424,12 +424,11 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/imageView6"
                 />
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/linearlayoutforinputComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/recyclerViewUserComment"
-                android:orientation="horizontal"
                 android:layout_marginTop="15dp"
                 >
                 <ImageView
@@ -446,8 +445,9 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/userimageforcomment"
                     app:boxBackgroundColor="@color/white"
                     app:boxStrokeColor="@color/grayColor3"
                     app:hintTextColor="@color/grayColor1"
@@ -464,11 +464,23 @@
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginEnd="20dp"
-                        android:inputType="textPassword"
+                        android:inputType="textPersonName"
                         android:hint="Şərh əlavə edin"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/sendCommentBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Send"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:background="@drawable/business_button_bg"
+                    android:fontFamily="@font/nunito"
+                    android:layout_toRightOf="@+id/commentforUser"/>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/relativeLayoutforsamecourse"
