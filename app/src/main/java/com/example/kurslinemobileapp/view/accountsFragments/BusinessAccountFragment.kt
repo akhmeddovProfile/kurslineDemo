@@ -3,6 +3,7 @@ package com.example.kurslinemobileapp.view.accountsFragments
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -75,7 +76,7 @@ class BusinessAccountFragment : Fragment() {
         val companyAddress = response.companyAddress.toString()
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
-        val category = response.companyCategoryId.toString()
+        val category : String = response.companyCategoryId.toString()
 
 
         view.businessAccountNameEditText.setText(userFullName)
@@ -85,7 +86,7 @@ class BusinessAccountFragment : Fragment() {
         view.companyAdressEditText.setText(companyAddress)
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
-        view.businessAccountCategoryEditText.setText(category)
+        view.businessAccountCategoryEditText.text = Editable.Factory.getInstance().newEditable(category)
 
     }
 }

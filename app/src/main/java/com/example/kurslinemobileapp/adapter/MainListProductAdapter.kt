@@ -47,7 +47,7 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
     }
 
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
-        val productRow = items[position].announcemenets[position]
+        val productRow = items.get(0).announcemenets[position]
         val url = "1"
         val photo = Photo(url)
         Picasso.get().load(photo.url).transform(ResizeTransformation(300, 300)).into(holder.productimage)

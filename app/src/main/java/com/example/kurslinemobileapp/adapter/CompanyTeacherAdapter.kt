@@ -41,16 +41,16 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) 
     }
 
     override fun onBindViewHolder(holder: CompanyTeacherHolder, position: Int) {
-        val productRow = items[position]
+        val productRow = items.get(0)
         val url = "1"
         val photo = Photo(url)
       //  Picasso.get().load(productRow.get(position).companyImage).transform(ResizeTransformation(300, 300)).into(holder.itemView.productImage)
-        holder.companyName.text = productRow.get(position).companyCategoryName
+        holder.companyName.text = productRow.get(position).companyName
         holder.companyCategory.text = productRow.get(position).companyCategoryName
         holder.bind(productRow)
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.get(0).size
     }
 }
