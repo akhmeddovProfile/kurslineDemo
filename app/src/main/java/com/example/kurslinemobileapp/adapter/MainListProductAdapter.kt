@@ -67,6 +67,6 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
 
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.get(0).announcemenets.size
     }
 }
