@@ -72,10 +72,12 @@ class UserAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-        Picasso.get().load(response.photo.toString()).into(myProfileImage)
+      //  Picasso.get().load(response.photo.toString()).into(myProfileImage)
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
+
+        println("userfullname:"+response.fullName + response.mobileNumber + response.email)
 
         view.accountNameEditText.setText(userFullName)
         view.accountPhoneEditText.setText(userPhoneNumber)

@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view.accountsFragments
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,9 +35,10 @@ class BusinessAccountFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
+        val authHeader = "Bearer $token"
         println("userID"+id)
         println("userToken"+token)
-        getDataFromServer(id,token!!)
+        getDataFromServer(id,authHeader)
             view.backtoMainPageFromBusinessAcc.setOnClickListener {
                 val fragmentManager = requireFragmentManager()
                 // Start a fragment transaction
@@ -65,23 +67,43 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-        Picasso.get().load(response.photo.toString()).into(myBusinessImage)
+        val companyPhoto = response.companyPhoto
+
+        if (companyPhoto is String) {
+            // Handle URL case
+            Picasso.get()
+                .load(companyPhoto)
+                .into(myBusinessImage)
+        } else if (companyPhoto is Int) {
+            // Handle resource ID case
+            Picasso.get()
+                .load(companyPhoto)
+                .into(myBusinessImage)
+        } else if (companyPhoto is Drawable) {
+            // Handle drawable case
+            myBusinessImage.setImageDrawable(companyPhoto)
+        } else {
+            // Handle other cases or provide a default image
+        }
+
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
         val companyName = response.companyName.toString()
         val companyAddress = response.companyAddress.toString()
+        val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
         val category = response.companyCategoryId.toString()
-        val about = response.companyAbout.toString()
+
 
         view.businessAccountNameEditText.setText(userFullName)
         view.businessAccountPhoneEditText.setText(userPhoneNumber)
         view.businessAccountEmailEditText.setText(userEmail)
         view.businessAccountCompanyEditText.setText(companyName)
         view.companyAdressEditText.setText(companyAddress)
+        view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)
-        view.businessAccountAboutEditText.setText(about)
+
     }
 }
