@@ -67,6 +67,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var aboutCompany: String
     lateinit var categoryId: String
     lateinit var statusId: String
+    lateinit var regionId:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,18 +90,19 @@ class RegisterCompanyActivity : AppCompatActivity() {
         }
         categoryId = ""
         statusId = ""
+        regionId = ""
         createBusinessAccountBtn.setOnClickListener {
             block = true
             val companyNameContainer = companyNameEditText.text.toString().trim()
             val companyEmailContainer = companyEmailEditText.text.toString().trim()
             val companyPasswordContainer = companyPasswordEdit.text.toString().trim()
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
-            val companyRegionContainer = companyRegionEditText.text.toString().trim()
             val companyAddressContainer = companyAdressEditText.text.toString().trim()
             val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
             val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
+            val companyRegionContainer = regionId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
                 companyNameEditText.error = " Name required"
@@ -159,9 +161,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.error = "About Company required"
                 aboutCompanyEditText.requestFocus()
                 block = false
-                sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,
-                    companyNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer.toInt(),companyPhoto.text.toString(),companyStatusContainer.toInt(),companyRegionContainer.toInt())
             }
+            sendCompanydata(companyFullNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,
+                companyNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
@@ -177,10 +179,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
         companyName: String,
         companyAddress: String,
         companyAbout: String,
-        companyCategoryId: Int,
+        companyCategoryId: String,
         imagePath: String,
-        companyStatusId:Int,
-        companyRegionId:Int
+        companyStatusId:String,
+        companyRegionId:String
     ) {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
@@ -198,11 +200,11 @@ class RegisterCompanyActivity : AppCompatActivity() {
         val name: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
         val about: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyAbout)
         val categoryid: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId.toString())
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
         val regionId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId.toString())
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId)
         val statusId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId.toString())
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId)
 
 
         compositeDisposable = CompositeDisposable()
@@ -368,6 +370,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     regionAdapter.setChanged(reg.regions)
                     regionAdapter.setOnItemClickListener { region ->
                         companyRegionEditText.setText(region.regionName)
+                        regionId = region.regionId.toString()
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTestsRegions: $throwable") })
