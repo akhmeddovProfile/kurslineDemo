@@ -67,7 +67,7 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-       val companyPhoto = response.companyPhoto
+       val companyPhoto = response.photo
         Picasso.get().load(companyPhoto).into(myBusinessImage)
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber

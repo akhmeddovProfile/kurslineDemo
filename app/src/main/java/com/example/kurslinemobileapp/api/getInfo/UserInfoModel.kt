@@ -10,6 +10,6 @@ data class UserInfoModel(
     val fullName: String,
     val gender: Int,
     val mobileNumber: String,
-    val photo: Any,
+    val photo: String,
     val userStatusId: Int
 )
