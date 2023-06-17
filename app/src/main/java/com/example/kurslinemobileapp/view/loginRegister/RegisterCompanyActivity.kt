@@ -212,7 +212,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.createCompany(companyUsername,companyemail,companyNumber,companyPassword,name,address,about,categoryid,photo,statusId,regionId)
+            retrofit.createCompany(companyUsername,name,address,about,companyemail,companyNumber,statusId,categoryid,regionId,companyPassword,photo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
