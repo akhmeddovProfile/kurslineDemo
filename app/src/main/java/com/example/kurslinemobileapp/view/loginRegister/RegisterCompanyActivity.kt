@@ -99,7 +99,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
             val companyAddressContainer = companyAdressEditText.text.toString().trim()
             val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
-            val companyModeContainer = companyModeEditText.text.toString().trim()
+          //  val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             val companyRegionContainer = regionId
@@ -141,11 +141,14 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 companyPhoneEditText.requestFocus()
                 block = false
             }
+            /*
            if (companyModeContainer.isEmpty()) {
                 companyModeEditText.error = "Mode required"
                 companyModeEditText.requestFocus()
                 block = false
             }
+
+             */
 
             if (companyStatusContainer.isEmpty()) {
                 compantStatusEditText.error = "Status required"
