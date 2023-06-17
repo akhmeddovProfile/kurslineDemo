@@ -18,11 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/productDetailImage"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPagerProductDetail"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:src="@drawable/favoriteitemnotfoundphoto" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
                 android:id="@+id/favorite_button_for_detail"
                 android:layout_width="wrap_content"
@@ -53,7 +57,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="27dp"
-                android:layout_below="@+id/productDetailImage"
+                android:layout_below="@+id/viewPagerProductDetail"
                 android:textColor="@color/colorForCourseIntheMainScreen"
                 android:layout_height="wrap_content"/>
             <TextView
@@ -79,7 +83,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/nunito"
                 android:textStyle="bold"
-                android:layout_below="@+id/productDetailImage"
+                android:layout_below="@+id/viewPagerProductDetail"
                 android:layout_marginTop="46dp"
                 android:layout_marginStart="300dp"
                 />

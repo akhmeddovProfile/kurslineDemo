@@ -4,23 +4,25 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.CommentAdapter
+import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
+import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
-import com.example.kurslinemobileapp.api.login.LogInAPi
-import com.example.kurslinemobileapp.api.login.LoginRequest
-import com.example.kurslinemobileapp.api.login.LoginResponseX
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
-import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
-import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -30,6 +32,9 @@ import kotlinx.android.synthetic.main.activity_product_detail.*
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var  viewPager2: ViewPager2
+    private lateinit var handler : Handler
+    private lateinit var adapter: ProductDetailImageAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
@@ -63,6 +68,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 sendComment(comment,authHeader,userId,annId)
             }
         }
+
     }
 
     private fun getDataFromServer(id: Int) {
@@ -108,6 +114,13 @@ class ProductDetailActivity : AppCompatActivity() {
         teacherTitle.setText(teacherName.toString())
         contactTitle.setText(phoneNumber)
 
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewUserComment)
+        val commentList: List<Comment> = response.comments
+
+        val commentAdapter = CommentAdapter(commentList)
+        recyclerView.adapter = commentAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val imagesList = response.photos
     }
 
     private fun sendComment(comment:String,token:String,userId:Int,annId:Int) {
@@ -131,4 +144,5 @@ class ProductDetailActivity : AppCompatActivity() {
         finish()
         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
     }
+
 }

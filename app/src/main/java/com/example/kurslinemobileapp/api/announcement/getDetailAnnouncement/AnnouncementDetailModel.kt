@@ -9,13 +9,13 @@ data class AnnouncementDetailModel(
     val announcementPrice: Int,
     val announcementRegionId: String,
     val announcementSubCategoryId: String,
-    val comments: List<Any>,
+    val comments: List<Comment>,
     val companyName: String,
-    val countView: Any,
+    val countView: Int,
     val id: Int,
     val isOnline: String,
     val isVIP: Boolean,
     val phone: String,
-    val photos: List<Any>,
+    val photos: List<Photo>,
     val teacher: List<String>
 )
