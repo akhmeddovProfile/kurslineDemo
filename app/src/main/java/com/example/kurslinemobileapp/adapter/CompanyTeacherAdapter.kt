@@ -37,7 +37,7 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) 
         val productRow = items.get(0)
         val url = "1"
         val photo = Photo(url)
-//      Picasso.get().load(productRow.get(position).companyImage).transform(ResizeTransformation(300, 300)).into(holder.itemView.productImage)
+Picasso.get().load(productRow.get(position).companyImage).transform(ResizeTransformation(300, 300)).into(holder.itemView.productImage)
         holder.companyName.text = productRow.get(position).companyName
         holder.companyCategory.text = productRow.get(position).companyCategoryName
         holder.bind(productRow)

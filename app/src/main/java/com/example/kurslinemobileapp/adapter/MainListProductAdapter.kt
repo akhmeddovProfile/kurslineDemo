@@ -54,7 +54,7 @@ class MainListProductAdapter(private val items: ArrayList<GetAllAnnouncement>) :
         Picasso.get().load(photo.url).transform(ResizeTransformation(300, 300)).into(holder.productimage)
 
          */
-        for (imageUrl in items.get(position).announcemenets[position].photos) {
+        for (imageUrl in productRow.photos) {
             Picasso.get().load(imageUrl).transform(ResizeTransformation(300, 300)).into(holder.productimage)
         }
         holder.modeView.text = productRow.isOnline
