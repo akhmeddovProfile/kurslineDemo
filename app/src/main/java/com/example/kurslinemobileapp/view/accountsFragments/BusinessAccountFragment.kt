@@ -11,11 +11,14 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
+import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
 import com.example.kurslinemobileapp.api.getInfo.InfoAPI
 import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -87,5 +90,36 @@ class BusinessAccountFragment : Fragment() {
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)
+
+        getCategoryList()!!.subscribe({ categories ->
+            println("333")
+            val categoryName = categories.categories.find { it.categoryId == category }?.categoryName
+            view.businessAccountCategoryEditText.setText(categoryName)
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+
+        getStatusList()!!.subscribe({ status ->
+            val statusname = status.statuses.find { it.statusId == category }?.statusName
+            view.compantStatusEditText.setText(statusname)
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+    }
+
+    private fun getCategoryList(): Observable<CompanyRegisterData>? {
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun getStatusList():Observable<CompanyRegisterData>?{
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }

@@ -303,7 +303,7 @@
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/select_course"
                     android:inputType="none"
-                    android:textColor="@color/greenColor"
+                    android:textColor="@color/black"
                     android:textColorHint="@color/mainPageBackgroundColor" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
