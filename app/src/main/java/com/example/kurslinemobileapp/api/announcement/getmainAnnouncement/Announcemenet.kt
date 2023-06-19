@@ -1,13 +1,13 @@
 package com.example.kurslinemobileapp.api.announcement.getmainAnnouncement
 
 data class Announcemenet(
-    val announcemementDesc: String,
-    val announcemementName: String,
+    val announcementDesc: String,
+    val announcementName: String,
     val commentCount: Int,
     val companyName: String,
     val id: Int,
     val isOnline: String,
-    val isRejim: String,
+    val isStatus: String,
     val isVIP: Boolean,
     val photos: List<Photo>,
     val price: Int

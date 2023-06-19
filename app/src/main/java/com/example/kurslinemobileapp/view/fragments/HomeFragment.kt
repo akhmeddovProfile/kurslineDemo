@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,15 +20,11 @@ import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
-import com.example.kurslinemobileapp.api.favorite.FavoriteResponse
 import com.example.kurslinemobileapp.api.favorite.SendFavModel
 import com.example.kurslinemobileapp.model.mainpage.Highlight
-import com.example.kurslinemobileapp.model.mainpage.Product
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
-import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.MainRegisterActivity
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -45,7 +40,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.ListenerClickHeart {
     private lateinit var mainList2 : ArrayList<GetAllAnnouncement>
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
-    lateinit var products:Announcemenet
+    lateinit var products: Announcemenet
     lateinit var favModel: SendFavModel
     private lateinit var favList : kotlin.collections.ArrayList<Int>
 

@@ -26,7 +26,7 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
         onItemClickListener = listener
     }
     interface ListenerClickHeart{
-        fun onHeartItemCLick(heart:GetAllAnnouncement, liked:Boolean,position: Int)
+        fun onHeartItemCLick(heart: GetAllAnnouncement, liked:Boolean, position: Int)
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
@@ -63,11 +63,11 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
 
 
         holder.modeView.text = productRow.isOnline
-        holder.statusView.text = productRow.isRejim
+        holder.statusView.text = productRow.isStatus
         //holder.imageVIPView.setImageResource(productRow.vipIcon)
-        holder.producttitle.text = productRow.announcemementName
+        holder.producttitle.text = productRow.announcementName
         holder.productOwnerName.text = productRow.companyName
-        holder.productDescription.text = productRow.announcemementDesc
+        holder.productDescription.text = productRow.announcementDesc
         if (productRow.isVIP == true) {
             holder.imageVIPView.visibility = View.VISIBLE
         } else {

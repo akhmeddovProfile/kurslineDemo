@@ -1,33 +1,21 @@
 package com.example.kurslinemobileapp.view.tabsForCompanies
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTeacherAdapter
-import com.example.kurslinemobileapp.adapter.MainListProductAdapter
-import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherModel
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
-import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class TabforCompanies : Fragment() {
