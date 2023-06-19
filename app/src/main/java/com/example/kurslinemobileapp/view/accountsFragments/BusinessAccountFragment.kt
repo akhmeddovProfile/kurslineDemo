@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.getInfo.InfoAPI
 import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
@@ -76,8 +77,7 @@ class BusinessAccountFragment : Fragment() {
         val companyAddress = response.companyAddress.toString()
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
-        val category : String = response.companyCategoryId.toString()
-
+        val category  = response.companyCategoryId
 
         view.businessAccountNameEditText.setText(userFullName)
         view.businessAccountPhoneEditText.setText(userPhoneNumber)
@@ -86,7 +86,6 @@ class BusinessAccountFragment : Fragment() {
         view.companyAdressEditText.setText(companyAddress)
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
-        view.businessAccountCategoryEditText.text = Editable.Factory.getInstance().newEditable(category)
-
+        view.businessAccountCategoryEditText.setText(category)
     }
 }
