@@ -9,6 +9,6 @@ data class Announcemenet(
     val isOnline: String,
     val isRejim: String,
     val isVIP: Boolean,
-    val photos: List<String>,
+    val photos: List<Photo>,
     val price: Int
 )
