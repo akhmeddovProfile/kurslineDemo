@@ -143,9 +143,8 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun handleResponse(response: CommentResponse) {
-        val intent = Intent(this@ProductDetailActivity, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        recreate()
+        commentEditText.text!!.clear()
         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
     }
 

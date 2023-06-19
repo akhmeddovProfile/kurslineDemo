@@ -464,16 +464,17 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/circle_shape"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginStart="5dp"
                     />
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/commentforUser"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_marginHorizontal="20dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_width="250dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/userimageforcomment"
                     app:boxBackgroundColor="@color/white"
@@ -495,19 +496,13 @@
                         android:inputType="textPersonName"
                         android:hint="Şərh əlavə edin"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <androidx.appcompat.widget.AppCompatButton
+                <ImageView
                     android:id="@+id/sendCommentBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Send"
                     android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textAllCaps="false"
-                    android:background="@drawable/business_button_bg"
-                    android:fontFamily="@font/nunito"
-                    android:layout_toRightOf="@+id/commentforUser"/>
+                    android:background="@drawable/ic_baseline_arrow_upward_24"
+                    android:layout_alignParentEnd="true"/>
             </RelativeLayout>
 
             <RelativeLayout
