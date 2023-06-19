@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.ResizeTransformation
 import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
@@ -75,7 +76,7 @@ class BusinessAccountFragment : Fragment() {
         if (companyPhoto == null){
             view.myBusinessImage.setImageResource(R.drawable.setpp)
         }else{
-            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
+            Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(view.myBusinessImage)
         }
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
