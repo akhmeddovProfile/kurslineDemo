@@ -12,6 +12,7 @@ import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAll
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.product_item_row.view.*
 
 class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) :
@@ -37,7 +38,17 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModel>) 
         val productRow = items.get(0)
         val url = "1"
         val photo = Photo(url)
-Picasso.get().load(productRow.get(position).companyImage).transform(ResizeTransformation(300, 300)).into(holder.itemView.productImage)
+        if (productRow[position].companyImage == null) {
+            // If the companyImage is null, set a default image from a local drawable resource
+           holder.companyImage.setImageResource(R.drawable.setpp)
+        } else {
+            // If the companyImage is not null, load the image using Picasso library
+            Picasso.get()
+                .load(productRow[position].companyImage)
+                .transform(ResizeTransformation(300, 300))
+                .into(holder.companyImage)
+        }
+
         holder.companyName.text = productRow.get(position).companyName
         holder.companyCategory.text = productRow.get(position).companyCategoryName
         holder.bind(productRow)
