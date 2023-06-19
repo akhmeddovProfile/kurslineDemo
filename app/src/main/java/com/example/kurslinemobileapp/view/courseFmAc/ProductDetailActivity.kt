@@ -85,6 +85,7 @@ class ProductDetailActivity : AppCompatActivity() {
     private fun handleResponse(response: AnnouncementDetailModel) {
         productDetail_Rl.visibility = View.VISIBLE
        // Picasso.get().load(response.photos).into(productDetailImage)
+        val imageUrls = response.photos
         val image = response.photos
         val companyName = response.companyName
         val price = response.announcementPrice.toString()
@@ -121,7 +122,9 @@ class ProductDetailActivity : AppCompatActivity() {
         val commentAdapter = CommentAdapter(commentList)
         recyclerView.adapter = commentAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val imagesList = response.photos
+        val viewPager: ViewPager2 = findViewById(R.id.viewPagerProductDetail)
+        val photoAdapter = ProductDetailImageAdapter(imageUrls)
+        viewPager.adapter = photoAdapter
     }
 
     private fun sendComment(comment:String,token:String,userId:Int,annId:Int) {
