@@ -72,7 +72,11 @@ class BusinessAccountFragment : Fragment() {
 
     private fun handleResponse(response: UserInfoModel) {
        val companyPhoto = response.photo
-        Picasso.get().load(companyPhoto).into(myBusinessImage)
+        if (companyPhoto == null){
+            view.myBusinessImage.setImageResource(R.drawable.setpp)
+        }else{
+            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
+        }
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
@@ -81,15 +85,6 @@ class BusinessAccountFragment : Fragment() {
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
-
-        view.businessAccountNameEditText.setText(userFullName)
-        view.businessAccountPhoneEditText.setText(userPhoneNumber)
-        view.businessAccountEmailEditText.setText(userEmail)
-        view.businessAccountCompanyEditText.setText(companyName)
-        view.companyAdressEditText.setText(companyAddress)
-        view.businessAccountAboutEditText.setText(about)
-        view.compantStatusEditText.setText(userstaus)
-        view.businessAccountCategoryEditText.setText(category)
 
         getCategoryList()!!.subscribe({ categories ->
             println("333")
@@ -107,6 +102,17 @@ class BusinessAccountFragment : Fragment() {
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
         }).let { compositeDisposable.add(it) }
+
+        view.businessAccountNameEditText.setText(userFullName)
+        view.businessAccountPhoneEditText.setText(userPhoneNumber)
+        view.businessAccountEmailEditText.setText(userEmail)
+        view.businessAccountCompanyEditText.setText(companyName)
+        view.companyAdressEditText.setText(companyAddress)
+        view.businessAccountAboutEditText.setText(about)
+        view.compantStatusEditText.setText(userstaus)
+        view.businessAccountCategoryEditText.setText(category)
+
+
     }
 
     private fun getCategoryList(): Observable<CompanyRegisterData>? {

@@ -108,9 +108,13 @@ class BusinessTransactionProfileFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-        val companyPhoto = response.photo
-        Picasso.get().load(companyPhoto).into(businessTransProfileImage)
         val userFullName = response.fullName
         view.businessTransName.text = userFullName
+        val companyPhoto = response.photo
+        if (companyPhoto == null){
+            view.myBusinessImage.setImageResource(R.drawable.setpp)
+        }else{
+            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
+        }
     }
 }
