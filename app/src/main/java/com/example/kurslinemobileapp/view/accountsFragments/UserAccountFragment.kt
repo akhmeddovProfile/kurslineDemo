@@ -15,6 +15,7 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
+import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -64,7 +65,9 @@ class UserAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
+
       //  Picasso.get().load(response.photo.toString()).into(myProfileImage)
+
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
@@ -74,5 +77,11 @@ class UserAccountFragment : Fragment() {
         view.accountNameEditText.setText(userFullName)
         view.accountPhoneEditText.setText(userPhoneNumber)
         view.accountMailEditText.setText(userEmail)
+
+        if (response.photo == null){
+            view.myProfileImage.setImageResource(R.drawable.setpp)
+        }else{
+            Picasso.get().load(response.photo).into(view.myProfileImage)
+        }
     }
 }

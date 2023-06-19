@@ -57,9 +57,15 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
         var addedToFav = false
 
         val productRow = items.get(0).announcemenets[position]
+        /*
         val url = "1"
         val photo = Photo(url)
         Picasso.get().load(photo.url).transform(ResizeTransformation(300, 300)).into(holder.productimage)
+
+         */
+        for (imageUrl in productRow.photos) {
+            Picasso.get().load(imageUrl).transform(ResizeTransformation(300, 300)).into(holder.productimage)
+        }
         holder.modeView.text = productRow.isOnline
         holder.statusView.text = productRow.isRejim
         //holder.imageVIPView.setImageResource(productRow.vipIcon)

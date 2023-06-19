@@ -10,11 +10,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.companyData.Category
+import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
 import com.example.kurslinemobileapp.api.getInfo.InfoAPI
 import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -67,8 +71,12 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-       val companyPhoto = response.companyPhoto
-        Picasso.get().load(companyPhoto).into(myBusinessImage)
+       val companyPhoto = response.photo
+        if (companyPhoto == null){
+            view.myBusinessImage.setImageResource(R.drawable.setpp)
+        }else{
+            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
+        }
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
@@ -76,8 +84,24 @@ class BusinessAccountFragment : Fragment() {
         val companyAddress = response.companyAddress.toString()
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
-        val category : String = response.companyCategoryId.toString()
+        val category  = response.companyCategoryId
 
+        getCategoryList()!!.subscribe({ categories ->
+            println("333")
+            val categoryName = categories.categories.find { it.categoryId == category }?.categoryName
+            view.businessAccountCategoryEditText.setText(categoryName)
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+
+        getStatusList()!!.subscribe({ status ->
+            val statusname = status.statuses.find { it.statusId == category }?.statusName
+            view.compantStatusEditText.setText(statusname)
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
 
         view.businessAccountNameEditText.setText(userFullName)
         view.businessAccountPhoneEditText.setText(userPhoneNumber)
@@ -86,7 +110,22 @@ class BusinessAccountFragment : Fragment() {
         view.companyAdressEditText.setText(companyAddress)
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
-        view.businessAccountCategoryEditText.text = Editable.Factory.getInstance().newEditable(category)
+        view.businessAccountCategoryEditText.setText(category)
 
+
+    }
+
+    private fun getCategoryList(): Observable<CompanyRegisterData>? {
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun getStatusList():Observable<CompanyRegisterData>?{
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }
