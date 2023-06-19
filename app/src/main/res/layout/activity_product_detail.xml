@@ -72,9 +72,33 @@
                 android:layout_marginStart="27dp"
                 android:layout_below="@+id/courseownerName"
                 />
+            <LinearLayout
+                android:id="@+id/viewCountLl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/viewPagerProductDetail"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="30dp">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="20sp"
+                    android:layout_height="10sp"
+                    android:background="@drawable/visibility" />
+                <TextView
+                    android:id="@+id/viewCount"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.3k"
+                    android:textColor=" #78BFDB"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/detailCoursePrice"
+                android:layout_marginRight="10dp"
                 android:layout_width="90dp"
                 android:layout_height="37dp"
                 android:background="@drawable/detailpricebackground"
@@ -83,9 +107,9 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/nunito"
                 android:textStyle="bold"
-                android:layout_below="@+id/viewPagerProductDetail"
-                android:layout_marginTop="46dp"
-                android:layout_marginStart="300dp"
+                android:layout_below="@+id/viewCountLl"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
                 />
             <TextView
                 android:id="@+id/aboutCourse"

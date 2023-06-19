@@ -95,6 +95,7 @@ class ProductDetailActivity : AppCompatActivity() {
         val modeId = response.isOnline
         val teacherName = response.teacher
         val phoneNumber = response.phone
+        val count = response.countView
         if (response.isVIP == true){
             vip_product_for_detail.visibility = View.VISIBLE
         }else{
@@ -113,7 +114,7 @@ class ProductDetailActivity : AppCompatActivity() {
         rejimTitle.setText(modeId)
         teacherTitle.setText(teacherName.toString())
         contactTitle.setText(phoneNumber)
-
+        viewCount.setText(count.toString())
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewUserComment)
         val commentList: List<Comment> = response.comments
 
