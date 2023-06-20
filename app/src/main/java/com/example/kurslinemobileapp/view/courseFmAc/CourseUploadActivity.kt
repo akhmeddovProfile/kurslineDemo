@@ -43,6 +43,8 @@ class CourseUploadActivity : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
 
     lateinit var categoryId: String
+    lateinit var modeId: String
+    lateinit var regionId:String
 
     private var block: Boolean = true
     companion object {
@@ -62,6 +64,11 @@ class CourseUploadActivity : AppCompatActivity() {
         val adapter =
             PhotoPagerAdapter(emptyList()) // Customize the adapter implementation as needed
         viewPagerCourseUpload.adapter = adapter
+
+        categoryId = ""
+        modeId = ""
+        regionId = ""
+
         uploadCourse.setOnClickListener {
         block=true
             val companyRegionContainer = courseRegionEditText.text.toString().trim()
@@ -307,6 +314,7 @@ class CourseUploadActivity : AppCompatActivity() {
                     regionAdapter.setChanged(reg.regions)
                     regionAdapter.setOnItemClickListener { region ->
                         courseRegionEditText.setText(region.regionName)
+                        regionId = region.regionId.toString()
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTestsRegions: $throwable") })
@@ -336,6 +344,7 @@ class CourseUploadActivity : AppCompatActivity() {
                     modeAdapter.setChanged(mode.isOnlines)
                     modeAdapter.setOnItemClickListener { mode ->
                         courseModeEditText.setText(mode.isOnlineName)
+                        modeId = mode.isOnlineId.toString()
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTestMode: $throwable") })
