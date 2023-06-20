@@ -284,6 +284,7 @@
                     android:layout_height="40dp"
                     android:background="@drawable/ic_baseline_add_photo_alternate_24"/>
                 <TextView
+                    android:id="@+id/setImageUrl"
                     android:layout_gravity="center"
                     android:textSize="24sp"
                     android:textColor="#78BFDB"
@@ -308,6 +309,16 @@
                 android:layout_toLeftOf="@+id/rightarrow"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp" />
+            <ImageView
+                android:id="@+id/courseImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="411dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars"/>
             <ImageView
                 android:id="@+id/rightarrow"
                 android:layout_width="80dp"

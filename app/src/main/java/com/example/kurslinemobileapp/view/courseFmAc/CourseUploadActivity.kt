@@ -2,14 +2,31 @@ package com.example.kurslinemobileapp.view.courseFmAc
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipDescription
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+
+import android.graphics.ImageDecoder
+import android.graphics.drawable.BitmapDrawable
+import android.net.LinkAddress
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Base64
+import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +35,9 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreataAnnouncementApi
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
+import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementResponse
+import com.example.kurslinemobileapp.api.announcement.createAnnouncement.Img
+import com.example.kurslinemobileapp.api.comment.CommentResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyData.SubCategory
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
@@ -25,14 +45,14 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_all_companies.*
 import kotlinx.android.synthetic.main.activity_course_upload.*
-import kotlinx.android.synthetic.main.activity_register_company.*
-import retrofit2.create
-import java.io.ByteArrayOutputStream
+import kotlinx.android.synthetic.main.activity_product_detail.*
 
 
 class CourseUploadActivity : AppCompatActivity() {
@@ -42,19 +62,50 @@ class CourseUploadActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
 
+    var imageNames = mutableListOf<String>()
+    var imageData = mutableListOf<Uri>()
+    var images = mutableListOf<Img>()
+    var teachersname= mutableListOf<String>()
     lateinit var categoryId: String
     lateinit var modeId: String
     lateinit var regionId:String
+
+    private val permissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openGallery()
+            } else {
+                // Permission denied, handle accordingly
+            }
+        }
+    private val galleryLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            uris.forEach { imageUri ->
+                val imageName=getImageName(imageUri)
+                convertImageToBase64(imageUri,imageName)
+            }
+        }
 
     private var block: Boolean = true
     companion object {
         private const val REQUEST_CODE_GALLERY = 1
     }
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint("WrongViewCast", "WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_upload)
+        imageNames= mutableListOf()
+        imageData= mutableListOf()
+        images= mutableListOf()
+        teachersname= mutableListOf()
+
+        val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getInt("userID",0)
+        val token = sharedPreferences.getString("USERTOKENNN","")
+        val authHeader = "Bearer $token"
+        println("userid" + userId)
+        println("token:"+authHeader)
 
             backtoMainFromCourseUpload.setOnClickListener {
                 val intent = Intent(this@CourseUploadActivity,MainActivity::class.java)
@@ -122,17 +173,47 @@ class CourseUploadActivity : AppCompatActivity() {
                 block=false
             }
 
+            val name = courseTeacherEditText.text.toString().trim()
+            if (name.isNotEmpty()){
+                teachersname.add(name)
+            }
+
+   /*         val nameInputLayout = findViewById<TextInputLayout>(R.id.courseTeacherEditText)
+            nameInputLayout.editText?.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    val name = nameInputLayout.editText?.text.toString().trim()
+
+                    if (name.isNotEmpty()) {
+                        teachersname.add(name)
+                        println("Teachers Name: "+teachersname)
+                        // Optional: Perform any additional actions or updates based on the entered name
+                        nameInputLayout.editText?.text?.clear()
+                        true
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            }
+*/
+
+
+            for(i in 0 until imageNames.size){
+                val img = Img(imageNames[i], imageData[i].toString())
+                images.add(img)
+            }
+            sendAnnouncementData(token!!,userId!!,CreateAnnouncementRequest(courseNameEditText.text.toString(),courseAboutEditText.text.toString(),coursePriceEditText.hashCode(),
+                courseAddressEditText.text.toString(),modeId.toInt(),categoryId.toInt(),regionId.toInt(),images,teachersname)
+            )
+
         }
 
 
-        addCoursePhotos.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            startActivityForResult(intent, REQUEST_CODE_GALLERY)
-            leftArrow.visibility = View.VISIBLE
-            rightarrow.visibility = View.VISIBLE
 
+        addCoursePhotos.setOnClickListener {
+            requestGalleryPermission()
+            openGallery()
         }
 
         val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpload)
@@ -168,88 +249,76 @@ class CourseUploadActivity : AppCompatActivity() {
             showBottomSheetDialogMode()
         }
 
-        val imageList = mutableListOf<PhotoUpload>()
-
-        for (photoUpload in selectedPhotos) {
-            val base64Image = encodeImageToBase64(photoUpload.uri)
-            val imageData = PhotoUpload(photoUpload.photoName,base64Image.toUri())
-            imageList.add(imageData)
-            println("Base64"+base64Image)
-        }
 
     }
 
     private fun sendAnnouncementData(
-        nameofAnnouncement:String,
-        nameofAddress:String,
-        aboutTheCourse:String,
-        nameofTeachers:String,
-        priceofCourse:Int,
-        modeofCourse:String,
-        imgofCourse:PhotoUpload,
-        categoryofCourse:String,
-        regionofCourse:String
+        token:String,
+        userId:Int,
+        createAnnouncementRequest: CreateAnnouncementRequest
+
     ) {
         compositeDisposable= CompositeDisposable()
         val retrofitService=RetrofitService(Constant.BASE_URL).retrofit.create(CreataAnnouncementApi::class.java)
-        //val request=CreateAnnouncementRequest(nameofAnnouncement,nameofAddress,aboutTheCourse.toInt(),nameofTeachers,priceofCourse,modeofCourse.toInt(),categoryofCourse.toInt(),imgofCourse.photoName,regionofCourse)
+        compositeDisposable.add(
+            retrofitService.createAnnouncementByuserID(token,userId,createAnnouncementRequest)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    this::handleResponse,
+                    {throwable->
+                    println("MyTest: "+ throwable)
+                    }
+                )
+        )
     }
-
+    private fun handleResponse(response: CreateAnnouncementResponse) {
+        print("Response: "+ response.id)
+    }
     private fun updateNavigationButtons(position: Int) {
         leftArrow.isEnabled = position > 0
         rightarrow.isEnabled = position < selectedPhotos.size - 1
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_GALLERY && resultCode == Activity.RESULT_OK) {
-            if (data?.clipData != null) {
-                val clipData = data.clipData
-                selectedPhotos.clear() // Clear the existing selection
-                for (i in 0 until clipData!!.itemCount) {
-//                    val name =clipData.getItemAt(i).text.toString()
-                    val uri = clipData.getItemAt(i).uri
-                    val photoName = "selected_photo_$i.jpg"
-                    selectedPhotos.add(PhotoUpload(photoName,uri))
-
-                    println(selectedPhotos)
-                }
-            } else if (data?.data != null) {
-                val uri = data.data
-                val imagePath = uri?.let { getRealPathFromURI(it) }
-                selectedPhotos.clear() // Clear the existing selection
-                selectedPhotos.add(PhotoUpload(imagePath!!,uri!!))
-                println(selectedPhotos)
-            }
-
-            val adapter = viewPagerCourseUpload.adapter as? PhotoPagerAdapter
-            adapter?.photoList = selectedPhotos
-            adapter?.notifyDataSetChanged()
-        }
-
-        super.onActivityResult(requestCode, resultCode, data)
+    private fun requestGalleryPermission() {
+        permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
-
-    private fun getRealPathFromURI(uri: Uri): String? {
-        var path: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
+    private fun openGallery() {
+        galleryLauncher.launch("image/*")
+    }
+    @SuppressLint("Range")
+    private fun getImageName(imageUri: Uri): String? {
+        val cursor = contentResolver.query(imageUri, null, null, null, null)
+        val name: String? = cursor?.use {
             if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                path = it.getString(columnIndex)
+                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                displayName
+            } else {
+                null
             }
         }
-        return path
+        cursor?.close()
+        return name
     }
-
-    fun encodeImageToBase64(imageUri: Uri): String {
+    private fun convertImageToBase64(imageUri: Uri,imageName:String?) {
         val inputStream = contentResolver.openInputStream(imageUri)
         val imageBytes = inputStream?.readBytes()
+
+        val base64String = if (imageBytes != null) {
+            Base64.encodeToString(imageBytes, Base64.DEFAULT)
+        } else {
+            ""
+        }
+
         inputStream?.close()
 
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
-
+        // Use the base64String as needed
+        setImageUrl.setText(imageName?.trim().toString())
+        println("Image Name: "+setImageUrl.text.toString())
+        imageNames.add(imageName!!)
+        imageData.add(imageUri)
     }
+
 
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
