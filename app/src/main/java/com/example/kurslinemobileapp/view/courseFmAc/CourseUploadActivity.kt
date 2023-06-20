@@ -15,13 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.adapter.CategoryAdapter
-import com.example.kurslinemobileapp.adapter.ModeAdapter
-import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
-import com.example.kurslinemobileapp.adapter.RegionAdapter
+import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreataAnnouncementApi
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyData.SubCategory
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -258,13 +256,31 @@ class CourseUploadActivity : AppCompatActivity() {
                     recyclerViewCategories.adapter = categoryAdapter
                     categoryAdapter.setChanged(categories.categories)
                     categoryAdapter.setOnItemClickListener { category ->
-                        categoryId = category.categoryId.toString()
-                        courseCategoryEditText.setText(category.categoryName)
+                        showSubCategories(category.subCategories)
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTests: $throwable") })
         )
 
+        dialog.show()
+    }
+
+    private fun showSubCategories(subCategories: List<SubCategory>) {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewSubCategories: RecyclerView = bottomSheetView.findViewById(R.id.recyclerViewCategories)
+        recyclerViewSubCategories.setHasFixedSize(true)
+        recyclerViewSubCategories.layoutManager = LinearLayoutManager(this)
+
+        val subCategoryAdapter = SubCategoryAdapter(subCategories)
+        recyclerViewSubCategories.adapter = subCategoryAdapter
+        subCategoryAdapter.setOnItemClickListener { subCategory ->
+            // Handle the subcategory selection here
+            categoryId = subCategory.subCategoryId.toString()
+            courseCategoryEditText.setText(subCategory.subCategoryName)
+            dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
+        }
         dialog.show()
     }
 
