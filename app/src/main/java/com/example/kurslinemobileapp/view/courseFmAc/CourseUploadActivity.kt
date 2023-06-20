@@ -203,9 +203,7 @@ class CourseUploadActivity : AppCompatActivity() {
                 val img = Img(imageNames[i], imageData[i].toString())
                 images.add(img)
             }
-            sendAnnouncementData(token!!,userId!!,
-                CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer.toInt(),courseAddressContainer,categoryId,regionId,teachersname,modeId,images)
-            )
+            sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer.toInt(),courseAddressContainer,categoryId,regionId,teachersname,modeId,images))
 
         }
 
