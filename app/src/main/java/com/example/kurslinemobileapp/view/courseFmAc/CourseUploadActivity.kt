@@ -71,6 +71,8 @@ class CourseUploadActivity : AppCompatActivity() {
 
         uploadCourse.setOnClickListener {
         block=true
+            val courseNameContainer = courseNameEditText.text.toString().trim()
+            val courseAddressContainer = courseAddressEditText.text.toString().trim()
             val companyAboutContainer=courseAboutEditText.text.toString().trim()
             val companyTeacherContainer=courseTeacherEditText.text.toString().trim()
             val companyPriceContainer=coursePriceEditText.text.toString().trim()
@@ -78,16 +80,17 @@ class CourseUploadActivity : AppCompatActivity() {
             val companyCategoryContainer = categoryId
             val companyRegionContainer = regionId
 
-            if (companyRegionContainer.isEmpty()){
-                courseRegionEditText.error="Region required"
-                courseRegionEditText.requestFocus()
+            if (courseNameContainer.isEmpty()){
+                courseNameEditText.error="Course Name required"
+                courseNameEditText.requestFocus()
                 block=false
             }
-            if (companyCategoryContainer.isEmpty()){
-                courseCategoryEditText.error="Category required"
-                courseCategoryEditText.requestFocus()
+            if (courseAddressContainer.isEmpty()){
+                courseAddressEditText.error="Course Address required"
+                courseAddressEditText.requestFocus()
                 block=false
             }
+
             if (companyAboutContainer.isEmpty()){
                 courseAboutEditText.error="About the Course required"
                 courseAboutEditText.requestFocus()
