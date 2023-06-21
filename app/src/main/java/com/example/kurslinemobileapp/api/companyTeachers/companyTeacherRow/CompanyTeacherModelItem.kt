@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.api.companyTeachers
+package com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow
 
 data class CompanyTeacherModelItem(
     val companyCategoryName: String,

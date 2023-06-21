@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@color/white">
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/courseBusinessPhoto"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -95,9 +95,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0554046560"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/black"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="8dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="10dp"
@@ -109,15 +112,18 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:background="@drawable/ic_baseline_location_on_24"/>
                 <TextView
                     android:id="@+id/courseBusinessLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Baku city, Zabrat distirict"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/black"
-                    android:layout_marginStart="10dp"/>
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/businessCompanyCourseCount"

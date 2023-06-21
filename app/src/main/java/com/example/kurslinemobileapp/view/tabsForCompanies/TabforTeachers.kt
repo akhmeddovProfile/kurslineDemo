@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTeacherAdapter
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
-import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherModel
+import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModel
+import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,8 +22,7 @@ import io.reactivex.schedulers.Schedulers
 
 class TabforTeachers : Fragment() {
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
-    private lateinit var mainList : ArrayList<CompanyTeacherModel>
-    private lateinit var mainList2 : ArrayList<CompanyTeacherModel>
+    private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
     private lateinit var compositeDisposable: CompositeDisposable
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -31,10 +31,11 @@ class TabforTeachers : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_tabfor_teachers, container, false)
-        mainList = ArrayList<CompanyTeacherModel>()
-        mainList2 = ArrayList<CompanyTeacherModel>()
-        val coursesRV = view.findViewById<RecyclerView>(R.id.recyclerViewForTeacher)
-        coursesRV.layoutManager = LinearLayoutManager(requireContext())
+        mainList = ArrayList()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewForTeacher)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        companyTeacherAdapter = CompanyTeacherAdapter(mainList)
+        recyclerView.adapter = companyTeacherAdapter
         getCompanies()
         return view
     }
@@ -48,14 +49,8 @@ class TabforTeachers : Fragment() {
             .subscribe(this::handleResponse, { throwable-> println("MyCompanies: $throwable") }))
     }
 
-    private fun handleResponse(response : CompanyTeacherModel){
-        val position : Int? = null
-        mainList.addAll(listOf(response))
-        mainList2.addAll(listOf(response))
-        println("companies: " + response)
-        companyTeacherAdapter = CompanyTeacherAdapter(mainList2)
-        val recyclerviewForCompanies = requireView().findViewById<RecyclerView>(R.id.recyclerViewForTeacher)
-        recyclerviewForCompanies.adapter = companyTeacherAdapter
+    private fun handleResponse(response: CompanyTeacherModel) {
+        mainList.addAll(response)
         companyTeacherAdapter.notifyDataSetChanged()
     }
 }
