@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view.courseFmAc
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CommentAdapter
 import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
@@ -35,12 +37,15 @@ class ProductDetailActivity : AppCompatActivity() {
     private lateinit var  viewPager2: ViewPager2
     private lateinit var handler : Handler
     private lateinit var adapter: ProductDetailImageAdapter
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
 
-        productDetail_Rl.visibility = View.GONE
-
+        scrollViewforProductDescription.visibility = View.GONE
+        val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
         val sharedPreferences = this.getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
@@ -69,6 +74,7 @@ class ProductDetailActivity : AppCompatActivity() {
             }
         }
 
+
     }
 
     private fun getDataFromServer(id: Int) {
@@ -83,7 +89,11 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun handleResponse(response: AnnouncementDetailModel) {
-        productDetail_Rl.visibility = View.VISIBLE
+        scrollViewforProductDescription.visibility = View.VISIBLE
+        val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
+        lottie.pauseAnimation()
+        lottie.visibility = View.GONE
+
        // Picasso.get().load(response.photos).into(productDetailImage)
         val imageUrls = response.photos
         val image = response.photos

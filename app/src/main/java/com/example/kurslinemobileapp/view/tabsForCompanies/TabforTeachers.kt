@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTeacherAdapter
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
@@ -21,6 +22,7 @@ import io.reactivex.schedulers.Schedulers
 
 
 class TabforTeachers : Fragment() {
+    private lateinit var view : ViewGroup
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
     private lateinit var compositeDisposable: CompositeDisposable
@@ -30,12 +32,16 @@ class TabforTeachers : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_tabfor_teachers, container, false)
+         view = inflater.inflate(R.layout.fragment_tabfor_teachers, container, false) as ViewGroup
+        val recycler = view.findViewById<RecyclerView>(R.id.recyclerViewForTeacher)
+        recycler.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabTeacher)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
         mainList = ArrayList()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewForTeacher)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recycler.layoutManager = LinearLayoutManager(requireContext())
         companyTeacherAdapter = CompanyTeacherAdapter(mainList)
-        recyclerView.adapter = companyTeacherAdapter
+        recycler.adapter = companyTeacherAdapter
         getCompanies()
         return view
     }
@@ -50,6 +56,11 @@ class TabforTeachers : Fragment() {
     }
 
     private fun handleResponse(response: CompanyTeacherModel) {
+        val recycler = view.findViewById<RecyclerView>(R.id.recyclerViewForTeacher)
+        recycler.visibility = View.VISIBLE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabTeacher)
+        lottie.visibility = View.GONE
+        lottie.playAnimation()
         mainList.addAll(response)
         companyTeacherAdapter.notifyDataSetChanged()
     }

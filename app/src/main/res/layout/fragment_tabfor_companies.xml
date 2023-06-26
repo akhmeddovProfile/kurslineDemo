@@ -27,4 +27,13 @@
         android:layout_below="@+id/searchViewKurs"
         android:layout_marginTop="20dp"
         android:id="@+id/recyclerviewForCompanyteacher"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingTabCompany"
+        android:layout_below="@+id/searchViewKurs"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 </RelativeLayout>

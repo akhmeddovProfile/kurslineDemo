@@ -1,11 +1,17 @@
 package com.example.kurslinemobileapp.view.courseFmAc
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.CourseBusinessProfileAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
@@ -19,16 +25,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_course_business_profile.*
+import kotlinx.android.synthetic.main.activity_product_detail.*
 
 class CourseBusinessProfile : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var courseBusinessProfileAdapter: CourseBusinessProfileAdapter
+    private lateinit var mainList : ArrayList<Announcement>
+    private lateinit var mainList2 : ArrayList<Announcement>
+    private lateinit var sharedPreferences: SharedPreferences
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_business_profile)
-
+        sharedPreferences =this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        scrollBusinessProfile.visibility = View.GONE
+        val lottie = findViewById<LottieAnimationView>(R.id.loadingCourseBusinessProfile)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
         val companyId = intent.getIntExtra("companyId", -1)
         print("ID777:" + companyId)
         if (companyId != -1) {
+            mainList = ArrayList<Announcement>()
+            mainList2 = ArrayList<Announcement>()
+
+            val coursesRV = findViewById<RecyclerView>(R.id.courseBusinessUploadsRV)
+            coursesRV.layoutManager = GridLayoutManager(this,2)
         getDataFromServer(companyId)
         }
 
@@ -51,10 +72,28 @@ class CourseBusinessProfile : AppCompatActivity() {
     }
 
     private fun handleResponse(response: CompanyDetail) {
+        scrollBusinessProfile.visibility = View.VISIBLE
+        val lottie = findViewById<LottieAnimationView>(R.id.loadingCourseBusinessProfile)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
+        val recycler = findViewById<RecyclerView>(R.id.courseBusinessUploadsRV)
 
         if (response.isNotEmpty()) {
             val companyDetailItem = response[0]
-
+            mainList.addAll(companyDetailItem.announcements)
+            mainList2.addAll(companyDetailItem.announcements)
+            courseBusinessProfileAdapter = CourseBusinessProfileAdapter(mainList2)
+            recycler.adapter = courseBusinessProfileAdapter
+            courseBusinessProfileAdapter.notifyDataSetChanged()
+            courseBusinessProfileAdapter.setOnItemClickListener {
+                val intent = Intent(this@CourseBusinessProfile, ProductDetailActivity::class.java)
+               startActivity(intent)
+                sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                println("gedenId-----"+it.id)
+                editor.apply()
+            }
             val companyName = companyDetailItem.companyName
             val companyPhone = companyDetailItem.companyPhone
             val companyAddress = companyDetailItem.companyAddress
