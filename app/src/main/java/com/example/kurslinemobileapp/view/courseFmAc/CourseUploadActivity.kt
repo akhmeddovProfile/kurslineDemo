@@ -31,6 +31,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreataAnnouncementApi
@@ -99,7 +100,6 @@ class CourseUploadActivity : AppCompatActivity() {
         imageData= mutableListOf()
         images= mutableListOf()
         teachersname= mutableListOf()
-
         val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
@@ -204,6 +204,7 @@ class CourseUploadActivity : AppCompatActivity() {
                 images.add(img)
             }
             sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyCategoryContainer,companyRegionContainer,images,teachersname))
+
         }
 
 
@@ -270,6 +271,9 @@ class CourseUploadActivity : AppCompatActivity() {
         )
     }
     private fun handleResponse(response: CreateAnnouncementResponse) {
+        val intent = Intent(this@CourseUploadActivity,MainActivity::class.java)
+        startActivity(intent)
+        finish()
         println("Response: "+ response.id)
     }
     private fun updateNavigationButtons(position: Int) {
