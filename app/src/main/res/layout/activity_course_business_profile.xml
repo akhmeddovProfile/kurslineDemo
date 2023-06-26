@@ -37,6 +37,7 @@
         android:src="@color/grayColor1"/>
 
     <ScrollView
+        android:id="@+id/scrollBusinessProfile"
         android:layout_below="@+id/lineCProfile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -159,4 +160,11 @@
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
     </ScrollView>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingCourseBusinessProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 </RelativeLayout>
