@@ -153,6 +153,7 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun handleResponse(response: CommentResponse) {
+        recreate()
         commentEditText.text!!.clear()
         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
     }

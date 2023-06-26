@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.ResizeTransformation
 import com.example.kurslinemobileapp.api.companyData.Category
@@ -23,6 +25,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import kotlinx.android.synthetic.main.fragment_business_account.*
@@ -37,7 +40,11 @@ class BusinessAccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
          view = inflater.inflate(R.layout.fragment_business_account, container, false) as ViewGroup
-
+        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+        scroll.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
         val sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
@@ -72,6 +79,11 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
+        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+        scroll.visibility = View.VISIBLE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
        val companyPhoto = response.photo
         if (companyPhoto == null){
             view.myBusinessImage.setImageResource(R.drawable.setpp)

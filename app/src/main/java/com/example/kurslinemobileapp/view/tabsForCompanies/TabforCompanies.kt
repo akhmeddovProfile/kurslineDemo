@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view.tabsForCompanies
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTeacherAdapter
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
@@ -20,20 +22,26 @@ import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
 class TabforCompanies : Fragment() {
+    private lateinit var view : ViewGroup
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
     private lateinit var compositeDisposable: CompositeDisposable
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_tabfor_companies, container, false)
+         view = inflater.inflate(R.layout.fragment_tabfor_companies, container, false) as ViewGroup
+        val recycler = view.findViewById<RecyclerView>(R.id.recyclerviewForCompanyteacher)
+        recycler.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabCompany)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
         mainList = ArrayList()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerviewForCompanyteacher)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recycler.layoutManager = LinearLayoutManager(requireContext())
         companyTeacherAdapter = CompanyTeacherAdapter(mainList)
-        recyclerView.adapter = companyTeacherAdapter
+        recycler.adapter = companyTeacherAdapter
         getCompanies()
         return view
     }
@@ -48,6 +56,11 @@ class TabforCompanies : Fragment() {
     }
 
     private fun handleResponse(response: CompanyTeacherModel) {
+        val recycler = view.findViewById<RecyclerView>(R.id.recyclerviewForCompanyteacher)
+        recycler.visibility = View.VISIBLE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabCompany)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
         mainList.addAll(response)
         companyTeacherAdapter.notifyDataSetChanged()
     }
