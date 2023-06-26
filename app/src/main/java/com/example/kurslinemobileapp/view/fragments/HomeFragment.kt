@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.HiglightForMainListAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
@@ -35,6 +37,7 @@ import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(),MainListProductAdapter.ListenerClickHeart {
+    private lateinit var view : ViewGroup
     private lateinit var mainListProductAdapter: MainListProductAdapter
     private lateinit var mainList : ArrayList<GetAllAnnouncement>
     private lateinit var mainList2 : ArrayList<GetAllAnnouncement>
@@ -44,12 +47,18 @@ class HomeFragment : Fragment(),MainListProductAdapter.ListenerClickHeart {
     lateinit var favModel: SendFavModel
     private lateinit var favList : kotlin.collections.ArrayList<Int>
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+         view =  inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
+        val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
             val createAccount = view.findViewById<TextView>(R.id.createAccountTextMain)
 
          sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -108,13 +117,17 @@ class HomeFragment : Fragment(),MainListProductAdapter.ListenerClickHeart {
 
 
     private fun handleResponse(response : GetAllAnnouncement){
+        val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.VISIBLE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
         println("responseElan: " + response)
 
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,favList)
-        val recyclerviewForProducts = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
-        recyclerviewForProducts.adapter = mainListProductAdapter
+        recycler.adapter = mainListProductAdapter
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)

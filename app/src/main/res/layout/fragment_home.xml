@@ -143,6 +143,15 @@
                 android:layout_below="@id/line2Main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingHome"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/line2Main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:lottie_rawRes="@raw/loading"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
