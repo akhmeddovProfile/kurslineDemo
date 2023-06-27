@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,13 +22,17 @@ import kotlinx.android.synthetic.main.product_item_row.view.*
 
 class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
                             // private val heartlistener: MainListProductAdapter.ListenerClickHeart,
-                             private val favoriteItemClickListener: FavoriteItemClickListener2,
+                             private val favoriteItemClickListener: FavoriteItemClickListener,
                              //var favList:List<Int>,
-                             private val context:Context,
-                             private val favoriteItems: MutableList<SendFavModel> = mutableListOf() ,// Your list of favorite items
-                             var favListId:MutableList<Int>
+                             private val context:Context
 ) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
+     var favoriteItems: MutableList<SendFavModel>
+
+    init {
+        favoriteItems= mutableListOf()
+
+    }
 
 
 
@@ -36,12 +41,14 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
     fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
         onItemClickListener = listener
     }
+/*
     interface FavoriteItemClickListener2 {
         fun onFavoriteItemClick(item: GetAllAnnouncement)
     }
+*/
 
     interface FavoriteItemClickListener{
-        fun onFavoriteItemClick(item: SendFavModel,liked:Boolean)
+        fun onFavoriteItemClick(id: Int,liked:Boolean)
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
@@ -58,19 +65,7 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
                 onItemClickListener?.invoke(elan)
             }
         }
-/*        fun bindfav(item: SendFavModel) {
-            // Update the UI of the heart drawable based on the selection status
-            if (item.isSelected) {
-                heartButton.setImageResource(R.drawable.favorite_for_product)
-            } else {
-                heartButton.setImageResource(R.drawable.favorite_border_for_product)
-            }
 
-            // Set click listener for the heart button
-            heartButton.setOnClickListener {
-                favoriteItemClickListener.onFavoriteItemClick(item)
-            }
-        }*/
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductRowHolder {
@@ -82,7 +77,6 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         var addedToFav = false
-
         val productRow = items.get(0).announcemenets[position]
         val photoUrl = items.get(0).announcemenets[position].photos[0].url
         val url = "1"
@@ -103,6 +97,8 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
         }
 
         holder.bind(productRow)
+
+        favoriteItems.add(SendFavModel(0,productRow.id,false))
 
 
 /*
@@ -131,41 +127,26 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
 */
 
 
-/*        val item = if (position < favoriteItems.size) {
-            favoriteItems[position].copy(isSelected = true)
-        } else {
-            SendFavModel(0, 0, false)
-        }
-        *//*val item = if (position < favoriteItems.size) favoriteItems[position] else SendFavModel(0, 0)*//*
-        holder.bindfav(item)
-        if (item.isSelected) {
-            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-        } else {
-            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-        }
+
+
         holder.heartButton.setOnClickListener {
             // Toggle the favorite state of the item
-            item.isSelected=!item.isSelected
+            favoriteItems.get(position).isSelected=!favoriteItems.get(position).isSelected
 
             // Update the heart drawable based on the new favorite state
-            if (item.isSelected) {
-                holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+            if (favoriteItems.get(position).isSelected) {
+                holder.heartButton.setBackgroundResource(R.drawable.favorite_for_product)
             } else {
-                holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+                holder.heartButton.setBackgroundResource(R.drawable.favorite_border_for_product)
             }
 
-           item.productid= productRow.id
-            favoriteItemClickListener.onFavoriteItemClick(SendFavModel(item.productid, item.userid,item.isSelected))
-        }*/
+            favoriteItemClickListener.onFavoriteItemClick(favoriteItems[position].productid, favoriteItems.get(position).isSelected)
+        }
     }
 
     override fun getItemCount(): Int {
         return items.get(0).announcemenets.size
     }
 
-    fun setFavoriteItems(items: List<SendFavModel>) {
-        favoriteItems.clear()
-        favoriteItems.addAll(items)
-        notifyDataSetChanged()
-    }
+
 }

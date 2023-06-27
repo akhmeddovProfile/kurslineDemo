@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -68,6 +69,9 @@ class FavoritesFragment : Fragment() {
         } else {
             // Required data is present, display it
             view.favoritesRl.visibility = View.VISIBLE
+            val recycler = view.findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            recycler.visibility = View.GONE
+            recycler.layoutManager = GridLayoutManager(requireContext(),2)
         }
 
         getFavItems(authHeader,id)
@@ -95,12 +99,14 @@ class FavoritesFragment : Fragment() {
             val companyDetailItem = response
             val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
             recycler.visibility = View.VISIBLE
-            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+/*            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
             lottie.visibility = View.GONE
-            lottie.pauseAnimation()
+            lottie.pauseAnimation()*/
             mainList.addAll(companyDetailItem)
             mainList2.addAll(companyDetailItem)
             favoriteAdapter = FavoriteAdapter(mainList2)
+            recycler.adapter = favoriteAdapter
+            favoriteAdapter.notifyDataSetChanged()
             println("responseElan: " + response)
         }
     }

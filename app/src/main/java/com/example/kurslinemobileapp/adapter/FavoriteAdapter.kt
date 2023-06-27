@@ -32,10 +32,19 @@ class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>):Recycl
         val productOwnerName: TextView = itemView.findViewById(R.id.favoriteProductOwnerName)
         val productDescription: TextView =
             itemView.findViewById(R.id.favoriteProductDescriptionIntheMainScreen)
-        val heartButton: ImageButton = itemView.findViewById(R.id.favorite_button)
+        val heartButton: ImageButton = itemView.findViewById(R.id.favorite_button2)
         fun bind(elan: FavoriteGetModelItem) {
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(elan)
+            }
+        }
+        init {
+            // Set click listener for the itemView
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener?.invoke(items[position])
+                }
             }
         }
     }
@@ -67,6 +76,10 @@ class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>):Recycl
             }
 
             holder.bind(productRow)
+
+            holder.heartButton.setOnClickListener {
+
+            }
         }
 
        override fun getItemCount(): Int {

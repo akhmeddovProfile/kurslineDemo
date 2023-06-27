@@ -2,6 +2,7 @@ package com.example.kurslinemobileapp.api.favorite
 
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModel
 import io.reactivex.Observable
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -15,7 +16,7 @@ interface FavoriteApi {
                      @Path("announcementId")announcementId:Int
     ):Observable<FavoriteResponse>
 
-    @POST("PostFavorite/{userId}/{announcementId}")
+    @DELETE("PostFavorite/{userId}/{announcementId}")
     fun deleteFavorite(@Header("Authorization")token:String,
                      @Path("userId")userId:Int,
                      @Path("announcementId")announcementId:Int
