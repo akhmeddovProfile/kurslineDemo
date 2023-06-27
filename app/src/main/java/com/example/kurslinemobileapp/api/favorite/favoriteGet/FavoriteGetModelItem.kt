@@ -7,7 +7,7 @@ data class FavoriteGetModelItem(
     val companyName: String,
     val id: Int,
     val isOnline: String,
-    val isStatus: Any,
+    val isStatus: String,
     val isVIP: Boolean,
     val photos: List<Photo>,
     val price: Int

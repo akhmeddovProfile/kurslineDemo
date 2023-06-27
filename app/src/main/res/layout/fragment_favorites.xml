@@ -53,6 +53,11 @@
             android:background="@drawable/notfoundpreview"
             android:layout_below="@+id/notFoundFavoritesCourseText"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favorites_item_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
+
     </ScrollView>
 </RelativeLayout>
