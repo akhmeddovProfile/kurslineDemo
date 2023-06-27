@@ -339,3 +339,58 @@ fun encodeImageToBase64(imageUri: Uri): String {
         }
 
 */
+/*        if(position < items.size && position < items[position].announcemenets.size && favList.contains(items[position].announcemenets[position].id)){
+        holder.heartButton.setBackgroundResource(R.drawable.favorite_for_product)
+            addedToFav=true
+            println("addedToFav: $addedToFav")
+            return
+        }
+        else{
+            holder.heartButton.setBackgroundResource(R.drawable.favorite_border_for_product)
+            println("addedToFav: $addedToFav")
+
+        }
+
+        holder.heartButton.setOnClickListener {
+            val currentPosition = holder.adapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION && currentPosition < items.size) {
+                if (addedToFav) {
+                    heartlistener.onHeartItemCLick(items[currentPosition], addedToFav, currentPosition)
+                    addedToFav = false
+                    holder.heartButton.setBackgroundResource(R.drawable.favorite_border_for_product)
+                } else {
+                    heartlistener.onHeartItemCLick(items[currentPosition], addedToFav, currentPosition)
+                    addedToFav = true
+                    holder.heartButton.setBackgroundResource(R.drawable.favorite_for_product)
+                }
+
+            }
+
+        }*/
+//FavBtn
+//position < items.size && position < items[position].announcemenets.size && favList.contains(items[position].announcemenets[position].id)
+//favList.contains(items[position].announcemenets.get(position).id)
+/*
+        if (item.isSelected) {
+            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+        } else {
+            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+        }
+        holder.heartButton.setOnClickListener {
+            if (item.isSelected) {
+                selectedItemsList.remove(item)
+            } else {
+                selectedItemsList.add(item)
+            }
+
+            // Toggle the favorite status
+            item.isSelected = !item.isSelected
+
+            // Update the UI of the heart drawable file
+            if (item.isSelected) {
+                holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+            } else {
+                holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+            }
+        }
+*/
