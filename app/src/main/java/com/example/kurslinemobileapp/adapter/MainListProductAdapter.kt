@@ -42,7 +42,7 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
     }
 
     interface FavoriteItemClickListener{
-        fun onFavoriteItemClick(item: SendFavModel,isSelected:Boolean)
+        fun onFavoriteItemClick(item: SendFavModel)
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
@@ -69,7 +69,7 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
 
             // Set click listener for the heart button
             heartButton.setOnClickListener {
-                favoriteItemClickListener.onFavoriteItemClick(item,true)
+                favoriteItemClickListener.onFavoriteItemClick(item)
             }
         }
     }
@@ -127,11 +127,8 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
                 holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
             }
 
-
-            // Call the interface method to handle the favorite action
-            // Pass the item's ID, token, and user ID to the interface method
            item.productid= productRow.id
-            favoriteItemClickListener.onFavoriteItemClick(SendFavModel(item.productid, item.userid,item.isSelected),item.isSelected)
+            favoriteItemClickListener.onFavoriteItemClick(SendFavModel(item.productid, item.userid,item.isSelected))
         }
     }
 
