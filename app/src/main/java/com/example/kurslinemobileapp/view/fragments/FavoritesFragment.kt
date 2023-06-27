@@ -23,6 +23,7 @@ import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAll
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModel
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
+import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
@@ -36,8 +37,8 @@ import java.util.Collections
 
 class FavoritesFragment : Fragment() {
     private lateinit var favoriteAdapter: FavoriteAdapter
-    private lateinit var mainList : ArrayList<FavoriteGetModel>
-    private lateinit var mainList2 : ArrayList<FavoriteGetModel>
+    private lateinit var mainList : ArrayList<FavoriteGetModelItem>
+    private lateinit var mainList2 : ArrayList<FavoriteGetModelItem>
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreateView(
@@ -48,8 +49,8 @@ class FavoritesFragment : Fragment() {
 
          sharedPreferences =
             requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        mainList= arrayListOf()
-        mainList2= arrayListOf()
+        mainList=  ArrayList<FavoriteGetModelItem>()
+        mainList2=  ArrayList<FavoriteGetModelItem>()
 
         val isRegistered = sharedPreferences.getBoolean("token", false)
         val id = sharedPreferences.getInt("userID",0)
@@ -90,13 +91,17 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun handleResponse(response: FavoriteGetModel) {
-        val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
-        recycler.visibility = View.VISIBLE
-        val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
-        lottie.visibility = View.GONE
-        lottie.pauseAnimation()
-        mainList.addAll(listOf((response)))
-        favoriteAdapter=FavoriteAdapter(mainList2!!)
-        println("responseElan: " + response)
+        if (response.isNotEmpty()) {
+            val companyDetailItem = response
+            val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            recycler.visibility = View.VISIBLE
+            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
+            mainList.addAll(companyDetailItem)
+            mainList2.addAll(companyDetailItem)
+            favoriteAdapter = FavoriteAdapter(mainList2)
+            println("responseElan: " + response)
+        }
     }
 }

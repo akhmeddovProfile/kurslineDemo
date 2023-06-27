@@ -48,8 +48,8 @@ class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>):Recycl
 
         override fun onBindViewHolder(holder: ItemView, position: Int) {
 
-            val productRow = items.get(0)
-            val photoUrl = items.get(0).photos[position].url[0].toString()
+            val productRow = items[position]
+            val photoUrl = items.get(0).photos[position].url
             val url = "1"
             val photo = Photo(url)
             Picasso.get().load(photoUrl).transform(ResizeTransformation(300, 300)).into(holder.productimage)
