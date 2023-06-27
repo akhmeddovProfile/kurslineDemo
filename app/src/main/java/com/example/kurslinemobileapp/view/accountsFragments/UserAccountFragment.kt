@@ -11,8 +11,8 @@ import android.widget.ScrollView
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.getInfo.InfoAPI
-import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
+import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
+import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService

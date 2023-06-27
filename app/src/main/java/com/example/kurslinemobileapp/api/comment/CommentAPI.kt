@@ -1,6 +1,5 @@
 package com.example.kurslinemobileapp.api.comment
 
-import com.example.kurslinemobileapp.api.getInfo.UserInfoModel
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.Header
