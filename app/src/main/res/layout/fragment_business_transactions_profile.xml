@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:id="@+id/transactionProfileRl"
     tools:context=".view.accountsFragments.BusinessTransactionProfileFragment">
@@ -45,7 +46,8 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalBusinessScrollView"
-        android:layout_marginTop="20dp"
+       android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/lineBusinessTransaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -111,6 +113,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/mainPageBackgroundColor"
         android:layout_below="@+id/horizontalBusinessScrollView">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -127,13 +130,27 @@
                 android:gravity="center_horizontal"
                 android:layout_marginTop="30dp"/>
             <ImageView
+                android:id="@+id/businessTransNotFoundImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/notfoundpreview"
                 android:layout_below="@+id/notFoundBusinessTransCourseText"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:padding="5dp"
+                android:id="@+id/businessTransRv"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/loadingBusinessTrans"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/loading"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
         </RelativeLayout>
     </ScrollView>
-
-
-
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.api.getInfo
+package com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel
 
 data class UserInfoModel(
     val companyAbout: Any,
