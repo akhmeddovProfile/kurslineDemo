@@ -36,13 +36,13 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
     fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
         onItemClickListener = listener
     }
+
     interface ListenerClickHeart{
         fun onHeartItemCLick(heart: GetAllAnnouncement, liked:Boolean, position: Int)
     }
 
     interface FavoriteItemClickListener{
-        fun onFavoriteItemClick(item: SendFavModel)
-
+        fun onFavoriteItemClick(item: SendFavModel,isSelected:Boolean)
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
@@ -69,7 +69,7 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
 
             // Set click listener for the heart button
             heartButton.setOnClickListener {
-                favoriteItemClickListener.onFavoriteItemClick(item)
+                favoriteItemClickListener.onFavoriteItemClick(item,true)
             }
         }
     }
@@ -81,7 +81,6 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
     }
 
     @SuppressLint("SetTextI18n")
-
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
 
         val productRow = items.get(0).announcemenets[position]
@@ -105,12 +104,14 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
         }
 
         holder.bind(productRow)
-
-        val item = if (position < favoriteItems.size) favoriteItems[position] else SendFavModel(0, 0)
+        val item = if (position < favoriteItems.size) {
+            favoriteItems[position].copy(isSelected = true)
+        } else {
+            SendFavModel(0, 0, false)
+        }
+        /*val item = if (position < favoriteItems.size) favoriteItems[position] else SendFavModel(0, 0)*/
         holder.bindfav(item)
         if (item.isSelected) {
-
-
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
         } else {
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
@@ -130,15 +131,9 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
             // Call the interface method to handle the favorite action
             // Pass the item's ID, token, and user ID to the interface method
            item.productid= productRow.id
-            favoriteItemClickListener.onFavoriteItemClick(SendFavModel(item.productid, item.userid,item.isSelected))
+            favoriteItemClickListener.onFavoriteItemClick(SendFavModel(item.productid, item.userid,item.isSelected),item.isSelected)
         }
-
-
-
-
-
     }
-
 
     override fun getItemCount(): Int {
         return items.get(0).announcemenets.size
