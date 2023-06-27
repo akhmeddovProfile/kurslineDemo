@@ -394,3 +394,69 @@ fun encodeImageToBase64(imageUri: Uri): String {
             }
         }
 */
+/*override fun onHeartItemCLick(heart: GetAllAnnouncement, liked: Boolean,position:Int,) {
+
+    compositeDisposable= CompositeDisposable()
+
+
+    val annId = sharedPreferences.getInt("announcementId",0)
+    val userId = sharedPreferences.getInt("userID",0)
+    val token = sharedPreferences.getString("USERTOKENNN","")
+    val authHeader = "Bearer $token"
+    println("gelenid" + annId)
+    println("userid" + userId)
+    println("token:"+authHeader)
+
+    println("Clicked")
+    val item=heart.announcemenets.get(position).id
+    favModel= SendFavModel(item,userId,authHeader)
+
+    var likeState = liked
+    println("likeState: $liked")
+    if (likeState){
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
+        compositeDisposable.add(
+            retrofit.postFavorite(token!!,userId,favModel.productid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                        println("Handler Response: "+it.isSuccess)
+                           likeState=true
+                           },{ throwable ->
+                    println("MyTests: $throwable")
+                })
+        )
+    }
+    else{
+
+    }
+}
+*/
+/* val adapter = mainListProductAdapter as? MainListProductAdapter
+      adapter?.notifyDataSetChanged()
+      if(item.isSelected){
+          favList.add(item.copy(isSelected = isSelected))
+      }else{
+          favList.remove(item.copy(isSelected = isSelected))
+       }
+      favModel=SendFavModel(userId,annId,isSelected = isSelected)
+      println("FavModel: "+favModel)
+      var likeState = isSelected
+      println("likeState: $likeState")
+      if (likeState){
+          val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
+          compositeDisposable.add(
+              retrofit.postFavorite(token!!,favModel.userid,annId)
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe({
+                      println("Handler Response: "+it.isSuccess)
+                      likeState=true
+                  },{ throwable ->
+                      println("MyTests: $throwable")
+                  })
+          )
+      }
+      else{
+
+      }*/
