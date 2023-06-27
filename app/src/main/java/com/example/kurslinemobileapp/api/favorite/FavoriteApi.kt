@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.api.favorite
 
+import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModel
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -24,5 +25,5 @@ interface FavoriteApi {
     fun getFavoritesItem(
         @Header("Authorization")token:String,
         @Path("userId")userId:Int
-    ):Observable<GetFavoritesItemModel>
+    ):Observable<FavoriteGetModel>
 }
