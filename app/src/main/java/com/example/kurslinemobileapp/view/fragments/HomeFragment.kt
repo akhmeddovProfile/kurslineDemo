@@ -192,6 +192,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             favList.remove(item.copy(isSelected = isSelected))
          }
         favModel=SendFavModel(userId,annId,isSelected)
+        println("FavModel: "+favModel)
         var likeState = isSelected
         println("likeState: $likeState")
         if (likeState){
