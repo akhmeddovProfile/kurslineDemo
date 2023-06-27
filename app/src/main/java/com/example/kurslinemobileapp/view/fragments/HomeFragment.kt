@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.HiglightForMainListAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
@@ -57,9 +58,12 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         favList = mutableListOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()
-
-        val coursesRV = view.findViewById<RecyclerView>(R.id.allCoursesRV)
-        coursesRV.layoutManager = GridLayoutManager(requireContext(),2)
+        val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
+        recycler.layoutManager = GridLayoutManager(requireContext(),2)
         getProducts()
 
         val imageWithTextList = listOf(
@@ -108,13 +112,17 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
 
     private fun handleResponse(response : GetAllAnnouncement){
+        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.VISIBLE
+        val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
         println("responseElan: " + response)
 
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity(),favList)
-        val recyclerviewForProducts = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
-        recyclerviewForProducts.adapter = mainListProductAdapter
+        recycler.adapter = mainListProductAdapter
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -174,9 +182,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
     override fun onFavoriteItemClick(item: SendFavModel,isSelected:Boolean) {
         compositeDisposable= CompositeDisposable()
-
-
-
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")

@@ -53,7 +53,7 @@ class UserAccountFragment : Fragment() {
         // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
-            findNavController().navigate(R.id.action_blankAccountFragment_to_homeFragment)
+        //    findNavController().navigate(R.id.action_blankAccountFragment_to_homeFragment)
         }
 
         return view
@@ -77,7 +77,7 @@ class UserAccountFragment : Fragment() {
         scroll.visibility = View.VISIBLE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
         lottie.visibility = View.GONE
-        lottie.playAnimation()
+        lottie.pauseAnimation()
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
