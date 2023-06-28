@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -99,6 +101,11 @@ class FavoritesFragment : Fragment() {
             val companyDetailItem = response
             val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
             recycler.visibility = View.VISIBLE
+            val textNotfound = requireView().findViewById<TextView>(R.id.notFoundFavoritesCourseText)
+            textNotfound.visibility = View.GONE
+            val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
+            imageNotfound.visibility = View.GONE
+
 /*            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
             lottie.visibility = View.GONE
             lottie.pauseAnimation()*/
@@ -108,6 +115,13 @@ class FavoritesFragment : Fragment() {
             recycler.adapter = favoriteAdapter
             favoriteAdapter.notifyDataSetChanged()
             println("responseElan: " + response)
+        }else{
+            val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            recycler.visibility = View.GONE
+            val textNotfound = requireView().findViewById<TextView>(R.id.notFoundFavoritesCourseText)
+            textNotfound.visibility = View.VISIBLE
+            val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
+            imageNotfound.visibility = View.VISIBLE
         }
     }
 }
