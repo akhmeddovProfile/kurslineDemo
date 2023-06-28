@@ -126,7 +126,16 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
         }
 */
 
-
+        if(favoriteItems.get(position).isSelected){
+            addedToFav=true
+            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+            println("Added to favorite: ${addedToFav}")
+        }
+        else{
+            addedToFav=false
+            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+            println("Added to favorite: ${addedToFav}")
+        }
 
 
         holder.heartButton.setOnClickListener {
@@ -134,8 +143,11 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
             favoriteItems.get(position).isSelected=!favoriteItems.get(position).isSelected
 
             // Update the heart drawable based on the new favorite state
-            if (favoriteItems.get(position).isSelected) {
+
+
+            if (favoriteItems.get(position).isSelected||addedToFav) {
                 holder.heartButton.setBackgroundResource(R.drawable.favorite_for_product)
+                addedToFav=true
             } else {
                 holder.heartButton.setBackgroundResource(R.drawable.favorite_border_for_product)
             }
