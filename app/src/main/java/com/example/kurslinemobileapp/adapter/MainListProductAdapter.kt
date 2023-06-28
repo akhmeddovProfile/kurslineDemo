@@ -125,7 +125,7 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
             }
         }
 */
-
+//Favorite start to add hear
         if(favoriteItems.get(position).isSelected){
             addedToFav=true
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
