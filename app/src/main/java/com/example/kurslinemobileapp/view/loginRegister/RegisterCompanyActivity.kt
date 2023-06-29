@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
@@ -37,9 +38,7 @@ import kotlinx.android.synthetic.main.activity_register_company.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.InputStream
+import java.io.*
 
 class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
@@ -47,6 +46,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
+
+    val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
+    val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
 
     //local data save
     private var block: Boolean = true
@@ -236,6 +238,18 @@ class RegisterCompanyActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
+    private fun compressImageFile(imagePath: String): Bitmap? {
+        val file = File(imagePath)
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.absolutePath, options)
+        val imageWidth = options.outWidth
+        val imageHeight = options.outHeight
+        val scaleFactor = Math.min(imageWidth / MAX_IMAGE_WIDTH, imageHeight / MAX_IMAGE_HEIGHT)
+        options.inJustDecodeBounds = false
+        options.inSampleSize = scaleFactor
+        return BitmapFactory.decodeFile(file.absolutePath, options)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -243,12 +257,32 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val selectedImageUri = data?.data
             val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
             if (imagePath != null) {
+                val compressedBitmap = compressImageFile(imagePath)
                 companyPhoto.setText(imagePath)
+                if(compressedBitmap!=null){
+                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
+                    companyPhoto.setText(compressedImagePath)
+                    println("CompressedImagePath"+compressedImagePath)
+                }
                 println(imagePath)
             }
         }
     }
-
+    private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
+        val outputDir = this?.cacheDir // Get the directory to store the compressed image
+        val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
+        var outputStream: FileOutputStream? = null
+        try {
+            outputStream = FileOutputStream(outputFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // Compress and save the bitmap as JPEG with 80% quality
+            return outputFile.absolutePath
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            outputStream?.close()
+        }
+        return null
+    }
     private fun getRealPathFromURI(uri: Uri): String? {
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)

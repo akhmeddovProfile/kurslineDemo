@@ -19,13 +19,13 @@
         >
         <TextView
             android:id="@+id/modeforproduct"
-            android:layout_width="42dp"
+            android:layout_width="44dp"
             android:layout_height="14dp"
             android:textSize="10sp"
             android:text="Offline"
             android:gravity="center"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="3dp"
             android:textColor="@color/colorForCourseIntheMainScreen"
             />
     </RelativeLayout>
@@ -40,13 +40,13 @@
         >
         <TextView
             android:id="@+id/statusforproduct"
-            android:layout_width="42dp"
+            android:layout_width="44dp"
             android:layout_height="14dp"
             android:textSize="10sp"
             android:text="Repititor"
             android:gravity="center"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="3dp"
             android:textColor="@color/white"
             />
     </RelativeLayout>

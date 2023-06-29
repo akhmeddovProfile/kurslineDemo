@@ -21,9 +21,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item_row.view.*
 
 class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
-                            // private val heartlistener: MainListProductAdapter.ListenerClickHeart,
                              private val favoriteItemClickListener: FavoriteItemClickListener,
-                             //var favList:List<Int>,
                              private val context:Context
 ) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
@@ -31,7 +29,6 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
 
     init {
         favoriteItems= mutableListOf()
-
     }
 
 

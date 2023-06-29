@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,6 +24,7 @@ import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.favorite.DeleteFavModel
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModel
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
@@ -38,10 +40,11 @@ import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
 import java.util.Collections
 
-class FavoritesFragment : Fragment() {
+class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
     private lateinit var favoriteAdapter: FavoriteAdapter
     private lateinit var mainList : ArrayList<FavoriteGetModelItem>
     private lateinit var mainList2 : ArrayList<FavoriteGetModelItem>
+    lateinit var deleteFavModel:DeleteFavModel
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreateView(
@@ -75,8 +78,8 @@ class FavoritesFragment : Fragment() {
             recycler.visibility = View.GONE
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
         }
-
         getFavItems(authHeader,id)
+
         return view
     }
 
@@ -106,12 +109,12 @@ class FavoritesFragment : Fragment() {
             val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
             imageNotfound.visibility = View.GONE
 
-/*            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
-            lottie.visibility = View.GONE
-            lottie.pauseAnimation()*/
+            val heartButton=requireView().findViewById<ImageButton>(R.id.favorite_button2)
+            heartButton?.setBackgroundResource(R.drawable.favorite_for_product)
+
             mainList.addAll(companyDetailItem)
             mainList2.addAll(companyDetailItem)
-            favoriteAdapter = FavoriteAdapter(mainList2)
+            favoriteAdapter = FavoriteAdapter(mainList2,this@FavoritesFragment)
             recycler.adapter = favoriteAdapter
             favoriteAdapter.notifyDataSetChanged()
             println("responseElan: " + response)
@@ -124,4 +127,41 @@ class FavoritesFragment : Fragment() {
             imageNotfound.visibility = View.VISIBLE
         }
     }
+
+    override fun deletefavoriteOnItemClick(id: Int,unliked:Boolean,position:Int) {
+
+        if(id!=null){
+            deleteFavModel= DeleteFavModel(id,unliked)
+            val token = sharedPreferences.getString("USERTOKENNN","")
+            val authHeader = "Bearer $token"
+            val userId = sharedPreferences.getInt("userID",0)
+            val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
+            compositeDisposable.add(
+                retrofit.postFavorite(token!!,userId,deleteFavModel.productId).
+                subscribeOn(Schedulers.io()).
+                observeOn(AndroidSchedulers.mainThread()).
+                subscribe({
+                    mainList2.removeAt(position)
+                    favoriteAdapter.notifyItemRemoved(position)
+                    favoriteAdapter.notifyItemChanged(position,mainList2.size)
+                    if (mainList2.isEmpty()){
+                        val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
+                        recycler.visibility = View.GONE
+                        val textNotfound = requireView().findViewById<TextView>(R.id.notFoundFavoritesCourseText)
+                        textNotfound.visibility = View.VISIBLE
+                        val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
+                        imageNotfound.visibility = View.VISIBLE
+                    }
+                },{throwable->
+                    println("My msg: ${throwable}")
+                })
+            )
+
+
+        }else{
+
+        }
+    }
+
+
 }
