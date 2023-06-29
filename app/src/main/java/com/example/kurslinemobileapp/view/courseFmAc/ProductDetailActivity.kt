@@ -95,8 +95,7 @@ class ProductDetailActivity : AppCompatActivity() {
         lottie.visibility = View.GONE
 
        // Picasso.get().load(response.photos).into(productDetailImage)
-        val imageUrls = response.photos
-        val image = response.photos
+
         val companyName = response.companyName
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
@@ -113,10 +112,6 @@ class ProductDetailActivity : AppCompatActivity() {
             vip_product_for_detail.visibility = View.GONE
         }
         courseownerName.setText(companyName)
-        courseownerName.setOnClickListener {
-            val intent = Intent(this@ProductDetailActivity,CourseBusinessProfile::class.java)
-            startActivity(intent)
-        }
         detailCoursePrice.setText(price + " AZN")
         coursecontentname.setText(courseName)
         aboutCourse.setText(courseDesc)
@@ -132,6 +127,7 @@ class ProductDetailActivity : AppCompatActivity() {
         val commentAdapter = CommentAdapter(commentList)
         recyclerView.adapter = commentAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val imageUrls = response.photos
         val viewPager: ViewPager2 = findViewById(R.id.viewPagerProductDetail)
         val photoAdapter = ProductDetailImageAdapter(imageUrls)
         viewPager.adapter = photoAdapter
