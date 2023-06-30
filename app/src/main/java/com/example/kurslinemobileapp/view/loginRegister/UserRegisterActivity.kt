@@ -17,6 +17,10 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_register.nameEditText
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 class UserRegisterActivity : AppCompatActivity() {
     private var block: Boolean = true
@@ -57,7 +61,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
-                register(name, email, phone, password, 1)
+                register(name, email, phone, password, "1")
             }
         }
     }
@@ -67,14 +71,24 @@ class UserRegisterActivity : AppCompatActivity() {
         email: String,
         phone: String,
         password: String,
-        gender: Int
+        userGender: String
     ) {
+
+        val fullname: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), username)
+        val emailAddress: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+        val phoneNumber: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
+        val userPassword: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), password)
+        val gender: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userGender)
+
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
-        val request = UserRegisterRequest(username, email, phone, password, gender)
         compositeDisposable.add(
-            retrofit.createAPI(request)
+            retrofit.createAPI(fullname,emailAddress,phoneNumber,userPassword,gender)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,

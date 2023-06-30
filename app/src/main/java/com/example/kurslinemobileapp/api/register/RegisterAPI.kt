@@ -8,8 +8,13 @@ import retrofit2.http.*
 
 interface RegisterAPI {
 
+    @Multipart
     @POST("user-register/")
-    fun createAPI(@Body registerRequest: UserRegisterRequest): Observable<UserRegisterResponse>
+    fun createAPI(  @Part("FullName") fullName: RequestBody,
+                    @Part("Email") email: RequestBody,
+                    @Part("MobileNumber") mobileNumber: RequestBody,
+                    @Part("Password") password:RequestBody,
+                    @Part("Gender") gender : RequestBody): Observable<UserRegisterResponse>
 
     @Multipart
     @POST("company-register/")
