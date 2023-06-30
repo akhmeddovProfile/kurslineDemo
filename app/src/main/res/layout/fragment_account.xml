@@ -44,13 +44,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
-
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/userUpdateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Düzəliş et"
+                android:fontFamily="@font/nunito"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:layout_alignParentEnd="true"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:background="@drawable/setpp"
         android:layout_marginTop="20dp"
         android:id="@+id/myProfileImage"
+        android:layout_below="@+id/userUpdateTxt"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_centerHorizontal="true" />
@@ -171,6 +182,28 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/savedUpdatesBtn"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginBottom="25dp"
+                android:layout_below="@id/acountMailContainer"
+                android:background="@drawable/button_bg"
+                android:text="Dəyişiklikləri yadda saxla"
+                android:textAllCaps="false"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+        <TextView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateImageUrlTxt"/>
         </RelativeLayout>
     </ScrollView>
     <com.airbnb.lottie.LottieAnimationView

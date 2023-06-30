@@ -44,4 +44,14 @@ interface RegisterAPI {
         @Part("CompanyStatusId") companyStatusId: RequestBody,
         @Header("Authorization") token: String, @Path("userId") userId: Int
     ):Observable<UserToCompanyResponse>
+
+    @Multipart
+    @POST("Update-user/{userId}")
+    fun updateUser(
+        @Part("FullName") fullName: RequestBody,
+        @Part("Email") email: RequestBody,
+        @Part("MobileNumber") mobileNumber: RequestBody,
+        @Part("Gender") gender : RequestBody,
+        @Part Photos: MultipartBody.Part,
+        @Header("Authorization") token: String, @Path("userId") userId: Int ): Observable<UserRegisterResponse>
 }
