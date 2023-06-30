@@ -81,7 +81,7 @@ class UserAccountFragment : Fragment() {
             view.userUpdateTxt.visibility = View.GONE
             view.accountnot.visibility = View.GONE
             view.goToBusinessCreate.visibility = View.GONE
-            view.photoUrlContainer.visibility = View.GONE
+            view.photoUrlContainer.visibility = View.VISIBLE
             view.savedUpdatesBtn.visibility = View.VISIBLE
             view.myProfileImage.setOnClickListener {
                 launchGalleryIntent()
@@ -211,6 +211,7 @@ class UserAccountFragment : Fragment() {
             if (imagePath != null) {
                 val compressedBitmap = compressImageFile(imagePath)
                 view.photoUrlEditText.setText(imagePath)
+                view.myProfileImage.setImageBitmap(compressedBitmap)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
                     view.photoUrlEditText.setText(compressedImagePath)
@@ -221,7 +222,7 @@ class UserAccountFragment : Fragment() {
         }
     }
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
-        val outputDir = requireContext().cacheDir // Get the directory to store the compressed image
+        val outputDir = requireActivity().cacheDir // Get the directory to store the compressed image
         val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
         var outputStream: FileOutputStream? = null
         try {
@@ -238,7 +239,7 @@ class UserAccountFragment : Fragment() {
     private fun getRealPathFromURI(uri: Uri): String? {
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireContext().contentResolver.query(uri, projection, null, null, null)
+        val cursor = requireActivity().contentResolver.query(uri, projection, null, null, null)
         cursor?.use {
             if (it.moveToFirst()) {
                 val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
