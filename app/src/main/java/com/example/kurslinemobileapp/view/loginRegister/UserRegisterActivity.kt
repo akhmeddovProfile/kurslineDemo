@@ -88,7 +88,7 @@ class UserRegisterActivity : AppCompatActivity() {
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
         compositeDisposable.add(
-            retrofit.createAPI(fullname,emailAddress,phoneNumber,userPassword,gender)
+            retrofit.createUser(fullname,emailAddress,phoneNumber,userPassword,gender)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,

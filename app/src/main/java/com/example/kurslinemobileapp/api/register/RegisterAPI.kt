@@ -10,7 +10,7 @@ interface RegisterAPI {
 
     @Multipart
     @POST("user-register/")
-    fun createAPI(  @Part("FullName") fullName: RequestBody,
+    fun createUser(  @Part("FullName") fullName: RequestBody,
                     @Part("Email") email: RequestBody,
                     @Part("MobileNumber") mobileNumber: RequestBody,
                     @Part("Password") password:RequestBody,
