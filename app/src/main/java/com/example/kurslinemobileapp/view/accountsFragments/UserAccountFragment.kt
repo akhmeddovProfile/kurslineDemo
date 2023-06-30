@@ -32,6 +32,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -80,8 +81,8 @@ class UserAccountFragment : Fragment() {
             view.userUpdateTxt.visibility = View.GONE
             view.accountnot.visibility = View.GONE
             view.goToBusinessCreate.visibility = View.GONE
+            view.photoUrlContainer.visibility = View.GONE
             view.savedUpdatesBtn.visibility = View.VISIBLE
-            view.updateImageUrlTxt.visibility = View.VISIBLE
             view.myProfileImage.setOnClickListener {
                 launchGalleryIntent()
             }
@@ -95,7 +96,7 @@ class UserAccountFragment : Fragment() {
             val userName = view.accountNameEditText.text.toString().trim()
             val userPhone = view.accountPhoneEditText.text.toString().trim()
             val userMail = view.accountMailEditText.text.toString().trim()
-            val imageUrl =   view.updateImageUrlTxt.text.toString().trim()
+            val imageUrl =  view.photoUrlEditText.text.toString().trim()
 
             view.savedUpdatesBtn.setOnClickListener {
                 userUpdateDatas(
@@ -206,15 +207,13 @@ class UserAccountFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val selectedImageUri = data?.data
-            val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, selectedImageUri)
-            view.myProfileImage.setImageBitmap(bitmap)
             val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
             if (imagePath != null) {
                 val compressedBitmap = compressImageFile(imagePath)
-                view.updateImageUrlTxt.setText(imagePath)
+                view.photoUrlEditText.setText(imagePath)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    view.updateImageUrlTxt.setText(compressedImagePath)
+                    view.photoUrlEditText.setText(compressedImagePath)
                     println("CompressedImagePath"+compressedImagePath)
                 }
                 println(imagePath)
@@ -222,7 +221,7 @@ class UserAccountFragment : Fragment() {
         }
     }
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
-        val outputDir = requireContext()?.cacheDir // Get the directory to store the compressed image
+        val outputDir = requireContext().cacheDir // Get the directory to store the compressed image
         val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
         var outputStream: FileOutputStream? = null
         try {
@@ -248,4 +247,5 @@ class UserAccountFragment : Fragment() {
         }
         return path
     }
+
 }
