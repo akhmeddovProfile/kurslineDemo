@@ -12,6 +12,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
+import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 // User is not registered, navigate to the registration fragment
             goToUploadActivity.visibility = View.VISIBLE
             goToUploadActivity.setOnClickListener{
-                val intent = Intent(this@MainActivity,RegisterCompanyActivity::class.java)
+                val intent = Intent(this@MainActivity, UserToCompanyActivity::class.java)
                 startActivity(intent)
             }
 // User is already registered, stay on the current fragment/activity

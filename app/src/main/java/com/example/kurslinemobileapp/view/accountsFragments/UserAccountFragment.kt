@@ -17,6 +17,7 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
+import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -47,7 +48,7 @@ class UserAccountFragment : Fragment() {
     getDataFromServer(id,authHeader)
 
         view.goToBusinessCreate.setOnClickListener {
-            val intent = Intent(requireContext(), RegisterCompanyActivity::class.java)
+            val intent = Intent(requireContext(), UserToCompanyActivity::class.java)
             startActivity(intent)
         }
         // Display the account information in the UI

@@ -4,10 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface RegisterAPI {
 
@@ -30,4 +27,16 @@ interface RegisterAPI {
         @Part photos: MultipartBody.Part,
     ):Observable<RegisterCompanyResponse>
 
+
+    @Multipart
+    @POST("CreateCompany/{userId}")
+    fun userToCompanyCreate(
+        @Part("CompanyName") companyName: RequestBody,
+        @Part("CompanyCategoryId") companyCategoryId: RequestBody,
+        @Part("CompanyAddress") companyAddress: RequestBody,
+        @Part("CompanyAbout") companyAbout: RequestBody,
+        @Part Photo: MultipartBody.Part,
+        @Part("CompanyStatusId") companyStatusId: RequestBody,
+        @Header("Authorization") token: String, @Path("userId") userId: Int
+    ):Observable<UserToCompanyResponse>
 }

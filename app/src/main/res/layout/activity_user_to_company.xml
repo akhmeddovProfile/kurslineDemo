@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".view.loginRegister.UserToCompanyActivity">
+    <ImageView
+        android:id="@+id/registerBusinessPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/businessreg"/>
+
+    <TextView
+        android:id="@+id/businessUserRegisterText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Biznes Qeydiyyatı"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/greenColor"
+        android:textSize="28sp"
+        android:layout_below="@+id/registerBusinessPhoto"
+        android:textStyle="bold"/>
+    <ScrollView
+        android:layout_below="@+id/businessUserRegisterText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userToCompanyNameContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userToCompanyNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Şirkət adınızı daxil edin*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userToCompanyAddressContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userToCompanyNameContainer"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userToCompanyAddressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Adress*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usertToCompanyStatusContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userToCompanyAddressContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userToCompanyStatusEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:drawableEnd="@drawable/drowpdown"
+                    android:drawableTintMode="src_in"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Status"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userToCompanyCategoryContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/usertToCompanyStatusContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userToCompanyCategoryEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:drawableEnd="@drawable/drowpdown"
+                    android:drawableTintMode="src_in"
+                    android:hint="@string/select_course"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:textColorHint="@color/mainPageBackgroundColor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userToCompanyPhotoContainer"
+                android:layout_below="@+id/userToCompanyCategoryContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:endIconDrawable="@drawable/upload"
+                app:endIconMode="custom"
+                app:endIconTintMode="src_atop">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userToCompanyPhotoEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Şirkət loqonuzu daxil edin"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/userToCompanyAboutContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userToCompanyPhotoContainer"
+                android:layout_marginTop="10dp"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="#78BFDB"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/userToCompanyAboutEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Şirkət haqqında*"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/userToCompanyRegisterBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/userToCompanyAboutContainer"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="@font/montserrat"
+                android:text="Biznes hesabı yarat"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
