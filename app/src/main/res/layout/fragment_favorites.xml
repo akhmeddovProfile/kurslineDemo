@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".view.fragments.FavoritesFragment">
 
@@ -58,6 +59,15 @@
             android:id="@+id/favorites_item_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/favoriteLoading"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:lottie_rawRes="@raw/loading"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true" />
     </RelativeLayout>
 
     </ScrollView>

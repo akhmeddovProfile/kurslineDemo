@@ -18,17 +18,17 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/status_view"
         >
+
         <TextView
             android:id="@+id/favoriteModeforproduct"
-            android:layout_width="42dp"
+            android:layout_width="44dp"
             android:layout_height="14dp"
-            android:textSize="10sp"
-            android:text="Offline"
-            android:gravity="center"
-            android:fontFamily="@font/nunito"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Offline"
             android:textColor="@color/colorForCourseIntheMainScreen"
-            />
+            android:textSize="10sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -39,17 +39,17 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/button_bg"
         >
+
         <TextView
             android:id="@+id/favoritestatusforproduct"
-            android:layout_width="wrap_content"
+            android:layout_width="44dp"
             android:layout_height="14dp"
-            android:textSize="10sp"
-            android:text="Repititor"
-            android:gravity="center"
-            android:fontFamily="@font/nunito"
             android:layout_marginStart="5dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Repititor"
             android:textColor="@color/white"
-            />
+            android:textSize="10sp" />
     </RelativeLayout>
 
     <ImageView
@@ -84,7 +84,7 @@
             android:layout_height="20dp"
             android:src="@drawable/favorite_border_for_product"
             android:background="@android:color/transparent"
-            android:layout_marginStart="140dp"
+            android:layout_marginStart="130dp"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
