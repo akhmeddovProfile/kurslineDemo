@@ -137,53 +137,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
 
 
-/*
-    override fun onFavoriteItemClick(item: SendFavModel,liked:Boolean) {
-        compositeDisposable= CompositeDisposable()
-        val adapter = mainListProductAdapter as? MainListProductAdapter
-        adapter?.notifyDataSetChanged()
-        val annId = sharedPreferences.getInt("announcementId",0)
-        val userId = sharedPreferences.getInt("userID",0)
-        val token = sharedPreferences.getString("USERTOKENNN","")
-        val authHeader = "Bearer $token"
-        println("gelenid" + annId)
-        println("userid" + userId)
-        println("token:"+authHeader)
-        val favoriteproduct=item.productid
-        favModel= SendFavModel(userId,favoriteproduct,liked)
-        var likeState1 = liked
-        println("likeState: $liked")
-
-        if(likeState1){
-            val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
-            compositeDisposable.add(
-                retrofit.deleteFavorite(token!!,favModel.userid,favModel.productid).
-                        subscribeOn(Schedulers.io()).
-                        observeOn(AndroidSchedulers.mainThread()).
-                        subscribe({
-                            likeState1=false
-                        },{throwable->
-                            println("My msg: ${throwable}")
-                        })
-            )
-        }else{
-            val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
-            compositeDisposable.add(
-                retrofit.postFavorite(token!!,favModel.userid,annId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        println("Handler Response: "+it.isSuccess)
-                        likeState1=true
-                    },{ throwable ->
-                        println("MyTests: $throwable")
-                    })
-            )
-        }
-
-
-
-    }*/
 
 
 

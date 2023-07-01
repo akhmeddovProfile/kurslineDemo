@@ -15,7 +15,7 @@ import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelIt
 import com.squareup.picasso.Picasso
 
 class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>,
-                      private val deleteItem:DeleteItemFromFavorite
+                      private val deleteItem:DeleteItemFromFavorite,
                       ):RecyclerView.Adapter<FavoriteAdapter.ItemView>() {
 
     private var onItemClickListener: ((FavoriteGetModelItem) -> Unit)? = null

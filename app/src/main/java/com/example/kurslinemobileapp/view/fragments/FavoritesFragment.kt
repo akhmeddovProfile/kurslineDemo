@@ -32,6 +32,7 @@ import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.Com
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
+import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -111,13 +112,22 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
 
             val heartButton=requireView().findViewById<ImageButton>(R.id.favorite_button2)
             heartButton?.setBackgroundResource(R.drawable.favorite_for_product)
-
             mainList.addAll(companyDetailItem)
             mainList2.addAll(companyDetailItem)
             favoriteAdapter = FavoriteAdapter(mainList2,this@FavoritesFragment)
             recycler.adapter = favoriteAdapter
             favoriteAdapter.notifyDataSetChanged()
             println("responseElan: " + response)
+            favoriteAdapter.setOnItemClickListener {
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                activity?.startActivity(intent)
+                sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                println("gedenId-----"+it.id)
+                editor.apply()
+            }
+
         }else{
             val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
             recycler.visibility = View.GONE
