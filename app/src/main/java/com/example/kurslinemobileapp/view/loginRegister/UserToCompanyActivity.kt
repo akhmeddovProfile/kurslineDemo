@@ -11,6 +11,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
@@ -95,7 +96,7 @@ class UserToCompanyActivity : AppCompatActivity() {
             aboutCompanyEditText.requestFocus()
             block = false
         }
-
+            showProgressButton(true)
         sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, userToCompanyPhotoEditText.text.toString(), companyStatusContainer, authHeader, userId)
     }
         userToCompanyPhotoEditText.setOnClickListener {
@@ -137,7 +138,9 @@ class UserToCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        println(throwable)
+                        val text = throwable.toString()
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false)
                     })
         )
     }
@@ -271,6 +274,22 @@ class UserToCompanyActivity : AppCompatActivity() {
                 }, { throwable -> println("MyTestStatus: $throwable") })
         )
         dialog.show()
+    }
+
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            userToCompanyRegisterBtn.apply {
+                isEnabled = false
+                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            userToCompanyRegisterBtn.apply {
+                isEnabled = true
+                text = "Biznes hesabı yarat"
+                // Restore original background, text color, etc., if modified
+            }
+        }
     }
 }
 

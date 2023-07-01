@@ -14,6 +14,7 @@ import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_register.nameEditText
@@ -61,6 +62,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
+                showProgressButton(true)
                 register(name, email, phone, password, "1")
             }
         }
@@ -93,7 +95,9 @@ class UserRegisterActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                    println(throwable) })
+                        val text = throwable.toString()
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false) })
         )
     }
 
@@ -102,5 +106,21 @@ class UserRegisterActivity : AppCompatActivity() {
         val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            registerButton.apply {
+                isEnabled = false
+                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            registerButton.apply {
+                isEnabled = true
+                text = "Qeydiyyatdan keç"
+                // Restore original background, text color, etc., if modified
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
+import kotlinx.android.synthetic.main.activity_user_register.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -167,6 +169,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
+            showProgressButton(true)
             sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
@@ -221,7 +224,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        println(throwable)
+                        val text = throwable.toString()
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false)
                     })
         )
     }
@@ -475,5 +480,19 @@ class RegisterCompanyActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            createBusinessAccountBtn.apply {
+                isEnabled = false
+                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            createBusinessAccountBtn.apply {
+                isEnabled = true
+                text = "Biznes hesabı yarat"
+                // Restore original background, text color, etc., if modified
+            }
+        }
+    }
 }
