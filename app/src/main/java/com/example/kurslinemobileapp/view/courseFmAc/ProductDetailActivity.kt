@@ -36,6 +36,7 @@ class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var  viewPager2: ViewPager2
     private lateinit var handler : Handler
+    var favoriteDetailItem:Boolean = false
     private lateinit var adapter: ProductDetailImageAdapter
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class ProductDetailActivity : AppCompatActivity() {
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
+        favoriteDetailItem=sharedPreferences.getBoolean("isFavoriteDetailProduct",false)
         val authHeader = "Bearer $token"
         println("gelenid" + annId)
         println("userid" + userId)
@@ -110,6 +112,21 @@ class ProductDetailActivity : AppCompatActivity() {
             vip_product_for_detail.visibility = View.VISIBLE
         }else{
             vip_product_for_detail.visibility = View.GONE
+        }
+        if (favoriteDetailItem==true){
+            favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
+        }else{
+            favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
+            favoriteDetailItem=false
+        }
+
+        favorite_button_for_detail.setOnClickListener {
+            if (favoriteDetailItem==false){
+                favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
+            }
+            else{
+                favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
+            }
         }
         courseownerName.setText(companyName)
         detailCoursePrice.setText(price + " AZN")

@@ -102,6 +102,7 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
 
     private fun handleResponse(response: FavoriteGetModel) {
         if (response.isNotEmpty()) {
+            val checkFavoritesForDetail:Boolean=true
             val companyDetailItem = response
             val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
             recycler.visibility = View.VISIBLE
@@ -124,6 +125,7 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
                 sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                sharedPreferences.edit().putBoolean("isFavoriteDetailProduct",checkFavoritesForDetail).apply()
                 println("gedenId-----"+it.id)
                 editor.apply()
             }
