@@ -95,7 +95,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        val text = throwable.toString()
+                        val text = "Məlumatlar doğru deyil"
                         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         showProgressButton(false) })
         )

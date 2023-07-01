@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
@@ -57,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponseLogin,
                     { throwable ->
-                        val text = throwable.toString()
+                        val text = "Məlumatlar doğru deyil"
                         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         showProgressButton(false)
                     })
