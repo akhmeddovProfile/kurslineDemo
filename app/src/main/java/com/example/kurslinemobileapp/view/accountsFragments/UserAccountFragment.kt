@@ -7,13 +7,18 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.InputType
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.ScrollView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
@@ -22,9 +27,12 @@ import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserIn
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.UserRegisterResponse
 import com.example.kurslinemobileapp.api.register.UserToCompanyResponse
+import com.example.kurslinemobileapp.api.update.UpdateAPI
+import com.example.kurslinemobileapp.api.update.UpdateResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
@@ -38,34 +46,41 @@ import kotlinx.android.synthetic.main.fragment_account.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UserAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
-    private lateinit var view : ViewGroup
+    private lateinit var view: ViewGroup
+    private val REQUEST_IMAGE_CAPTURE = 1 // Request code for image capture
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_account, container, false) as ViewGroup
+        view = inflater.inflate(R.layout.fragment_account, container, false) as ViewGroup
+
         val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
         scroll.visibility = View.GONE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         // Get the SharedPreferences object
-        val sharedPreferences = requireContext().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
-        val id = sharedPreferences.getInt("userID",0)
-        val token = sharedPreferences.getString("USERTOKENNN","")
+        val sharedPreferences =
+            requireContext().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
+        val id = sharedPreferences.getInt("userID", 0)
+        val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
-        println("userID"+id)
-        println("userToken"+authHeader)
-    getDataFromServer(id,authHeader)
+        println("userID" + id)
+        println("userToken" + authHeader)
+        getDataFromServer(id, authHeader)
 
         view.goToBusinessCreate.setOnClickListener {
             val intent = Intent(requireContext(), UserToCompanyActivity::class.java)
@@ -74,7 +89,7 @@ class UserAccountFragment : Fragment() {
         // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
-        //    findNavController().navigate(R.id.action_blankAccountFragment_to_homeFragment)
+            //    findNavController().navigate(R.id.action_blankAccountFragment_to_homeFragment)
         }
 
         view.userUpdateTxt.setOnClickListener {
@@ -86,7 +101,6 @@ class UserAccountFragment : Fragment() {
             view.myProfileImage.setOnClickListener {
                 launchGalleryIntent()
             }
-
             view.accountNameEditText.inputType = InputType.TYPE_CLASS_TEXT
             view.accountNameEditText.isClickable = true
             view.accountPhoneEditText.inputType = InputType.TYPE_CLASS_TEXT
@@ -96,29 +110,20 @@ class UserAccountFragment : Fragment() {
             val userName = view.accountNameEditText.text.toString().trim()
             val userPhone = view.accountPhoneEditText.text.toString().trim()
             val userMail = view.accountMailEditText.text.toString().trim()
-            val imageUrl =  view.photoUrlEditText.text.toString().trim()
+            val imageUrl = view.photoUrlEditText.text.toString().trim()
 
             view.savedUpdatesBtn.setOnClickListener {
-                userUpdateDatas(
-                    userName,
-                    userPhone,
-                    userMail,
-                    "1",
-                    imageUrl,
-                    authHeader,
-                    id
-                )
+                updateUser(userName,userMail,userPhone,1,imageUrl,authHeader,id)
             }
-
         }
 
         return view
     }
 
-    private fun getDataFromServer(id: Int,token:String) {
+    private fun getDataFromServer(id: Int, token: String) {
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
-        compositeDisposable.add(retrofit.getUserInfo(token,id)
+        compositeDisposable.add(retrofit.getUserInfo(token, id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
@@ -128,7 +133,7 @@ class UserAccountFragment : Fragment() {
 
     private fun handleResponse(response: UserInfoModel) {
 
-      //  Picasso.get().load(response.photo.toString()).into(myProfileImage)
+        //  Picasso.get().load(response.photo.toString()).into(myProfileImage)
         val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
         scroll.visibility = View.VISIBLE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
@@ -136,56 +141,54 @@ class UserAccountFragment : Fragment() {
         lottie.pauseAnimation()
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
-        val userEmail  = response.email
+        val userEmail = response.email
 
-        println("userfullname:"+response.fullName + response.mobileNumber + response.email)
+        println("userfullname:" + response.fullName + response.mobileNumber + response.email)
 
         view.accountNameEditText.setText(userFullName)
         view.accountPhoneEditText.setText(userPhoneNumber)
         view.accountMailEditText.setText(userEmail)
 
-        if (response.photo == null){
+        if (response.photo == null) {
             view.myProfileImage.setImageResource(R.drawable.setpp)
-        }else{
+        } else {
             Picasso.get().load(response.photo).into(view.myProfileImage)
         }
     }
 
-    private fun userUpdateDatas( username: String,
-                                  email: String,
-                                  phone: String,
-                                  userGender: String,
-                                 imagePath: String,
-                                 token:String,userId:Int){
+    private fun updateUser(userName:String,userEmail:String,userPhone:String,userGender:Int,imagePath: String, token:String,userId:Int){
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val photo: MultipartBody.Part =
             MultipartBody.Part.createFormData("photos", file.name, reqFile)
-        val fullname: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), username)
-        val emailAddress: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), email)
-        val phoneNumber: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
+        val name: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userName)
+        val mail: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userEmail)
+        val phone: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userPhone)
         val gender: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userGender)
-
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userGender.toString())
         compositeDisposable = CompositeDisposable()
         val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
+            RetrofitService(Constant.BASE_URL).retrofit.create(UpdateAPI::class.java)
+
         compositeDisposable.add(
-            retrofit.updateUser(fullname,emailAddress,phoneNumber,gender,photo,token,userId)
+            retrofit.userUpdateMethod(name,mail,phone,gender,photo,token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleResponse,
+                .subscribe(this::handleResponseUpdate,
                     { throwable ->
-                        println(throwable) })
+                        println(throwable)
+                    })
         )
-
-
     }
-    private fun handleResponse(response: UserRegisterResponse) {
+    private fun handleResponseUpdate(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        startActivity(intent)
     }
+
     fun launchGalleryIntent() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
@@ -222,7 +225,7 @@ class UserAccountFragment : Fragment() {
         }
     }
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
-        val outputDir = requireActivity().cacheDir // Get the directory to store the compressed image
+        val outputDir = requireContext().cacheDir // Get the directory to store the compressed image
         val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
         var outputStream: FileOutputStream? = null
         try {
@@ -248,5 +251,4 @@ class UserAccountFragment : Fragment() {
         }
         return path
     }
-
 }
