@@ -61,7 +61,8 @@ class TabforTeachers : Fragment() {
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabTeacher)
         lottie.visibility = View.GONE
         lottie.playAnimation()
-        mainList.addAll(response)
+        val filteredList = response.filter { it.companyStatusId == 2 }
+        mainList.addAll(filteredList)
         companyTeacherAdapter.notifyDataSetChanged()
     }
 }
