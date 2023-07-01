@@ -90,32 +90,13 @@ class UserToCompanyActivity : AppCompatActivity() {
             block = false
         }
 
-        if (companyStatusContainer.isEmpty()) {
-            compantStatusEditText.error = "Status required"
-            compantStatusEditText.requestFocus()
-            block = false
-        }
-        if (companyCategoryContainer.isEmpty()) {
-            companyCategoryEditText.error = "Category required"
-            companyCategoryEditText.requestFocus()
-            block = false
-        }
         if (aboutCompanyContainer.isEmpty()) {
             aboutCompanyEditText.error = "About Company required"
             aboutCompanyEditText.requestFocus()
             block = false
         }
 
-        sendCompanydata(
-            companyNameContainer,
-            companyAddressContainer,
-            aboutCompanyContainer,
-            companyCategoryContainer,
-            userToCompanyPhotoEditText.text.toString(),
-            companyStatusContainer,
-            authHeader,
-            userId
-        )
+        sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, userToCompanyPhotoEditText.text.toString(), companyStatusContainer, authHeader, userId)
     }
         userToCompanyPhotoEditText.setOnClickListener {
             launchGalleryIntent()
@@ -134,7 +115,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val photo: MultipartBody.Part =
-            MultipartBody.Part.createFormData("photos", file.name, reqFile)
+            MultipartBody.Part.createFormData("photo", file.name, reqFile)
         val companyame: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
         val address: RequestBody =
