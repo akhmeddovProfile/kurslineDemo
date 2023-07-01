@@ -1,8 +1,14 @@
 package com.example.kurslinemobileapp.view.accountsFragments
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,20 +19,34 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
+import com.example.kurslinemobileapp.api.register.RegisterAPI
+import com.example.kurslinemobileapp.api.register.UserRegisterResponse
+import com.example.kurslinemobileapp.api.register.UserToCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_register_company.*
+import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class UserAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var view : ViewGroup
+    val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
+    val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +75,41 @@ class UserAccountFragment : Fragment() {
 
         view.backtoMainPage.setOnClickListener {
         //    findNavController().navigate(R.id.action_blankAccountFragment_to_homeFragment)
+        }
+
+        view.userUpdateTxt.setOnClickListener {
+            view.userUpdateTxt.visibility = View.GONE
+            view.accountnot.visibility = View.GONE
+            view.goToBusinessCreate.visibility = View.GONE
+            view.photoUrlContainer.visibility = View.VISIBLE
+            view.savedUpdatesBtn.visibility = View.VISIBLE
+            view.myProfileImage.setOnClickListener {
+                launchGalleryIntent()
+            }
+
+            view.accountNameEditText.inputType = InputType.TYPE_CLASS_TEXT
+            view.accountNameEditText.isClickable = true
+            view.accountPhoneEditText.inputType = InputType.TYPE_CLASS_TEXT
+            view.accountPhoneEditText.isClickable = true
+            view.accountMailEditText.inputType = InputType.TYPE_CLASS_TEXT
+            view.accountMailEditText.isClickable = true
+            val userName = view.accountNameEditText.text.toString().trim()
+            val userPhone = view.accountPhoneEditText.text.toString().trim()
+            val userMail = view.accountMailEditText.text.toString().trim()
+            val imageUrl =  view.photoUrlEditText.text.toString().trim()
+
+            view.savedUpdatesBtn.setOnClickListener {
+                userUpdateDatas(
+                    userName,
+                    userPhone,
+                    userMail,
+                    "1",
+                    imageUrl,
+                    authHeader,
+                    id
+                )
+            }
+
         }
 
         return view
@@ -95,4 +150,103 @@ class UserAccountFragment : Fragment() {
             Picasso.get().load(response.photo).into(view.myProfileImage)
         }
     }
+
+    private fun userUpdateDatas( username: String,
+                                  email: String,
+                                  phone: String,
+                                  userGender: String,
+                                 imagePath: String,
+                                 token:String,userId:Int){
+        val file = File(imagePath)
+        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        val photo: MultipartBody.Part =
+            MultipartBody.Part.createFormData("photos", file.name, reqFile)
+        val fullname: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), username)
+        val emailAddress: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+        val phoneNumber: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
+        val gender: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userGender)
+
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
+        compositeDisposable.add(
+            retrofit.updateUser(fullname,emailAddress,phoneNumber,gender,photo,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResponse,
+                    { throwable ->
+                        println(throwable) })
+        )
+
+
+    }
+    private fun handleResponse(response: UserRegisterResponse) {
+        println("Response: " + response.isSuccess)
+    }
+    fun launchGalleryIntent() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
+    }
+    private fun compressImageFile(imagePath: String): Bitmap? {
+        val file = File(imagePath)
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.absolutePath, options)
+        val imageWidth = options.outWidth
+        val imageHeight = options.outHeight
+        val scaleFactor = Math.min(imageWidth / MAX_IMAGE_WIDTH, imageHeight / MAX_IMAGE_HEIGHT)
+        options.inJustDecodeBounds = false
+        options.inSampleSize = scaleFactor
+        return BitmapFactory.decodeFile(file.absolutePath, options)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val selectedImageUri = data?.data
+            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
+            if (imagePath != null) {
+                val compressedBitmap = compressImageFile(imagePath)
+                view.photoUrlEditText.setText(imagePath)
+                view.myProfileImage.setImageBitmap(compressedBitmap)
+                if(compressedBitmap!=null){
+                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
+                    view.photoUrlEditText.setText(compressedImagePath)
+                    println("CompressedImagePath"+compressedImagePath)
+                }
+                println(imagePath)
+            }
+        }
+    }
+    private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
+        val outputDir = requireActivity().cacheDir // Get the directory to store the compressed image
+        val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
+        var outputStream: FileOutputStream? = null
+        try {
+            outputStream = FileOutputStream(outputFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // Compress and save the bitmap as JPEG with 80% quality
+            return outputFile.absolutePath
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            outputStream?.close()
+        }
+        return null
+    }
+    private fun getRealPathFromURI(uri: Uri): String? {
+        var path: String? = null
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = requireActivity().contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                path = it.getString(columnIndex)
+            }
+        }
+        return path
+    }
+
 }
