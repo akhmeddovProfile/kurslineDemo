@@ -406,7 +406,7 @@
                 android:layout_marginTop="7dp"
                 android:gravity="center"
                 android:layout_below="@+id/relativeLayoutClickUpForward"
-                android:visibility="visible"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="wrap_content"
@@ -428,7 +428,7 @@
                 android:layout_marginTop="7dp"
                 android:gravity="center"
                 android:layout_below="@+id/relativeLayoutClickVIP"
-                android:visibility="visible"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="wrap_content"
