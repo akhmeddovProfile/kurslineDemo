@@ -1,6 +1,5 @@
-package com.example.kurslinemobileapp.api.update
+package com.example.kurslinemobileapp.api.updateUserCompany
 
-import com.example.kurslinemobileapp.api.register.UserToCompanyResponse
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

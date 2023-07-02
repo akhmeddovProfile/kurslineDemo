@@ -324,8 +324,19 @@ class CourseUploadActivity : AppCompatActivity() {
         } else {
             ""
         }*/
+        val targetSize = 2_500_000 // Target size in bytes (2.5 MB)
+        var compressionQuality = 100 // Start with maximum quality (minimum compression)
         val byteArrayOutputStream = ByteArrayOutputStream()
-        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+        while (byteArrayOutputStream.size() > targetSize && compressionQuality > 0) {
+            byteArrayOutputStream.reset() // Reset the output stream
+
+            // Reduce the compression quality by 10%
+            compressionQuality -= 10
+
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+        }
+
         val imageBytes = byteArrayOutputStream.toByteArray()
         val base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT)
 
