@@ -171,7 +171,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     companyAddressContainer.error = null
                 }
 
-                characterCountTextViewcmpadress.text = "$characterCount / 50"
+                characterCountTextViewcmpadress.text = "$characterCount / 200"
             }
         })
 
@@ -194,7 +194,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     aboutCompanyContainer.error = null
                 }
 
-                characterCountTextViewcmpabout.text = "$characterCount / 50"
+                characterCountTextViewcmpabout.text = "$characterCount / 1500"
             }
         })
 

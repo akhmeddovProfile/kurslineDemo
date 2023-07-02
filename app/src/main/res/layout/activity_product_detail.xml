@@ -495,6 +495,14 @@
                         android:layout_marginEnd="20dp"
                         android:inputType="textPersonName"
                         android:hint="Şərh əlavə edin"/>
+
+                    <TextView
+                        android:id="@+id/characterCountTextViewComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        style="@style/CharacterCountTextAppearance"
+                        android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageView
                     android:id="@+id/sendCommentBtn"
