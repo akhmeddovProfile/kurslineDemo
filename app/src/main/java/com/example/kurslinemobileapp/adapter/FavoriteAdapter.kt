@@ -69,7 +69,7 @@ class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>,
             val photoUrl = productRow.photos.get(0).url
             val url = "1"
             val photo = Photo(url)
-            Picasso.get().load(photoUrl).transform(ResizeTransformation(300, 300)).into(holder.productimage)
+            Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
 
             holder.modeView.text = productRow.isOnline
             holder.statusView.text = productRow.isStatus
