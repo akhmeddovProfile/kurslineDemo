@@ -12,6 +12,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -41,6 +43,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.*
+import java.util.regex.Pattern
 
 class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
@@ -79,6 +82,121 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
+
+
+        companyNameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 50) {
+                    companyNameContainer.error = "Name must be between 3 and 50 characters."
+                } else {
+                    companyNameContainer.error = null
+                }
+
+                characterCountTextViewcmpusername.text = "$characterCount / 50"
+            }
+        })
+
+        companyPasswordEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val password = s.toString().trim()
+                val isValid = isPasswordValid(password)
+
+                if (!isValid) {
+                    companyPasswordContainer.error =
+                        "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character."
+                } else {
+                    companyPasswordContainer.error = null
+                }
+            }
+        })
+
+        companyFullNameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 50) {
+                    companyFullNameContainer.error = "Şirkət ad 3 və 50 simvol arasında olmalıdır"
+                } else {
+                    companyFullNameContainer.error = null
+                }
+
+                characterCountTextViewcmpname.text = "$characterCount / 50"
+            }
+        })
+
+        companyAdressEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 200) {
+                    companyAddressContainer.error = "Ünvan 3 və 200 simvol arasında olmalıdır"
+                } else {
+                    companyAddressContainer.error = null
+                }
+
+                characterCountTextViewcmpadress.text = "$characterCount / 50"
+            }
+        })
+
+        aboutCompanyEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 1500) {
+                    aboutCompanyContainer.error = "Haqqında 3 və 1500 simvol arasında olmalıdır"
+                } else {
+                    aboutCompanyContainer.error = null
+                }
+
+                characterCountTextViewcmpabout.text = "$characterCount / 50"
+            }
+        })
 
         companyCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
@@ -170,7 +288,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 block = false
             }
             showProgressButton(true)
-            sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyPasswordContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
+            sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
@@ -494,5 +612,11 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 // Restore original background, text color, etc., if modified
             }
         }
+    }
+    private fun isPasswordValid(password: String): Boolean {
+        val passwordPattern = Pattern.compile(
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$"
+        )
+        return passwordPattern.matcher(password).matches()
     }
 }
