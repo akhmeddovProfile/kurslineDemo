@@ -10,5 +10,6 @@ data class Announcemenet(
     val isStatus: String,
     val isVIP: Boolean,
     val photos: List<Photo>,
-    val price: Int
+    val price: Int,
+    val isFavorite:Boolean
 )
