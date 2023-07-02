@@ -57,6 +57,14 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Şirkət adınızı daxil edin*"/>
+                <TextView
+                    android:id="@+id/characterCountTextViewuserToCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_below="@+id/nameContainer"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,6 +92,15 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Adress*"/>
+
+                <TextView
+                    android:id="@+id/characterCountTextViewuserToCompanyAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_below="@+id/nameContainer"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -203,6 +220,15 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Şirkət haqqında*"/>
+
+                <TextView
+                    android:id="@+id/characterCountTextViewuserToCompanyAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_below="@+id/nameContainer"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
