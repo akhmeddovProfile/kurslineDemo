@@ -90,14 +90,4 @@ class TabforCompanies : Fragment() {
         companyTeacherAdapter.notifyDataSetChanged()
     }
 
-    private fun filterCompanies(query: String) {
-        val filteredList = if (query.isNotEmpty()) {
-            mainList.filter { it.companyName.contains(query, ignoreCase = true) }
-        } else {
-            mainList
-        }
-        companyTeacherAdapter.updateList(filteredList)
-    }
-
-
 }

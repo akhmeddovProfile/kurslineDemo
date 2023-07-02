@@ -2,6 +2,8 @@ package com.example.kurslinemobileapp.view.tabsForCompanies
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.Compa
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -26,6 +29,7 @@ class TabforTeachers : Fragment() {
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
     private lateinit var compositeDisposable: CompositeDisposable
+    private lateinit var searchView: TextInputEditText
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +46,24 @@ class TabforTeachers : Fragment() {
         recycler.layoutManager = LinearLayoutManager(requireContext())
         companyTeacherAdapter = CompanyTeacherAdapter(mainList)
         recycler.adapter = companyTeacherAdapter
+
+        searchView = view.findViewById(R.id.searchViewTeacher)
+        searchView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString().trim()
+                val filteredList = if (query.isNotEmpty()) {
+                    mainList.filter { it.companyName.contains(query, ignoreCase = true) }
+                } else {
+                    ArrayList(mainList)
+                }
+                companyTeacherAdapter.updateList(filteredList)
+            }
+        })
+
         getCompanies()
         return view
     }
