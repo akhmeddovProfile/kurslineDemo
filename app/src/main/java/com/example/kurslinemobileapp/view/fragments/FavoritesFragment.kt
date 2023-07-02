@@ -182,6 +182,8 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
                         val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
                         imageNotfound.visibility = View.VISIBLE
                     }
+                    println("Deleted From Server: "+it.isSuccess)
+
                 },{throwable->
                     println("My msg: ${throwable}")
                 })

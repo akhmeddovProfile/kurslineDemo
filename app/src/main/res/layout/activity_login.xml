@@ -110,9 +110,10 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:fontFamily="@font/nunito"
+                    android:id="@+id/createNewPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
                     android:text="Şifrəni yeniləyin"
                     android:textColor="@color/greenColor"
                     android:textSize="18sp" />
@@ -157,6 +158,22 @@
                 android:layout_below="@id/goToRegister"
                 android:background="@drawable/button_bg"
                 android:text="Daxil olun"
+                android:textAllCaps="false"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/enterEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@id/goToRegister"
+                android:background="@drawable/button_bg"
+                android:text="Davam et"
                 android:textAllCaps="false"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"

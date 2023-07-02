@@ -20,33 +20,20 @@ import com.example.kurslinemobileapp.api.favorite.SendFavModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item_row.view.*
 
-class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
+class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
                              private val favoriteItemClickListener: FavoriteItemClickListener,
                              private val context:Context
 ) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
-     var favoriteItems: MutableList<SendFavModel>
-
-    init {
-        favoriteItems= mutableListOf()
-
-    }
-
-
 
     private var onItemClickListener: ((Announcemenet) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
         onItemClickListener = listener
     }
-/*
-    interface FavoriteItemClickListener2 {
-        fun onFavoriteItemClick(item: GetAllAnnouncement)
-    }
-*/
 
     interface FavoriteItemClickListener{
-        fun onFavoriteItemClick(id: Int,liked:Boolean)
+        fun onFavoriteItemClick(id: Int,position: Int)
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
@@ -96,61 +83,29 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
 
         holder.bind(productRow)
 
-        favoriteItems.add(SendFavModel(0,productRow.id,false))
-
-
-/*
-        if(favListId.contains(items[position].announcemenets.get(position).id)){
+        if (productRow.isFavorite==true) {
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-            addedToFav=true
-            println("AddedToFav: ${addedToFav}")
-            return
+
+        } else {
+            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+        }
+//        notifyItemChanged(favoriteItems.size-1)
+
+//Favorite start to add hear
+  /*      if(favoriteItems.get(position).isSelected){
+            //addedToFav=true
+            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+            println("Added to favorite: ${addedToFav}")
         }
         else{
+           // addedToFav=false
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-            println("AddedToFav: ${addedToFav}")
-        }
-
-        holder.heartButton.setOnClickListener {
-            if (addedToFav){
-                favoriteItemClickListener.onFavoriteItemClick(favoriteItems.get(position),addedToFav)
-                addedToFav = false
-                holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-            }else{
-                favoriteItemClickListener.onFavoriteItemClick(favoriteItems.get(position), addedToFav)
-                addedToFav = true
-                holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-            }
+            println("Added to favorite: ${addedToFav}")
         }
 */
-//Favorite start to add hear
-        if(favoriteItems.get(position).isSelected){
-            addedToFav=true
-            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-            println("Added to favorite: ${addedToFav}")
-        }
-        else{
-            addedToFav=false
-            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-            println("Added to favorite: ${addedToFav}")
-        }
-
 
         holder.heartButton.setOnClickListener {
-            // Toggle the favorite state of the item
-            favoriteItems.get(position).isSelected=!favoriteItems.get(position).isSelected
-
-            // Update the heart drawable based on the new favorite state
-
-
-            if (favoriteItems.get(position).isSelected||addedToFav) {
-                holder.heartButton.setBackgroundResource(R.drawable.favorite_for_product)
-                addedToFav=true
-            } else {
-                holder.heartButton.setBackgroundResource(R.drawable.favorite_border_for_product)
-            }
-
-            favoriteItemClickListener.onFavoriteItemClick(favoriteItems[position].productid, favoriteItems.get(position).isSelected)
+            favoriteItemClickListener.onFavoriteItemClick(productRow.id,position)
         }
     }
 
@@ -158,5 +113,11 @@ class MainListProductAdapter(private val items: List<GetAllAnnouncement>,
         return items.get(0).announcemenets.size
     }
 
+    fun LikedItems(items: List<GetAllAnnouncement>,position: Int){
+        this.items=items
+
+        notifyItemChanged(position)
+
+    }
 
 }

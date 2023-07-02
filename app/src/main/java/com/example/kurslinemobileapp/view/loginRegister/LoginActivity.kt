@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
@@ -34,6 +35,22 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        createNewPassword.setOnClickListener {
+            passwordLoginContainer.visibility=View.INVISIBLE
+            loginButton.visibility=View.INVISIBLE
+            enterEmailAddress.visibility=View.VISIBLE
+            val email = emailLoginEditText.text.toString()
+            if(email.isEmpty()){
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            else{
+                showProgressButton(true)
+
+            }
+
+        }
+
         loginButton.setOnClickListener {
             val email = emailLoginEditText.text.toString()
             val password = passwordLoginEditText.text.toString()
@@ -46,6 +63,10 @@ class LoginActivity : AppCompatActivity() {
                 login(email, password)
             }
         }
+    }
+
+    private fun resetPassword(email:String){
+
     }
 
     private fun login(email: String, password: String) {

@@ -39,6 +39,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var mainListProductAdapter: MainListProductAdapter
     private lateinit var mainList : ArrayList<GetAllAnnouncement>
     private lateinit var mainList2 : ArrayList<GetAllAnnouncement>
+    private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var favListId:MutableList<Int>
@@ -117,6 +118,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
+        announcements.addAll(response.announcemenets)
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
         println("responseElan: " + response.announcemenets)
@@ -136,22 +138,23 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     }
 
 
-    override fun onFavoriteItemClick(id: Int, liked: Boolean) {
+    override fun onFavoriteItemClick(id: Int, position: Int) {
         compositeDisposable= CompositeDisposable()
         val adapter = mainListProductAdapter as? MainListProductAdapter
+        adapter!!.notifyItemChanged(position)
         adapter?.notifyDataSetChanged()
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
         println("userid" + userId)
         println("token:"+authHeader)
-         postFav(id)
+         postFav(id,position)
 
         /*else deleteFav(id)*/
 
     }
 
-    fun postFav(id:Int){
+    fun postFav(id:Int,position: Int){
         val token = sharedPreferences.getString("USERTOKENNN","")
         val userId = sharedPreferences.getInt("userID",0)
         val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
@@ -161,25 +164,14 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             observeOn(AndroidSchedulers.mainThread()).
             subscribe({
                       println(it.isSuccess)
+                mainList2[0].announcemenets[position].isFavorite=it.isSuccess
+                mainListProductAdapter.LikedItems(mainList2,position)
+
             },{throwable->
                 println("My msg: ${throwable}")
             })
         )
     }
-    fun deleteFav(id:Int){
-        val token = sharedPreferences.getString("USERTOKENNN","")
 
-        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
-        compositeDisposable.add(
-            retrofit.deleteFavorite(token!!,72,id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    println("Handler Response: "+it.isSuccess)
-                },{ throwable ->
-                    println("MyTests: $throwable")
-                })
-        )
-    }
 
 }
