@@ -136,10 +136,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     }
 
 
-
-
-
-
     override fun onFavoriteItemClick(id: Int, liked: Boolean) {
         compositeDisposable= CompositeDisposable()
         val adapter = mainListProductAdapter as? MainListProductAdapter
@@ -149,8 +145,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val authHeader = "Bearer $token"
         println("userid" + userId)
         println("token:"+authHeader)
-
-
          postFav(id)
 
         /*else deleteFav(id)*/

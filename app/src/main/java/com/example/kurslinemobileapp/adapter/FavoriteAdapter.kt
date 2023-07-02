@@ -97,8 +97,8 @@ class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>,
 
 
             holder.deleteButton.setOnClickListener {
-/*                favoriteItems.get(position).unliked=!favoriteItems.get(position).unliked
-                if (favoriteItems.get(position).unliked) {
+               favoriteItems.get(position).unliked=!favoriteItems.get(position).unliked
+/*                if (favoriteItems.get(position).unliked) {
                     holder.deleteButton.setBackgroundResource(R.drawable.favorite_for_product)
                 } else {
                     holder.deleteButton.setBackgroundResource(R.drawable.favorite_border_for_product)
