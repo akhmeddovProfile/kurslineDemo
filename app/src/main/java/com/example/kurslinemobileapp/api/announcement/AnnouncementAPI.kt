@@ -2,9 +2,11 @@ package com.example.kurslinemobileapp.api.announcement
 
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -28,4 +30,8 @@ interface AnnouncementAPI {
         @Query("isOnlineId") isOnlineId: Int,
         @Query("userId") userId: Int
     ):Observable<List<GetAllAnnouncement>>
+
+    @GET("GetAnnouncementForUserById/{userId}/{announcementId}")
+    fun getAnnouncementForUser(@Path("userId") userId: Int,@Path("announcementId") announcementId:Int, @Header("Authorization") token: String)
+            : Observable<GetUserAnn>
 }
