@@ -119,7 +119,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         lottie.pauseAnimation()
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
-        println("responseElan: " + response)
+        println("responseElan: " + response.announcemenets)
 
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter

@@ -55,7 +55,7 @@ class ProductDetailActivity : AppCompatActivity() {
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
-        favoriteDetailItem=sharedPreferences.getBoolean("isFavoriteDetailProduct",false)
+        favoriteDetailItem=sharedPreferences.getBoolean("isFavorite",false)
         val authHeader = "Bearer $token"
         println("gelenid" + annId)
         println("userid" + userId)
@@ -141,9 +141,11 @@ class ProductDetailActivity : AppCompatActivity() {
         }else{
             vip_product_for_detail.visibility = View.GONE
         }
-        if (favoriteDetailItem==true){
+
+        if(favoriteDetailItem==true){
             favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
-        }else{
+        }
+        else{
             favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
             favoriteDetailItem=false
         }
