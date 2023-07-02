@@ -6,6 +6,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +33,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
+import kotlinx.android.synthetic.main.activity_user_register.*
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -64,6 +67,29 @@ class ProductDetailActivity : AppCompatActivity() {
         else{
             linearlayoutforinputComment.visibility = View.GONE
         }
+
+        commentEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 100) {
+                    commentforUser.error = "Comment must be between 3 and 100 characters."
+                } else {
+                    commentforUser.error = null
+                }
+
+                characterCountTextViewComment.text = "$characterCount / 100"
+            }
+        })
 
         getDataFromServer(annId)
         sendCommentBtn.setOnClickListener {

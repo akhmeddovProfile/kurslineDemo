@@ -21,7 +21,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerProductDetail"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="400dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -495,6 +495,14 @@
                         android:layout_marginEnd="20dp"
                         android:inputType="textPersonName"
                         android:hint="Şərh əlavə edin"/>
+
+                    <TextView
+                        android:id="@+id/characterCountTextViewComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        style="@style/CharacterCountTextAppearance"
+                        android:textColor="@color/black" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <ImageView
                     android:id="@+id/sendCommentBtn"

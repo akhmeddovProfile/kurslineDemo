@@ -57,6 +57,13 @@
                     android:inputType="textPersonName"
                     android:lines="1"
                     android:textColor="@color/black" />
+                <TextView
+                    android:id="@+id/characterCountTextViewcmpusername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -139,6 +146,13 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Şirkət adınızı daxil edin*"/>
+                <TextView
+                    android:id="@+id/characterCountTextViewcmpname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -227,6 +241,14 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Adress*"/>
+                <TextView
+                    android:id="@+id/characterCountTextViewcmpadress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -241,6 +263,8 @@
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
+                app:prefixText="+994 "
+                app:prefixTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -375,6 +399,13 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Şirkət haqqında*"/>
+                <TextView
+                    android:id="@+id/characterCountTextViewcmpabout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton

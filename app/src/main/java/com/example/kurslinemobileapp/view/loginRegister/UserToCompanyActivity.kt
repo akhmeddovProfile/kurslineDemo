@@ -11,6 +11,9 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
@@ -29,6 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
+import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -60,6 +64,75 @@ class UserToCompanyActivity : AppCompatActivity() {
         val authHeader = "Bearer $token"
         println("userid" + userId)
         println("token:"+authHeader)
+
+        userToCompanyNameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 50) {
+                    userToCompanyNameContainer.error = "Name must be between 3 and 50 characters."
+                } else {
+                    userToCompanyNameContainer.error = null
+                }
+
+                characterCountTextViewuserToCompanyName.text = "$characterCount / 50"
+            }
+        })
+
+        userToCompanyAddressEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 200) {
+                    userToCompanyAddressContainer.error = "Ünvan 3 və 200 simvol arasında olmalıdır"
+                } else {
+                    userToCompanyAddressContainer.error = null
+                }
+
+                characterCountTextViewuserToCompanyAddress.text = "$characterCount / 200"
+            }
+        })
+
+        userToCompanyAboutEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 1500) {
+                    userToCompanyAboutContainer.error = "Haqqında 3 və 1500 simvol arasında olmalıdır"
+                } else {
+                    userToCompanyAboutContainer.error = null
+                }
+
+                characterCountTextViewuserToCompanyAbout.text = "$characterCount / 1500"
+            }
+        })
 
         userToCompanyCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
@@ -95,7 +168,7 @@ class UserToCompanyActivity : AppCompatActivity() {
             aboutCompanyEditText.requestFocus()
             block = false
         }
-
+            showProgressButton(true)
         sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, userToCompanyPhotoEditText.text.toString(), companyStatusContainer, authHeader, userId)
     }
         userToCompanyPhotoEditText.setOnClickListener {
@@ -137,7 +210,9 @@ class UserToCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        println(throwable)
+                        val text = "Məlumatlar doğru deyil"
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false)
                     })
         )
     }
@@ -271,6 +346,22 @@ class UserToCompanyActivity : AppCompatActivity() {
                 }, { throwable -> println("MyTestStatus: $throwable") })
         )
         dialog.show()
+    }
+
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            userToCompanyRegisterBtn.apply {
+                isEnabled = false
+                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            userToCompanyRegisterBtn.apply {
+                isEnabled = true
+                text = "Biznes hesabı yarat"
+                // Restore original background, text color, etc., if modified
+            }
+        }
     }
 }
 

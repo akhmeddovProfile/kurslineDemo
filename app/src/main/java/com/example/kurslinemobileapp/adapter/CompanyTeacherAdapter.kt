@@ -15,7 +15,11 @@ import com.squareup.picasso.Picasso
 
 class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModelItem>) :
     RecyclerView.Adapter<CompanyTeacherAdapter.CompanyTeacherHolder>() {
-
+    fun updateList(newList: List<CompanyTeacherModelItem>) {
+        items.clear()
+        items.addAll(newList)
+        notifyDataSetChanged()
+    }
     inner class CompanyTeacherHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val companyName: TextView = itemView.findViewById(R.id.companyTeacherCname)

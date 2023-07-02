@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
@@ -40,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
                     .show()
             } else {
+                showProgressButton(true)
                 login(email, password)
             }
         }
@@ -56,9 +59,10 @@ class LoginActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponseLogin,
                     { throwable ->
-                        val text = throwable.toString()
-                    Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
-                })
+                        val text = "Məlumatlar doğru deyil"
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false)
+                    })
         )
     }
 
@@ -68,7 +72,6 @@ class LoginActivity : AppCompatActivity() {
         finish()
         println("Response: " + response)
         println("userId: " + response.userInfo.id)
-        Toast.makeText(this, "Succesfully Login", Toast.LENGTH_SHORT).show()
         sharedPreferences = this.getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         sharedPreferences.edit().putString("token", response.accessToken.token).apply()
@@ -78,5 +81,21 @@ class LoginActivity : AppCompatActivity() {
         editor.putInt("userID",response.userInfo.id)
         editor.putString("USERTOKENNN", response.accessToken.token)
         editor.apply()
+    }
+
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            loginButton.apply {
+                isEnabled = false
+                text = "Hesaba daxil olunur..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            loginButton.apply {
+                isEnabled = true
+                text = "Daxil Olun"
+                // Restore original background, text color, etc., if modified
+            }
+        }
     }
 }

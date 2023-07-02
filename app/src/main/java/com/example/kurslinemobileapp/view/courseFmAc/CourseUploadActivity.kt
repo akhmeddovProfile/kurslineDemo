@@ -58,6 +58,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_all_companies.*
 import kotlinx.android.synthetic.main.activity_course_upload.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
+import kotlinx.android.synthetic.main.activity_user_to_company.*
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -209,8 +210,8 @@ class CourseUploadActivity : AppCompatActivity() {
                 val img = Img(imageNames[i], imageData[i].toString())
                 images.add(img)
             }
+            showProgressButton(true)
             sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyCategoryContainer,companyRegionContainer,images,teachersname))
-
         }
 
 
@@ -272,7 +273,9 @@ class CourseUploadActivity : AppCompatActivity() {
                 .subscribe(
                     this::handleResponse,
                     {throwable->
-                    println("MyTest: "+ throwable)
+                        val text = "Məlumatlar doğru deyil"
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false)
                     }
                 )
         )
@@ -321,8 +324,19 @@ class CourseUploadActivity : AppCompatActivity() {
         } else {
             ""
         }*/
+        val targetSize = 2_500_000 // Target size in bytes (2.5 MB)
+        var compressionQuality = 100 // Start with maximum quality (minimum compression)
         val byteArrayOutputStream = ByteArrayOutputStream()
-        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+        while (byteArrayOutputStream.size() > targetSize && compressionQuality > 0) {
+            byteArrayOutputStream.reset() // Reset the output stream
+
+            // Reduce the compression quality by 10%
+            compressionQuality -= 10
+
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+        }
+
         val imageBytes = byteArrayOutputStream.toByteArray()
         val base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT)
 
@@ -455,5 +469,21 @@ class CourseUploadActivity : AppCompatActivity() {
                 }, { throwable -> println("MyTestMode: $throwable") })
         )
         dialog.show()
+    }
+
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            uploadCourse.apply {
+                isEnabled = false
+                text = "Kurs elanı yaradılır..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            uploadCourse.apply {
+                isEnabled = true
+                text = "Kursu əlavə et"
+                // Restore original background, text color, etc., if modified
+            }
+        }
     }
 }

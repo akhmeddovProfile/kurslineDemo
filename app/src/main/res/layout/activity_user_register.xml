@@ -57,6 +57,15 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Adınızı daxil edin*"/>
+                <TextView
+                    android:id="@+id/characterCountTextViewUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_below="@+id/nameContainer"
+                    style="@style/CharacterCountTextAppearance"
+                    android:textColor="@color/black" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -72,6 +81,8 @@
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
+                app:prefixText="+994 "
+                app:prefixTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

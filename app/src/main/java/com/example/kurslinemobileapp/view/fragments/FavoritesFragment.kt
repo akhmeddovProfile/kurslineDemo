@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -48,6 +49,7 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
     lateinit var deleteFavModel:DeleteFavModel
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -75,11 +77,20 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
         } else {
             // Required data is present, display it
             view.favoritesRl.visibility = View.VISIBLE
+            val lottie = view.findViewById<LottieAnimationView>(R.id.favoriteLoading)
+            lottie.visibility = View.VISIBLE
+            val text = view.findViewById<TextView>(R.id.notFoundFavoritesCourseText)
+            text.visibility = View.GONE
+            val image = view.findViewById<ImageView>(R.id.notFoundImageFav)
+            image.visibility = View.GONE
+            lottie.playAnimation()
             val recycler = view.findViewById<RecyclerView>(R.id.favorites_item_recycler)
             recycler.visibility = View.GONE
-            recycler.layoutManager = GridLayoutManager(requireContext(),2)
+            val coursesRV = view.findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
+            getFavItems(authHeader,id)
         }
-        getFavItems(authHeader,id)
+
 
         return view
     }
@@ -111,6 +122,9 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
             val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
             imageNotfound.visibility = View.GONE
 
+            val lottie = requireView().findViewById<LottieAnimationView>(R.id.favoriteLoading)
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
             val heartButton=requireView().findViewById<ImageButton>(R.id.favorite_button2)
             heartButton?.setBackgroundResource(R.drawable.favorite_for_product)
             mainList.addAll(companyDetailItem)
@@ -131,12 +145,16 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
             }
 
         }else{
+
             val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
             recycler.visibility = View.GONE
             val textNotfound = requireView().findViewById<TextView>(R.id.notFoundFavoritesCourseText)
             textNotfound.visibility = View.VISIBLE
             val imageNotfound = requireView().findViewById<ImageView>(R.id.notFoundImageFav)
             imageNotfound.visibility = View.VISIBLE
+            val lottie = requireView().findViewById<LottieAnimationView>(R.id.favoriteLoading)
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
         }
     }
 

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.register.RegisterAPI
@@ -14,6 +16,7 @@ import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_register.nameEditText
@@ -21,6 +24,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.regex.Pattern
 
 class UserRegisterActivity : AppCompatActivity() {
     private var block: Boolean = true
@@ -29,11 +33,56 @@ class UserRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_register)
 
+        nameEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val name = s.toString().trim()
+                val characterCount = name.length
+
+                if (characterCount < 3 || characterCount > 50) {
+                    nameContainer.error = "Name must be between 3 and 50 characters."
+                } else {
+                    nameContainer.error = null
+                }
+
+                characterCountTextViewUsername.text = "$characterCount / 50"
+            }
+        })
+
+        passwordEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Not used
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Not used
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                val password = s.toString().trim()
+                val isValid = isPasswordValid(password)
+
+               if (!isValid) {
+                    passwordContainer.error =
+                        "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character."
+                } else {
+                    passwordContainer.error = null
+                }
+            }
+        })
+
         registerButton.setOnClickListener {
             block = true
             val name = nameEditText.text.toString().trim()
             val email = mailEditText.text.toString().trim()
-            val phone = phoneEditText.text.toString().trim()
+            val phone =phoneEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
             // Validate input fields
             if (name.isEmpty()) {
@@ -41,6 +90,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 nameEditText.requestFocus()
                 block = false
             }
+
             if (email.isEmpty()) {
                 mailEditText.error = " Email required"
                 mailEditText.requestFocus()
@@ -61,7 +111,8 @@ class UserRegisterActivity : AppCompatActivity() {
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
-                register(name, email, phone, password, "1")
+                showProgressButton(true)
+                register(name, email, "+994"+phone, password, "1")
             }
         }
     }
@@ -93,7 +144,9 @@ class UserRegisterActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                    println(throwable) })
+                        val text = "Məlumatlar doğru deyil"
+                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        showProgressButton(false) })
         )
     }
 
@@ -102,5 +155,28 @@ class UserRegisterActivity : AppCompatActivity() {
         val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun showProgressButton(show: Boolean) {
+        if (show) {
+            registerButton.apply {
+                isEnabled = false
+                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                // Add loading indicator drawable or ProgressBar if needed
+            }
+        } else {
+            registerButton.apply {
+                isEnabled = true
+                text = "Qeydiyyatdan keç"
+                // Restore original background, text color, etc., if modified
+            }
+        }
+    }
+
+    private fun isPasswordValid(password: String): Boolean {
+        val passwordPattern = Pattern.compile(
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$"
+        )
+        return passwordPattern.matcher(password).matches()
     }
 }
