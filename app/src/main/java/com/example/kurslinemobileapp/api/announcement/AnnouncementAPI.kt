@@ -1,10 +1,10 @@
 package com.example.kurslinemobileapp.api.announcement
 
+import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import io.reactivex.Observable
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -17,21 +17,19 @@ interface AnnouncementAPI {
     @GET("GetAnnouncementById/{annouuncementId}")
     fun getDataById(@Path("annouuncementId") id: Int): Observable<AnnouncementDetailModel>
 
-    @GET("GetAnnouncements?")
-    fun getFilteredItems(
-        @Query("limit")limit:Int,
-        @Query("offset")offset:Int,
-        @Query("RegionId")RegionId:Int,
-        @Query("CategoryId")CategoryId:Int,
-        @Query("search") search: String,
-        @Query("minPrice") minPrice: Double,
-        @Query("maxPrice") maxPrice: Double,
-        @Query("statusId") statusId: Int,
-        @Query("isOnlineId") isOnlineId: Int,
-        @Query("userId") userId: Int
-    ):Observable<List<GetAllAnnouncement>>
-
     @GET("GetAnnouncementForUserById/{userId}/{announcementId}")
     fun getAnnouncementForUser(@Path("userId") userId: Int,@Path("announcementId") announcementId:Int, @Header("Authorization") token: String)
             : Observable<GetUserAnn>
+
+    @GET("GetAnnouncements")
+    fun getFilterProducts(@Query("limit") limit: Int,
+                          @Query("offset") offset: Int,
+                          @Query("RegionId") regionId: String,
+                          @Query("CategoryId") categoryId: String,
+                          @Query("search") search: String,
+                          @Query("minPrice") minPrice: String,
+                          @Query("maxPrice") maxPrice: String,
+                          @Query("statusId") statusId: String,
+                          @Query("isOnlineId") isOnlineId: String,
+                          @Query("userId") userId: Int) : Observable<FilterModel>
 }

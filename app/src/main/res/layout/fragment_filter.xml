@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,17 +56,26 @@
             android:id="@+id/filterRegion">
 
             <TextView
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
+                android:layout_gravity="start"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Regionlar"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/allRegionsFilterTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hamısına bax"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +94,7 @@
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:padding="10dp"
@@ -107,7 +116,7 @@
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +135,16 @@
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/allCategoriesFilterTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hamısına bax"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -205,15 +223,15 @@
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/allcourses"
+            android:id="@+id/allcourseFilter"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_below="@+id/statustxt"
-            android:background="@drawable/button_filter"
+            android:background="@drawable/business_button_bg_2"
             android:text="Hamısı"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_marginStart="10dp"
             android:layout_marginTop="28dp"
@@ -223,13 +241,13 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_below="@+id/statustxt"
-            android:background="@drawable/button_filter"
+            android:background="@drawable/business_button_bg_2"
             android:text="Kurs"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/nunito"
-           android:layout_toRightOf="@id/allcourses"
+           android:layout_toRightOf="@id/allcourseFilter"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />
@@ -238,11 +256,11 @@
             android:layout_width="105dp"
             android:layout_height="35dp"
             android:layout_below="@+id/statustxt"
-            android:background="@drawable/button_filter"
+            android:background="@drawable/business_button_bg_2"
             android:text="Repititor"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_toRightOf="@+id/coursefilter"
             android:layout_marginLeft="25dp"
@@ -252,7 +270,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/allcourses"
+            android:layout_below="@+id/allcourseFilter"
             android:layout_marginTop="28dp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
@@ -315,11 +333,11 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_below="@+id/modeText"
-            android:background="@drawable/button_filter"
+            android:background="@drawable/business_button_bg_2"
             android:text="Hamısı"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_marginStart="10dp"
             android:layout_marginTop="28dp"
@@ -329,11 +347,11 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_below="@+id/modeText"
-            android:background="@drawable/button_filter"
+            android:background="@drawable/business_button_bg_2"
             android:text="Offline"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_toRightOf="@id/allModesbtn"
             android:layout_marginLeft="25dp"
@@ -344,11 +362,11 @@
             android:layout_width="105dp"
             android:layout_height="35dp"
             android:layout_below="@+id/modeText"
-            android:background="@drawable/button_filter"
+            android:background="@drawable/business_button_bg_2"
             android:text="Online"
             android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_toRightOf="@id/offlineModebtn"
             android:layout_marginLeft="25dp"
