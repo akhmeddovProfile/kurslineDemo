@@ -18,6 +18,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.HiglightForMainListAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
+import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
@@ -99,6 +100,45 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             view.createAccountTextMain.visibility = View.VISIBLE
         }
 
+
+        val search = arguments?.getString("search", "")
+        val statusId = arguments?.getString("statusId", "")
+        val isOnlineId = arguments?.getString("isOnlineId", "")
+        val limit = arguments?.getInt("limit", 10) ?: 10
+        val offset = arguments?.getInt("offset", 0) ?: 0
+        val regionId = arguments?.getString("regionId", "")
+        val categoryId = arguments?.getString("categoryId", "")
+        val minPrice = arguments?.getString("minPrice", "")
+        val maxPrice = arguments?.getString("maxPrice", "")
+
+        // Call the getFilterProducts method with the retrieved filter parameters
+        if (regionId != null) {
+            if (categoryId != null) {
+                if (search != null) {
+                    if (minPrice != null) {
+                        if (maxPrice != null) {
+                            if (statusId != null) {
+                                if (isOnlineId != null) {
+                                    getFilterProducts(
+                                        limit,
+                                        offset,
+                                        regionId,
+                                        categoryId,
+                                        search,
+                                        minPrice,
+                                        maxPrice,
+                                        statusId,
+                                        isOnlineId,
+                                        0
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         return view
     }
 
@@ -121,7 +161,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         announcements.addAll(response.announcemenets)
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
-        println("responseElan: " + response.announcemenets)
 
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter
@@ -135,6 +174,50 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             println("gedenId-----"+it.id)
             editor.apply()
         }
+    }
+
+    private fun getFilterProducts(
+        limit: Int,
+        offset: Int,
+        regionId: String,
+        categoryId: String,
+        search: String,
+        minPrice: String,
+        maxPrice: String,
+        statusId: String,
+        isOnlineId: String,
+        userId: Int
+    ) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(retrofit.getFilterProducts(limit,offset,regionId,categoryId,search,minPrice,maxPrice,statusId,isOnlineId,userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponseFilter, { throwable-> println("MyTests: $throwable") }))
+    }
+
+    private fun handleResponseFilter(response : FilterModel){
+        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.GONE
+        println("responseFilter:" +response.announcemenets)
+
+        /*
+        mainList.addAll(listOf(response))
+        mainList2.addAll(listOf(response))
+
+        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+        recycler.adapter = mainListProductAdapter
+        mainListProductAdapter.notifyDataSetChanged()
+        mainListProductAdapter.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            println("gedenId-----"+it.id)
+            editor.apply()
+
+         */
     }
 
 

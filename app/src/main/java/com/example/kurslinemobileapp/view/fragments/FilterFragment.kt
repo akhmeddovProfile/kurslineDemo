@@ -8,13 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
@@ -78,10 +74,7 @@ class FilterFragment : Fragment() {
             showBottomSheetDialogRegions()
         }
 
-
-
         val search = ""
-
         var statusId = ""
         var isOnlineId = ""
         val limit = 10
@@ -119,20 +112,25 @@ class FilterFragment : Fragment() {
             val category = categoryId
             val minPrice = min.toString().trim()
             val maxPrice = max.toString().trim()
-            getProducts(
-                region,
-                category,
-                search,
-                minPrice,
-                maxPrice,
-                statusId,
-                isOnlineId,
-                limit,
-                offset
-            )
+
+            val bundle = Bundle()
+            bundle.putString("search", search)
+            bundle.putString("statusId", statusId)
+            bundle.putString("isOnlineId", isOnlineId)
+            bundle.putInt("limit", limit)
+            bundle.putInt("offset", offset)
+            bundle.putString("regionId", region)
+            bundle.putString("categoryId", category)
+            bundle.putString("minPrice", minPrice)
+            bundle.putString("maxPrice", maxPrice)
+
+            // Create an instance of the HomeFragment
+            val homeFragment = HomeFragment()
+            homeFragment.arguments = bundle
+
+            // Navigate to the HomeFragment and pass the filter parameters
+            findNavController().navigate(R.id.action_filterFragment_to_homeFragment, bundle)
         }
-
-
         return view
     }
 
@@ -172,30 +170,6 @@ class FilterFragment : Fragment() {
 
     }
 
-    private fun getProducts(
-        regionId: String,
-        categoryId: String,
-        search: String,
-        minPrice: String,
-        maxPrice: String,
-        statusId: String,
-        isOnlineId: String,
-        limit: Int,
-        offset: Int
-    ) {
-        compositeDisposable = CompositeDisposable()
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(retrofit.getFilterProducts(
-            limit, offset, regionId, categoryId, search, minPrice, maxPrice, statusId, isOnlineId, 0)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponse, { throwable-> println("MyTests: $throwable") })
-        )
-    }
-
-    private fun handleResponse(response: FilterModel) {
-       println("Response of Filter "+ response.announcemenets)
-    }
 
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
