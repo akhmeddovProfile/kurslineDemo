@@ -13,16 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
-        <TextView
-            android:id="@+id/logoTextMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito"
-            android:text="Logo"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/greenColor"
-            android:textSize="36dp" />
+       <ImageView
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:background="@drawable/kurslinelogo"/>
 
         <TextView
             android:id="@+id/createAccountTextMain"
