@@ -164,6 +164,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter
+        recycler.isNestedScrollingEnabled=false
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
