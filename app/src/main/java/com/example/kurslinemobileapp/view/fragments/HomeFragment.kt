@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,6 +27,7 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import com.example.kurslinemobileapp.view.loginRegister.MainRegisterActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -96,6 +98,46 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             view.createAccountTextMain.visibility = View.VISIBLE
         }
 
+        val search = arguments?.getString("search", "")
+        val statusId = arguments?.getString("statusId", "")
+        val isOnlineId = arguments?.getString("isOnlineId", "")
+        val limit = arguments?.getInt("limit", 10) ?: 10
+        val offset = arguments?.getInt("offset", 0) ?: 0
+        val regionId = arguments?.getString("regionId", "")
+        val categoryId = arguments?.getString("categoryId", "")
+        val minPrice = arguments?.getString("minPrice", "")
+        val maxPrice = arguments?.getString("maxPrice", "")
+
+        // Call the getFilterProducts method with the retrieved filter parameters
+        if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null) {
+            recycler.layoutManager = GridLayoutManager(requireContext(),2)
+            getFilterProducts(
+                limit,
+                offset,
+                regionId!!,
+                categoryId!!,
+                search!!,
+                minPrice!!,
+                maxPrice!!,
+                statusId!!,
+                isOnlineId!!,
+                0
+            )
+        }
+        else{
+            recycler.layoutManager = GridLayoutManager(requireContext(),2)
+            getProducts()
+        }
+
+        view.filterfromAtoZ.setOnClickListener {
+            showBottomSheetDialog()
+        }
+
+        view.filterforPrice.setOnClickListener {
+            showBottomSheetDialogPrice()
+        }
+
+
         return view
     }
 
@@ -119,6 +161,50 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
         println("responseElan: " + response.announcemenets)
+
+        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+        recycler.adapter = mainListProductAdapter
+        mainListProductAdapter.notifyDataSetChanged()
+        mainListProductAdapter.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
+    }
+
+    private fun getFilterProducts(
+        limit: Int,
+        offset: Int,
+        regionId: String,
+        categoryId: String,
+        search: String,
+        minPrice: String,
+        maxPrice: String,
+        statusId: String,
+        isOnlineId: String,
+        userId: Int
+    ) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(retrofit.getFilterProducts(limit,offset,regionId,categoryId,search,minPrice,maxPrice,statusId,isOnlineId,userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponseFilter, { throwable-> println("MyTests: $throwable") }))
+    }
+
+    private fun handleResponseFilter(response : GetAllAnnouncement){
+        println("responseFilter:" +response.announcemenets)
+        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.VISIBLE
+        val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
+        mainList.addAll(listOf(response))
+        mainList2.addAll(listOf(response))
 
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter
@@ -168,6 +254,55 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                 println("My msg: ${throwable}")
             })
         )
+    }
+    fun showBottomSheetDialog() {
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(R.layout.sorted_layout)
+        val btnAtoZ = dialog.findViewById<RelativeLayout>(R.id.rl_atoz)
+        val btnZtoA = dialog.findViewById<RelativeLayout>(R.id.rl_ztoa)
+
+        btnAtoZ?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedBy { it.announcemenets.firstOrNull()?.announcementName })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        btnZtoA?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedByDescending {  it.announcemenets.firstOrNull()?.announcementName })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun showBottomSheetDialogPrice() {
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(R.layout.sorted_layout_price)
+        val btnMinMax = dialog.findViewById<RelativeLayout>(R.id.rl_minmax)
+        val btnmaxmin = dialog.findViewById<RelativeLayout>(R.id.rl_maxmin)
+
+        btnMinMax?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedByDescending { it.announcemenets.firstOrNull()?.price })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifySetChanged(mainList2)
+            dialog.dismiss()
+        }
+        btnmaxmin?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedBy {  it.announcemenets.firstOrNull()?.price })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifySetChanged(mainList2)
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
 
