@@ -220,6 +220,8 @@ class BusinessTransactionProfileFragment : Fragment() {
     }
 
     private fun handleResponseActive(response: CompanyTransactionAnnouncement) {
+        mainList.clear()
+        mainList2.clear()
         if (response.isNotEmpty()) {
             val companyDetailItem = response
             mainList.addAll(companyDetailItem)
@@ -272,7 +274,8 @@ class BusinessTransactionProfileFragment : Fragment() {
     }
 
     private fun handleResponseDeactive(response: CompanyTransactionAnnouncement) {
-
+        mainList.clear()
+        mainList2.clear()
         if (response.isNotEmpty()) {
             val companyDetailItem = response
             mainList.addAll(companyDetailItem)
@@ -325,7 +328,8 @@ class BusinessTransactionProfileFragment : Fragment() {
     }
 
     private fun handleResponseWait(response: CompanyTransactionAnnouncement) {
-
+        mainList.clear()
+        mainList2.clear()
         if (response.isNotEmpty()) {
             val companyDetailItem = response
             mainList.addAll(companyDetailItem)

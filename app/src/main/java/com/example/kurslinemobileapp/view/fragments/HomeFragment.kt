@@ -198,7 +198,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     }
 
     private fun handleResponseFilter(response : GetAllAnnouncement){
-        println("responseFilter:" +response.announcemenets)
+        mainList.clear()
+        mainList2.clear()
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
@@ -265,8 +266,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         btnAtoZ?.setOnClickListener {
             mainList2.clear()
             mainList2.addAll(mainList.sortedBy { it.announcemenets.firstOrNull()?.announcementName })
-            println(mainList2)
-            println(mainList)
+            println("a to z: "+mainList2)
             mainListProductAdapter.notifyDataSetChanged()
             dialog.dismiss()
         }
@@ -291,7 +291,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             mainList2.clear()
             mainList2.addAll(mainList.sortedByDescending { it.announcemenets.firstOrNull()?.price })
             println(mainList2)
-            println(mainList)
+            println(mainList2)
             mainListProductAdapter.notifySetChanged(mainList2)
             dialog.dismiss()
         }
@@ -305,6 +305,5 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
         dialog.show()
     }
-
 
 }
