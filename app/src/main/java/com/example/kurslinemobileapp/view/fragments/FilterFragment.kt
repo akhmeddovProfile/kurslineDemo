@@ -181,6 +181,7 @@ class FilterFragment : Fragment() {
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
         compositeDisposable.add(
+
             retrofit.getCategories()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
