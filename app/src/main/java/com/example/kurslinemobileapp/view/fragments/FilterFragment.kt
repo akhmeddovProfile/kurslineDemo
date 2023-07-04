@@ -24,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
+import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.android.synthetic.main.fragment_filter.view.*
@@ -37,8 +38,6 @@ class FilterFragment : Fragment() {
     private lateinit var button4: Button
     private lateinit var button5: Button
     private lateinit var button6: Button
-    private lateinit var min:EditText
-    private lateinit var max:EditText
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var regionAdapter: RegionAdapter
     lateinit var categoryId: String
@@ -63,9 +62,6 @@ class FilterFragment : Fragment() {
         button4 = view.findViewById(R.id.onlinemodeBtn)
         button5 = view.findViewById(R.id.offlineModebtn)
         button6 = view.findViewById(R.id.allModesbtn)
-
-        min = view.findViewById(R.id.minprice)
-        max = view.findViewById(R.id.maxprice)
 
         view.allCategoriesFilterTxt.setOnClickListener {
             showBottomSheetDialog()
@@ -110,8 +106,8 @@ class FilterFragment : Fragment() {
             val region = regionId
             println("regionId: "+region)
             val category = categoryId
-            val minPrice = min.toString().trim()
-            val maxPrice = max.toString().trim()
+            val maxPrice = view.maxEditText.text.toString().trim()
+            val minPrice = view.minEditText.text.toString().trim()
 
             val bundle = Bundle()
             bundle.putString("search", search)

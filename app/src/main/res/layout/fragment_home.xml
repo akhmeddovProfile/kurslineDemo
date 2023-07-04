@@ -143,6 +143,16 @@
                 android:layout_below="@id/line2Main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:elevation="5dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:id="@+id/filteredCoursesRV"
+                android:layout_below="@id/line2Main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loadingHome"
                 android:layout_marginTop="10dp"

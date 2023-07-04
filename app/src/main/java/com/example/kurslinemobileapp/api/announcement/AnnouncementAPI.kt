@@ -31,5 +31,5 @@ interface AnnouncementAPI {
                           @Query("maxPrice") maxPrice: String,
                           @Query("statusId") statusId: String,
                           @Query("isOnlineId") isOnlineId: String,
-                          @Query("userId") userId: Int) : Observable<FilterModel>
+                          @Query("userId") userId: Int) : Observable<GetAllAnnouncement>
 }

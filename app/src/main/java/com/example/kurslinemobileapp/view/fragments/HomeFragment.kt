@@ -65,8 +65,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
-        recycler.layoutManager = GridLayoutManager(requireContext(),2)
-        getProducts()
+
 
         val imageWithTextList = listOf(
             Highlight(R.drawable.mainpagehiglight, "Ən çox baxılanlar"),
@@ -137,6 +136,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                     }
                 }
             }
+        }else{
+            recycler.layoutManager = GridLayoutManager(requireContext(),2)
+            getProducts()
         }
 
         return view
@@ -196,11 +198,25 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             .subscribe(this::handleResponseFilter, { throwable-> println("MyTests: $throwable") }))
     }
 
-    private fun handleResponseFilter(response : FilterModel){
-        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
-        recycler.visibility = View.GONE
+    private fun handleResponseFilter(response : GetAllAnnouncement){
         println("responseFilter:" +response.announcemenets)
+        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.VISIBLE
+        mainList.addAll(listOf(response))
+        mainList2.addAll(listOf(response))
 
+        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+        recycler.adapter = mainListProductAdapter
+        mainListProductAdapter.notifyDataSetChanged()
+        mainListProductAdapter.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
         /*
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
