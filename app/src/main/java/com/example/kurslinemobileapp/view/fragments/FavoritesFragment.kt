@@ -13,40 +13,26 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.adapter.CommentAdapter
 import com.example.kurslinemobileapp.adapter.FavoriteAdapter
-import com.example.kurslinemobileapp.adapter.MainListProductAdapter
-import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
-import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
-import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
-import com.example.kurslinemobileapp.api.favorite.DeleteFavModel
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModel
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
-import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
-import java.util.Collections
 
 class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
     private lateinit var favoriteAdapter: FavoriteAdapter
     private lateinit var mainList : ArrayList<FavoriteGetModelItem>
     private lateinit var mainList2 : ArrayList<FavoriteGetModelItem>
-    lateinit var deleteFavModel:DeleteFavModel
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     @SuppressLint("MissingInflatedId")
@@ -158,19 +144,20 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
         }
     }
 
-    override fun deletefavoriteOnItemClick(id: Int,unliked:Boolean,position:Int) {
+    override fun deletefavoriteOnItemClick(id: Int,position:Int) {
 
         if(id!=null){
-            deleteFavModel= DeleteFavModel(id,unliked)
             val token = sharedPreferences.getString("USERTOKENNN","")
             val authHeader = "Bearer $token"
             val userId = sharedPreferences.getInt("userID",0)
             val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
             compositeDisposable.add(
-                retrofit.postFavorite(token!!,userId,deleteFavModel.productId).
+                retrofit.postFavorite(authHeader,userId,id).
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).
                 subscribe({
+                    mainList2[0].isFavorite=it.isSuccess
+                    favoriteAdapter.deleteItems(mainList2,position)
                     mainList2.removeAt(position)
                     favoriteAdapter.notifyItemRemoved(position)
                     favoriteAdapter.notifyItemChanged(position,mainList2.size)

@@ -9,26 +9,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
-import com.example.kurslinemobileapp.api.favorite.DeleteFavModel
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
 import com.squareup.picasso.Picasso
 
-class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>,
+class FavoriteAdapter(private var items: List<FavoriteGetModelItem>,
                       private val deleteItem:DeleteItemFromFavorite,
                       ):RecyclerView.Adapter<FavoriteAdapter.ItemView>() {
 
     private var onItemClickListener: ((FavoriteGetModelItem) -> Unit)? = null
-     var favoriteItems:MutableList<DeleteFavModel>
 
-     init {
-         favoriteItems= mutableListOf()
-     }
     fun setOnItemClickListener(listener: (FavoriteGetModelItem) -> Unit) {
         onItemClickListener = listener
     }
 
     interface DeleteItemFromFavorite{
-        fun deletefavoriteOnItemClick(id:Int,unliked:Boolean,position: Int)
+        fun deletefavoriteOnItemClick(id:Int,position: Int)
     }
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val modeView: TextView = itemView.findViewById(R.id.favoriteModeforproduct)
@@ -84,30 +79,31 @@ class FavoriteAdapter(private val items: ArrayList<FavoriteGetModelItem>,
 
             holder.bind(productRow)
 
-            favoriteItems.add(DeleteFavModel(productRow.id,false))
 
             if(items.isNotEmpty()){
                 holder.deleteButton.setBackgroundResource(R.drawable.favorite_for_product)
             }else{
-                favoriteItems.get(position).unliked
                 holder.deleteButton.setBackgroundResource(R.drawable.favorite_border_for_product)
             }
 
 
 
             holder.deleteButton.setOnClickListener {
-               favoriteItems.get(position).unliked=!favoriteItems.get(position).unliked
-/*                if (favoriteItems.get(position).unliked) {
-                    holder.deleteButton.setBackgroundResource(R.drawable.favorite_for_product)
-                } else {
-                    holder.deleteButton.setBackgroundResource(R.drawable.favorite_border_for_product)
-                }*/
-                deleteItem.deletefavoriteOnItemClick(favoriteItems[position].productId,favoriteItems.get(position).unliked,position)
+                deleteItem.deletefavoriteOnItemClick(productRow.id,position)
                 println("Deleted")
             }
 
         }
 
+    fun deleteItems(items:List<FavoriteGetModelItem>,position:Int){
+        this.items=items
+        notifyItemChanged(position)
+    }
+
+    fun notifySetChanged(productList: MutableList<FavoriteGetModelItem>){
+        items = productList
+        notifyDataSetChanged()
+    }
        override fun getItemCount(): Int {
             return items.size
         }

@@ -16,11 +16,6 @@ interface FavoriteApi {
                      @Path("announcementId")announcementId:Int
     ):Observable<FavoriteResponse>
 
-    @DELETE("PostFavorite/{userId}/{announcementId}")
-    fun deleteFavorite(@Header("Authorization")token:String,
-                     @Path("userId")userId:Int,
-                     @Path("announcementId")announcementId:Int
-    ):Observable<FavoriteResponse>
 
     @GET("GetFavorite/{userId}")
     fun getFavoritesItem(

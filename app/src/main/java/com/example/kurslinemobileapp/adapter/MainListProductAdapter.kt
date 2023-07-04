@@ -100,9 +100,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
 
     fun LikedItems(items: List<GetAllAnnouncement>,position: Int){
         this.items=items
-
         notifyItemChanged(position)
-
     }
 
     fun notifySetChanged(productList: MutableList<GetAllAnnouncement>){
