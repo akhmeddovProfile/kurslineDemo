@@ -12,11 +12,13 @@
         android:id="@+id/mainFirstRl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/mainPageBackgroundColor">
        <ImageView
            android:layout_width="80dp"
            android:layout_height="80dp"
-           android:background="@drawable/kurslinelogo"/>
+           android:background="@drawable/kurslinelogo"
+           android:layout_centerInParent="true"
+           />
 
         <TextView
             android:id="@+id/createAccountTextMain"
