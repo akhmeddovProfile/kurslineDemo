@@ -21,7 +21,6 @@ import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
-import com.example.kurslinemobileapp.api.favorite.SendFavModel
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -44,7 +43,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var favListId:MutableList<Int>
 
-    private lateinit var favList : kotlin.collections.MutableList<SendFavModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +54,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
          sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         favListId= mutableListOf()
-        favList = mutableListOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()
         val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
