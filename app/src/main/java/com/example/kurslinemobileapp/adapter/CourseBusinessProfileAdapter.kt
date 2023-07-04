@@ -44,7 +44,7 @@ class CourseBusinessProfileAdapter (var products: List<Announcement>) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val productRow = products[position]
         val photoUrl = products[position].photos[0].url
-        Picasso.get().load(photoUrl).transform(ResizeTransformation(300, 300)).into(holder.productimage)
+        Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
 
 
         holder.modeView.text = productRow.isOnline

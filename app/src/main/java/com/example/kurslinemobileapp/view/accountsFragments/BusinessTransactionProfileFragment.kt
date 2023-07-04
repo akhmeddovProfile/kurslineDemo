@@ -19,6 +19,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTransactionAdapter
 import com.example.kurslinemobileapp.adapter.CourseBusinessProfileAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
+import com.example.kurslinemobileapp.adapter.ResizeTransformation
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
@@ -200,9 +201,9 @@ class BusinessTransactionProfileFragment : Fragment() {
         view.businessTransName.text = userFullName
         val companyPhoto = response.photo
         if (companyPhoto == null) {
-            view.myBusinessImage.setImageResource(R.drawable.setpp)
+            view.businessTransProfileImage.setImageResource(R.drawable.setpp)
         } else {
-            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
+            Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(view.businessTransProfileImage)
         }
     }
 

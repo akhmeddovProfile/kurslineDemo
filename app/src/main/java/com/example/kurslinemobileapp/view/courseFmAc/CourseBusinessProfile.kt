@@ -13,6 +13,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CourseBusinessProfileAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
+import com.example.kurslinemobileapp.adapter.ResizeTransformation
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
@@ -105,10 +106,10 @@ class CourseBusinessProfile : AppCompatActivity() {
             courseBusinessLocation.text = companyAddress
             businessCategoryText.text = category
 
-            if (companyImage.equals("")) {
+            if (companyImage == null) {
                 courseBusinessPhoto.setImageResource(R.drawable.setpp)
             } else {
-                Picasso.get().load(companyImage).into(courseBusinessPhoto)
+                Picasso.get().load(companyImage).transform(ResizeTransformation(300, 300)).into(courseBusinessPhoto)
             }
         } else {
             // Handle the case when the response is empty or null

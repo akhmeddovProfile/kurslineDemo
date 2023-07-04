@@ -49,7 +49,7 @@ class CompanyTransactionAdapter (private val items: List<CompanyTransactionAnnou
         val productRow =  items[position]
         val photoUrl = productRow.photos.get(0).url
         val url = "1"
-        Picasso.get().load(photoUrl).transform(ResizeTransformation(300, 300)).into(holder.productimage)
+        Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
         holder.modeView.text = productRow.isOnline
         holder.statusView.text = productRow.isStatus
         //holder.imageVIPView.setImageResource(productRow.vipIcon)
