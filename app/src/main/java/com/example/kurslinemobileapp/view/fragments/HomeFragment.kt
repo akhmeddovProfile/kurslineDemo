@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -111,32 +112,22 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val maxPrice = arguments?.getString("maxPrice", "")
 
         // Call the getFilterProducts method with the retrieved filter parameters
-        if (regionId != null) {
-            if (categoryId != null) {
-                if (search != null) {
-                    if (minPrice != null) {
-                        if (maxPrice != null) {
-                            if (statusId != null) {
-                                if (isOnlineId != null) {
+        if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null) {
+            recycler.layoutManager = GridLayoutManager(requireContext(),2)
                                     getFilterProducts(
                                         limit,
                                         offset,
-                                        regionId,
-                                        categoryId,
-                                        search,
-                                        minPrice,
-                                        maxPrice,
-                                        statusId,
-                                        isOnlineId,
+                                        regionId!!,
+                                        categoryId!!,
+                                        search!!,
+                                        minPrice!!,
+                                        maxPrice!!,
+                                        statusId!!,
+                                        isOnlineId!!,
                                         0
                                     )
                                 }
-                            }
-                        }
-                    }
-                }
-            }
-        }else{
+        else{
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
             getProducts()
         }
@@ -202,6 +193,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         println("responseFilter:" +response.announcemenets)
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
+        val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
 
@@ -217,23 +211,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             println("gedenId-----"+it.id)
             editor.apply()
         }
-        /*
-        mainList.addAll(listOf(response))
-        mainList2.addAll(listOf(response))
-
-        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
-        recycler.adapter = mainListProductAdapter
-        mainListProductAdapter.notifyDataSetChanged()
-        mainListProductAdapter.setOnItemClickListener {
-            val intent = Intent(activity, ProductDetailActivity::class.java)
-            activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            sharedPreferences.edit().putInt("announcementId", it.id).apply()
-            println("gedenId-----"+it.id)
-            editor.apply()
-
-         */
     }
 
 
