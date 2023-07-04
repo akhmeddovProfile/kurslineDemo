@@ -21,6 +21,7 @@ import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
+import com.example.kurslinemobileapp.api.favorite.SendFavModel
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -30,7 +31,8 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-
+import kotlinx.android.synthetic.main.activity_product_detail.*
+import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener {
@@ -40,7 +42,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
+    lateinit var favListId:MutableList<Int>
 
+    private lateinit var favList : kotlin.collections.MutableList<SendFavModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +55,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             val createAccount = view.findViewById<TextView>(R.id.createAccountTextMain)
 
          sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        favListId= mutableListOf()
+        favList = mutableListOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()
         val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)

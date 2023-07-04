@@ -105,4 +105,10 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
 
     }
 
+    fun notifySetChanged(productList: MutableList<GetAllAnnouncement>){
+        items = productList
+        notifyDataSetChanged()
+    }
+
+
 }
