@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,7 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import com.example.kurslinemobileapp.view.loginRegister.MainRegisterActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -45,9 +48,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var favListId:MutableList<Int>
-
     private lateinit var favList : kotlin.collections.MutableList<SendFavModel>
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -130,6 +133,14 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         else{
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
             getProducts()
+        }
+
+        view.filterfromAtoZ.setOnClickListener {
+            showBottomSheetDialog()
+        }
+
+        view.filterforPrice.setOnClickListener {
+            showBottomSheetDialogPrice()
         }
 
         return view
@@ -249,5 +260,54 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         )
     }
 
+    fun showBottomSheetDialog() {
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(R.layout.sorted_layout)
+        val btnAtoZ = dialog.findViewById<RelativeLayout>(R.id.rl_atoz)
+        val btnZtoA = dialog.findViewById<RelativeLayout>(R.id.rl_ztoa)
+
+        btnAtoZ?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedBy { it.announcemenets.firstOrNull()?.announcementName })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        btnZtoA?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedByDescending {  it.announcemenets.firstOrNull()?.announcementName })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun showBottomSheetDialogPrice() {
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(R.layout.sorted_layout_price)
+        val btnMinMax = dialog.findViewById<RelativeLayout>(R.id.rl_minmax)
+        val btnmaxmin = dialog.findViewById<RelativeLayout>(R.id.rl_maxmin)
+
+        btnMinMax?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedByDescending { it.announcemenets.firstOrNull()?.price })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifySetChanged(mainList2)
+            dialog.dismiss()
+        }
+        btnmaxmin?.setOnClickListener {
+            mainList2.clear()
+            mainList2.addAll(mainList.sortedBy {  it.announcemenets.firstOrNull()?.price })
+            println(mainList2)
+            println(mainList)
+            mainListProductAdapter.notifySetChanged(mainList2)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 
 }
