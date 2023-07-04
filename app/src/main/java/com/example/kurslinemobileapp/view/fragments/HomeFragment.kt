@@ -54,7 +54,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
             val createAccount = view.findViewById<TextView>(R.id.createAccountTextMain)
 
-         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+         sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         favListId= mutableListOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()

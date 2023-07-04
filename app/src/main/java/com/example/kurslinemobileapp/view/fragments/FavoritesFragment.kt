@@ -102,6 +102,7 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
             val checkFavoritesForDetail:Boolean=true
             val companyDetailItem = response
             val recycler = requireView().findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            recycler.isNestedScrollingEnabled=false
             recycler.visibility = View.VISIBLE
             val textNotfound = requireView().findViewById<TextView>(R.id.notFoundFavoritesCourseText)
             textNotfound.visibility = View.GONE
