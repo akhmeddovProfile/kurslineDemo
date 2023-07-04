@@ -16,7 +16,6 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
-import com.example.kurslinemobileapp.api.favorite.SendFavModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item_row.view.*
 
@@ -89,20 +88,6 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
         } else {
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
         }
-//        notifyItemChanged(favoriteItems.size-1)
-
-//Favorite start to add hear
-  /*      if(favoriteItems.get(position).isSelected){
-            //addedToFav=true
-            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-            println("Added to favorite: ${addedToFav}")
-        }
-        else{
-           // addedToFav=false
-            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-            println("Added to favorite: ${addedToFav}")
-        }
-*/
 
         holder.heartButton.setOnClickListener {
             favoriteItemClickListener.onFavoriteItemClick(productRow.id,position)

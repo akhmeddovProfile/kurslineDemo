@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.favorite.DeleteFavModel
-import com.example.kurslinemobileapp.api.favorite.SendFavModel
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
 import com.squareup.picasso.Picasso
 
