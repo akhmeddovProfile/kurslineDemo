@@ -84,7 +84,6 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
 
         if (productRow.isFavorite==true) {
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-
         } else {
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
         }

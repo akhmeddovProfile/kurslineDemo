@@ -32,9 +32,8 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_product_detail.*
-import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.product_item_row.*
 
 class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener {
     private lateinit var mainListProductAdapter: MainListProductAdapter
@@ -55,6 +54,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             val createAccount = view.findViewById<TextView>(R.id.createAccountTextMain)
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getInt("userID",0)
+
         favListId= mutableListOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()
@@ -64,7 +65,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         recycler.layoutManager = GridLayoutManager(requireContext(),2)
-        getProducts()
+        //getProducts()
 
         val imageWithTextList = listOf(
             Highlight(R.drawable.mainpagehiglight, "Ən çox baxılanlar"),
@@ -98,6 +99,13 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             view.createAccountTextMain.visibility = View.VISIBLE
         }
 
+        if (userId==0){
+            getProducts()
+        }else{
+            getProductWhichIncludeFavorite(userId)
+        }
+
+
         val search = arguments?.getString("search", "")
         val statusId = arguments?.getString("statusId", "")
         val isOnlineId = arguments?.getString("isOnlineId", "")
@@ -121,12 +129,16 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                 maxPrice!!,
                 statusId!!,
                 isOnlineId!!,
-                0
+                userId
             )
         }
         else{
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
-            getProducts()
+            if (userId==0){
+                getProducts()
+            }else{
+                getProductWhichIncludeFavorite(userId)
+            }
         }
 
         view.filterfromAtoZ.setOnClickListener {
@@ -160,8 +172,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         announcements.addAll(response.announcemenets)
         mainList.addAll(listOf(response))
         mainList2.addAll(listOf(response))
-        println("responseElan: " + response.announcemenets)
 
+        println("responseElan: " + response.announcemenets)
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter
         recycler.isNestedScrollingEnabled=false
@@ -169,7 +181,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
             activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
             println("gedenId-----"+it.id)
@@ -177,6 +189,43 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
     }
 
+    private fun getProductWhichIncludeFavorite(id: Int) {
+        compositeDisposable=CompositeDisposable()
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getAnnouncementFavoriteForUserId(id).
+            subscribeOn(Schedulers.io()).
+            observeOn(AndroidSchedulers.mainThread()).
+            subscribe(this::handleResponseforAllItemsAndFavItems,{
+
+            })
+        )
+    }
+    private fun handleResponseforAllItemsAndFavItems(response : GetAllAnnouncement){
+        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler.visibility = View.VISIBLE
+        val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
+        announcements.addAll(response.announcemenets)
+        mainList.addAll(listOf(response))
+        mainList2.addAll(listOf(response))
+
+        println("responseElanFavoriteTrue: " + response.announcemenets)
+        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+        recycler.adapter = mainListProductAdapter
+        recycler.isNestedScrollingEnabled=false
+        mainListProductAdapter.notifyDataSetChanged()
+        mainListProductAdapter.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
+    }
     private fun getFilterProducts(
         limit: Int,
         offset: Int,
@@ -214,7 +263,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
             activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
+            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
             println("gedenId-----"+it.id)

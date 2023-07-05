@@ -32,4 +32,7 @@ interface AnnouncementAPI {
                           @Query("statusId") statusId: String,
                           @Query("isOnlineId") isOnlineId: String,
                           @Query("userId") userId: Int) : Observable<GetAllAnnouncement>
+
+    @GET("GetAnnouncements")
+    fun getAnnouncementFavoriteForUserId(@Query("userId") userId: Int) : Observable<GetAllAnnouncement>
 }

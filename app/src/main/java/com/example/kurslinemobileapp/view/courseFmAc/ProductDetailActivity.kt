@@ -20,7 +20,6 @@ import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
-import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
@@ -93,7 +92,6 @@ class ProductDetailActivity : AppCompatActivity() {
         })
 
         getDataFromServer(annId)
-        getUserAnnouncement(userId,annId,authHeader)
         sendCommentBtn.setOnClickListener {
             val comment = commentEditText.text.toString()
             // Validate user input
@@ -201,20 +199,4 @@ class ProductDetailActivity : AppCompatActivity() {
         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
     }
 
-
-    private fun getUserAnnouncement(id: Int,annId: Int,token: String) {
-        compositeDisposable = CompositeDisposable()
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(retrofit.getAnnouncementForUser(id,annId,token)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
-            ))
-    }
-
-    private fun handleResponse(response: GetUserAnn) {
-        deleteCourse.visibility = View.VISIBLE
-        editCourse.visibility = View.VISIBLE
-    }
 }
