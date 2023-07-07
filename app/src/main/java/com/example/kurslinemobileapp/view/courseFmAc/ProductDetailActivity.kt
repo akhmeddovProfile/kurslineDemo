@@ -116,7 +116,7 @@ class ProductDetailActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyDescTest: $throwable") }
             ))
     }
 
