@@ -90,8 +90,12 @@ class ProductDetailActivity : AppCompatActivity() {
                 characterCountTextViewComment.text = "$characterCount / 100"
             }
         })
+        if(userId==null){
+            getDataFromServer(annId,0)
+        }else{
+            getDataFromServer(annId,userId)
+        }
 
-        getDataFromServer(annId)
         sendCommentBtn.setOnClickListener {
             val comment = commentEditText.text.toString()
             // Validate user input
@@ -105,10 +109,10 @@ class ProductDetailActivity : AppCompatActivity() {
 
     }
 
-    private fun getDataFromServer(id: Int) {
+    private fun getDataFromServer(annId: Int,userId: Int) {
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(retrofit.getDataById(id)
+        compositeDisposable.add(retrofit.getDataById(annId,userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,

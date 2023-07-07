@@ -14,8 +14,8 @@ interface AnnouncementAPI {
     @GET("GetAnnouncements")
     fun getAnnouncement() : Observable<GetAllAnnouncement>
 
-    @GET("GetAnnouncementById/{annouuncementId}")
-    fun getDataById(@Path("annouuncementId") id: Int): Observable<AnnouncementDetailModel>
+    @GET("GetAnnouncementById/{annouuncementId}/{userId}")
+    fun getDataById(@Path("annouuncementId") id: Int,@Path("userId")userId: Int): Observable<AnnouncementDetailModel>
 
     @GET("GetAnnouncementForUserById/{userId}/{announcementId}")
     fun getAnnouncementForUser(@Path("userId") userId: Int,@Path("announcementId") announcementId:Int, @Header("Authorization") token: String)

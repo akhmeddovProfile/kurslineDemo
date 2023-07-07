@@ -201,6 +201,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             })
         )
     }
+
     private fun handleResponseforAllItemsAndFavItems(response : GetAllAnnouncement){
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
