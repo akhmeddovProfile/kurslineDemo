@@ -5,5 +5,6 @@ object Constant {
     const val sharedkeyname="MyPrefs"
     const val PICK_IMAGE_REQUEST = 1
 
+    var isFavorite:Boolean=false
 
 }

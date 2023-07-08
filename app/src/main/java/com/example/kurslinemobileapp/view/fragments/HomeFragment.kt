@@ -45,6 +45,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var favListId:MutableList<Int>
     private var isRegistered:Boolean=false
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,7 +108,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             isRegistered=true
             getProductWhichIncludeFavorite(userId)
         }
-
 
         val search = arguments?.getString("search", "")
         val statusId = arguments?.getString("statusId", "")
@@ -187,6 +187,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            println("Fav Item Clicked with UserID: "+isRegistered)
+
             println("gedenId-----"+it.id)
             editor.apply()
         }
@@ -221,11 +224,15 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         recycler.isNestedScrollingEnabled=false
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
+            isFavorite=!isFavorite
             val intent = Intent(activity, ProductDetailActivity::class.java)
+            intent.putExtra("isFavorite",isFavorite)
             activity?.startActivity(intent)
             sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            println("Item Clicked with UserID: "+isRegistered)
             println("gedenId-----"+it.id)
             editor.apply()
         }
@@ -270,6 +277,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+           // println("Item Clicked with UserID: "+isRegistered)
+
             println("gedenId-----"+it.id)
             editor.apply()
         }
@@ -277,7 +287,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
 
     override fun onFavoriteItemClick(id: Int, position: Int) {
-        compositeDisposable= CompositeDisposable()
         val adapter = mainListProductAdapter as? MainListProductAdapter
         adapter!!.notifyItemChanged(position)
         adapter?.notifyDataSetChanged()
@@ -290,9 +299,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             Toast.makeText(requireActivity(),"Please to be Log in",Toast.LENGTH_SHORT).show()
         }
         else{
-
+            postFav(id,position)
         }
-         postFav(id,position)
 
         /*else deleteFav(id)*/
 

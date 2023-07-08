@@ -23,6 +23,7 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comm
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
+import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -37,10 +38,7 @@ import kotlinx.android.synthetic.main.activity_user_register.*
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
-    private lateinit var  viewPager2: ViewPager2
-    private lateinit var handler : Handler
     var favoriteDetailItem:Boolean = false
-    private lateinit var adapter: ProductDetailImageAdapter
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,10 +88,36 @@ class ProductDetailActivity : AppCompatActivity() {
                 characterCountTextViewComment.text = "$characterCount / 100"
             }
         })
-        if(userId==null){
+        if(userId==0){
             getDataFromServer(annId,0)
         }else{
-            getDataFromServer(annId,userId)
+            getProductWhichIncludeFavorite(annId,userId)
+        }
+
+        val checkLogin=sharedPreferences.getBoolean("checkIsRegistered",true)
+        println("Check: "+Constant.isFavorite)
+        var isFavorite=intent.getBooleanExtra("isFavorite",false)
+
+        if (checkLogin==true){
+            if (isFavorite){
+                favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
+            }
+            }
+            else{
+                favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
+            }
+
+
+        favorite_button_for_detail.setOnClickListener {
+            if(checkLogin==true){
+                isFavorite=!isFavorite
+                favorite_button_for_detail.setImageResource(if (isFavorite) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
+
+                postOrdeletefav(token!!,userId,annId)
+            }
+            else{
+                Toast.makeText(this@ProductDetailActivity,"Please u have to be Log In or Register",Toast.LENGTH_SHORT).show()
+            }
         }
 
         sendCommentBtn.setOnClickListener {
@@ -109,6 +133,22 @@ class ProductDetailActivity : AppCompatActivity() {
 
     }
 
+    private fun postOrdeletefav(token: String,userId:Int,annId:Int) {
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
+        compositeDisposable.add(
+            retrofit.postFavorite(token!!,userId,annId).
+            subscribeOn(Schedulers.io()).
+            observeOn(AndroidSchedulers.mainThread()).
+            subscribe({
+                println(it.isSuccess)
+
+
+            },{throwable->
+                println("My msg: ${throwable}")
+            })
+        )
+    }
+
     private fun getDataFromServer(annId: Int,userId: Int) {
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
@@ -118,6 +158,64 @@ class ProductDetailActivity : AppCompatActivity() {
             .subscribe(this::handleResponse,
                 { throwable -> println("MyDescTest: $throwable") }
             ))
+    }
+    private fun getProductWhichIncludeFavorite(announId:Int,userId: Int) {
+        compositeDisposable=CompositeDisposable()
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getDataById(announId,userId).
+            subscribeOn(Schedulers.io()).
+            observeOn(AndroidSchedulers.mainThread()).
+            subscribe(this::handleResponseforItemsWhichFav,{
+
+            })
+        )
+    }
+    private fun handleResponseforItemsWhichFav(response: AnnouncementDetailModel) {
+        scrollViewforProductDescription.visibility = View.VISIBLE
+        val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
+        lottie.pauseAnimation()
+        lottie.visibility = View.GONE
+
+        // Picasso.get().load(response.photos).into(productDetailImage)
+
+
+        val companyName = response.companyName
+        val price = response.announcementPrice.toString()
+        val courseName = response.announcementName
+        val courseDesc = response.announcementDesc
+        val categoryId = response.announcementSubCategoryId
+        val regionId = response.announcementRegionId
+        val modeId = response.isOnline
+        val teacherName = response.teacher
+        val phoneNumber = response.phone
+        val count = response.countView
+        if (response.isVIP == true){
+            vip_product_for_detail.visibility = View.VISIBLE
+        }else{
+            vip_product_for_detail.visibility = View.GONE
+        }
+
+        courseownerName.setText(companyName)
+        detailCoursePrice.setText(price + " AZN")
+        coursecontentname.setText(courseName)
+        aboutCourse.setText(courseDesc)
+        catagoryTitle.setText(categoryId)
+        regionTitle.setText(regionId)
+        rejimTitle.setText(modeId)
+        teacherTitle.setText(teacherName.toString())
+        contactTitle.setText(phoneNumber)
+        viewCount.setText(count.toString())
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewUserComment)
+        val commentList: List<Comment> = response.comments
+
+        val commentAdapter = CommentAdapter(commentList)
+        recyclerView.adapter = commentAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val imageUrls = response.photos
+        val viewPager: ViewPager2 = findViewById(R.id.viewPagerProductDetail)
+        val photoAdapter = ProductDetailImageAdapter(imageUrls)
+        viewPager.adapter = photoAdapter
     }
 
     private fun handleResponse(response: AnnouncementDetailModel) {
@@ -144,22 +242,6 @@ class ProductDetailActivity : AppCompatActivity() {
             vip_product_for_detail.visibility = View.GONE
         }
 
-        if(favoriteDetailItem==true){
-            favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
-        }
-        else{
-            favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
-            favoriteDetailItem=false
-        }
-
-        favorite_button_for_detail.setOnClickListener {
-            if (favoriteDetailItem==false){
-                favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
-            }
-            else{
-                favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
-            }
-        }
         courseownerName.setText(companyName)
         detailCoursePrice.setText(price + " AZN")
         coursecontentname.setText(courseName)
@@ -181,6 +263,8 @@ class ProductDetailActivity : AppCompatActivity() {
         val photoAdapter = ProductDetailImageAdapter(imageUrls)
         viewPager.adapter = photoAdapter
     }
+
+
 
     private fun sendComment(comment:String,token:String,userId:Int,annId:Int) {
         compositeDisposable   = CompositeDisposable()

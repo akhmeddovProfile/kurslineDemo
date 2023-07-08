@@ -16,6 +16,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
+import com.example.kurslinemobileapp.service.Constant
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item_row.view.*
 
@@ -84,8 +85,10 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
 
         if (productRow.isFavorite==true) {
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+            Constant.isFavorite=true
         } else {
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+            Constant.isFavorite=false
         }
 
         holder.heartButton.setOnClickListener {
