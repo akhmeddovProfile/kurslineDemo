@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +44,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var favListId:MutableList<Int>
-
+    private var isRegistered:Boolean=false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,8 +101,10 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
 
         if (userId==0){
+            isRegistered=false
             getProducts()
         }else{
+            isRegistered=true
             getProductWhichIncludeFavorite(userId)
         }
 
@@ -283,6 +286,12 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val authHeader = "Bearer $token"
         println("userid" + userId)
         println("token:"+authHeader)
+        if (isRegistered==false){
+            Toast.makeText(requireActivity(),"Please to be Log in",Toast.LENGTH_SHORT).show()
+        }
+        else{
+
+        }
          postFav(id,position)
 
         /*else deleteFav(id)*/
