@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.recreate
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +44,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
-    lateinit var favListId:MutableList<Int>
+    private lateinit var items: List<GetAllAnnouncement>
     private var isRegistered:Boolean=false
     private var isFavorite: Boolean = false
 
@@ -57,8 +58,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val userId = sharedPreferences.getInt("userID",0)
-
-        favListId= mutableListOf()
+        items= listOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()
         val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
@@ -188,7 +188,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
             sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-            println("Fav Item Clicked with UserID: "+isRegistered)
+            println("Fav Item Clicked without UserID: "+isRegistered)
 
             println("gedenId-----"+it.id)
             editor.apply()
@@ -224,7 +224,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         recycler.isNestedScrollingEnabled=false
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
-            isFavorite=!isFavorite
+                        //isFavorite=!isFavorite
+            isFavorite=it.isFavorite
             val intent = Intent(activity, ProductDetailActivity::class.java)
             intent.putExtra("isFavorite",isFavorite)
             activity?.startActivity(intent)
@@ -236,6 +237,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             println("gedenId-----"+it.id)
             editor.apply()
         }
+
     }
     private fun getFilterProducts(
         limit: Int,

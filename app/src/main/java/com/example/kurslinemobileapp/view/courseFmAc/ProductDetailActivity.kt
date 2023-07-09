@@ -20,9 +20,11 @@ import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
+import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
@@ -39,6 +41,8 @@ import kotlinx.android.synthetic.main.activity_user_register.*
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
     var favoriteDetailItem:Boolean = false
+    //val isFavoriteAnnouncement:Announcemenet?=intent.getBooleanExtra("announcement",false)
+    private var isFavorite:Boolean=false
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,24 +99,26 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         val checkLogin=sharedPreferences.getBoolean("checkIsRegistered",true)
-        println("Check: "+Constant.isFavorite)
-        var isFavorite=intent.getBooleanExtra("isFavorite",false)
+       // println("Check: "+Constant.isFavorite)
+         isFavorite=intent.getBooleanExtra("isFavorite",false)
 
+        //val position = intent.getBooleanExtra("position", false)
+       // var itemFavorite=sharedPreferences.getBoolean("isFavoriteItemForDetail_${position}",false)
         if (checkLogin==true){
-            if (isFavorite){
+            if (isFavorite==true){
                 favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
-            }
+                println("Check2: "+isFavorite)
             }
             else{
                 favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
+                println("Check3: "+isFavorite)
             }
-
+            }
 
         favorite_button_for_detail.setOnClickListener {
             if(checkLogin==true){
                 isFavorite=!isFavorite
                 favorite_button_for_detail.setImageResource(if (isFavorite) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
-
                 postOrdeletefav(token!!,userId,annId)
             }
             else{

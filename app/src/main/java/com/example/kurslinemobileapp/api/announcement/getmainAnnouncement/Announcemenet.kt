@@ -1,5 +1,9 @@
 package com.example.kurslinemobileapp.api.announcement.getmainAnnouncement
 
+import android.os.Parcel
+import android.os.Parcelable
+import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
+
 data class Announcemenet(
     val announcementDesc: String,
     val announcementName: String,
@@ -13,3 +17,11 @@ data class Announcemenet(
     val price: Int,
     var isFavorite:Boolean
 )
+
+
+
+
+
+
+
+

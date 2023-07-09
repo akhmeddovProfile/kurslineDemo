@@ -2,6 +2,7 @@ package com.example.kurslinemobileapp.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
     fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
         onItemClickListener = listener
     }
+    private lateinit var sharedPreferences: SharedPreferences
 
     interface FavoriteItemClickListener{
         fun onFavoriteItemClick(id: Int,position: Int)
@@ -59,7 +61,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
         return ProductRowHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "CommitPrefEdits")
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         var addedToFav = false
         val productRow = items.get(0).announcemenets[position]
@@ -82,14 +84,14 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
         }
 
         holder.bind(productRow)
+      //  sharedPreferences = context.getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
 
         if (productRow.isFavorite==true) {
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-            Constant.isFavorite=true
         } else {
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-            Constant.isFavorite=false
         }
+       // sharedPreferences.edit().putBoolean("isFavoriteItemForDetail_${position}",productRow.isFavorite).apply()
 
         holder.heartButton.setOnClickListener {
             favoriteItemClickListener.onFavoriteItemClick(productRow.id,position)
