@@ -240,6 +240,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             recycler.adapter = companyTransactionAdapter
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
+
                 val intent = Intent(activity, ProductDetailActivity::class.java)
                 activity?.startActivity(intent)
                 sharedPreferences =

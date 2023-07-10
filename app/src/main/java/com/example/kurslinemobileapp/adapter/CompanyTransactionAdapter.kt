@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.adapter
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,7 +62,9 @@ class CompanyTransactionAdapter (private val items: List<CompanyTransactionAnnou
         } else {
             holder.imageVIPView.visibility = View.GONE
         }
+        holder.heartButton.visibility=View.INVISIBLE
         holder.bind(productRow)
+
     }
 
 

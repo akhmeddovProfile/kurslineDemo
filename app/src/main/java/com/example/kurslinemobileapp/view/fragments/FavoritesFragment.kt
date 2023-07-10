@@ -35,6 +35,8 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
     private lateinit var mainList2 : ArrayList<FavoriteGetModelItem>
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
+    private var isFavorite: Boolean = false
+
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -121,7 +123,9 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
             favoriteAdapter.notifyDataSetChanged()
             println("responseElan: " + response)
             favoriteAdapter.setOnItemClickListener {
+                isFavorite=it.isFavorite
                 val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("isFavoriteFromFavoriteFragment",isFavorite)
                 activity?.startActivity(intent)
                 sharedPreferences = requireContext().getSharedPreferences("MyPrefs",Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()

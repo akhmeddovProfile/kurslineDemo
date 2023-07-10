@@ -47,7 +47,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var items: List<GetAllAnnouncement>
     private var isRegistered:Boolean=false
     private var isFavorite: Boolean = false
-
+    private var userId:Int=0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,7 +57,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             val createAccount = view.findViewById<TextView>(R.id.createAccountTextMain)
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
-        val userId = sharedPreferences.getInt("userID",0)
+         userId = sharedPreferences.getInt("userID",0)
         items= listOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()
@@ -374,5 +374,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
         dialog.show()
     }
+
 
 }

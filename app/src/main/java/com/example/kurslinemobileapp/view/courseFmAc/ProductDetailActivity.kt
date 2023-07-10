@@ -43,6 +43,7 @@ class ProductDetailActivity : AppCompatActivity() {
     var favoriteDetailItem:Boolean = false
     //val isFavoriteAnnouncement:Announcemenet?=intent.getBooleanExtra("announcement",false)
     private var isFavorite:Boolean=false
+    private var isFavoriteFromFavoriteFragment:Boolean=false
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,11 +102,11 @@ class ProductDetailActivity : AppCompatActivity() {
         val checkLogin=sharedPreferences.getBoolean("checkIsRegistered",true)
        // println("Check: "+Constant.isFavorite)
          isFavorite=intent.getBooleanExtra("isFavorite",false)
-
+        isFavoriteFromFavoriteFragment=intent.getBooleanExtra("isFavoriteFromFavoriteFragment",false)
         //val position = intent.getBooleanExtra("position", false)
        // var itemFavorite=sharedPreferences.getBoolean("isFavoriteItemForDetail_${position}",false)
         if (checkLogin==true){
-            if (isFavorite==true){
+            if (isFavorite==true||isFavoriteFromFavoriteFragment==true){
                 favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
                 println("Check2: "+isFavorite)
             }
@@ -118,7 +119,8 @@ class ProductDetailActivity : AppCompatActivity() {
         favorite_button_for_detail.setOnClickListener {
             if(checkLogin==true){
                 isFavorite=!isFavorite
-                favorite_button_for_detail.setImageResource(if (isFavorite) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
+                isFavoriteFromFavoriteFragment=!isFavoriteFromFavoriteFragment
+                favorite_button_for_detail.setImageResource(if (isFavorite&&isFavoriteFromFavoriteFragment) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
                 postOrdeletefav(token!!,userId,annId)
             }
             else{

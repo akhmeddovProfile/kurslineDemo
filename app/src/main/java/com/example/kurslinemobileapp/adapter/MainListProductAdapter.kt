@@ -86,7 +86,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
         holder.bind(productRow)
       //  sharedPreferences = context.getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
 
-        if (productRow.isFavorite==true) {
+        if (productRow.isFavorite==true){
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
         } else {
             holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
