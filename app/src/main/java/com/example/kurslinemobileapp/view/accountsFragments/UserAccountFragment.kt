@@ -3,6 +3,7 @@ package com.example.kurslinemobileapp.view.accountsFragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -40,6 +41,7 @@ import java.io.IOException
 class UserAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var view: ViewGroup
+    private lateinit var sharedPreferences: SharedPreferences
     private val REQUEST_IMAGE_CAPTURE = 1 // Request code for image capture
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
@@ -57,7 +59,7 @@ class UserAccountFragment : Fragment() {
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         // Get the SharedPreferences object
-        val sharedPreferences =
+         sharedPreferences =
             requireContext().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
@@ -77,28 +79,9 @@ class UserAccountFragment : Fragment() {
         }
 
         view.userUpdateTxt.setOnClickListener {
-            view.userUpdateTxt.visibility = View.GONE
-            view.accountnot.visibility = View.GONE
-            view.goToBusinessCreate.visibility = View.GONE
-            view.photoUrlContainer.visibility = View.VISIBLE
-            view.savedUpdatesBtn.visibility = View.VISIBLE
-            view.myProfileImage.setOnClickListener {
-                launchGalleryIntent()
-            }
-            view.accountNameEditText.inputType = InputType.TYPE_CLASS_TEXT
-            view.accountNameEditText.isClickable = true
-            view.accountPhoneEditText.inputType = InputType.TYPE_CLASS_TEXT
-            view.accountPhoneEditText.isClickable = true
-            view.accountMailEditText.inputType = InputType.TYPE_CLASS_TEXT
-            view.accountMailEditText.isClickable = true
-            val userName = view.accountNameEditText.text.toString().trim()
-            val userPhone = view.accountPhoneEditText.text.toString().trim()
-            val userMail = view.accountMailEditText.text.toString().trim()
-            val imageUrl = view.photoUrlEditText.text.toString().trim()
+            val intent = Intent(requireContext(), UpdateUserActivity::class.java)
+            startActivity(intent)
 
-            view.savedUpdatesBtn.setOnClickListener {
-                updateUser(userName,userMail,userPhone,1,imageUrl,authHeader,id)
-            }
         }
 
         return view
@@ -137,102 +120,13 @@ class UserAccountFragment : Fragment() {
             view.myProfileImage.setImageResource(R.drawable.setpp)
         } else {
             Picasso.get().load(response.photo).into(view.myProfileImage)
+            val editor = sharedPreferences.edit()
+            editor.putString("profilePhotoUrl", response.photo)
+            editor.putString("accountName", response.fullName)
+            editor.putString("accountPhone", response.mobileNumber)
+            editor.putString("accountMail",response.email)
+            editor.apply()
         }
     }
 
-    private fun updateUser(userName:String,userEmail:String,userPhone:String,userGender:Int,imagePath: String, token:String,userId:Int){
-        val file = File(imagePath)
-        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        val photo: MultipartBody.Part =
-            MultipartBody.Part.createFormData("photos", file.name, reqFile)
-        val name: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userName)
-        val mail: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userEmail)
-        val phone: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userPhone)
-        val gender: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userGender.toString())
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(UpdateAPI::class.java)
-
-        compositeDisposable.add(
-            retrofit.userUpdateMethod(name,mail,phone,gender,photo,token,userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleResponseUpdate,
-                    { throwable ->
-                        println(throwable)
-                    })
-        )
-    }
-    private fun handleResponseUpdate(response: UpdateResponse) {
-        println("Response: " + response.isSuccess)
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
-    }
-    private fun compressImageFile(imagePath: String): Bitmap? {
-        val file = File(imagePath)
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.absolutePath, options)
-        val imageWidth = options.outWidth
-        val imageHeight = options.outHeight
-        val scaleFactor = Math.min(imageWidth / MAX_IMAGE_WIDTH, imageHeight / MAX_IMAGE_HEIGHT)
-        options.inJustDecodeBounds = false
-        options.inSampleSize = scaleFactor
-        return BitmapFactory.decodeFile(file.absolutePath, options)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            val selectedImageUri = data?.data
-            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
-            if (imagePath != null) {
-                val compressedBitmap = compressImageFile(imagePath)
-                view.photoUrlEditText.setText(imagePath)
-                view.myProfileImage.setImageBitmap(compressedBitmap)
-                if(compressedBitmap!=null){
-                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    view.photoUrlEditText.setText(compressedImagePath)
-                    println("CompressedImagePath"+compressedImagePath)
-                }
-                println(imagePath)
-            }
-        }
-    }
-    private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
-        val outputDir = requireContext().cacheDir // Get the directory to store the compressed image
-        val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
-        var outputStream: FileOutputStream? = null
-        try {
-            outputStream = FileOutputStream(outputFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // Compress and save the bitmap as JPEG with 80% quality
-            return outputFile.absolutePath
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            outputStream?.close()
-        }
-        return null
-    }
-    private fun getRealPathFromURI(uri: Uri): String? {
-        var path: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireActivity().contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                path = it.getString(columnIndex)
-            }
-        }
-        return path
-    }
 }
