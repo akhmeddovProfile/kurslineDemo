@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,9 +13,12 @@ import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.squareup.picasso.Picasso
+import java.util.Locale
 
-class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModelItem>) :
+class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>) :
     RecyclerView.Adapter<CompanyTeacherAdapter.CompanyTeacherHolder>() {
+    lateinit var  fullList :ArrayList<CompanyTeacherModelItem>
+    var newList = arrayListOf<CompanyTeacherModelItem>()
     fun updateList(newList: List<CompanyTeacherModelItem>) {
         items.clear()
         items.addAll(newList)
@@ -29,6 +33,7 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModelIte
 
         init {
             itemView.setOnClickListener(this)
+            fullList = items
         }
 
         override fun onClick(v: View?) {
@@ -75,5 +80,37 @@ class CompanyTeacherAdapter (private val items: ArrayList<CompanyTeacherModelIte
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+     fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                newList.clear()
+                if (charSearch.isEmpty() ) {
+                    newList.addAll( fullList)
+                } else {
+//                    val resultList = ArrayList()
+                    for (row in fullList) {
+                        if (row.companyName.lowercase(Locale.ROOT)
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
+                            newList.add(row)
+                        }
+                    }
+//                    countryFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = newList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                items = newList
+                notifyDataSetChanged()
+            }
+
+        }
     }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -22,6 +23,8 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
+import kotlinx.android.synthetic.main.fragment_tabfor_teachers.view.*
 
 
 class TabforTeachers : Fragment() {
@@ -47,20 +50,15 @@ class TabforTeachers : Fragment() {
         companyTeacherAdapter = CompanyTeacherAdapter(mainList)
         recycler.adapter = companyTeacherAdapter
 
-        searchView = view.findViewById(R.id.searchViewTeacherEditText)
-        searchView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        view.searchViewForTeachers.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val query = s.toString().trim()
-                val filteredList = if (query.isNotEmpty()) {
-                    mainList.filter { it.companyName.contains(query, ignoreCase = true) }
-                } else {
-                    ArrayList(mainList)
-                }
-                companyTeacherAdapter.updateList(filteredList)
+            override fun onQueryTextChange(msg: String): Boolean {
+                companyTeacherAdapter.getFilter().filter(msg)
+                return false
             }
         })
 
