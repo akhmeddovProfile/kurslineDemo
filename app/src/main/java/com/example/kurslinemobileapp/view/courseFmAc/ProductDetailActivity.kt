@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -66,9 +67,30 @@ class ProductDetailActivity : AppCompatActivity() {
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
             linearlayoutforinputComment.visibility = View.VISIBLE
+          if (userType == "Kurs" || userType == "Repititor"){
+              deleteCourse.visibility=View.VISIBLE
+              editCourse.visibility=View.VISIBLE
+          }
         }
+
         else{
             linearlayoutforinputComment.visibility = View.GONE
+        }
+
+
+        deleteCourse.setOnClickListener {
+            val alertDialogBuilder = AlertDialog.Builder(this)
+            alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
+            alertDialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                Toast.makeText(this@ProductDetailActivity,"Item Deleted",Toast.LENGTH_SHORT).show()
+                // Delete the item
+               // deleteItem()
+            }
+            alertDialogBuilder.setNegativeButton("No") { dialog, which ->
+                // Do nothing, the delete process is not started
+            }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
 
         commentEditText.addTextChangedListener(object : TextWatcher {
