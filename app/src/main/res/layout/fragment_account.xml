@@ -58,7 +58,6 @@
                 android:layout_alignParentEnd="true"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:background="@drawable/setpp"
         android:layout_marginTop="20dp"
         android:id="@+id/myProfileImage"
         android:layout_below="@+id/userUpdateTxt"
@@ -183,51 +182,6 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/savedUpdatesBtn"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:fontFamily="@font/montserrat"
-                android:layout_marginBottom="25dp"
-                android:layout_below="@id/photoUrlContainer"
-                android:background="@drawable/button_bg"
-                android:text="Dəyişiklikləri yadda saxla"
-                android:textAllCaps="false"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"/>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/photoUrlContainer"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/acountMailContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/photoUrlEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:editable="false"
-                    android:clickable="false"
-                    android:inputType="none"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/montserrat"
-                    android:hint="URL"/>
-            </com.google.android.material.textfield.TextInputLayout>
         </RelativeLayout>
     </ScrollView>
     <com.airbnb.lottie.LottieAnimationView
