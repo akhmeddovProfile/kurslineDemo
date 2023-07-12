@@ -3,10 +3,12 @@ package com.example.kurslinemobileapp.api.announcement
 import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -35,4 +37,11 @@ interface AnnouncementAPI {
 
     @GET("GetAnnouncements")
     fun getAnnouncementFavoriteForUserId(@Query("userId") userId: Int) : Observable<GetAllAnnouncement>
+
+    @POST("DeleteAnnouncement/{userId}/{announcementId}")
+    fun deleteAnnouncementForOwner(
+        @Header("Authorization")token:String,
+        @Path("userId")userId:Int,
+        @Path("announcementId")announcementId:Int
+    ):Observable<DeleteAnnouncementResponse>
 }

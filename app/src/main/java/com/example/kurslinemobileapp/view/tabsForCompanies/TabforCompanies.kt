@@ -1,6 +1,8 @@
 package com.example.kurslinemobileapp.view.tabsForCompanies
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.SearchView.*
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -25,9 +28,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
+import java.net.URI
 import kotlin.collections.ArrayList
 
-class TabforCompanies : Fragment() {
+class TabforCompanies : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
     private lateinit var view : ViewGroup
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
@@ -46,7 +50,7 @@ class TabforCompanies : Fragment() {
         lottie.playAnimation()
         mainList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        companyTeacherAdapter = CompanyTeacherAdapter(mainList)
+        companyTeacherAdapter = CompanyTeacherAdapter(mainList,this)
         recycler.adapter = companyTeacherAdapter
 
         view.searchViewCompanyEditText.setOnQueryTextListener(object : OnQueryTextListener,
@@ -81,9 +85,23 @@ class TabforCompanies : Fragment() {
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabCompany)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
+        response.get(0).companyPhone
         val filteredList = response.filter { it.companyStatusId == 1 }
+        println("New: "+filteredList)
         mainList.addAll(filteredList)
         companyTeacherAdapter.notifyDataSetChanged()
+    }
+
+    override fun clickOnCall(number: String, position: Int) {
+        if(number.isNotEmpty()){
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:$number")
+            startActivity(intent)
+        }
+        else{
+            Toast.makeText(requireContext(),"Bu kursun mobile nomresi yoxdur",Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }

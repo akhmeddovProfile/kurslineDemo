@@ -9,6 +9,7 @@ data class CreateAnnouncementRequest(
     val announcementPrice: Int,
     val announcementAddress: String,
     val announcementIsOnlineId: Int,
+    val announcementCategoryId:Int,
     val announcementSubCategoryId: Int,
     val announcementRegionId: Int,
     val img: List<Img>,

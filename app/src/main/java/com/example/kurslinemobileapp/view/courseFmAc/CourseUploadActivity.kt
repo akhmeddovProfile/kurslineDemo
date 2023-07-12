@@ -211,7 +211,7 @@ class CourseUploadActivity : AppCompatActivity() {
                 images.add(img)
             }
             showProgressButton(true)
-            sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyCategoryContainer,companyRegionContainer,images,teachersname))
+            sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,1,companyCategoryContainer,companyRegionContainer,images,teachersname))
         }
 
 

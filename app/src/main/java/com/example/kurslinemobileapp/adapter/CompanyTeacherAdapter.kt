@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +16,19 @@ import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.squareup.picasso.Picasso
 import java.util.Locale
 
-class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>) :
+class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>,private val voiceCallCourse:VoiceCallToCourses) :
     RecyclerView.Adapter<CompanyTeacherAdapter.CompanyTeacherHolder>() {
-    lateinit var  fullList :ArrayList<CompanyTeacherModelItem>
+    lateinit var fullList :ArrayList<CompanyTeacherModelItem>
     var newList = arrayListOf<CompanyTeacherModelItem>()
+
     fun updateList(newList: List<CompanyTeacherModelItem>) {
         items.clear()
         items.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    interface VoiceCallToCourses{
+        fun clickOnCall(number:String,position: Int)
     }
     inner class CompanyTeacherHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
@@ -75,7 +81,17 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
 
         holder.companyName.text = companyItem.companyName
         holder.companyCategory.text = companyItem.companyCategoryName
+        holder.companyPhone.setOnClickListener {
+            val phoneNumber = companyItem.companyPhone
+            if (phoneNumber!=null){
+                voiceCallCourse.clickOnCall(phoneNumber,position)
+            }
+            else{
+                Log.d("LOG","Error")
+            }
+        }
         holder.bind(companyItem)
+
     }
 
     override fun getItemCount(): Int {
@@ -88,7 +104,7 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
                 val charSearch = constraint.toString()
                 newList.clear()
                 if (charSearch.isEmpty() ) {
-                    newList.addAll( fullList)
+                    newList.addAll(fullList)
                 } else {
 //                    val resultList = ArrayList()
                     for (row in fullList) {

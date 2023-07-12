@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -22,6 +23,7 @@ import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
+import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
@@ -31,6 +33,7 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
+import com.example.kurslinemobileapp.view.fragments.HomeFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -38,6 +41,10 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_user_register.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -45,6 +52,8 @@ class ProductDetailActivity : AppCompatActivity() {
     //val isFavoriteAnnouncement:Announcemenet?=intent.getBooleanExtra("announcement",false)
     private var isFavorite:Boolean=false
     private var isFavoriteFromFavoriteFragment:Boolean=false
+    var deleteStatus = MutableLiveData<Boolean>()
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,16 +90,22 @@ class ProductDetailActivity : AppCompatActivity() {
         deleteCourse.setOnClickListener {
             val alertDialogBuilder = AlertDialog.Builder(this)
             alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
-            alertDialogBuilder.setPositiveButton("Yes") { dialog, which ->
-                Toast.makeText(this@ProductDetailActivity,"Item Deleted",Toast.LENGTH_SHORT).show()
+            alertDialogBuilder.setPositiveButton("Yes") { dialog, which->
                 // Delete the item
-               // deleteItem()
+                deleteItem(authHeader,userId,annId)
+
+
             }
             alertDialogBuilder.setNegativeButton("No") { dialog, which ->
                 // Do nothing, the delete process is not started
             }
             val alertDialog = alertDialogBuilder.create()
             alertDialog.show()
+        }
+
+        editCourse.setOnClickListener {
+            val intent=Intent(this@ProductDetailActivity,CourseUploadActivity::class.java)
+            startActivity(intent)
         }
 
         commentEditText.addTextChangedListener(object : TextWatcher {
@@ -163,6 +178,46 @@ class ProductDetailActivity : AppCompatActivity() {
 
     }
 
+    private fun deleteItem(token: String,userId: Int,annId: Int) {
+        compositeDisposable= CompositeDisposable()
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.deleteAnnouncementForOwner(token,userId,annId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                   this::handleResponseForDeleteCourse
+                ,{error->
+                    print("Error: "+error)
+                })
+        )
+
+/*        val coroutineScope= CoroutineScope(Dispatchers.Main)
+        val job=coroutineScope.launch {
+            try {
+                 withContext(Dispatchers.IO){
+                    retrofit.deleteAnnouncementForOwner(token,userId,annId)
+                }
+                deleteStatus.postValue(true)
+                println("Deleted")
+            }catch (error:Throwable){
+                println("Error: "+error)
+            }
+        }
+        job.cancel()*/
+    }
+    private fun handleResponseForDeleteCourse(response: DeleteAnnouncementResponse){
+        //scrollViewforProductDescription.visibility = View.VISIBLE
+        deleteStatus.postValue(true)
+        val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
+        Toast.makeText(this@ProductDetailActivity,"Item Deleted",Toast.LENGTH_SHORT).show()
+        println("Deleted: "+response.isSuccess)
+        lottie.visibility = View.GONE
+        lottie.pauseAnimation()
+        val intent = Intent(this@ProductDetailActivity, MainActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun postOrdeletefav(token: String,userId:Int,annId:Int) {
         val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
         compositeDisposable.add(
@@ -171,8 +226,6 @@ class ProductDetailActivity : AppCompatActivity() {
             observeOn(AndroidSchedulers.mainThread()).
             subscribe({
                 println(it.isSuccess)
-
-
             },{throwable->
                 println("My msg: ${throwable}")
             })
@@ -197,7 +250,6 @@ class ProductDetailActivity : AppCompatActivity() {
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribe(this::handleResponseforItemsWhichFav,{
-
             })
         )
     }
