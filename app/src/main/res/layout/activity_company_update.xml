@@ -5,67 +5,50 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:id="@+id/businessAccountRL"
-    tools:context=".view.accountsFragments.BusinessAccountFragment">
-    <ImageView
-        android:id="@+id/backtoMainPageFromBusinessAcc"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/ic_baseline_arrow_back_ios_24"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"/>
+    tools:context=".view.accountsFragments.CompanyUpdateActivity">
+
     <TextView
-        android:id="@+id/businessAccountText"
+        android:id="@+id/companyText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
-        android:gravity="center_horizontal"
-        android:text="Hesab"
-        android:layout_marginTop="30dp"
+        android:gravity="start"
+        android:paddingStart="5dp"
+        android:text="Düzəliş et"
+        android:layout_marginTop="20dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
         android:textStyle="bold" />
     <ImageView
         android:layout_marginTop="5dp"
-        android:id="@+id/linearForBusinessAcc"
+        android:id="@+id/linearforLogo"
         android:layout_width="match_parent"
-        android:layout_below="@id/businessAccountText"
+        android:layout_below="@id/companyText"
         android:layout_height="1dp"
         android:src="@color/grayColor1"/>
+
     <ScrollView
-        android:id="@+id/scrollBusinessAccount"
-        android:layout_below="@+id/linearForBusinessAcc"
+        android:id="@+id/scrollCompanyScrollView"
+        android:layout_below="@+id/companyText"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:id="@+id/companyUpdateTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Düzəliş et"
-                android:fontFamily="@font/nunito"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:layout_alignParentEnd="true"/>
-
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_marginTop="20dp"
-                android:id="@+id/myBusinessImage"
+                android:background="@drawable/setpp"
+                android:layout_marginTop="40dp"
+                android:id="@+id/myCompanyUpdateProfilePhoto"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/setpp" />
-
+                android:layout_centerHorizontal="true" />
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountNameContainer"
+                android:id="@+id/businessAccountUpdateNameContainer"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/myBusinessImage"
+                android:layout_below="@id/myCompanyUpdateProfilePhoto"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
@@ -79,48 +62,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/businessAccountNameEditText"
+                    android:id="@+id/businessAccountUpdateNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:editable="false"
-                    android:clickable="false"
-                    android:inputType="none"
+                    android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:hint="Adınız"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountEmailContainer"
+                android:id="@+id/businessAccountUpdateEmailContainer"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/businessAccountNameContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/businessAccountEmailEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat"
-                android:editable="false"
-                android:clickable="false"
-                android:inputType="none"
-                android:hint="Email"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountCompanyContainer"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/businessAccountEmailContainer"
+                android:layout_below="@+id/businessAccountUpdateNameContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
@@ -133,7 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/businessAccountCompanyEditText"
+                    android:id="@+id/businessAccountUpdateEmailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -142,15 +96,40 @@
                     android:editable="false"
                     android:clickable="false"
                     android:inputType="none"
-                    android:hint="Şirkət adı"/>
+                    android:hint="Email"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountRegionContainer"
+                android:id="@+id/businessAccountUpdateCompanyContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/businessAccountUpdateEmailContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/businessAccountCompanyContainer"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/businessAccountUpdateCompanyEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:inputType="textPersonName"
+                    android:hint="Şirkət adı"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/businessAccountUpdateRegionContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/businessAccountUpdateCompanyContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -174,13 +153,13 @@
                     android:textColorHint="@color/mainPageBackgroundColor" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountAddressContainer"
+                android:id="@+id/businessAccountUpdateAddressContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/businessAccountRegionContainer"
+                android:layout_below="@+id/businessAccountUpdateRegionContainer"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
@@ -190,21 +169,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/companyAdressEditText"
+                    android:id="@+id/companyUpdateAdressEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:editable="false"
-                    android:clickable="false"
-                    android:inputType="none"
+                    android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:hint="Adress"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountPhoneContainer"
+                android:id="@+id/businessAccountUpdatePhoneContainer"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/businessAccountAddressContainer"
+                android:layout_below="@id/businessAccountUpdateAddressContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
@@ -218,13 +195,11 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/businessAccountPhoneEditText"
+                    android:id="@+id/businessAccountUpdatePhoneEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:editable="false"
-                    android:clickable="false"
-                    android:inputType="none"
+                    android:inputType="phone"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:hint="Telefon nömrəsi"/>
@@ -235,7 +210,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="174dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/businessAccountPhoneContainer"
+                android:layout_below="@+id/businessAccountUpdateAddressContainer"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
                 app:boxBackgroundColor="@color/white"
@@ -261,12 +236,12 @@
                     android:hint="Rejim"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/companyStatusContainer"
+                android:id="@+id/companyUpdateStatusContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/businessAccountPhoneContainer"
+                android:layout_below="@+id/businessAccountUpdatePhoneContainer"
                 android:layout_toRightOf="@+id/businessAccountModeContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
@@ -278,7 +253,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/compantStatusEditText"
+                    android:id="@+id/companyUpdateStatusEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -292,12 +267,12 @@
                     android:hint="Status"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountCategoryContainer"
+                android:id="@+id/businessAccountUpdateCategoryContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/companyStatusContainer"
+                android:layout_below="@+id/companyUpdateStatusContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -308,7 +283,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/businessAccountCategoryEditText"
+                    android:id="@+id/businessAccountUpdateCategoryEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/drowpdown"
@@ -322,12 +297,12 @@
                     android:textColorHint="@color/mainPageBackgroundColor" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/businessAccountAboutContainer"
+                android:id="@+id/businessAccountUpdateAboutContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/businessAccountCategoryContainer"
+                android:layout_below="@+id/businessAccountUpdateCategoryContainer"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="30dp"
                 app:boxBackgroundColor="@color/white"
@@ -345,20 +320,26 @@
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:editable="false"
-                    android:clickable="false"
-                    android:inputType="none"
+                    android:inputType="textPersonName"
                     android:hint="Şirkət haqqında"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/savedUpdatesBtnCompany"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat"
+                android:layout_marginBottom="25dp"
+                android:layout_below="@id/businessAccountUpdateAboutContainer"
+                android:background="@drawable/button_bg"
+                android:text="Dəyişiklikləri yadda saxla"
+                android:textAllCaps="false"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
         </RelativeLayout>
     </ScrollView>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loadingBusinessAccount"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:lottie_rawRes="@raw/loading"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
 </RelativeLayout>

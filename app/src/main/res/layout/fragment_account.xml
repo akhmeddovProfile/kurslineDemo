@@ -59,6 +59,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="20dp"
+        android:background="@drawable/setpp"
         android:id="@+id/myProfileImage"
         android:layout_below="@+id/userUpdateTxt"
         android:layout_width="180dp"

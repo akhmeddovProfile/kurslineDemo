@@ -75,7 +75,6 @@ class UserAccountFragment : Fragment() {
         // Display the account information in the UI
 
         view.backtoMainPage.setOnClickListener {
-            //    findNavController().navigate(R.id.action_blankAccountFragment_to_homeFragment)
         }
 
         view.userUpdateTxt.setOnClickListener {
@@ -120,13 +119,13 @@ class UserAccountFragment : Fragment() {
             view.myProfileImage.setImageResource(R.drawable.setpp)
         } else {
             Picasso.get().load(response.photo).into(view.myProfileImage)
-            val editor = sharedPreferences.edit()
-            editor.putString("profilePhotoUrl", response.photo)
-            editor.putString("accountName", response.fullName)
-            editor.putString("accountPhone", response.mobileNumber)
-            editor.putString("accountMail",response.email)
-            editor.apply()
         }
+        val editor = sharedPreferences.edit()
+        editor.putString("profilePhotoUrl", response.photo)
+        editor.putString("accountName", response.fullName)
+        editor.putString("accountPhone", response.mobileNumber)
+        editor.putString("accountMail",response.email)
+        editor.apply()
     }
 
 }

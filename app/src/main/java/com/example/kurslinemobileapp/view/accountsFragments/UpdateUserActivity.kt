@@ -2,6 +2,8 @@ package com.example.kurslinemobileapp.view.accountsFragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -40,7 +42,7 @@ class UpdateUserActivity : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 1 // Request code for image capture
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_user)
@@ -51,8 +53,7 @@ class UpdateUserActivity : AppCompatActivity() {
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
 
-        val sharedPreferences =
-            this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
@@ -62,12 +63,12 @@ class UpdateUserActivity : AppCompatActivity() {
         val accountName = sharedPreferences.getString("accountName", "")
         val accountPhone = sharedPreferences.getString("accountPhone", "")
         val accountMail = sharedPreferences.getString("accountMail", "")
-        val accountPhoto = sharedPreferences.getString("profilePhotoUrl", "")
+          val accountPhoto = sharedPreferences.getString("profilePhotoUrl", "")
 
         updateAccountNameEditText.setText(accountName)
         updateAccountPhoneEditText.setText(accountPhone)
         updateAccountMailEditText.setText(accountMail)
-        photoUrlEditText.setText(accountPhoto)
+       // photoUrlEditText.setText(accountPhoto)
 
         // Load the image using Picasso into the circular ImageView
 
@@ -78,50 +79,88 @@ class UpdateUserActivity : AppCompatActivity() {
             launchGalleryIntent()
         }
 
-        val userName = updateAccountNameEditText.text.toString().trim()
-        val userPhone = updateAccountPhoneEditText.text.toString().trim()
-        val userMail = updateAccountMailEditText.text.toString().trim()
-        val imageUrl = photoUrlEditText.text.toString().trim()
+
 
         savedUpdatesBtn.setOnClickListener {
             showProgressButton(true)
-           updateUser(userName,userMail,userPhone,1,imageUrl,token!!,id)
+            val imageUrl = if (photoUrlEditText.text.toString().isNotEmpty() )
+            {
+                photoUrlEditText.text.toString().trim()
+            } else {
+                null
+            }
+
+            val userName = if(  updateAccountNameEditText.text.toString().isNotEmpty()){
+                updateAccountNameEditText.text.toString().trim()
+            } else {
+                updateAccountNameEditText.text.toString().trim()
+            }
+
+            val userPhone = if(  updateAccountPhoneEditText.text.toString().isNotEmpty()){
+                updateAccountPhoneEditText.text.toString().trim()
+            } else {
+                updateAccountPhoneEditText.text.toString().trim()
+            }
+
+            val userMail = if(  updateAccountMailEditText.text.toString().isNotEmpty()){
+                updateAccountMailEditText.text.toString().trim()
+            } else {
+                updateAccountMailEditText.text.toString().trim()
+            }
+
+            updateUser(userName, userMail, userPhone, 1, imageUrl, authHeader, id)
         }
+
     }
 
-    private fun updateUser(userName:String,userEmail:String,userPhone:String,userGender:Int,imagePath: String, token:String,userId:Int){
-        val file = File(imagePath)
-        val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-        val photo: MultipartBody.Part =
-            MultipartBody.Part.createFormData("photos", file.name, reqFile)
-        val name: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userName)
-        val mail: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userEmail)
-        val phone: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userPhone)
-        val gender: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userGender.toString())
+    private fun updateUser(
+        userName: String,
+        userEmail: String,
+        userPhone: String,
+        userGender: Int,
+        imagePath: String?,
+        token: String,
+        userId: Int
+    ) {
+        val name: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), userName)
+        val mail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), userEmail)
+        val phone: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), userPhone)
+        val gender: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), userGender.toString())
+
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(UpdateAPI::class.java)
+
+        val photo: MultipartBody.Part? = if (imagePath != null) {
+            val file = File(imagePath)
+            val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            MultipartBody.Part.createFormData("Photos", file.name, reqFile)
+        } else {
+            null
+        }
+
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(UpdateAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.userUpdateMethod(name,mail,phone,gender,photo,token,userId)
+            retrofit.userUpdateMethod(name, mail, phone, gender, photo, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleResponseUpdate,
+                .subscribe(
+                    this::handleResponseUpdate,
                     { throwable ->
                         val text = "Məlumatlar doğru deyil"
                         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         showProgressButton(false)
                         println(throwable)
-                    })
+                    }
+                )
         )
     }
+
+
+    @SuppressLint("ServiceCast")
     private fun handleResponseUpdate(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
-       onBackPressed()
+        Toast.makeText(this@UpdateUserActivity,"Məlumatlarınız uğurla yeniləndi. Zəhmət olmasa proqramdan çıxış edin və yenidən daxil olun",Toast.LENGTH_SHORT).show()
+    onBackPressed()
     }
 
     fun launchGalleryIntent() {

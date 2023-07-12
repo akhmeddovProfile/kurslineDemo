@@ -1,6 +1,8 @@
 package com.example.kurslinemobileapp.view.accountsFragments
 
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_business_account.view.*
 class BusinessAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var view : ViewGroup
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +41,7 @@ class BusinessAccountFragment : Fragment() {
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
-        val sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+         sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
@@ -56,6 +60,11 @@ class BusinessAccountFragment : Fragment() {
                 // Commit the transaction
                 transaction.commit()
             }
+
+        view.companyUpdateTxt.setOnClickListener {
+            val intent = Intent(requireContext(), CompanyUpdateActivity::class.java)
+            startActivity(intent)
+        }
         return view
     }
 
@@ -91,18 +100,20 @@ class BusinessAccountFragment : Fragment() {
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
 
+        var categoryName = ""
         getCategoryList()!!.subscribe({ categories ->
             println("333")
-            val categoryName = categories.categories.find { it.categoryId == category }?.categoryName
+             categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
             view.businessAccountCategoryEditText.setText(categoryName)
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
         }).let { compositeDisposable.add(it) }
 
+        var statusName = ""
         getStatusList()!!.subscribe({ status ->
-            val statusname = status.statuses.find { it.statusId == category }?.statusName
-            view.compantStatusEditText.setText(statusname)
+            statusName = status.statuses.find { it.statusId == category }?.statusName.toString()
+            view.compantStatusEditText.setText(statusName)
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
@@ -116,6 +127,19 @@ class BusinessAccountFragment : Fragment() {
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)
+
+        val editor = sharedPreferences.edit()
+        editor.putString("companyPhotoUrl", companyPhoto)
+        editor.putString("companyAccountName", response.fullName)
+        editor.putString("companyAccountPhone", response.mobileNumber)
+        editor.putString("companyAccountMail",response.email)
+        editor.putString("companyName", response.companyName.toString())
+        editor.putString("companyAddress",response.companyAddress.toString())
+        editor.putString("companyAbout",response.companyAbout.toString())
+        editor.putString("companyCategory",categoryName)
+        editor.putString("companyStatus",statusName)
+
+        editor.apply()
 
 
     }
