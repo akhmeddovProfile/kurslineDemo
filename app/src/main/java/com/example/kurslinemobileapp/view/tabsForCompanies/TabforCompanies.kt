@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
 import java.net.URI
 import kotlin.collections.ArrayList
 
-class TabforCompanies : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
+class TabforCompanies : Fragment() {
     private lateinit var view : ViewGroup
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
@@ -50,7 +50,7 @@ class TabforCompanies : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
         lottie.playAnimation()
         mainList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        companyTeacherAdapter = CompanyTeacherAdapter(mainList,this)
+        companyTeacherAdapter = CompanyTeacherAdapter(mainList)
         recycler.adapter = companyTeacherAdapter
 
         view.searchViewCompanyEditText.setOnQueryTextListener(object : OnQueryTextListener,
@@ -91,7 +91,7 @@ class TabforCompanies : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
         mainList.addAll(filteredList)
         companyTeacherAdapter.notifyDataSetChanged()
     }
-
+/*
     override fun clickOnCall(number: String, position: Int) {
         if(number.isNotEmpty()){
             val intent = Intent(Intent.ACTION_DIAL)
@@ -102,6 +102,6 @@ class TabforCompanies : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
             Toast.makeText(requireContext(),"Bu kursun mobile nomresi yoxdur",Toast.LENGTH_SHORT).show()
         }
 
-    }
+    }*/
 
 }

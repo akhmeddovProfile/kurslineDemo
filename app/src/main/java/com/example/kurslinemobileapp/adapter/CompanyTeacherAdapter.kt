@@ -16,7 +16,7 @@ import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.squareup.picasso.Picasso
 import java.util.Locale
 
-class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>,private val voiceCallCourse:VoiceCallToCourses) :
+class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>/*,private val voiceCallCourse:VoiceCallToCourses*/) :
     RecyclerView.Adapter<CompanyTeacherAdapter.CompanyTeacherHolder>() {
     lateinit var fullList :ArrayList<CompanyTeacherModelItem>
     var newList = arrayListOf<CompanyTeacherModelItem>()
@@ -26,10 +26,10 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
         items.addAll(newList)
         notifyDataSetChanged()
     }
-
+/*
     interface VoiceCallToCourses{
         fun clickOnCall(number:String,position: Int)
-    }
+    }*/
     inner class CompanyTeacherHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val companyName: TextView = itemView.findViewById(R.id.companyTeacherCname)
@@ -81,7 +81,7 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
 
         holder.companyName.text = companyItem.companyName
         holder.companyCategory.text = companyItem.companyCategoryName
-        holder.companyPhone.setOnClickListener {
+/*        holder.companyPhone.setOnClickListener {
             val phoneNumber = companyItem.companyPhone
             if (phoneNumber!=null){
                 voiceCallCourse.clickOnCall(phoneNumber,position)
@@ -89,7 +89,7 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
             else{
                 Log.d("LOG","Error")
             }
-        }
+        }*/
         holder.bind(companyItem)
 
     }
