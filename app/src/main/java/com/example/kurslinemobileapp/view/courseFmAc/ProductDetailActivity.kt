@@ -24,6 +24,7 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Anno
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
+import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
@@ -86,7 +87,7 @@ class ProductDetailActivity : AppCompatActivity() {
             linearlayoutforinputComment.visibility = View.GONE
         }
 
-
+getUserAnnouncement(userId,annId,authHeader)
         deleteCourse.setOnClickListener {
             val alertDialogBuilder = AlertDialog.Builder(this)
             alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
@@ -368,5 +369,19 @@ class ProductDetailActivity : AppCompatActivity() {
         commentEditText.text!!.clear()
         Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
     }
+    private fun getUserAnnouncement(id: Int,annId: Int,token: String) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(retrofit.getAnnouncementForUser(id,annId,token)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponse,
+                { throwable -> println("MyTests: $throwable") }
+            ))
+    }
 
+    private fun handleResponse(response: GetUserAnn) {
+        deleteCourse.visibility = View.VISIBLE
+        editCourse.visibility = View.VISIBLE
+    }
 }
