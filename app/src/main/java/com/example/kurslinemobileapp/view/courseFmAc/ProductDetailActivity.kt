@@ -77,10 +77,10 @@ class ProductDetailActivity : AppCompatActivity() {
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
             linearlayoutforinputComment.visibility = View.VISIBLE
-          if (userType == "Kurs" || userType == "Repititor"){
+/*          if (userType == "Kurs" || userType == "Repititor"){
               deleteCourse.visibility=View.VISIBLE
               editCourse.visibility=View.VISIBLE
-          }
+          }*/
         }
 
         else{
