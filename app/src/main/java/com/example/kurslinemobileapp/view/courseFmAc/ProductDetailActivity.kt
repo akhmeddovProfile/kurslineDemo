@@ -107,7 +107,7 @@ getUserAnnouncement(userId,annId,authHeader)
         }
 
         editCourse.setOnClickListener {
-            val intent=Intent(this@ProductDetailActivity,CourseUploadActivity::class.java)
+            val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
             startActivity(intent)
         }
 
