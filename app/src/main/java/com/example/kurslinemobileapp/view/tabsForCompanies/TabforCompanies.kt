@@ -50,7 +50,13 @@ class TabforCompanies : Fragment() {
         lottie.playAnimation()
         mainList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        companyTeacherAdapter = CompanyTeacherAdapter(mainList)
+        companyTeacherAdapter = CompanyTeacherAdapter(mainList, object : CompanyTeacherAdapter.VoiceCallToCourses {
+            override fun clickOnCall(number: String, position: Int) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:$number")
+                requireContext().startActivity(intent)
+            }
+        })
         recycler.adapter = companyTeacherAdapter
 
         view.searchViewCompanyEditText.setOnQueryTextListener(object : OnQueryTextListener,

@@ -1,6 +1,8 @@
 package com.example.kurslinemobileapp.view.tabsForCompanies
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -47,7 +49,13 @@ class TabforTeachers : Fragment() {
         lottie.playAnimation()
         mainList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        companyTeacherAdapter = CompanyTeacherAdapter(mainList)
+        companyTeacherAdapter = CompanyTeacherAdapter(mainList, object : CompanyTeacherAdapter.VoiceCallToCourses {
+            override fun clickOnCall(number: String, position: Int) {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:$number")
+                requireContext().startActivity(intent)
+            }
+        })
         recycler.adapter = companyTeacherAdapter
 
         view.searchViewForTeachers.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
