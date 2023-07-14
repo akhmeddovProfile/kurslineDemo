@@ -59,6 +59,8 @@ import kotlinx.android.synthetic.main.activity_all_companies.*
 import kotlinx.android.synthetic.main.activity_course_upload.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
+import kotlinx.android.synthetic.main.fragment_filter.*
+import kotlinx.android.synthetic.main.fragment_filter.view.*
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -74,6 +76,7 @@ class CourseUploadActivity : AppCompatActivity() {
     var imageData = mutableListOf<String>()
     var images = mutableListOf<Img>()
     var teachersname= mutableListOf<String>()
+    var allcategoriesId:Int=0
      var categoryId: Int =0
      var modeId: Int = 0
      var regionId:Int = 0
@@ -132,9 +135,9 @@ class CourseUploadActivity : AppCompatActivity() {
             val companyTeacherContainer=courseTeacherEditText.text.toString().trim()
             val companyPriceContainer : Int =coursePriceEditText.text.toString().toInt()
             val companyModeContainer = modeId
-            val companyCategoryContainer = categoryId
+            val companySubCategoryContainer = categoryId
             val companyRegionContainer = regionId
-
+            val companyAllCategoryContainer=allcategoriesId
             if (courseNameContainer.isEmpty()){
                 courseNameEditText.error="Course Name required"
                 courseNameEditText.requestFocus()
@@ -161,57 +164,17 @@ class CourseUploadActivity : AppCompatActivity() {
                 coursePriceEditText.requestFocus()
                 block=false
             }
-            /*
-            if (companyModeContainer.isEmpty()){
-                courseModeEditText.error="Mode required"
-                courseModeEditText.requestFocus()
-                block=false
-            }
-            if (companyCategoryContainer.isEmpty()){
-                courseCategoryEditText.error="Category required"
-                courseCategoryEditText.requestFocus()
-                block=false
-            }
-            if (companyRegionContainer.isEmpty()){
-                courseRegionEditText.error="Region required"
-                courseRegionEditText.requestFocus()
-                block=false
-            }
-
-             */
-
             val name = courseTeacherEditText.text.toString().trim()
             if (name.isNotEmpty()){
                 teachersname.add(name)
             }
-
-   /*         val nameInputLayout = findViewById<TextInputLayout>(R.id.courseTeacherEditText)
-            nameInputLayout.editText?.setOnKeyListener { _, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                    val name = nameInputLayout.editText?.text.toString().trim()
-
-                    if (name.isNotEmpty()) {
-                        teachersname.add(name)
-                        println("Teachers Name: "+teachersname)
-                        // Optional: Perform any additional actions or updates based on the entered name
-                        nameInputLayout.editText?.text?.clear()
-                        true
-                    } else {
-                        false
-                    }
-                } else {
-                    false
-                }
-            }
-*/
-
 
             for(i in 0 until imageNames.size){
                 val img = Img(imageNames[i], imageData[i].toString())
                 images.add(img)
             }
             showProgressButton(true)
-            sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,1,companyCategoryContainer,companyRegionContainer,images,teachersname))
+            sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyAllCategoryContainer,companySubCategoryContainer,companyRegionContainer,images,teachersname))
         }
 
 
@@ -242,6 +205,9 @@ class CourseUploadActivity : AppCompatActivity() {
                 updateNavigationButtons(position)
             }
         })
+        courseAllCategoryEditText.setOnClickListener {
+            showBottomSheetDialogAllCatogories()
+        }
         courseRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
@@ -359,6 +325,39 @@ class CourseUploadActivity : AppCompatActivity() {
 
         return bitmap!!
     }
+
+    private fun showBottomSheetDialogAllCatogories() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewCategories)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ categories ->
+                    println("1")
+                    categoryAdapter = CategoryAdapter(categories.categories)
+                    recyclerViewCategories.adapter = categoryAdapter
+                    categoryAdapter.setChanged(categories.categories)
+                    categoryAdapter.setOnItemClickListener { category ->
+                        allcategoriesId = category.categoryId
+                        courseAllCategoryEditText.setText(category.categoryName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTests: $throwable") })
+        )
+
+        dialog.show()
+    }
+
+
 
         @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {

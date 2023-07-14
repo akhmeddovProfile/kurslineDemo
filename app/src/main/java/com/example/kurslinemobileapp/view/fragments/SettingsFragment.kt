@@ -36,7 +36,7 @@ class SettingsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         val sharedPreferences =
-            requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
         loadLocate()
 
@@ -93,7 +93,7 @@ class SettingsFragment : Fragment() {
 
     private fun clearSharedPreferences(){
         val sharedPreferences =
-            requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()

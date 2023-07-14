@@ -179,7 +179,7 @@
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kursline-dən çıxmaq"
+                    android:text="Kursline-dan çıxmaq"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nunito"
                     android:textSize="16sp"
