@@ -91,6 +91,7 @@ class BusinessAccountFragment : Fragment() {
         }else{
             Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(view.myBusinessImage)
         }
+
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
@@ -99,6 +100,14 @@ class BusinessAccountFragment : Fragment() {
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
+
+        val userStatusId = response.userStatusId.toString()
+        val companyCategoryId = response.companyCategoryId.toString()
+     sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("userStatusId", userStatusId)
+        editor.putString("companyCategoryId", companyCategoryId)
+        editor.apply()
 
         var categoryName = ""
         getCategoryList()!!.subscribe({ categories ->
@@ -127,20 +136,6 @@ class BusinessAccountFragment : Fragment() {
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)
-
-        val editor = sharedPreferences.edit()
-        editor.putString("companyPhotoUrl", companyPhoto)
-        editor.putString("companyAccountName", response.fullName)
-        editor.putString("companyAccountPhone", response.mobileNumber)
-        editor.putString("companyAccountMail",response.email)
-        editor.putString("companyName", response.companyName.toString())
-        editor.putString("companyAddress",response.companyAddress.toString())
-        editor.putString("companyAbout",response.companyAbout.toString())
-        editor.putString("companyCategory",categoryName)
-        editor.putString("companyStatus",statusName)
-
-        editor.apply()
-
 
     }
 
