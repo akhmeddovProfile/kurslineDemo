@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
 import kotlinx.android.synthetic.main.fragment_tabfor_teachers.view.*
 
 
-class TabforTeachers : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
+class TabforTeachers : Fragment() {
     private lateinit var view : ViewGroup
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
@@ -47,7 +47,7 @@ class TabforTeachers : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
         lottie.playAnimation()
         mainList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(requireContext())
-        companyTeacherAdapter = CompanyTeacherAdapter(mainList,this@TabforTeachers)
+        companyTeacherAdapter = CompanyTeacherAdapter(mainList)
         recycler.adapter = companyTeacherAdapter
 
         view.searchViewForTeachers.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
@@ -86,7 +86,5 @@ class TabforTeachers : Fragment(),CompanyTeacherAdapter.VoiceCallToCourses {
         companyTeacherAdapter.notifyDataSetChanged()
     }
 
-    override fun clickOnCall(number: String, position: Int) {
 
-    }
 }

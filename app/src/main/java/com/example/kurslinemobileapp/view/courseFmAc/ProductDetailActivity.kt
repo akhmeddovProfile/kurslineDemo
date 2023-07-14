@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -89,7 +90,8 @@ class ProductDetailActivity : AppCompatActivity() {
 
 getUserAnnouncement(userId,annId,authHeader)
         deleteCourse.setOnClickListener {
-            val alertDialogBuilder = AlertDialog.Builder(this)
+            val alertDialogBuilder = AlertDialog.Builder(
+                ContextThemeWrapper(this,R.style.CustomAlertDialogTheme))
             alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
             alertDialogBuilder.setPositiveButton("Yes") { dialog, which->
                 // Delete the item

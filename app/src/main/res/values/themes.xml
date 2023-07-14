@@ -26,5 +26,9 @@
         <!-- Add any additional style attributes as needed -->
     </style>
 
+    <style name="CustomAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Customize the text color -->
+        <item name="android:textColor">#78BFDB</item>
+    </style>
 
 </resources>
