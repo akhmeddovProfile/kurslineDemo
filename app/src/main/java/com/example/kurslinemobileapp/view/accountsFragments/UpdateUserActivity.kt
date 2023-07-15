@@ -159,8 +159,9 @@ class UpdateUserActivity : AppCompatActivity() {
     @SuppressLint("ServiceCast")
     private fun handleResponseUpdate(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this@UpdateUserActivity,"Məlumatlarınız uğurla yeniləndi. Zəhmət olmasa proqramdan çıxış edin və yenidən daxil olun",Toast.LENGTH_SHORT).show()
-    onBackPressed()
+        val intent = Intent(this@UpdateUserActivity,MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     fun launchGalleryIntent() {
