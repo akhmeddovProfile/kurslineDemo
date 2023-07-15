@@ -25,7 +25,6 @@ interface UpdateAPI {
         @Part("UserFullName") userFullName: RequestBody,
         @Part("Email") email: RequestBody,
         @Part("MobileNumber") mobileNumber: RequestBody,
-        @Part("Gender") gender: RequestBody,
         @Part("CompanyName") companyName: RequestBody,
         @Part("CompanyAddress") companyAddress: RequestBody,
         @Part("CompanyAbout") companyAbout: RequestBody,

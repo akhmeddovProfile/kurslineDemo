@@ -86,9 +86,14 @@ class CompanyUpdateActivity : AppCompatActivity() {
         companyUpdateStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
+
         categoryId = ""
         statusId = ""
         regionId = ""
+        val category = sharedPreferences.getString("companyCategoryId", "")?:""
+        val status = sharedPreferences.getString("userStatusId","")?:""
+        val updatedCategory = category
+        println("categoryIDDD" + category)
         savedUpdatesBtnCompany.setOnClickListener {
             val companyNameContainer = businessAccountUpdateNameEditText.text.toString().trim()
             val companyEmailContainer = businessAccountUpdateEmailEditText.text.toString().trim()
@@ -96,9 +101,9 @@ class CompanyUpdateActivity : AppCompatActivity() {
             val companyAddressContainer = companyUpdateAdressEditText.text.toString().trim()
             val companyPhoneContainer = businessAccountUpdatePhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
-            val companyRegionContainer = regionId
-            val companyCategoryContainer = categoryId
-            val companyStatusContainer = statusId
+            val categoryContainer = categoryId
+            val statusContainer = statusId
+            val regionContainer = regionId
             val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
                 companyNameEditText.error = " Name required"
@@ -133,15 +138,17 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
+
             val imageUrl = if (companyUpdatePhotoURLEditText.text.toString().isNotEmpty() )
             {
                 companyUpdatePhotoURLEditText.text.toString().trim()
             } else {
                 null
             }
+
+
             showProgressButton(true)
-            sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,1,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,imageUrl,companyCategoryContainer,
-                companyStatusContainer,companyRegionContainer,authHeader,id)
+                sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,imageUrl,categoryContainer, statusContainer,regionContainer,authHeader,id)
         }
         myCompanyUpdateProfilePhoto.setOnClickListener {
             launchGalleryIntent()
@@ -223,7 +230,6 @@ class CompanyUpdateActivity : AppCompatActivity() {
         userFullName: String,
         email: String,
         mobileNumber: String,
-        userGender: Int,
         companyName: String,
         companyAddress: String,
         companyAbout: String,
@@ -246,7 +252,6 @@ class CompanyUpdateActivity : AppCompatActivity() {
         val companyemail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
         val companyNumber: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), mobileNumber)
-        val gender: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), userGender.toString())
         val address: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyAddress)
         val name: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
@@ -264,7 +269,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(UpdateAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.companyUpdateMethod(companyUsername,companyemail,companyNumber,gender,name,address,about,photo,statusId,categoryid,regionId,token,userId)
+            retrofit.companyUpdateMethod(companyUsername,companyemail,companyNumber,name,address,about,photo,statusId,categoryid,regionId,token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
