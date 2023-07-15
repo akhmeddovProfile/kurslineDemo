@@ -92,7 +92,7 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
                 voiceCallCourse.clickOnCall(phoneNumber,position)
             }
             else{
-                Log.d("LOG","Error")
+                Log.d("LOG", "Null phone number for position $position: $companyItem")
             }
         }
         holder.bind(companyItem,voiceCallCourse)
