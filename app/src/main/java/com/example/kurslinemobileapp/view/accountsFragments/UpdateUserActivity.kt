@@ -2,20 +2,18 @@ package com.example.kurslinemobileapp.view.accountsFragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.updateUserCompany.UpdateAPI
@@ -36,6 +34,7 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.security.AccessController.getContext
 
 class UpdateUserActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -146,8 +145,12 @@ class UpdateUserActivity : AppCompatActivity() {
                 .subscribe(
                     this::handleResponseUpdate,
                     { throwable ->
-                        val text = "Məlumatlar doğru deyil"
-                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        if (throwable.message!!.contains("HTTP 409")){
+                            Toast.makeText(this,"Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur",Toast.LENGTH_SHORT).show()
+                        }else{
+                            val text = "Məlumatlar doğru deyil"
+                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        }
                         showProgressButton(false)
                         println(throwable)
                     }
@@ -159,8 +162,8 @@ class UpdateUserActivity : AppCompatActivity() {
     @SuppressLint("ServiceCast")
     private fun handleResponseUpdate(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this@UpdateUserActivity,"Məlumatlarınız uğurla yeniləndi. Zəhmət olmasa proqramdan çıxış edin və yenidən daxil olun",Toast.LENGTH_SHORT).show()
-    onBackPressed()
+        Toast.makeText(this,"Məlumatlarınız uğurla yeniləndi",Toast.LENGTH_SHORT).show()
+         onBackPressed()
     }
 
     fun launchGalleryIntent() {

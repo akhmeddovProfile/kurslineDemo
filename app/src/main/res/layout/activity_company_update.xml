@@ -29,7 +29,7 @@
 
     <ScrollView
         android:id="@+id/scrollCompanyScrollView"
-        android:layout_below="@+id/companyText"
+        android:layout_below="@+id/linearforLogo"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -324,6 +324,34 @@
                     android:hint="Şirkət haqqında"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/companyUpdatePhotoURLContainer"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/businessAccountUpdateAboutContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_marginHorizontal="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeColor="@color/grayColor1"
+                app:hintTextColor="@color/grayColor1"
+                android:textColorHint="@color/grayColor1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/companyUpdatePhotoURLEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat"
+                    android:editable="false"
+                    android:clickable="false"
+                    android:inputType="none"
+                    android:hint="URL"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/savedUpdatesBtnCompany"
                 android:visibility="visible"
@@ -333,7 +361,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="25dp"
-                android:layout_below="@id/businessAccountUpdateAboutContainer"
+                android:layout_below="@id/companyUpdatePhotoURLContainer"
                 android:background="@drawable/button_bg"
                 android:text="Dəyişiklikləri yadda saxla"
                 android:textAllCaps="false"

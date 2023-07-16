@@ -22,7 +22,7 @@
         android:inputType="textPersonName"
         android:lines="1"
         android:textColor="@color/black"
-        android:textColorHint="@color/grayColor1"
+        android:text="Kurs Axtar"
         app:boxBackgroundColor="@color/white"
         app:boxStrokeColor="@color/grayColor1"
         app:hintTextColor="@color/black" />

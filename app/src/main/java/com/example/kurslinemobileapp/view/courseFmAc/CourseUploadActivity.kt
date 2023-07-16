@@ -211,11 +211,6 @@ class CourseUploadActivity : AppCompatActivity() {
         courseRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
-
-        courseCategoryEditText.setOnClickListener {
-            showBottomSheetDialog()
-        }
-
         courseModeEditText.setOnClickListener {
             showBottomSheetDialogMode()
         }
@@ -349,38 +344,6 @@ class CourseUploadActivity : AppCompatActivity() {
                     categoryAdapter.setOnItemClickListener { category ->
                         allcategoriesId = category.categoryId
                         courseAllCategoryEditText.setText(category.categoryName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )
-
-        dialog.show()
-    }
-
-
-
-        @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
-    private fun showBottomSheetDialog() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
-        val dialog = BottomSheetDialog(this)
-        dialog.setContentView(bottomSheetView)
-        val recyclerViewCategories: RecyclerView =
-            bottomSheetView.findViewById(R.id.recyclerViewCategories)
-        recyclerViewCategories.setHasFixedSize(true)
-        recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
                         showSubCategories(category.subCategories)
                         dialog.dismiss()
                     }
@@ -389,6 +352,7 @@ class CourseUploadActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
 
     private fun showSubCategories(subCategories: List<SubCategory>) {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)

@@ -89,8 +89,9 @@ class BusinessAccountFragment : Fragment() {
         if (companyPhoto == null){
             view.myBusinessImage.setImageResource(R.drawable.setpp)
         }else{
-            Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(view.myBusinessImage)
+            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
         }
+
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
@@ -100,11 +101,28 @@ class BusinessAccountFragment : Fragment() {
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
 
+        val userStatusId = response.userStatusId.toString()
+        val companyCategoryId = response.companyCategoryId.toString()
+     sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("userStatusId", userStatusId)
+        editor.putString("companyCategoryId", companyCategoryId)
+        editor.putString("companyOwnerName",userFullName)
+        editor.putString("companyEmail",userEmail)
+        editor.putString("companyNumber",userPhoneNumber)
+        editor.putString("companyName",companyName)
+        editor.putString("companyAddress",companyAddress)
+        editor.putString("companyAbout",about)
+        editor.putString("companyPhoto",companyPhoto)
+        editor.apply()
+
         var categoryName = ""
         getCategoryList()!!.subscribe({ categories ->
             println("333")
              categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
             view.businessAccountCategoryEditText.setText(categoryName)
+            editor.putString("companyCategory",categoryName)
+            editor.apply()
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
@@ -114,6 +132,8 @@ class BusinessAccountFragment : Fragment() {
         getStatusList()!!.subscribe({ status ->
             statusName = status.statuses.find { it.statusId == category }?.statusName.toString()
             view.compantStatusEditText.setText(statusName)
+            editor.putString("companyStatus",statusName)
+            editor.apply()
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
@@ -127,20 +147,6 @@ class BusinessAccountFragment : Fragment() {
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)
-
-        val editor = sharedPreferences.edit()
-        editor.putString("companyPhotoUrl", companyPhoto)
-        editor.putString("companyAccountName", response.fullName)
-        editor.putString("companyAccountPhone", response.mobileNumber)
-        editor.putString("companyAccountMail",response.email)
-        editor.putString("companyName", response.companyName.toString())
-        editor.putString("companyAddress",response.companyAddress.toString())
-        editor.putString("companyAbout",response.companyAbout.toString())
-        editor.putString("companyCategory",categoryName)
-        editor.putString("companyStatus",statusName)
-
-        editor.apply()
-
 
     }
 
@@ -156,5 +162,18 @@ class BusinessAccountFragment : Fragment() {
         return retrofit.getStatus()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun onResume() {
+        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+        scroll.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
+        val id = sharedPreferences.getInt("userID", 0)
+        val token = sharedPreferences.getString("USERTOKENNN", "")
+        val authHeader = "Bearer $token"
+        getDataFromServer(id,authHeader)
+        super.onResume()
     }
 }

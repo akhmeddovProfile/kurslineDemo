@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -103,6 +104,11 @@ class CourseBusinessProfile : AppCompatActivity() {
             // Use the retrieved values as needed
             businessCompanyName.text = companyName
             courseBusinessNumber.text = companyPhone
+            courseBusinessNumber.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:$companyPhone")
+                startActivity(intent)
+            }
             courseBusinessLocation.text = companyAddress
             businessCategoryText.text = category
 

@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Region Seçin"
+                    android:hint="Region"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"

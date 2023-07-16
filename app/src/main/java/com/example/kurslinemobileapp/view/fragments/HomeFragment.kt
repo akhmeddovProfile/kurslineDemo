@@ -101,14 +101,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             view.createAccountTextMain.visibility = View.VISIBLE
         }
 
-        if (userId==0){
-            isRegistered=false
-            getProducts()
-        }else{
-            isRegistered=true
-            getProductWhichIncludeFavorite(userId)
-        }
-
         val search = arguments?.getString("search", "")
         val statusId = arguments?.getString("statusId", "")
         val isOnlineId = arguments?.getString("isOnlineId", "")
@@ -122,24 +114,15 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         // Call the getFilterProducts method with the retrieved filter parameters
         if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null) {
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
-            getFilterProducts(
-                limit,
-                offset,
-                regionId!!,
-                categoryId!!,
-                search!!,
-                minPrice!!,
-                maxPrice!!,
-                statusId!!,
-                isOnlineId!!,
-                userId
-            )
+            getFilterProducts(limit, offset, regionId!!, categoryId!!, search!!, minPrice!!, maxPrice!!, statusId!!, isOnlineId!!, 0)
         }
         else{
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
             if (userId==0){
+                isRegistered=false
                 getProducts()
             }else{
+                isRegistered=true
                 getProductWhichIncludeFavorite(userId)
             }
         }
@@ -203,7 +186,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribe(this::handleResponseforAllItemsAndFavItems,{
-
             })
         )
     }

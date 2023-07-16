@@ -16,7 +16,7 @@ import com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile
 import com.squareup.picasso.Picasso
 import java.util.Locale
 
-class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>/*,private val voiceCallCourse:VoiceCallToCourses*/) :
+class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelItem>,private val voiceCallCourse:VoiceCallToCourses) :
     RecyclerView.Adapter<CompanyTeacherAdapter.CompanyTeacherHolder>() {
     lateinit var fullList :ArrayList<CompanyTeacherModelItem>
     var newList = arrayListOf<CompanyTeacherModelItem>()
@@ -25,6 +25,10 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
         items.clear()
         items.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    interface VoiceCallToCourses {
+        fun clickOnCall(number: String, position: Int)
     }
 /*
     interface VoiceCallToCourses{
@@ -53,10 +57,11 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
             context.startActivity(intent)
         }
 
-        fun bind(companyItem: CompanyTeacherModelItem) {
-            // Handle any additional actions or bindings for the item here if needed
-        }
+    fun bind(companyItem: CompanyTeacherModelItem, voiceCallCourse: VoiceCallToCourses) {
+
     }
+
+}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyTeacherHolder {
         val view =
@@ -81,16 +86,16 @@ class CompanyTeacherAdapter (private var items: ArrayList<CompanyTeacherModelIte
 
         holder.companyName.text = companyItem.companyName
         holder.companyCategory.text = companyItem.companyCategoryName
-/*        holder.companyPhone.setOnClickListener {
+  holder.companyPhone.setOnClickListener {
             val phoneNumber = companyItem.companyPhone
             if (phoneNumber!=null){
                 voiceCallCourse.clickOnCall(phoneNumber,position)
             }
             else{
-                Log.d("LOG","Error")
+                Log.d("LOG", "Null phone number for position $position: $companyItem")
             }
-        }*/
-        holder.bind(companyItem)
+        }
+        holder.bind(companyItem,voiceCallCourse)
 
     }
 
