@@ -163,4 +163,17 @@ class BusinessAccountFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    override fun onResume() {
+        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+        scroll.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
+        val id = sharedPreferences.getInt("userID", 0)
+        val token = sharedPreferences.getString("USERTOKENNN", "")
+        val authHeader = "Bearer $token"
+        getDataFromServer(id,authHeader)
+        super.onResume()
+    }
 }

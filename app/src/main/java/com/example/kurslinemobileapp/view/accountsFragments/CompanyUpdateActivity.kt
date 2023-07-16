@@ -231,9 +231,12 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        println("update:" +throwable.toString())
-                        val text = "Məlumatlar doğru deyil"
-                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        if (throwable.message!!.contains("HTTP 409")){
+                            Toast.makeText(this,"Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur",Toast.LENGTH_SHORT).show()
+                        }else{
+                            val text = "Məlumatlar doğru deyil"
+                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        }
                         showProgressButton(false)
                     })
         )
@@ -241,7 +244,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this@CompanyUpdateActivity,"Məlumatlarınız uğurla yeniləndi. Zəhmət olmasa proqramdan çıxış edin və yenidən daxil olun",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,"Məlumatlarınız uğurla yeniləndi",Toast.LENGTH_SHORT).show()
         onBackPressed()
     }
 

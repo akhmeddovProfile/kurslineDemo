@@ -210,8 +210,12 @@ class UserToCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        val text = "Məlumatlar doğru deyil"
-                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        if (throwable.message!!.contains("HTTP 409")){
+                            Toast.makeText(this,"Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur",Toast.LENGTH_SHORT).show()
+                        }else{
+                            val text = "Məlumatlar doğru deyil"
+                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        }
                         showProgressButton(false)
                     })
         )
@@ -219,6 +223,7 @@ class UserToCompanyActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UserToCompanyResponse) {
         println("Response: " + response.isSuccess)
+        Toast.makeText(this,"Qeydiyyat uğurla tamamlandı",Toast.LENGTH_SHORT).show()
         val intent = Intent(this@UserToCompanyActivity, LoginActivity::class.java)
         startActivity(intent)
         finish()

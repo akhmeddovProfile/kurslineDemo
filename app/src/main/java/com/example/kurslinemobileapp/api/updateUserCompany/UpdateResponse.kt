@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.api.updateUserCompany
 
 data class UpdateResponse(
-    val isSuccess: Boolean
+    val isSuccess: Boolean,
+    val description:String
 )

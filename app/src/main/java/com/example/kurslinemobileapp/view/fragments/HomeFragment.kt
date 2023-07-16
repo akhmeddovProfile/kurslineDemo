@@ -186,7 +186,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribe(this::handleResponseforAllItemsAndFavItems,{
-
             })
         )
     }

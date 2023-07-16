@@ -1,37 +1,30 @@
 package com.example.kurslinemobileapp.view.tabsForCompanies
 
+import android.R
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.SearchView
 import android.widget.SearchView.*
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTeacherAdapter
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModel
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
-import java.net.URI
-import kotlin.collections.ArrayList
+
 
 class TabforCompanies : Fragment() {
     private lateinit var view : ViewGroup
@@ -44,10 +37,10 @@ class TabforCompanies : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_tabfor_companies, container, false) as ViewGroup
-        val recycler = view.findViewById<RecyclerView>(R.id.recyclerviewForCompanyteacher)
+         view = inflater.inflate(com.example.kurslinemobileapp.R.layout.fragment_tabfor_companies, container, false) as ViewGroup
+        val recycler = view.findViewById<RecyclerView>(com.example.kurslinemobileapp.R.id.recyclerviewForCompanyteacher)
         recycler.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabCompany)
+        val lottie = view.findViewById<LottieAnimationView>(com.example.kurslinemobileapp.R.id.loadingTabCompany)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
 
@@ -61,6 +54,7 @@ class TabforCompanies : Fragment() {
             }
         })
         recycler.adapter = companyTeacherAdapter
+
         view.searchViewCompanyEditText.setOnQueryTextListener(object : OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -88,9 +82,9 @@ class TabforCompanies : Fragment() {
     }
 
     private fun handleResponse(response: CompanyTeacherModel) {
-        val recycler = view.findViewById<RecyclerView>(R.id.recyclerviewForCompanyteacher)
+        val recycler = view.findViewById<RecyclerView>(com.example.kurslinemobileapp.R.id.recyclerviewForCompanyteacher)
         recycler.visibility = View.VISIBLE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabCompany)
+        val lottie = view.findViewById<LottieAnimationView>(com.example.kurslinemobileapp.R.id.loadingTabCompany)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
         response.get(0).companyPhone

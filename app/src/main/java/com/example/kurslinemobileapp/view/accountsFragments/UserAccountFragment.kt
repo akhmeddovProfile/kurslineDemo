@@ -66,6 +66,7 @@ class UserAccountFragment : Fragment() {
         val authHeader = "Bearer $token"
         println("userID" + id)
         println("userToken" + authHeader)
+
         getDataFromServer(id, authHeader)
 
         view.goToBusinessCreate.setOnClickListener {
@@ -128,4 +129,16 @@ class UserAccountFragment : Fragment() {
         editor.apply()
     }
 
+    override fun onResume() {
+        val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
+        scroll.visibility = View.GONE
+        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
+        val id = sharedPreferences.getInt("userID", 0)
+        val token = sharedPreferences.getString("USERTOKENNN", "")
+        val authHeader = "Bearer $token"
+        getDataFromServer(id,authHeader)
+        super.onResume()
+    }
 }
