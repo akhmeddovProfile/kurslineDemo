@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.SearchView
 import android.widget.SearchView.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -48,6 +50,7 @@ class TabforCompanies : Fragment() {
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingTabCompany)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
+
         mainList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(requireContext())
         companyTeacherAdapter = CompanyTeacherAdapter(mainList, object : CompanyTeacherAdapter.VoiceCallToCourses {
@@ -58,7 +61,6 @@ class TabforCompanies : Fragment() {
             }
         })
         recycler.adapter = companyTeacherAdapter
-
         view.searchViewCompanyEditText.setOnQueryTextListener(object : OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {

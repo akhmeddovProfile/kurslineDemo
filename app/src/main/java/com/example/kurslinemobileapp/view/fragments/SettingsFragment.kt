@@ -99,6 +99,7 @@ class SettingsFragment : Fragment() {
         editor.apply()
         val intent=Intent(requireContext(),MainActivity::class.java)
         startActivity(intent)
+        requireActivity().finish()
     }
     private fun showChangeLanguage() {
         val listofItems = arrayOf("Azərbaycan", "English")
