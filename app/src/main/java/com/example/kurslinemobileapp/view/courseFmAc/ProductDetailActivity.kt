@@ -390,9 +390,11 @@ getUserAnnouncement(userId,annId,authHeader)
             intent.putStringArrayListExtra("teachername",ArrayList(response.teacher))
             intent.putExtra("annprice",response.announcementPrice)
             intent.putExtra("courseaddress",response.announcementAddress)
-            intent.putExtra("announcmenetmode",response.isOnline)
-          //  intent.putExtra("announcmenetmode",response.)
-            intent.putExtra("announcmenetmode",response.announcementSubCategoryId)
+            intent.putExtra("announcementmode",response.isOnline)
+            intent.putExtra("announcementCategoryId",response.categoryId)
+            intent.putExtra("announcementSubCategory",response.announcementSubCategoryId)
+            intent.putExtra("announcementRegionId",response.announcementRegionId)
+
             startActivity(intent)
         }
     }

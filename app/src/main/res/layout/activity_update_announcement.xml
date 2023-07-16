@@ -376,4 +376,11 @@
                 android:layout_marginRight="25dp"/>
         </RelativeLayout>
     </ScrollView>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingDetailForUpAnn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 </RelativeLayout>
