@@ -57,7 +57,7 @@
                 android:layout_below="@+id/topProductsRV"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor2"
+                app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
                 app:layout_constraintEnd_toEndOf="parent"
