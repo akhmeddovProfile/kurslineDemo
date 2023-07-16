@@ -120,6 +120,7 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
             mainList2.addAll(companyDetailItem)
             favoriteAdapter = FavoriteAdapter(mainList2,this@FavoritesFragment)
             recycler.adapter = favoriteAdapter
+            recycler.isNestedScrollingEnabled = false
             favoriteAdapter.notifyDataSetChanged()
             println("responseElan: " + response)
             favoriteAdapter.setOnItemClickListener {

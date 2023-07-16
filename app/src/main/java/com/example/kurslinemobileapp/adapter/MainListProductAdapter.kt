@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
@@ -38,6 +41,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
         fun onFavoriteItemClick(id: Int,position: Int)
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val isonlinebg : RelativeLayout = itemView.findViewById(R.id.relativeForCourseMode)
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
         val statusView: TextView = itemView.findViewById(R.id.statusforproduct)
         val imageVIPView: ImageView = itemView.findViewById(R.id.vip_product)
@@ -61,6 +65,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
         return ProductRowHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n", "CommitPrefEdits")
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         var addedToFav = false
@@ -72,6 +77,13 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
 
 
         holder.modeView.text = productRow.isOnline
+        if(productRow.isOnline == "Online"){
+          holder.isonlinebg.setBackgroundResource(R.drawable.isonline_bg)
+            holder.modeView.setTextColor(context.getColor(R.color.white))
+        }else{
+            holder.isonlinebg.setBackgroundResource(R.drawable.status_view)
+            holder.modeView.setTextColor(context.getColor(R.color.colorForCourseIntheMainScreen))
+        }
         holder.statusView.text = productRow.isStatus
         //holder.imageVIPView.setImageResource(productRow.vipIcon)
         holder.producttitle.text = productRow.announcementName

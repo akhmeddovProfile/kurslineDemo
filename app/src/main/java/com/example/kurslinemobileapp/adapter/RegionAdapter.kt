@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class RegionAdapter (var regions: List<Region>) :
     inner class RegionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
+        @SuppressLint("ResourceAsColor")
         fun bind(region: Region) {
             textViewName.setTextColor(R.color.black)
             textViewName.text = region.regionName

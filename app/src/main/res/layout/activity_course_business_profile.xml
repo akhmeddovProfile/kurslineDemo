@@ -26,7 +26,7 @@
         android:layout_height="1dp"
         android:src="@color/grayColor1"/>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollBusinessProfile"
         android:layout_below="@+id/lineCProfile"
         android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loadingCourseBusinessProfile"
         android:layout_width="match_parent"

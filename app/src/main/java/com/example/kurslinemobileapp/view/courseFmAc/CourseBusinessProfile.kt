@@ -86,6 +86,7 @@ class CourseBusinessProfile : AppCompatActivity() {
             mainList2.addAll(companyDetailItem.announcements)
             courseBusinessProfileAdapter = CourseBusinessProfileAdapter(mainList2)
             recycler.adapter = courseBusinessProfileAdapter
+            recycler.isNestedScrollingEnabled=false
             courseBusinessProfileAdapter.notifyDataSetChanged()
             courseBusinessProfileAdapter.setOnItemClickListener {
                 val intent = Intent(this@CourseBusinessProfile, ProductDetailActivity::class.java)

@@ -219,6 +219,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             println("responseElan: " + response)
             companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
             recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
 
@@ -274,6 +275,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             println("responseElan: " + response)
             companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
             recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -328,6 +330,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             println("responseElan: " + response)
             companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
             recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
