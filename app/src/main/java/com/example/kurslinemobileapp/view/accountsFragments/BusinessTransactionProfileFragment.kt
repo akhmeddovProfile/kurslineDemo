@@ -69,7 +69,7 @@ class BusinessTransactionProfileFragment : Fragment() {
         val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
         val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
         view.businessTransName.setText(userFullName)
-        if (userPhoto.equals("")){
+        if (userPhoto == null){
             view.businessTransProfileImage.setImageResource(R.drawable.setpp)
         }else {
             Picasso.get().load(userPhoto).into(view.businessTransProfileImage)
