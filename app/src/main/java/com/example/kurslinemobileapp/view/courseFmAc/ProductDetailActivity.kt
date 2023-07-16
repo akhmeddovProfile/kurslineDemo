@@ -106,10 +106,6 @@ getUserAnnouncement(userId,annId,authHeader)
             alertDialog.show()
         }
 
-        editCourse.setOnClickListener {
-            val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
-            startActivity(intent)
-        }
 
         commentEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -264,12 +260,12 @@ getUserAnnouncement(userId,annId,authHeader)
 
         // Picasso.get().load(response.photos).into(productDetailImage)
 
-
+        println("Sub: "+response.subCategory)
         val companyName = response.companyName
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
         val courseDesc = response.announcementDesc
-        val categoryId = response.announcementSubCategoryId
+        val categoryId = response.subCategory
         val regionId = response.announcementRegionId
         val modeId = response.isOnline
         val teacherName = response.teacher
@@ -315,7 +311,7 @@ getUserAnnouncement(userId,annId,authHeader)
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
         val courseDesc = response.announcementDesc
-        val categoryId = response.announcementSubCategoryId
+        val categoryId = response.subCategory
         val regionId = response.announcementRegionId
         val modeId = response.isOnline
         val teacherName = response.teacher
@@ -385,5 +381,19 @@ getUserAnnouncement(userId,annId,authHeader)
     private fun handleResponse(response: GetUserAnn) {
         deleteCourse.visibility = View.VISIBLE
         editCourse.visibility = View.VISIBLE
+        println("Image: "+response.photos)
+
+        editCourse.setOnClickListener {
+            val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
+            intent.putExtra("companyname",response.companyName)
+            intent.putExtra("aboutcompany",response.announcementDesc)
+            intent.putStringArrayListExtra("teachername",ArrayList(response.teacher))
+            intent.putExtra("annprice",response.announcementPrice)
+            intent.putExtra("courseaddress",response.announcementAddress)
+            intent.putExtra("announcmenetmode",response.isOnline)
+          //  intent.putExtra("announcmenetmode",response.)
+            intent.putExtra("announcmenetmode",response.announcementSubCategoryId)
+            startActivity(intent)
+        }
     }
 }

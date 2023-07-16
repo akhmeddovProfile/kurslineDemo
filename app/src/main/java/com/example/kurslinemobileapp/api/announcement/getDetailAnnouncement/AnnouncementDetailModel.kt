@@ -8,7 +8,7 @@ data class AnnouncementDetailModel(
     val announcementName: String,
     val announcementPrice: Int,
     val announcementRegionId: String,
-    val announcementSubCategoryId: String,
+    val subCategory: String,
     val comments: List<Comment>,
     val companyName: String,
     val countView: Int,
