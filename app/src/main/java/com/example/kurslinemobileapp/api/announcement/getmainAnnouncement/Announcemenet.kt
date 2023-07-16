@@ -15,7 +15,9 @@ data class Announcemenet(
     val isVIP: Boolean,
     val photos: List<Photo>,
     val price: Int,
-    var isFavorite:Boolean
+    var isFavorite:Boolean,
+    val category:String,
+    val subCategory:String
 )
 
 

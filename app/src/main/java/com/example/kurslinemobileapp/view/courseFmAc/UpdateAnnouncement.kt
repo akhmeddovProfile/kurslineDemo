@@ -11,5 +11,4 @@ class UpdateAnnouncement : AppCompatActivity() {
 
     }
 
-
 }

@@ -226,6 +226,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         mainListProductAdapter.setOnItemClickListener {
                         //isFavorite=!isFavorite
             isFavorite=it.isFavorite
+            println("SubCategory New: "+it.subCategory)
             val intent = Intent(activity, ProductDetailActivity::class.java)
             intent.putExtra("isFavorite",isFavorite)
             activity?.startActivity(intent)
