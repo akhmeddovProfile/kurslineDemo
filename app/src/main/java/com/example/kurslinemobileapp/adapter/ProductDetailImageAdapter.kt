@@ -25,8 +25,7 @@ class ProductDetailImageAdapter(private val photos: List<com.example.kurslinemob
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photo = photos[position]
         Picasso.get()
-            .load(photo.url).transform(ResizeTransformation(2500, 2500))
-            .into(holder.imageView)
+            .load(photo.url).into(holder.imageView)
     }
 
     override fun getItemCount(): Int {

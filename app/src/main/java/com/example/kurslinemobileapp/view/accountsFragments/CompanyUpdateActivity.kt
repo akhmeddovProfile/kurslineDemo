@@ -88,8 +88,10 @@ class CompanyUpdateActivity : AppCompatActivity() {
         categoryId = ""
         statusId = ""
         regionId = ""
+
         val categoryCMPid = sharedPreferences.getString("companyCategoryId", "")?:""
         val statusCMPid = sharedPreferences.getString("userStatusId","")?:""
+
         val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
         val userEmail = sharedPreferences.getString("companyEmail","")?:""
         val userPhoneNumber = sharedPreferences.getString("companyNumber","")?:""
@@ -108,6 +110,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         businessAccountUpdateCategoryEditText.setText(companyCategory)
         companyUpdateStatusEditText.setText(companyStatus)
         Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
+
         savedUpdatesBtnCompany.setOnClickListener {
             val companyNameContainer = businessAccountUpdateNameEditText.text.toString().trim()
             val companyEmailContainer = businessAccountUpdateEmailEditText.text.toString().trim()
@@ -115,8 +118,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
             val companyAddressContainer = companyUpdateAdressEditText.text.toString().trim()
             val companyPhoneContainer = businessAccountUpdatePhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
-            val categoryContainer = categoryId
-            val statusContainer = statusId
+
             val regionContainer = regionId
             val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
@@ -160,9 +162,21 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 null
             }
 
+            val categoryContainer = if (isCategoryChanged) {
+                categoryId
+            } else {
+                categoryCMPid
+            }
+
+            val statusContainer = if(isStatusChanged){
+                statusId
+            }else{
+                statusCMPid
+            }
+
 
             showProgressButton(true)
-                sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,imageUrl,categoryContainer, statusContainer,regionContainer,authHeader,id)
+                sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,imageUrl,categoryContainer, statusContainer,regionContainer,authHeader,id)
         }
         myCompanyUpdateProfilePhoto.setOnClickListener {
             launchGalleryIntent()

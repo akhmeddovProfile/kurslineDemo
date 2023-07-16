@@ -89,7 +89,7 @@ class BusinessAccountFragment : Fragment() {
         if (companyPhoto == null){
             view.myBusinessImage.setImageResource(R.drawable.setpp)
         }else{
-            Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(view.myBusinessImage)
+            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
         }
 
         val userFullName = response.fullName
