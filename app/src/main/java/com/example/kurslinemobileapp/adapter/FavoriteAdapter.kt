@@ -1,20 +1,27 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
 import com.squareup.picasso.Picasso
 
-class FavoriteAdapter(private var items: List<FavoriteGetModelItem>,
-                      private val deleteItem:DeleteItemFromFavorite,
-                      ):RecyclerView.Adapter<FavoriteAdapter.ItemView>() {
+class FavoriteAdapter(
+    private var items: List<FavoriteGetModelItem>,
+    private val deleteItem: DeleteItemFromFavorite,
+):RecyclerView.Adapter<FavoriteAdapter.ItemView>() {
 
     private var onItemClickListener: ((FavoriteGetModelItem) -> Unit)? = null
 
@@ -26,6 +33,7 @@ class FavoriteAdapter(private var items: List<FavoriteGetModelItem>,
         fun deletefavoriteOnItemClick(id:Int,position: Int)
     }
     inner class ItemView(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val isonlinebg : RelativeLayout = itemView.findViewById(R.id.favoriteRelativeForCourseMode)
         val modeView: TextView = itemView.findViewById(R.id.favoriteModeforproduct)
         val statusView: TextView = itemView.findViewById(R.id.favoritestatusforproduct)
         val imageVIPView: ImageView = itemView.findViewById(R.id.favorite_vip_product)
@@ -57,6 +65,7 @@ class FavoriteAdapter(private var items: List<FavoriteGetModelItem>,
             return ItemView(view)
         }
 
+        @RequiresApi(Build.VERSION_CODES.M)
         override fun onBindViewHolder(holder: ItemView, position: Int) {
 
             val productRow = items[position]
@@ -64,8 +73,15 @@ class FavoriteAdapter(private var items: List<FavoriteGetModelItem>,
             val url = "1"
             val photo = Photo(url)
             Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
-
+            val context: Context = holder.itemView.context
             holder.modeView.text = productRow.isOnline
+            if(productRow.isOnline == "Online"){
+                holder.isonlinebg.setBackgroundResource(R.drawable.isonline_bg)
+                holder.modeView.setTextColor(context.getColor(R.color.white))
+            }else{
+                holder.isonlinebg.setBackgroundResource(R.drawable.status_view)
+                holder.modeView.setTextColor(context.getColor(R.color.colorForCourseIntheMainScreen))
+            }
             holder.statusView.text = productRow.isStatus
             //holder.imageVIPView.setImageResource(productRow.vipIcon)
             holder.producttitle.text = productRow.announcementName

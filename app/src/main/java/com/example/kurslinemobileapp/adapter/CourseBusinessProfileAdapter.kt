@@ -1,12 +1,16 @@
 package com.example.kurslinemobileapp.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
@@ -20,6 +24,7 @@ class CourseBusinessProfileAdapter (var products: List<Announcement>) :
         onItemClickListener = listener
     }
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val isonlinebg : RelativeLayout = itemView.findViewById(R.id.relativeForCourseMode)
         val modeView: TextView = itemView.findViewById(R.id.modeforproduct)
         val statusView: TextView = itemView.findViewById(R.id.statusforproduct)
         val imageVIPView: ImageView = itemView.findViewById(R.id.vip_product)
@@ -41,13 +46,21 @@ class CourseBusinessProfileAdapter (var products: List<Announcement>) :
         return CategoryViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val productRow = products[position]
         val photoUrl = products[position].photos[0].url
         Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
 
-
+        val context: Context = holder.itemView.context
         holder.modeView.text = productRow.isOnline
+        if(productRow.isOnline == "Online"){
+            holder.isonlinebg.setBackgroundResource(R.drawable.isonline_bg)
+            holder.modeView.setTextColor(context.getColor(R.color.white))
+        }else{
+            holder.isonlinebg.setBackgroundResource(R.drawable.status_view)
+            holder.modeView.setTextColor(context.getColor(R.color.colorForCourseIntheMainScreen))
+        }
         holder.statusView.text = productRow.isStatus
         //holder.imageVIPView.setImageResource(productRow.vipIcon)
         holder.producttitle.text = productRow.announcementName

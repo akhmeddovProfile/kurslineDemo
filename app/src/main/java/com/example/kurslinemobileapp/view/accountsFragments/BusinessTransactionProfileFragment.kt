@@ -69,7 +69,11 @@ class BusinessTransactionProfileFragment : Fragment() {
         val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
         val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
         view.businessTransName.setText(userFullName)
-        Picasso.get().load(userPhoto).into(view.businessTransProfileImage)
+        if (userPhoto == null){
+            view.businessTransProfileImage.setImageResource(R.drawable.setpp)
+        }else {
+            Picasso.get().load(userPhoto).into(view.businessTransProfileImage)
+        }
         button1 = view.findViewById(R.id.button1BusinessTrans)
         button2 = view.findViewById(R.id.button2BusinessTrans)
         button3 = view.findViewById(R.id.button3BusinessTrans)
@@ -219,6 +223,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             println("responseElan: " + response)
             companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
             recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
 
@@ -274,6 +279,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             println("responseElan: " + response)
             companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
             recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -328,6 +334,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             println("responseElan: " + response)
             companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
             recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
             companyTransactionAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
