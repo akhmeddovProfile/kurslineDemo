@@ -9,6 +9,7 @@ data class GetUserAnn(
     val announcementPrice: Int,
     val announcementRegionId: Int,
     val announcementSubCategoryId: Int,
+    val categoryId: Int,
     val companyName: String,
     val countView: Int,
     val id: Int,
