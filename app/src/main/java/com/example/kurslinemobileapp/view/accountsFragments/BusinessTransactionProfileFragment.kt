@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_company_update.*
 import kotlinx.android.synthetic.main.fragment_business_account.view.*
 import kotlinx.android.synthetic.main.fragment_business_transactions_profile.view.*
 
@@ -65,8 +66,10 @@ class BusinessTransactionProfileFragment : Fragment() {
         val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
 
-        getDataFromServer(id, authHeader)
-
+        val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
+        val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
+        view.businessTransName.setText(userFullName)
+        Picasso.get().load(userPhoto).into(view.businessTransProfileImage)
         button1 = view.findViewById(R.id.button1BusinessTrans)
         button2 = view.findViewById(R.id.button2BusinessTrans)
         button3 = view.findViewById(R.id.button3BusinessTrans)
@@ -183,28 +186,6 @@ class BusinessTransactionProfileFragment : Fragment() {
             }
         }
 
-    }
-
-    private fun getDataFromServer(id: Int, token: String) {
-        compositeDisposable = CompositeDisposable()
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
-        compositeDisposable.add(retrofit.getUserInfo(token, id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
-            ))
-    }
-
-    private fun handleResponse(response: UserInfoModel) {
-        val userFullName = response.fullName
-        view.businessTransName.text = userFullName
-        val companyPhoto = response.photo
-        if (companyPhoto == null) {
-            view.businessTransProfileImage.setImageResource(R.drawable.setpp)
-        } else {
-            Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(view.businessTransProfileImage)
-        }
     }
 
 

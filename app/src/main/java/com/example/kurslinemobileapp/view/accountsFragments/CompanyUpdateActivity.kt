@@ -75,8 +75,6 @@ class CompanyUpdateActivity : AppCompatActivity() {
         println("userID" + id)
         println("userToken" + authHeader)
 
-        getDataFromServer(id,authHeader)
-
         businessAccountUpdateCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
         }
@@ -90,10 +88,26 @@ class CompanyUpdateActivity : AppCompatActivity() {
         categoryId = ""
         statusId = ""
         regionId = ""
-        val category = sharedPreferences.getString("companyCategoryId", "")?:""
-        val status = sharedPreferences.getString("userStatusId","")?:""
-        val updatedCategory = category
-        println("categoryIDDD" + category)
+        val categoryCMPid = sharedPreferences.getString("companyCategoryId", "")?:""
+        val statusCMPid = sharedPreferences.getString("userStatusId","")?:""
+        val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
+        val userEmail = sharedPreferences.getString("companyEmail","")?:""
+        val userPhoneNumber = sharedPreferences.getString("companyNumber","")?:""
+        val companyName = sharedPreferences.getString("companyName","")?:""
+        val userAddress = sharedPreferences.getString("companyAddress","")?:""
+        val userAbout = sharedPreferences.getString("companyAbout","")?:""
+        val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
+        val companyCategory = sharedPreferences.getString("companyCategory","")?:""
+        val companyStatus = sharedPreferences.getString("companyStatus","")?:""
+        businessAccountUpdateNameEditText.setText(userFullName)
+        businessAccountUpdateEmailEditText.setText(userEmail)
+        businessAccountUpdateCompanyEditText.setText(companyName)
+        companyUpdateAdressEditText.setText(userAddress)
+        businessAccountUpdatePhoneEditText.setText(userPhoneNumber)
+        businessAccountAboutEditText.setText(userAbout)
+        businessAccountUpdateCategoryEditText.setText(companyCategory)
+        companyUpdateStatusEditText.setText(companyStatus)
+        Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
         savedUpdatesBtnCompany.setOnClickListener {
             val companyNameContainer = businessAccountUpdateNameEditText.text.toString().trim()
             val companyEmailContainer = businessAccountUpdateEmailEditText.text.toString().trim()
@@ -153,77 +167,6 @@ class CompanyUpdateActivity : AppCompatActivity() {
         myCompanyUpdateProfilePhoto.setOnClickListener {
             launchGalleryIntent()
         }
-    }
-
-
-    private fun getDataFromServer(id: Int,token:String) {
-        compositeDisposable = CompositeDisposable()
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
-        compositeDisposable.add(retrofit.getUserInfo(token,id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
-            ))
-    }
-
-    private fun handleResponse(response: UserInfoModel) {
-        val companyPhoto = response.photo
-        if (companyPhoto == null){
-            myCompanyUpdateProfilePhoto.setImageResource(R.drawable.setpp)
-        }else{
-            Picasso.get().load(companyPhoto).transform(ResizeTransformation(300, 300)).into(myCompanyUpdateProfilePhoto)
-        }
-        val userFullName = response.fullName
-        val userPhoneNumber = response.mobileNumber
-        val userEmail  = response.email
-        val companyName = response.companyName.toString()
-        val companyAddress = response.companyAddress.toString()
-        val about = response.companyAbout.toString()
-        val userstaus = response.userStatusId
-        val category  = response.companyCategoryId
-
-        var categoryName = ""
-        getCategoryList()!!.subscribe({ categories ->
-            println("333")
-            categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
-            businessAccountUpdateCategoryEditText.setText(categoryName)
-        }, { throwable ->
-            // Handle error during category retrieval
-            println("Category retrieval error: $throwable")
-        }).let { compositeDisposable.add(it) }
-
-        var statusName = ""
-        getStatusList()!!.subscribe({ status ->
-            statusName = status.statuses.find { it.statusId == category }?.statusName.toString()
-            companyUpdateStatusEditText.setText(statusName)
-        }, { throwable ->
-            // Handle error during category retrieval
-            println("Category retrieval error: $throwable")
-        }).let { compositeDisposable.add(it) }
-
-        businessAccountUpdateNameEditText.setText(userFullName)
-        businessAccountUpdatePhoneEditText.setText(userPhoneNumber)
-        businessAccountUpdateEmailEditText.setText(userEmail)
-        businessAccountUpdateCompanyEditText.setText(companyName)
-        companyUpdateAdressEditText.setText(companyAddress)
-        businessAccountAboutEditText.setText(about)
-        companyUpdateStatusEditText.setText(userstaus)
-        businessAccountUpdateCategoryEditText.setText(category)
-    }
-
-    private fun getCategoryList(): Observable<CompanyRegisterData>? {
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        return retrofit.getCategories()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    private fun getStatusList(): Observable<CompanyRegisterData>?{
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        return retrofit.getStatus()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun sendCompanydata(

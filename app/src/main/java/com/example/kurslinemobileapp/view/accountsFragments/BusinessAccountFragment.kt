@@ -107,6 +107,13 @@ class BusinessAccountFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.putString("userStatusId", userStatusId)
         editor.putString("companyCategoryId", companyCategoryId)
+        editor.putString("companyOwnerName",userFullName)
+        editor.putString("companyEmail",userEmail)
+        editor.putString("companyNumber",userPhoneNumber)
+        editor.putString("companyName",companyName)
+        editor.putString("companyAddress",companyAddress)
+        editor.putString("companyAbout",about)
+        editor.putString("companyPhoto",companyPhoto)
         editor.apply()
 
         var categoryName = ""
@@ -114,6 +121,8 @@ class BusinessAccountFragment : Fragment() {
             println("333")
              categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
             view.businessAccountCategoryEditText.setText(categoryName)
+            editor.putString("companyCategory",categoryName)
+            editor.apply()
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
@@ -123,6 +132,8 @@ class BusinessAccountFragment : Fragment() {
         getStatusList()!!.subscribe({ status ->
             statusName = status.statuses.find { it.statusId == category }?.statusName.toString()
             view.compantStatusEditText.setText(statusName)
+            editor.putString("companyStatus",statusName)
+            editor.apply()
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
