@@ -80,7 +80,7 @@
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
-                android:layout_below="@+id/courseCategoryContainer"
+                android:layout_below="@+id/upcourseCategoryContainer"
                 android:textColorHint="@color/grayColor1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,12 +132,12 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/courseCategoryContainer"
+                android:id="@+id/upcourseCategoryContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/upcourseModeContainer"
+                android:layout_below="@+id/upcourseAllCategoryContainer"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -147,7 +147,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/courseCategoryEditText"
+                    android:id="@+id/courseSubCategoryEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:editable="true"
@@ -360,7 +360,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/addCoursePhotos"/>
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/uploadCourse"
+                android:id="@+id/updateCourseBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"

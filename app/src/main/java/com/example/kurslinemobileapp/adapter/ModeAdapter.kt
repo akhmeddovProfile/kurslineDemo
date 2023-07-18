@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class ModeAdapter (var modes: List<IsOnline>) :
     inner class ModeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
+        @SuppressLint("ResourceAsColor")
         fun bind(mode: IsOnline) {
             textViewName.setTextColor(R.color.black)
             textViewName.text = mode.isOnlineName

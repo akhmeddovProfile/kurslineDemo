@@ -222,6 +222,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
 
     }
+
     private fun getFilterProducts(
         limit: Int,
         offset: Int,
@@ -309,6 +310,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             })
         )
     }
+
     fun showBottomSheetDialog() {
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(R.layout.sorted_layout)
