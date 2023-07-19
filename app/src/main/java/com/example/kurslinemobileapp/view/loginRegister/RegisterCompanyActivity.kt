@@ -226,6 +226,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyCategoryContainer = categoryId
             val companyRegionContainer = regionId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
+            val companyPhotoContainer = companyPhoto.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
                 companyNameEditText.error = " Name required"
                 companyNameEditText.requestFocus()
@@ -287,8 +288,13 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 aboutCompanyEditText.requestFocus()
                 block = false
             }
+            if (companyPhotoContainer.isEmpty()){
+                companyPhoto.error = "Photo is required"
+                companyPhoto.requestFocus()
+                block  = false
+            }
             showProgressButton(true)
-            sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhoto.text.toString(),companyStatusContainer,companyRegionContainer)
+            sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer,companyRegionContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
