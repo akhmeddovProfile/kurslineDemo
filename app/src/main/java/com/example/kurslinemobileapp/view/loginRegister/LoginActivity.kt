@@ -80,8 +80,16 @@ class LoginActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponseLogin,
                     { throwable ->
-                        val text = "Məlumatlar doğru deyil"
-                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        if (throwable.message!!.contains("HTTP 401")) {
+                            Toast.makeText(
+                                this,
+                                "Mail ünvanı və ya parol yanlışdır",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }else {
+                            val text = "Məlumatlar doğru deyil"
+                            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                        }
                         showProgressButton(false)
                     })
         )
