@@ -64,6 +64,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
     lateinit var regionId:String
     private var isCategoryChanged: Boolean = false
     private var isStatusChanged: Boolean = false
+    private var isRegionChanged: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company_update)
@@ -78,7 +79,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         businessAccountUpdateCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
         }
-        businessAccountRegionEditText.setOnClickListener {
+        businessAccountUpdateRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
         companyUpdateStatusEditText.setOnClickListener {
@@ -91,7 +92,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
         val categoryCMPid = sharedPreferences.getString("companyCategoryId", "")?:""
         val statusCMPid = sharedPreferences.getString("userStatusId","")?:""
-
+        val regionCMPid = sharedPreferences.getString("companyRegionId","")?:""
         val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
         val userEmail = sharedPreferences.getString("companyEmail","")?:""
         val userPhoneNumber = sharedPreferences.getString("companyNumber","")?:""
@@ -101,6 +102,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
         val companyCategory = sharedPreferences.getString("companyCategory","")?:""
         val companyStatus = sharedPreferences.getString("companyStatus","")?:""
+        val companyRegion = sharedPreferences.getString("companyRegion","")?:""
         businessAccountUpdateNameEditText.setText(userFullName)
         businessAccountUpdateEmailEditText.setText(userEmail)
         businessAccountUpdateCompanyEditText.setText(companyName)
@@ -109,6 +111,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         businessAccountAboutEditText.setText(userAbout)
         businessAccountUpdateCategoryEditText.setText(companyCategory)
         companyUpdateStatusEditText.setText(companyStatus)
+        businessAccountUpdateRegionEditText.setText(companyRegion)
         Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
 
         savedUpdatesBtnCompany.setOnClickListener {
@@ -119,7 +122,6 @@ class CompanyUpdateActivity : AppCompatActivity() {
             val companyPhoneContainer = businessAccountUpdatePhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
 
-            val regionContainer = regionId
             val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
                 companyNameEditText.error = " Name required"
@@ -172,6 +174,12 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 statusId
             }else{
                 statusCMPid
+            }
+
+            val regionContainer = if (isRegionChanged) {
+                regionId
+            } else {
+                regionCMPid
             }
 
 
@@ -366,8 +374,9 @@ class CompanyUpdateActivity : AppCompatActivity() {
                     recyclerviewRegions.adapter = regionAdapter
                     regionAdapter.setChanged(reg.regions)
                     regionAdapter.setOnItemClickListener { region ->
-                        businessAccountRegionEditText.setText(region.regionName)
+                        businessAccountUpdateRegionEditText.setText(region.regionName)
                         regionId = region.regionId.toString()
+                        isRegionChanged = false
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTestsRegions: $throwable") })
