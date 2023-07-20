@@ -149,27 +149,34 @@ class UserToCompanyActivity : AppCompatActivity() {
         block = true
         val companyNameContainer = userToCompanyNameEditText.text.toString().trim()
         val companyAddressContainer = userToCompanyAddressEditText.text.toString().trim()
+            val photoContainer = userToCompanyPhotoEditText.text.toString().trim()
         val companyStatusContainer = statusId
         val companyCategoryContainer = categoryId
         val aboutCompanyContainer = userToCompanyAboutEditText.text.toString().trim()
         if (companyNameContainer.isEmpty()) {
-            companyNameEditText.error = "Company Name required"
-            companyNameEditText.requestFocus()
+            userToCompanyNameEditText.error = "Company Name required"
+            userToCompanyNameEditText.requestFocus()
             block = false
         }
         if (companyAddressContainer.isEmpty()) {
-            companyAdressEditText.error = "Address required"
-            companyAdressEditText.requestFocus()
+            userToCompanyAddressEditText.error = "Address required"
+            userToCompanyAddressEditText.requestFocus()
             block = false
         }
 
         if (aboutCompanyContainer.isEmpty()) {
-            aboutCompanyEditText.error = "About Company required"
-            aboutCompanyEditText.requestFocus()
+            userToCompanyAboutEditText.error = "About Company required"
+            userToCompanyAboutEditText.requestFocus()
             block = false
         }
+            if(photoContainer.isEmpty()){
+                userToCompanyPhotoEditText.error = "Photo is required"
+                userToCompanyPhotoEditText.requestFocus()
+                block = false
+            }
+
             showProgressButton(true)
-        sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, userToCompanyPhotoEditText.text.toString(), companyStatusContainer, authHeader, userId)
+        sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, photoContainer, companyStatusContainer, authHeader, userId)
     }
         userToCompanyPhotoEditText.setOnClickListener {
             launchGalleryIntent()

@@ -100,13 +100,15 @@ class BusinessAccountFragment : Fragment() {
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
-
+        val regionCompany = response.companyRegionId
+        val regionId = response.companyRegionId.toString()
         val userStatusId = response.userStatusId.toString()
         val companyCategoryId = response.companyCategoryId.toString()
      sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("userStatusId", userStatusId)
         editor.putString("companyCategoryId", companyCategoryId)
+        editor.putString("companyRegionId",regionId)
         editor.putString("companyOwnerName",userFullName)
         editor.putString("companyEmail",userEmail)
         editor.putString("companyNumber",userPhoneNumber)
@@ -130,7 +132,7 @@ class BusinessAccountFragment : Fragment() {
 
         var statusName = ""
         getStatusList()!!.subscribe({ status ->
-            statusName = status.statuses.find { it.statusId == category }?.statusName.toString()
+            statusName = status.statuses.find { it.statusId == userstaus }?.statusName.toString()
             view.compantStatusEditText.setText(statusName)
             editor.putString("companyStatus",statusName)
             editor.apply()
@@ -138,6 +140,18 @@ class BusinessAccountFragment : Fragment() {
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
         }).let { compositeDisposable.add(it) }
+
+        var regionName = ""
+        getRegionList()!!.subscribe({ region ->
+            regionName = region.regions.find { it.regionId == regionCompany }?.regionName.toString()
+            view.businessAccountRegionEditText.setText(regionName)
+            editor.putString("companyRegion",regionName)
+            editor.apply()
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+
 
         view.businessAccountNameEditText.setText(userFullName)
         view.businessAccountPhoneEditText.setText(userPhoneNumber)
@@ -147,6 +161,7 @@ class BusinessAccountFragment : Fragment() {
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)
+        view.businessAccountRegionEditText.setText(regionCompany)
 
     }
 
@@ -160,6 +175,13 @@ class BusinessAccountFragment : Fragment() {
     private fun getStatusList():Observable<CompanyRegisterData>?{
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
         return retrofit.getStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun getRegionList():Observable<CompanyRegisterData>?{
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getRegions()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
