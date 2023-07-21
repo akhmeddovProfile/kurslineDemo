@@ -1,10 +1,12 @@
 package com.example.kurslinemobileapp.view.courseFmAc
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.LocusId
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -12,10 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
+import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -52,14 +58,20 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
 
 class UpdateAnnouncement : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
-    private var selectedPhotos = mutableListOf<String>()
+    private var selectedPhotos = ArrayList<String>()
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
     private var block: Boolean = true
+
+    companion object {
+        private const val REQUEST_CODE_PERMISSION = 101
+        private const val REQUEST_CODE_PICK_IMAGES = 102
+    }
 
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
@@ -81,15 +93,31 @@ class UpdateAnnouncement : AppCompatActivity() {
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetailForUpAnn)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
-        selectedPhotos= mutableListOf<String>()
+        selectedPhotos= ArrayList<String>()
+        images= mutableListOf()
         val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         getUserAnnouncement(userId,annId,token!!)
         addupCoursePhotos.setOnClickListener {
-            launchGalleryIntent()
+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Request the permission if not granted
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    REQUEST_CODE_PERMISSION
+                )
+            } else {
+                launchGalleryIntent()
+            }
         }
+
         backtoMainFromUpdateCourse.setOnClickListener {
             val intent=Intent(this,ProductDetailActivity::class.java)
             startActivity(intent)
@@ -100,9 +128,11 @@ class UpdateAnnouncement : AppCompatActivity() {
             val upcourseAboutContainer1=upcourseAboutEditText?.text?.trim().toString()
             val upcoursePriceContainer1=upcoursePriceEditText?.text?.trim().toString()
             val upcourseAddressContainer1=upcourseAddressEditText?.text?.trim().toString()
-            val upcourseCategoryContainer1=courseSubCategoryEditText?.text?.trim().toString()
-            val upcourseAllCategoryContainer1=upcourseAllCategoryEditText?.text?.trim().toString()
-            val upcourseRegionContainer1=upcourseRegionEditText?.text?.trim().toString()
+            val upAnnPhoto=UpsetImageUrl?.text?.toString()?.trim()
+            val upcourseCategoryContainer1=categoryId
+            val upcourseAllCategoryContainer1=allcategoriesId
+            val upcourseRegionContainer1=regionId
+            val upcourseModeContainer=modeId
             val upcourseteachername=upcourseTeacherEditText?.text?.trim().toString()
             if (upcourseNameContainer1.isNullOrEmpty()){
                 upcourseNameEditText?.error="Name is not be null"
@@ -148,11 +178,13 @@ class UpdateAnnouncement : AppCompatActivity() {
             if (block==false){
                 println("False")
             }
-
+            println("SelectedPhotos: "+selectedPhotos)
             showProgressButton(true)
             sendUpdateAnnouncementData(upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
-                upcourseRegionContainer1,upcourseCategoryContainer1,selectedPhotos,upcourseteachername,modeId,allcategoriesId,annId,token,userId
+                upcourseRegionContainer1,upcourseCategoryContainer1,
+                selectedPhotos,upcourseteachername,upcourseModeContainer,upcourseAllCategoryContainer1,annId,token,userId
                 )
+
             return@setOnClickListener
         }
 
@@ -214,6 +246,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleresponseforUpdateAnnouncement,
                     {
+                        println("Error Message: "+it.message)
                         val text = "Məlumatlar doğru deyil"
                         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                     showProgressButton(false)
@@ -229,58 +262,13 @@ class UpdateAnnouncement : AppCompatActivity() {
         println(response.id)
     }
 
-
+    @SuppressLint("IntentReset")
     fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
     }
-
-    private fun getRealPathFromURI(uri: Uri): String? {
-        var path: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA,MediaStore.Images.Media.DISPLAY_NAME)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-                if(columnIndex!=-1){
-                    path = it.getString(columnIndex)
-                }else {
-                    val displayNameIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-                    path = it.getString(displayNameIndex)
-                }
-            }
-        }
-        return path
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            if (data?.clipData != null) {
-                val count = data.clipData!!.itemCount
-                for (i in 0 until count) {
-                    val imageUri = data.clipData!!.getItemAt(i).uri
-                    val imagePath = getRealPathFromURI(imageUri)
-                    imagePath?.let {
-                        selectedPhotos.add(it)
-                    }
-                }
-            } else if (data?.data != null) {
-                val imageUri = data.data
-                val imagePath = getRealPathFromURI(imageUri!!)
-                imagePath?.let {
-                    selectedPhotos.add(it)
-                    println("Image url2: "+selectedPhotos)
-                }
-            }
-
-            // Process the selected images
-            processSelectedImages()
-        }
-    }
-
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)
         val options = BitmapFactory.Options()
@@ -294,35 +282,88 @@ class UpdateAnnouncement : AppCompatActivity() {
         return BitmapFactory.decodeFile(file.absolutePath, options)
     }
 
-    private fun processSelectedImages() {
-        // Iterate through the selectedImages list and perform necessary operations
-        for (imagePath in selectedPhotos) {
-            val compressedBitmap = compressImageFile(imagePath)
-            // Perform further operations with the compressedBitmap or imagePath as needed
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+/*        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val selectedImageUri = data?.data
+            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
+            if (imagePath != null) {
+                val compressedBitmap = compressImageFile(imagePath)
+                UpsetImageUrl.setText(imagePath)
+                if(compressedBitmap!=null){
+                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
+                    UpsetImageUrl.setText(compressedImagePath)
+                    println("CompressedImagePath"+compressedImagePath)
+                }
+                println(imagePath)
+            }
+        }*/
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val selectedImageUris = mutableListOf<Uri>()
 
-            // Generate a unique file name for each image
-            val fileName = "image_${System.currentTimeMillis()}.jpg"
+            if (data?.clipData != null) {
+                val clipData = data.clipData
+                val count = clipData?.itemCount ?: 0
+                for (i in 0 until count) {
+                    val imageUri = clipData?.getItemAt(i)?.uri
+                    imageUri?.let { selectedImageUris.add(it) }
+                }
+            } else if (data?.data != null) {
+                // Only one image was selected
+                val imageUri = data.data
+                imageUri?.let { selectedImageUris.add(it) }
+            }
 
-            // Get the directory to save the image (e.g., external storage directory)
-            val outputDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            if (selectedImageUris.isNotEmpty()) {
+                val selectedImagePaths = ArrayList<String>()
+                for (uri in selectedImageUris) {
+                    val imagePath = getRealPathFromURI(uri)
 
-            // Create the file object with the output directory and file name
-            val outputFile = File(outputDir, fileName)
+                    imagePath?.let {
+                        val compressedBitmap = compressImageFile(it)
+                        if (compressedBitmap != null) {
+                            val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
+                            selectedImagePaths.add(compressedImagePath ?: it)
+                        } else {
+                            selectedImagePaths.add(it)
+                        }
+                    }
+                }
+                /*uploadImagesToServer(selectedImagePaths)*/
+                selectedPhotos=selectedImagePaths
+                println("Images: "+ selectedImagePaths)
 
-            // Create the output stream to write the compressed bitmap to the file
-            val outputStream = FileOutputStream(outputFile)
-
-            // Compress and save the bitmap to the file
-            compressedBitmap?.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-
-            // Flush and close the output stream
-            outputStream.flush()
-            outputStream.close()
-
-            // Get the absolute path of the saved image
-            val savedImagePath = outputFile.absolutePath
-            println("Saved Image Path: $savedImagePath")
+            }
         }
+    }
+
+    private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
+        val outputDir = this?.cacheDir // Get the directory to store the compressed image
+        val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
+        var outputStream: FileOutputStream? = null
+        try {
+            outputStream = FileOutputStream(outputFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // Compress and save the bitmap as JPEG with 80% quality
+            return outputFile.absolutePath
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            outputStream?.close()
+        }
+        return null
+    }
+    private fun getRealPathFromURI(uri: Uri): String? {
+        var path: String? = null
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                path = it.getString(columnIndex)
+            }
+        }
+        return path
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -484,7 +525,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         if (show) {
             updateCourseBtn.apply {
                 isEnabled = false
-                text = "Kurs elanı yaradılır..."  // Set empty text or loading indicator text
+                text = "Kurs elanı yenilənir..."  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
