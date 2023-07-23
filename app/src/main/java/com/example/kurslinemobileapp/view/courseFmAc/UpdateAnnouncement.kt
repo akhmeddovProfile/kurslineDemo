@@ -283,43 +283,29 @@ class UpdateAnnouncement : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-/*        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            val selectedImageUri = data?.data
-            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
-            if (imagePath != null) {
-                val compressedBitmap = compressImageFile(imagePath)
-                UpsetImageUrl.setText(imagePath)
-                if(compressedBitmap!=null){
-                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    UpsetImageUrl.setText(compressedImagePath)
-                    println("CompressedImagePath"+compressedImagePath)
-                }
-                println(imagePath)
-            }
-        }*/
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val selectedImageUris = mutableListOf<Uri>()
-
-            if (data?.clipData != null) {
+            if (data?.clipData != null){
                 val clipData = data.clipData
                 val count = clipData?.itemCount ?: 0
                 for (i in 0 until count) {
                     val imageUri = clipData?.getItemAt(i)?.uri
-                    imageUri?.let { selectedImageUris.add(it) }
+                    imageUri?.let {
+                        selectedImageUris.add(it)
+                    }
                 }
-            } else if (data?.data != null) {
-                // Only one image was selected
-                val imageUri = data.data
-                imageUri?.let { selectedImageUris.add(it) }
             }
-
+            else if (data?.data != null) {
+                val imageUri = data.data
+                imageUri?.let {
+                    selectedImageUris.add(it)
+                }
+            }
             if (selectedImageUris.isNotEmpty()) {
                 val selectedImagePaths = ArrayList<String>()
                 for (uri in selectedImageUris) {
                     val imagePath = getRealPathFromURI(uri)
-
                     imagePath?.let {
                         val compressedBitmap = compressImageFile(it)
                         if (compressedBitmap != null) {
@@ -330,10 +316,8 @@ class UpdateAnnouncement : AppCompatActivity() {
                         }
                     }
                 }
-                /*uploadImagesToServer(selectedImagePaths)*/
                 selectedPhotos=selectedImagePaths
                 println("Images: "+ selectedImagePaths)
-
             }
         }
     }
@@ -353,6 +337,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         }
         return null
     }
+
     private fun getRealPathFromURI(uri: Uri): String? {
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
