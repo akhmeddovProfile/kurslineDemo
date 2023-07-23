@@ -408,7 +408,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
                     statusAdapter.setOnItemClickListener { status ->
                         companyUpdateStatusEditText.setText(status.statusName)
                         statusId = status.statusId.toString()
-                        isStatusChanged = false
+                        isStatusChanged = true
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTestStatus: $throwable") })
