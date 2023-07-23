@@ -128,7 +128,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             val upcourseAboutContainer1=upcourseAboutEditText?.text?.trim().toString()
             val upcoursePriceContainer1=upcoursePriceEditText?.text?.trim().toString()
             val upcourseAddressContainer1=upcourseAddressEditText?.text?.trim().toString()
-            val upAnnPhoto=UpsetImageUrl?.text?.toString()?.trim()
+            val upAnnPhoto=selectedPhotos
             val upcourseCategoryContainer1=categoryId
             val upcourseAllCategoryContainer1=allcategoriesId
             val upcourseRegionContainer1=regionId
@@ -178,11 +178,11 @@ class UpdateAnnouncement : AppCompatActivity() {
             if (block==false){
                 println("False")
             }
-            println("SelectedPhotos: "+selectedPhotos)
+            println("SelectedPhotos: "+selectedPhotos.size)
             showProgressButton(true)
-            sendUpdateAnnouncementData(upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
+            sendUpdateAnnouncementData(annId!!,token!!,userId!!,upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
                 upcourseRegionContainer1,upcourseCategoryContainer1,
-                selectedPhotos,upcourseteachername,upcourseModeContainer,upcourseAllCategoryContainer1,annId,token,userId
+                upAnnPhoto,upcourseteachername,upcourseModeContainer,upcourseAllCategoryContainer1
                 )
 
             return@setOnClickListener
@@ -204,19 +204,20 @@ class UpdateAnnouncement : AppCompatActivity() {
     }
 
     private fun sendUpdateAnnouncementData(
+        announcementId:Int,
+        token:String,
+        userId:Int,
         announcementName:String,
         announcementDesc:String,
         announcementPrice:String,
         announcementAddress:String,
         announcementRegionId:String,
         AnnouncementSubCategoryId:String,
-        imagePath:List<String>,
+        imagePath:ArrayList<String>,
         teachersName:String,
         announcementIsOnlineId:String,
         announcementCategoryId:String,
-        announcementId:Int,
-        token:String,
-        userId:Int
+
     ){
         val imageParts = mutableListOf<MultipartBody.Part>()
 
@@ -310,6 +311,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                         val compressedBitmap = compressImageFile(it)
                         if (compressedBitmap != null) {
                             val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
+                            UpsetImageUrl.setText(compressedImagePath)
                             selectedImagePaths.add(compressedImagePath ?: it)
                         } else {
                             selectedImagePaths.add(it)

@@ -285,7 +285,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
                     companyUpdatePhotoURLEditText.setText(compressedImagePath)
-                    println("CompressedImagePath"+compressedImagePath)
+                    println("CompressedImagePath: "+compressedImagePath)
                 }
                 println(imagePath)
             }
