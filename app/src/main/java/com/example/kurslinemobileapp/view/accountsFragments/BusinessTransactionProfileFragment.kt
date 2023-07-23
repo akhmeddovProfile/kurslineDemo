@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,11 +66,11 @@ class BusinessTransactionProfileFragment : Fragment() {
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
-
-        val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
-        val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
+getDataFromServer(id,authHeader)
+        val userFullName = sharedPreferences.getString("companyOwnerName1","")?:""
+        val userPhoto = sharedPreferences.getString("companyPhoto1","")?:""
         view.businessTransName.setText(userFullName)
-        if (userPhoto == null){
+        if (userPhoto.isEmpty()){
             view.businessTransProfileImage.setImageResource(R.drawable.setpp)
         }else {
             Picasso.get().load(userPhoto).into(view.businessTransProfileImage)
@@ -358,4 +359,35 @@ class BusinessTransactionProfileFragment : Fragment() {
             lottie.pauseAnimation()
         }
     }
+
+    private fun getDataFromServer(id: Int,token:String) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
+        compositeDisposable.add(retrofit.getUserInfo(token,id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponse,
+                { throwable -> println("MyTests: $throwable") }
+            ))
+    }
+
+    private fun handleResponse(response: UserInfoModel) {
+
+        val companyPhoto = response.photo
+        if (companyPhoto == null){
+            view.myBusinessImage.setImageResource(R.drawable.setpp)
+        }else{
+            Picasso.get().load(companyPhoto).into(view.businessTransProfileImage)
+        }
+
+        val userFullName = response.fullName
+        sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("companyOwnerName1",userFullName)
+        editor.putString("companyPhoto1",companyPhoto)
+        editor.apply()
+        view.businessAccountNameEditText.setText(userFullName)
+
+    }
+
 }
