@@ -99,6 +99,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
+        val authHeader = "Bearer $token"
         getUserAnnouncement(userId,annId,token!!)
         addupCoursePhotos.setOnClickListener {
 
@@ -180,7 +181,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             }
             println("SelectedPhotos: "+selectedPhotos.size)
             showProgressButton(true)
-            sendUpdateAnnouncementData(annId!!,token!!,userId!!,upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
+            sendUpdateAnnouncementData(annId!!,authHeader!!,userId!!,upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
                 upcourseRegionContainer1,upcourseCategoryContainer1,
                 upAnnPhoto,upcourseteachername,upcourseModeContainer,upcourseAllCategoryContainer1
                 )

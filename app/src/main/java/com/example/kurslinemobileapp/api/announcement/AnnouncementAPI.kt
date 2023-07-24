@@ -51,7 +51,7 @@ interface AnnouncementAPI {
     ):Observable<DeleteAnnouncementResponse>
 
     @Multipart
-    @POST("AnnouncementCategoryId/{userId}/{announcementId}")
+    @POST("PutMobileAnnouncement/{userId}/{announcementId}")
     fun updateAnnouncement(
         @Part("AnnouncementName")AnnouncementName:RequestBody,
         @Part("AnnouncementDesc")AnnouncementDesc:RequestBody,
