@@ -27,6 +27,20 @@
         android:textColor="@color/greenColor"
         android:textSize="36dp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/resetFilter"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Sıfırla"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="43dp"
+        android:textColor="@color/colorForCourseIntheMainScreen"
+        android:textSize="20dp"
+        android:textStyle="bold" />
     <ImageView
         android:layout_marginTop="5dp"
         android:id="@+id/linearforLogo"

@@ -102,6 +102,23 @@ class FilterFragment : Fragment() {
             isOnlineId = "3"
         }
 
+        view.resetFilter.setOnClickListener {
+            categoryId = ""
+            regionId = ""
+            view.allRegionsFilterTxt.text = "Hamısına bax"
+            view.allCategoriesFilterTxt.text = "Hamısına bax"
+            resetBtnsBackground(button1)
+            resetBtnsBackground(button2)
+            resetBtnsBackground(button3)
+            resetBtnsBackground(button4)
+            resetBtnsBackground(button5)
+            resetBtnsBackground(button6)
+            statusId = ""
+            isOnlineId = ""
+            view.maxEditText.text?.clear()
+         view.minEditText.text?.clear()
+        }
+
         view.showCoursesFilterBtn.setOnClickListener {
             val region = regionId
             println("regionId: "+region)
@@ -147,6 +164,15 @@ class FilterFragment : Fragment() {
             }
         }
 
+    }
+
+
+    private fun resetBtnsBackground(selectedButton: Button){
+        val buttons = arrayOf(button1, button2, button3,button4, button5, button6)
+        for (button in buttons){
+            button.setBackgroundResource(R.drawable.business_button_bg_2)
+            button.setTextColor(this.getResources().getColor(R.color.black))
+        }
     }
 
     private fun updateButtonBackgroundsMode(selectedButton: Button) {

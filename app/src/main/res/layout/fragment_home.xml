@@ -64,7 +64,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mainChooseCourseContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
+               android:layout_toLeftOf="@+id/mainFilterContainer"
+                android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/topProductsRV"
@@ -80,23 +81,22 @@
                     android:id="@+id/mainChooseCourseEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:focusable="false"
-                    android:hint="Kurs Seçin"
-                    android:drawableEnd="@drawable/drowpdown"
+                    android:hint="Elan Axtar"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:textColorHint="@color/mainPageBackgroundColor" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mainFilterContainer"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mainChooseCourseContainer"
+                android:layout_below="@+id/topProductsRV"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
@@ -107,11 +107,12 @@
                 app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/mainFilterEditText"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Filtr"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:drawableEnd="@drawable/filtericon"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
