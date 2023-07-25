@@ -127,14 +127,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             }
         }
 
-        view.filterfromAtoZ.setOnClickListener {
-            showBottomSheetDialog()
-        }
-
-        view.filterforPrice.setOnClickListener {
-            showBottomSheetDialogPrice()
-        }
-
 
         return view
     }
