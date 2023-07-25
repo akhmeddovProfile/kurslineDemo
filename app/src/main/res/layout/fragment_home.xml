@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:text="Kursline.az"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="25dp"
             android:textColor="@color/colorForCourseIntheMainScreen"
             android:layout_toRightOf="@+id/logoApp"
