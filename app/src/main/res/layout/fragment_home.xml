@@ -15,10 +15,24 @@
         android:background="@color/mainPageBackgroundColor">
 
         <ImageView
+            android:id="@+id/logoApp"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_centerInParent="true"
+            android:layout_alignParentStart="true"
             android:background="@drawable/kurslinelogo" />
+
+        <TextView
+            android:id="@+id/appNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="Kursline.az"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/colorForCourseIntheMainScreen"
+            android:layout_toRightOf="@+id/logoApp"
+            android:layout_marginRight="10dp"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/createAccountTextMain"
