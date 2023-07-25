@@ -2,17 +2,20 @@ package com.example.kurslinemobileapp.view.loginRegister
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.login.LoginResponseX
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.UserRegisterRequest
 import com.example.kurslinemobileapp.api.register.UserRegisterResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -28,6 +31,7 @@ import java.util.regex.Pattern
 
 class UserRegisterActivity : AppCompatActivity() {
     private var block: Boolean = true
+    private lateinit var sharedPreferences: SharedPreferences
     var compositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,12 +158,23 @@ class UserRegisterActivity : AppCompatActivity() {
         )
     }
 
-    private fun handleResponse(response: UserRegisterResponse) {
+    private fun handleResponse(response: LoginResponseX) {
         println("Response: " + response)
         Toast.makeText(this,"Qeydiyyat uğurla tamamlandı",Toast.LENGTH_SHORT).show()
-        val intent = Intent(this@UserRegisterActivity, LoginActivity::class.java)
+        val intent = Intent(this@UserRegisterActivity, MainActivity::class.java)
         startActivity(intent)
         finish()
+        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        sharedPreferences.edit().putString("token", response.accessToken.token).apply()
+        editor.putBoolean("token", true)
+/*
+        editor.putBoolean("isFavorite",response.userInfo.isFavorite)
+*/
+        editor.putString("userType",response.userInfo.userType)
+        editor.putInt("userID",response.userInfo.id)
+        editor.putString("USERTOKENNN", response.accessToken.token)
+        editor.apply()
     }
 
     private fun showProgressButton(show: Boolean) {

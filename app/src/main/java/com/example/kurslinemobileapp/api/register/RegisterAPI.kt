@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.api.register
 
+import com.example.kurslinemobileapp.api.login.LoginResponseX
 import io.reactivex.Observable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -14,7 +15,7 @@ interface RegisterAPI {
                     @Part("Email") email: RequestBody,
                     @Part("MobileNumber") mobileNumber: RequestBody,
                     @Part("Password") password:RequestBody,
-                    @Part("Gender") gender : RequestBody): Observable<UserRegisterResponse>
+                    @Part("Gender") gender : RequestBody): Observable<LoginResponseX>
 
     @Multipart
     @POST("company-register/")
