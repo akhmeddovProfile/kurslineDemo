@@ -8,11 +8,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
@@ -20,17 +16,26 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
+import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_item_row.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
                              private val favoriteItemClickListener: FavoriteItemClickListener,
                              private val context:Context
 ) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
+     var fullList :kotlin.collections.List<Announcemenet>
+    var newList = arrayListOf<Announcemenet>()
 
     private var onItemClickListener: ((Announcemenet) -> Unit)? = null
+
+    init {
+        fullList = items[0].announcemenets
+    }
 
     fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
         onItemClickListener = listener
@@ -122,6 +127,43 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
     fun notifySetChanged(productList: MutableList<GetAllAnnouncement>){
         items = productList
         notifyDataSetChanged()
+    }
+
+
+
+    fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                newList.clear()
+                if (charSearch.isEmpty() ) {
+                    newList.addAll(fullList)
+                } else {
+//                    val resultList = ArrayList()
+                    for (row in fullList) {
+                        if (row.announcementName.lowercase(Locale.ROOT)
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
+                            newList.add(row)
+                        }
+                    }
+//                    countryFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = newList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                var newFullList :ArrayList<GetAllAnnouncement>
+                newFullList = arrayListOf()
+                newFullList.add(GetAllAnnouncement(newList,0))
+                items = newFullList
+                notifyDataSetChanged()
+            }
+
+        }
     }
 
 

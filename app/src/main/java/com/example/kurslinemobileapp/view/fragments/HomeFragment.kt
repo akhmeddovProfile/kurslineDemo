@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat.recreate
@@ -35,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
 import kotlinx.android.synthetic.main.product_item_row.*
 
 class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener {
@@ -127,6 +129,17 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             }
         }
 
+        view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(msg: String): Boolean {
+                mainListProductAdapter.getFilter().filter(msg)
+                return false
+            }
+        })
 
         return view
     }

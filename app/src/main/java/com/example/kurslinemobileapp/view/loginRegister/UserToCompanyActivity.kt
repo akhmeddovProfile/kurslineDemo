@@ -53,6 +53,7 @@ class UserToCompanyActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var statusId: String
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_to_company)
