@@ -89,27 +89,6 @@ class UserRegisterActivity : AppCompatActivity() {
             val phone =phoneEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
             // Validate input fields
-            if (name.isEmpty()) {
-                nameEditText.error = " Name required"
-                nameEditText.requestFocus()
-                block = false
-            }
-
-            if (email.isEmpty()) {
-                mailEditText.error = " Email required"
-                mailEditText.requestFocus()
-                 block = false
-            }
-            if (phone.isEmpty()) {
-                phoneEditText.error = " Phone required"
-                phoneEditText.requestFocus()
-                block = false
-            }
-            if (password.isEmpty()) {
-                passwordEditText.error = " Password required"
-                passwordEditText.requestFocus()
-                block = false
-            } else {
                 // Save user registration data to shared preferences
                 val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
@@ -118,7 +97,6 @@ class UserRegisterActivity : AppCompatActivity() {
                 showProgressButton(true)
                 register(name, email, "+994"+phone, password, "1")
             }
-        }
     }
 
     private fun register(

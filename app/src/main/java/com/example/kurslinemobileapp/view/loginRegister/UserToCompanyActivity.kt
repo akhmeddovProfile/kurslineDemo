@@ -153,28 +153,6 @@ class UserToCompanyActivity : AppCompatActivity() {
         val companyStatusContainer = statusId
         val companyCategoryContainer = categoryId
         val aboutCompanyContainer = userToCompanyAboutEditText.text.toString().trim()
-        if (companyNameContainer.isEmpty()) {
-            userToCompanyNameEditText.error = "Company Name required"
-            userToCompanyNameEditText.requestFocus()
-            block = false
-        }
-        if (companyAddressContainer.isEmpty()) {
-            userToCompanyAddressEditText.error = "Address required"
-            userToCompanyAddressEditText.requestFocus()
-            block = false
-        }
-
-        if (aboutCompanyContainer.isEmpty()) {
-            userToCompanyAboutEditText.error = "About Company required"
-            userToCompanyAboutEditText.requestFocus()
-            block = false
-        }
-            if(photoContainer.isEmpty()){
-                userToCompanyPhotoEditText.error = "Photo is required"
-                userToCompanyPhotoEditText.requestFocus()
-                block = false
-            }
-
             showProgressButton(true)
         sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, photoContainer, companyStatusContainer, authHeader, userId)
     }
