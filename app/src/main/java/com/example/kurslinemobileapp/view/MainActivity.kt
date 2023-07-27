@@ -61,12 +61,14 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"Connected", Toast.LENGTH_SHORT).show()
                 inflateLayout.visibility= View.GONE
                 fragmentContainerView.visibility=View.VISIBLE
+                goToUploadActivity.visibility = View.VISIBLE
                 bottom_nav.visibility=View.VISIBLE
             }
             else{
                 Toast.makeText(this,"Not Connected", Toast.LENGTH_SHORT).show()
                 fragmentContainerView.visibility=View.GONE
                 bottom_nav.visibility=View.GONE
+                goToUploadActivity.visibility = View.GONE
                 inflateLayout.visibility= View.VISIBLE
             }
         }

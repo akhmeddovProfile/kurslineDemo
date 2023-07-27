@@ -33,6 +33,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
@@ -45,6 +46,7 @@ import com.example.kurslinemobileapp.api.comment.CommentResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyData.SubCategory
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
+import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
@@ -66,7 +68,7 @@ import java.io.InputStream
 
 
 class CourseUploadActivity : AppCompatActivity() {
-    private val selectedPhotos = mutableListOf<PhotoUpload>()
+    private val selectedPhotos = mutableListOf<SelectionPhotoShowOnViewPager>()
     var compositeDisposable = CompositeDisposable()
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var categoryAdapter: CategoryAdapter
@@ -98,9 +100,7 @@ class CourseUploadActivity : AppCompatActivity() {
         }
 
     private var block: Boolean = true
-    companion object {
-        private const val REQUEST_CODE_GALLERY = 1
-    }
+
 
     @SuppressLint("WrongViewCast", "WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,11 +122,8 @@ class CourseUploadActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-        val adapter =
-            PhotoPagerAdapter(emptyList()) // Customize the adapter implementation as needed
-        viewPagerCourseUpload.adapter = adapter
 
-
+        setupViewPager()
         uploadCourse.setOnClickListener {
         block=true
             val courseNameContainer = courseNameEditText.text.toString().trim()
@@ -184,7 +181,7 @@ class CourseUploadActivity : AppCompatActivity() {
             openGallery()
         }
 
-        val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpload)
+/*        val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpload)
         leftArrow.setOnClickListener {
             val currentItem = viewPager.currentItem
             if (currentItem > 0) {
@@ -204,7 +201,7 @@ class CourseUploadActivity : AppCompatActivity() {
                 super.onPageSelected(position)
                 updateNavigationButtons(position)
             }
-        })
+        })*/
         courseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()
         }
@@ -275,16 +272,8 @@ class CourseUploadActivity : AppCompatActivity() {
     private fun convertImageToBase64(imageUri: Uri,imageName:String?) {
 
         val inputStream = contentResolver.openInputStream(imageUri)
-/*
-        val imageBytes = inputStream?.readBytes()
-*/
+
         val compressedBitmap = compressImage(inputStream)
-/*
-        val base64String = if (imageBytes != null) {
-            Base64.encodeToString(imageBytes, Base64.DEFAULT)
-        } else {
-            ""
-        }*/
         val targetSize = 2_500_000 // Target size in bytes (2.5 MB)
         var compressionQuality = 100 // Start with maximum quality (minimum compression)
         val byteArrayOutputStream = ByteArrayOutputStream()
@@ -305,11 +294,14 @@ class CourseUploadActivity : AppCompatActivity() {
 
         // Use the base64String as needed
         setImageUrl.setText(imageName?.trim().toString())
+        setImageUrl.visibility=View.GONE
         println("Image Name: "+setImageUrl.text.toString()+".JPG")
         imageNames.add(imageName!!)
-
+        selectedPhotos.add(SelectionPhotoShowOnViewPager(imageName,imageUri,base64String))
         imageData.add(base64String)
+        setupViewPager()
         print("Base64: "+base64String)
+
     }
     private fun compressImage(inputStream: InputStream?): Bitmap {
         val options = BitmapFactory.Options()
@@ -321,6 +313,13 @@ class CourseUploadActivity : AppCompatActivity() {
         return bitmap!!
     }
 
+    private fun setupViewPager() {
+        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUploadNew)
+
+        // Create the adapter with the selected photos list
+        val adapter = PhotoPagerAdapter( selectedPhotos)
+        viewPager.adapter = adapter
+    }
     private fun showBottomSheetDialogAllCatogories() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)

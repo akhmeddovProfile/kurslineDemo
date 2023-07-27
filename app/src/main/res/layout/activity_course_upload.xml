@@ -333,7 +333,7 @@
                 android:background="@drawable/ic_baseline_chevron_left_24"
                 android:layout_below="@+id/addCoursePhotos"/>
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPagerCourseUpload"
+                android:id="@+id/viewPagerCourseUploadNew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/addCoursePhotos"
@@ -346,7 +346,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="411dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -367,11 +367,11 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="40dp"
-                android:layout_below="@id/viewPagerCourseUpload"
+                android:layout_below="@id/viewPagerCourseUploadNew"
                 android:background="@drawable/button_bg"
                 android:text="Kursu əlavə et"
                 android:textAllCaps="false"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="45dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
         </RelativeLayout>
