@@ -9,4 +9,9 @@ interface LogInAPi {
     fun postLogin(
         @Body params: LoginRequest
     ): Observable<LoginResponseX>
+
+    @POST("reset-password/")
+    fun resetPassword(
+
+    )
 }

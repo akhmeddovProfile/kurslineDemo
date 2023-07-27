@@ -41,5 +41,10 @@
         android:layout_above="@id/bottom_nav"
         app:defaultNavHost="true"
         app:navGraph="@navigation/my_nav" />
-
+    <include
+        android:id="@+id/networkError"
+        layout="@layout/network_error_layout"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
 </RelativeLayout>
