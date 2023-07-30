@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.SearchView
 import android.widget.TextView
@@ -35,6 +36,7 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
 import kotlinx.android.synthetic.main.product_item_row.*
@@ -56,7 +58,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
-            val createAccount = view.findViewById<TextView>(R.id.createAccountTextMain)
+            val createAccount = view.findViewById<ImageView>(R.id.createAccountTextMain)
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
          userId = sharedPreferences.getInt("userID",0)
@@ -97,7 +99,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
-            view.createAccountTextMain.visibility = View.GONE
+            view.createAccountTextMain.visibility = View.VISIBLE
         }
         else{
             view.createAccountTextMain.visibility = View.VISIBLE
@@ -129,7 +131,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             }
         }
 
-        view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+      view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
@@ -169,6 +171,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         recycler.adapter = mainListProductAdapter
         recycler.isNestedScrollingEnabled=false
         mainListProductAdapter.notifyDataSetChanged()
+
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
             activity?.startActivity(intent)
@@ -177,7 +180,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
             sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
             println("Fav Item Clicked without UserID: "+isRegistered)
-
             println("gedenId-----"+it.id)
             editor.apply()
         }

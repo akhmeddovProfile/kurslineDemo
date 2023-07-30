@@ -160,74 +160,72 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="150dp"
-            android:id="@+id/textinputFromAtoZ"
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
             android:layout_below="@+id/filterCategory"
-            app:boxBackgroundColor="@color/white"
-            app:boxStrokeColor="@color/grayColor1"
-            app:hintTextColor="@color/black"
-            android:textColorHint="@color/grayColor1"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            app:boxStrokeWidth="0dp"
-            app:endIconTintMode="src_atop">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/filterfromAtoZ"
+            android:id="@+id/fromAtoZLayout">
+
+            <TextView
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:focusable="false"
-                android:drawableEnd="@drawable/tune"
-                android:drawableTintMode="src_in"
-                android:hint="@string/filterFromAtoZ"
-                android:fontFamily="@font/montserrat"
-                android:inputType="none"
-                android:textColor="@color/grayColor1"
-                android:textColorHint="@color/mainPageBackgroundColor" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="A-dan Z-ə"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"/>
+            <TextView
+                android:id="@+id/fromAtoZFilterTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hamısına bax"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="150dp"
-            android:id="@+id/textinputFilterForPrice"
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_below="@+id/filterCategory"
-            app:boxBackgroundColor="@color/white"
-            app:boxStrokeColor="@color/grayColor1"
-            app:hintTextColor="@color/black"
-            android:textColorHint="@color/grayColor1"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="80dp"
-            android:layout_toRightOf="@+id/textinputFromAtoZ"
-            app:boxStrokeWidth="0dp"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/fromAtoZLayout"
+            android:id="@+id/fromMaxtoMinLayout">
 
-            app:endIconTintMode="src_atop">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/filterforPrice"
+            <TextView
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:focusable="false"
-                android:drawableEnd="@drawable/tune"
-                android:drawableTintMode="src_in"
-                android:hint="@string/filterforPrice"
-                android:fontFamily="@font/montserrat"
-                android:inputType="none"
-                android:textColor="@color/grayColor1"
-                android:textColorHint="@color/mainPageBackgroundColor" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="Max-dan Min-a"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"/>
+            <TextView
+                android:id="@+id/fromMaxtoMinFilterTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hamısına bax"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:fontFamily="@font/nunito"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textinputFromAtoZ"
+            android:layout_below="@+id/fromMaxtoMinLayout"
             android:layout_marginTop="28dp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
@@ -243,7 +241,7 @@
             android:layout_height="35dp"
             android:layout_below="@+id/statustxt"
             android:background="@drawable/business_button_bg_2"
-            android:text="Hamısı"
+            android:text="Kurs/Repititor"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/black"

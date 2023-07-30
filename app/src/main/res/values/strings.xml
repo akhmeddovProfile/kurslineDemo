@@ -22,5 +22,7 @@
     <string name="editCourse">Redakte et</string>
     <string name="sameCourse">Oxşar kurslar</string>
     <string name="choose_city">Choose City</string>
-    <string name="network_error">Network Error</string>
+    <string name="network_error">Şəbəkə yoxdur</string>
+    <string name="check_internet_connection">Zəhmət olmazsa internetə qoşulun</string>
+
 </resources>

@@ -27,23 +27,22 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:text="Kursline.az"
-            android:layout_marginTop="25dp"
-            android:textColor="@color/colorForCourseIntheMainScreen"
+            android:textStyle=""
+            android:layout_marginTop="22dp"
+            android:textColor="@color/greenColor"
             android:layout_toRightOf="@+id/logoApp"
             android:layout_marginRight="10dp"
-            android:textSize="18dp" />
+            android:textSize="30dp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/createAccountTextMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:fontFamily="@font/nunito"
-            android:text="Hesab yarat"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="25dp"
-            android:textColor="@color/greenColor"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/help_main_page"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="22dp"
             android:textSize="18dp" />
     </RelativeLayout>
 
@@ -71,7 +70,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_below="@id/topProductsRV"
                 android:fontFamily="@font/montserrat"
-                android:hint="Elan Axtar"
+                android:hint="Kurs Axtar"
                 android:inputType="textPersonName"
                 android:lines="1"
                 android:textColor="@color/black"

@@ -22,4 +22,7 @@
     <string name="editCourse">Edit course</string>
     <string name="sameCourse">Similar courses</string>
     <string name="choose_city">Choose City</string>
+    <string name="network_error">No İnternet</string>
+    <string name="check_internet_connection">Please check your internet connection</string>
+
 </resources>
