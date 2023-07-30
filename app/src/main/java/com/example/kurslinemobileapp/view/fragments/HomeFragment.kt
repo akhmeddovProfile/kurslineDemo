@@ -11,9 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.recreate
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,10 +34,7 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
-import kotlinx.android.synthetic.main.product_item_row.*
 
 class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener {
     private lateinit var mainListProductAdapter: MainListProductAdapter
@@ -74,8 +69,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         //getProducts()
 
         val imageWithTextList = listOf(
-            Highlight(R.drawable.mainpagehiglight, "Ən çox baxılanlar"),
-            Highlight(R.drawable.yenielan, "1345 yeni kurs"),
+            Highlight(R.drawable.mainpage2, "Ən çox baxılanlar"),
+            Highlight(R.drawable.yenielan2, "1345 yeni kurs"),
             Highlight(R.drawable.vip, "234 VIP kurs")
         )
         val recylerviewForHighlight =
