@@ -24,5 +24,6 @@
     <string name="choose_city">Choose City</string>
     <string name="network_error">No İnternet</string>
     <string name="check_internet_connection">Please check your internet connection</string>
+    <string name="card_number">Enter your card number</string>
 
 </resources>

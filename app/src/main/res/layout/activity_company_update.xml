@@ -71,6 +71,7 @@
                     android:fontFamily="@font/montserrat"
                     android:hint="Adınız"/>
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountUpdateEmailContainer"
                 android:layout_marginTop="10dp"

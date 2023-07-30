@@ -24,5 +24,6 @@
     <string name="choose_city">Choose City</string>
     <string name="network_error">Şəbəkə yoxdur</string>
     <string name="check_internet_connection">Zəhmət olmazsa internetə qoşulun</string>
+    <string name="card_number">Kart nömrənizi daxil edin</string>
 
 </resources>
