@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".view.fragments.filterDetailScreens.RegionFilterFragment">
+
+
+    <ImageView
+        android:id="@+id/backtoFilterFragment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:id="@+id/accountText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Region"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/resetRegionFilter"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Sıfırla"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="43dp"
+        android:textColor="@color/colorForCourseIntheMainScreen"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:id="@+id/linearforLogo"
+        android:layout_width="match_parent"
+        android:layout_below="@id/accountText"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+
+    <RelativeLayout
+        android:id="@+id/search_RL"
+        android:layout_below="@+id/linearforLogo"
+        android:background="@color/grayColor3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewRegionFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+            android:background="@drawable/searchviewbg"
+            android:fontFamily="@font/montserrat"
+            android:hint="Axtar"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:textColor="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/grayColor1"
+            app:hintTextColor="@color/black" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/search_RL"
+        android:id="@+id/filterScroll"
+        android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/filterRegionRV"/>
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>
