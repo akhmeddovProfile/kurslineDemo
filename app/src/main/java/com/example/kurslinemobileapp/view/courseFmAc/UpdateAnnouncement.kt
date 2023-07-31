@@ -406,6 +406,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     }
 
     private fun showBottomSheetDialogMode() {
+        val appdatabase = AppDatabase.getDatabase(applicationContext)
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_mode, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -414,24 +415,21 @@ class UpdateAnnouncement : AppCompatActivity() {
         recyclerViewMode.setHasFixedSize(true)
         recyclerViewMode.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getModes()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ mode ->
-                    println("3")
-                    modeAdapter = ModeAdapter(mode.isOnlines)
-                    recyclerViewMode.adapter = modeAdapter
-                    modeAdapter.setChanged(mode.isOnlines)
-                    modeAdapter.setOnItemClickListener { mode ->
-                        upcourseModeEditText.setText(mode.isOnlineName)
-                        modeId = mode.isOnlineId.toString()
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestMode: $throwable") })
-        )
+
+        job =appdatabase.modeDao().getAllMode()
+            .onEach { mode ->
+                modeAdapter = ModeAdapter(mode)
+                println("3")
+                recyclerViewMode.adapter = modeAdapter
+                modeAdapter.setChanged(mode)
+                modeAdapter.setOnItemClickListener { mode ->
+                    upcourseModeEditText.setText(mode.modeName)
+                    modeId = mode.modeId.toString()
+                    dialog.dismiss()
+                }
+            }.catch {
+
+            }.launchIn(lifecycleScope)
         dialog.show()
     }
 
@@ -489,7 +487,7 @@ class UpdateAnnouncement : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-        val appdatabase=Room.databaseBuilder(applicationContext,AppDatabase::class.java,"app-database").build()
+        val appdatabase = AppDatabase.getDatabase(applicationContext)
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)

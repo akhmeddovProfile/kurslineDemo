@@ -238,7 +238,7 @@ class FilterFragment : Fragment() {
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-        val appdatabase=Room.databaseBuilder(requireContext(),AppDatabase::class.java,"app-database").build()
+        val appdatabase = AppDatabase.getDatabase(requireContext())
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(bottomSheetView)

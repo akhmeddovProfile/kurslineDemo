@@ -461,7 +461,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-        val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
 
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
@@ -501,6 +501,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     }
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogMode() {
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_mode, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -509,23 +510,20 @@ class RegisterCompanyActivity : AppCompatActivity() {
         recyclerViewMode.setHasFixedSize(true)
         recyclerViewMode.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getModes()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ mode ->
-                    println("3")
-                    modeAdapter = ModeAdapter(mode.isOnlines)
-                    recyclerViewMode.adapter = modeAdapter
-                    modeAdapter.setChanged(mode.isOnlines)
-                    modeAdapter.setOnItemClickListener { mode ->
-                        companyModeEditText.setText(mode.isOnlineName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestMode: $throwable") })
-        )
+
+        job=appDatabase.modeDao().getAllMode()
+            .onEach { mode ->
+                println("3")
+                modeAdapter = ModeAdapter(mode)
+                recyclerViewMode.adapter = modeAdapter
+                modeAdapter.setChanged(mode)
+                modeAdapter.setOnItemClickListener { mode ->
+                    companyModeEditText.setText(mode.modeName)
+                    dialog.dismiss()
+                }
+            }.catch { throwable ->
+                println("MyTestMode: $throwable")
+            }.launchIn(lifecycleScope)
         dialog.show()
     }
 

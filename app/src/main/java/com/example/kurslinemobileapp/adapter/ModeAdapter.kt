@@ -10,13 +10,14 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.IsOnline
 import com.example.kurslinemobileapp.api.companyData.Region
+import com.example.kurslinemobileapp.service.Room.ModeEntity
 
 
-class ModeAdapter (var modes: List<IsOnline>) :
+class ModeAdapter (var modes: List<ModeEntity>) :
     RecyclerView.Adapter<ModeAdapter.ModeViewHolder>() {
-    private var onItemClickListener: ((IsOnline) -> Unit)? = null
+    private var onItemClickListener: ((ModeEntity) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (IsOnline) -> Unit) {
+    fun setOnItemClickListener(listener: (ModeEntity) -> Unit) {
         onItemClickListener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModeViewHolder {
@@ -33,7 +34,7 @@ class ModeAdapter (var modes: List<IsOnline>) :
         return modes.size
     }
 
-    fun setChanged(modes: List<IsOnline>){
+    fun setChanged(modes: List<ModeEntity>){
         this.modes = modes
         notifyDataSetChanged()
     }
@@ -42,9 +43,9 @@ class ModeAdapter (var modes: List<IsOnline>) :
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
         @SuppressLint("ResourceAsColor")
-        fun bind(mode: IsOnline) {
+        fun bind(mode: ModeEntity) {
             textViewName.setTextColor(R.color.black)
-            textViewName.text = mode.isOnlineName
+            textViewName.text = mode.modeName
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(mode)
             }

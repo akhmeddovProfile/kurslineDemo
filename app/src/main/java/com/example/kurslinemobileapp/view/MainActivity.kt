@@ -18,6 +18,7 @@ import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.ModeEntity
 import com.example.kurslinemobileapp.service.Room.RegionEntity
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         saveRegionsInRoom()
+        saveModeInRoom()
         val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi") {
@@ -92,8 +94,34 @@ class MainActivity : AppCompatActivity() {
         setupWithNavController(bottomNavigationView, navController)
     }
 
+    private fun saveModeInRoom(){
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
+        compositeDisposable= CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getModes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {reg->
+                        val mode = reg.isOnlines.map { region ->
+                            ModeEntity(region.isOnlineId, region.isOnlineName)
+                        }
+                        GlobalScope.launch {
+                            appDatabase.modeDao().insertAll(mode)
+                            println("Added Room: "+mode)
+                        }
+                    },
+                    {thorawable->
+                        println("Error for Region: "+thorawable.message)
+                    }
+                )
+        )
+    }
+
     private fun saveRegionsInRoom(){
-        val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
         compositeDisposable= CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
