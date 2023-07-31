@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_filterFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_filterFragment_to_regionFilterFragment"
+            app:destination="@id/regionFilterFragment" />
     </fragment>
     <fragment
         android:id="@+id/businessTransactionProfileFragment"
@@ -75,4 +78,9 @@
             android:id="@+id/action_businessTransactionProfileFragment_to_businessAccountFragment"
             app:destination="@id/businessAccountFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/regionFilterFragment"
+        android:name="com.example.kurslinemobileapp.view.fragments.filterDetailScreens.RegionFilterFragment"
+        android:label="fragment_region_filter"
+        tools:layout="@layout/fragment_region_filter" />
 </navigation>

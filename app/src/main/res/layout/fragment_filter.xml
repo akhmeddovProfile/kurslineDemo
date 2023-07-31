@@ -70,23 +70,17 @@
             android:id="@+id/filterRegion">
 
             <TextView
+                android:id="@+id/filterRegionsTxt"
                 android:layout_gravity="start"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Regionlar"
+                android:drawableEnd="@drawable/drowpdown"
+                android:drawableTintMode="src_in"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
-            <TextView
-                android:id="@+id/allRegionsFilterTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hamısına bax"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/colorForCourseIntheMainScreen"
-                android:fontFamily="@font/nunito"
-                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -104,6 +98,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kurslar"
+                android:drawableEnd="@drawable/drowpdown"
+                android:drawableTintMode="src_in"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
@@ -125,6 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Repititorlar"
+                android:drawableEnd="@drawable/drowpdown"
+                android:drawableTintMode="src_in"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
@@ -151,10 +149,10 @@
                 android:layout_marginStart="20dp"/>
             <TextView
                 android:id="@+id/allCategoriesFilterTxt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hamısına bax"
-                android:layout_alignParentEnd="true"
+                android:drawableEnd="@drawable/drowpdown"
+                android:drawableTintMode="src_in"
                 android:textColor="@color/colorForCourseIntheMainScreen"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp" />
@@ -175,19 +173,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="A-dan Z-ə"
+                android:drawableEnd="@drawable/filter_list_icon"
+                android:drawableTintMode="src_in"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
-            <TextView
-                android:id="@+id/fromAtoZFilterTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hamısına bax"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/colorForCourseIntheMainScreen"
-                android:fontFamily="@font/nunito"
-                android:textSize="16sp" />
         </RelativeLayout>
 
 
@@ -205,20 +196,13 @@
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Max-dan Min-a"
+                android:text="Min to Max"
+                android:drawableEnd="@drawable/filter_list_icon"
+                android:drawableTintMode="src_in"
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:textSize="16sp"
                 android:layout_marginStart="20dp"/>
-            <TextView
-                android:id="@+id/fromMaxtoMinFilterTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hamısına bax"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/colorForCourseIntheMainScreen"
-                android:fontFamily="@font/nunito"
-                android:textSize="16sp" />
         </RelativeLayout>
 
 
@@ -238,24 +222,26 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/allcourseFilter"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/statustxt"
             android:background="@drawable/business_button_bg_2"
             android:text="Kurs/Repititor"
+            android:layout_marginLeft="25dp"
+            android:padding="8dp"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="28dp"
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/coursefilter"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/statustxt"
             android:background="@drawable/business_button_bg_2"
             android:text="Kurs"
+            android:padding="8dp"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/black"
@@ -266,12 +252,13 @@
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/repititorfilter"
-            android:layout_width="105dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/statustxt"
             android:background="@drawable/business_button_bg_2"
             android:text="Repititor"
             android:textAllCaps="false"
+            android:padding="8dp"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
@@ -370,26 +357,28 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/allModesbtn"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/modeText"
             android:background="@drawable/business_button_bg_2"
-            android:text="Hamısı"
+            android:text="Offline/Online"
+            android:padding="8dp"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="28dp"
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/offlineModebtn"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/modeText"
             android:background="@drawable/business_button_bg_2"
             android:text="Offline"
             android:textAllCaps="false"
             android:textSize="18sp"
+            android:padding="8dp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_toRightOf="@id/allModesbtn"
@@ -398,12 +387,13 @@
             />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/onlinemodeBtn"
-            android:layout_width="105dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/modeText"
             android:background="@drawable/business_button_bg_2"
             android:text="Online"
             android:textAllCaps="false"
+            android:padding="8dp"
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
