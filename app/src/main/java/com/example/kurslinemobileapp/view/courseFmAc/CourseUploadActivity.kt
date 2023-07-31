@@ -355,7 +355,7 @@ class CourseUploadActivity : AppCompatActivity() {
         dialog.show()
     }
 
-   @SuppressLint("MissingInflatedId")
+   @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     private fun showBottomSheetDialogRegions() {
        val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
 

@@ -75,7 +75,7 @@ class FilterFragment : Fragment() {
         view.allCategoriesFilterTxt.setOnClickListener {
             showBottomSheetDialog()
         }
-        view.allRegionsFilterTxt.setOnClickListener {
+        view.filterRegionsTxt.setOnClickListener {
             showBottomSheetDialogRegions()
         }
 
@@ -114,7 +114,7 @@ class FilterFragment : Fragment() {
         view.resetFilter.setOnClickListener {
             categoryId = ""
             regionId = ""
-            view.allRegionsFilterTxt.text = "Hamısına bax"
+            view.filterRegionsTxt.text = "Hamısına bax"
             view.allCategoriesFilterTxt.text = "Hamısına bax"
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
@@ -254,7 +254,7 @@ class FilterFragment : Fragment() {
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
-                    view.allRegionsFilterTxt.setText(region.regionName)
+                    view.filterRegionsTxt.setText(region.regionName)
                     regionId = region.regionId.toString()
                     dialog.dismiss()
                 }
