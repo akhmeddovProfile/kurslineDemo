@@ -70,12 +70,12 @@
             app:hintTextColor="@color/black" />
     </RelativeLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="1dp"
         android:layout_below="@+id/search_RL"
-        android:id="@+id/filterScroll"
+        android:id="@+id/filterScrollForRegion"
         android:background="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -86,5 +86,5 @@
         android:id="@+id/filterRegionRV"/>
         </RelativeLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

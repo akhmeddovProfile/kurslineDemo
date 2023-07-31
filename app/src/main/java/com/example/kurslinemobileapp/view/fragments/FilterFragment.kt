@@ -66,9 +66,12 @@ class FilterFragment : Fragment() {
         view.allCategoriesFilterTxt.setOnClickListener {
             showBottomSheetDialog()
         }
-        view.allRegionsFilterTxt.setOnClickListener {
-            showBottomSheetDialogRegions()
+
+        view.filterRegion.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_regionFilterFragment)
         }
+
+
 
         val search = ""
         var statusId = ""
@@ -105,7 +108,7 @@ class FilterFragment : Fragment() {
         view.resetFilter.setOnClickListener {
             categoryId = ""
             regionId = ""
-            view.allRegionsFilterTxt.text = "Hamısına bax"
+        //    view.allRegionsFilterTxt.text = "Hamısına bax"
             view.allCategoriesFilterTxt.text = "Hamısına bax"
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
@@ -249,7 +252,7 @@ class FilterFragment : Fragment() {
                     recyclerviewRegions.adapter = regionAdapter
                     regionAdapter.setChanged(reg.regions)
                     regionAdapter.setOnItemClickListener { region ->
-                        view.allRegionsFilterTxt.setText(region.regionName)
+                 //       view.allRegionsFilterTxt.setText(region.regionName)
                         regionId = region.regionId.toString()
                         dialog.dismiss()
                     }
