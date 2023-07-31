@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
@@ -19,6 +21,7 @@ import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.Filter
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -28,6 +31,10 @@ import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.android.synthetic.main.fragment_filter.view.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class FilterFragment : Fragment() {
     private lateinit var view: ViewGroup
@@ -42,6 +49,8 @@ class FilterFragment : Fragment() {
     private lateinit var regionAdapter: RegionAdapter
     lateinit var categoryId: String
     lateinit var regionId:String
+    private var job: Job? = null
+
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -229,6 +238,7 @@ class FilterFragment : Fragment() {
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
+        val appdatabase=Room.databaseBuilder(requireContext(),AppDatabase::class.java,"app-database").build()
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(bottomSheetView)
@@ -236,25 +246,23 @@ class FilterFragment : Fragment() {
             bottomSheetView.findViewById(R.id.recyclerViewRegions)
         recyclerviewRegions.setHasFixedSize(true)
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(requireContext()))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getRegions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ reg ->
-                    println("2")
-                    regionAdapter = RegionAdapter(reg.regions)
-                    recyclerviewRegions.adapter = regionAdapter
-                    regionAdapter.setChanged(reg.regions)
-                    regionAdapter.setOnItemClickListener { region ->
-                        view.allRegionsFilterTxt.setText(region.regionName)
-                        regionId = region.regionId.toString()
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestsRegions: $throwable") })
-        )
+
+        job=appdatabase.regionDao().getAllRegions()
+            .onEach { reg->
+                println("2")
+                regionAdapter = RegionAdapter(reg)
+                recyclerviewRegions.adapter = regionAdapter
+                regionAdapter.setChanged(reg)
+                regionAdapter.setOnItemClickListener { region ->
+                    view.allRegionsFilterTxt.setText(region.regionName)
+                    regionId = region.regionId.toString()
+                    dialog.dismiss()
+                }
+            }.catch { throwable ->
+                println("MyTestsRegions: $throwable")
+
+            }.launchIn(lifecycleScope)
+
         dialog.show()
     }
 

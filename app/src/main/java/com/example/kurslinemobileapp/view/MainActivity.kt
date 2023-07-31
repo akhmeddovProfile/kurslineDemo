@@ -11,26 +11,39 @@ import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.room.Room
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
+import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.RegionEntity
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
+    private lateinit var compositeDisposable: CompositeDisposable
+
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        saveRegionsInRoom()
         val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi") {
@@ -77,5 +90,31 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         bottomNavigationView = binding.bottomNav
         setupWithNavController(bottomNavigationView, navController)
+    }
+
+    private fun saveRegionsInRoom(){
+        val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+        compositeDisposable= CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getRegions()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {reg->
+                        val regions = reg.regions.map { region ->
+                            RegionEntity(region.regionId, region.regionName)
+                        }
+                        GlobalScope.launch {
+                            appDatabase.regionDao().insertAll(regions)
+                            println("Added Room: "+regions)
+                        }
+                    },
+                    {thorawable->
+                    println("Error for Region: "+thorawable.message)
+                    }
+                )
+        )
     }
 }

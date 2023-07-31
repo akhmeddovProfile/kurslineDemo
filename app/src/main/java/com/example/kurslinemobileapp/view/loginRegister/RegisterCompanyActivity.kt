@@ -18,8 +18,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.ModeAdapter
@@ -33,12 +35,17 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.PICK_IMAGE_REQUEST
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.RegionEntity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -51,6 +58,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
+    private var job: Job? = null
 
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
@@ -453,6 +461,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
+        val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -461,27 +471,34 @@ class RegisterCompanyActivity : AppCompatActivity() {
         recyclerviewRegions.setHasFixedSize(true)
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getRegions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ reg ->
+
+         job= appDatabase.regionDao().getAllRegions()
+                .onEach {reg->
                     println("2")
-                    regionAdapter = RegionAdapter(reg.regions)
+                    regionAdapter = RegionAdapter(reg)
                     recyclerviewRegions.adapter = regionAdapter
-                    regionAdapter.setChanged(reg.regions)
+                    regionAdapter.setChanged(reg)
                     regionAdapter.setOnItemClickListener { region ->
                         companyRegionEditText.setText(region.regionName)
                         regionId = region.regionId.toString()
                         dialog.dismiss()
                     }
-                }, { throwable -> println("MyTestsRegions: $throwable") })
-        )
+
+                }.catch {thorawable->
+                    println("Error message 2: "+ thorawable.message)
+                }.launchIn(lifecycleScope)
+
         dialog.show()
     }
 
+    private fun cancelJob() {
+        job?.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelJob()
+    }
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogMode() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_mode, null)

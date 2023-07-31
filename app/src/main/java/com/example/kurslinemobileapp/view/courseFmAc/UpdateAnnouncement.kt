@@ -22,8 +22,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import androidx.documentfile.provider.DocumentFile
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
@@ -39,6 +41,7 @@ import com.example.kurslinemobileapp.api.companyData.SubCategory
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -51,6 +54,10 @@ import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_update_announcement.*
 import kotlinx.android.synthetic.main.activity_update_announcement.lineForCourseUpload
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -67,6 +74,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
     private var block: Boolean = true
+    private var job: Job? = null
 
     companion object {
         private const val REQUEST_CODE_PERMISSION = 101
@@ -481,6 +489,7 @@ class UpdateAnnouncement : AppCompatActivity() {
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
+        val appdatabase=Room.databaseBuilder(applicationContext,AppDatabase::class.java,"app-database").build()
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -488,25 +497,21 @@ class UpdateAnnouncement : AppCompatActivity() {
             bottomSheetView.findViewById(R.id.recyclerViewRegions)
         recyclerviewRegions.setHasFixedSize(true)
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getRegions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ reg ->
-                    println("2")
-                    regionAdapter = RegionAdapter(reg.regions)
-                    recyclerviewRegions.adapter = regionAdapter
-                    regionAdapter.setChanged(reg.regions)
-                    regionAdapter.setOnItemClickListener { region ->
-                        upcourseRegionEditText.setText(region.regionName)
-                        regionId = region.regionId.toString()
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestsRegions: $throwable") })
-        )
+
+        job=appdatabase.regionDao().getAllRegions()
+            .onEach {reg->
+                println("2")
+                regionAdapter = RegionAdapter(reg)
+                recyclerviewRegions.adapter = regionAdapter
+                regionAdapter.setChanged(reg)
+                regionAdapter.setOnItemClickListener { region ->
+                    upcourseRegionEditText.setText(region.regionName)
+                    regionId = region.regionId.toString()
+                    dialog.dismiss()
+                }
+            }.catch {throwable->
+                println("Error 2: "+throwable.message)
+            }.launchIn(lifecycleScope)
         dialog.show()
     }
     private fun showProgressButton(show: Boolean) {

@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.Region
+import com.example.kurslinemobileapp.service.Room.RegionEntity
 
-class RegionAdapter (var regions: List<Region>) :
+class RegionAdapter (var regions: List<RegionEntity>) :
     RecyclerView.Adapter<RegionAdapter.RegionViewHolder>() {
-    private var onItemClickListener: ((Region) -> Unit)? = null
+    private var onItemClickListener: ((RegionEntity) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Region) -> Unit) {
+    fun setOnItemClickListener(listener: (RegionEntity) -> Unit) {
         onItemClickListener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionViewHolder {
@@ -30,7 +31,7 @@ class RegionAdapter (var regions: List<Region>) :
     override fun getItemCount(): Int {
         return regions.size
     }
-    fun setChanged(regions: List<Region>){
+    fun setChanged(regions: List<RegionEntity>){
         this.regions = regions
         notifyDataSetChanged()
     }
@@ -38,7 +39,7 @@ class RegionAdapter (var regions: List<Region>) :
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
         @SuppressLint("ResourceAsColor")
-        fun bind(region: Region) {
+        fun bind(region: RegionEntity) {
             textViewName.setTextColor(R.color.black)
             textViewName.text = region.regionName
             itemView.setOnClickListener {

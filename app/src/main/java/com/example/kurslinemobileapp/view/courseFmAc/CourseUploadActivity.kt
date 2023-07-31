@@ -31,8 +31,10 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
@@ -49,6 +51,7 @@ import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -63,6 +66,10 @@ import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.android.synthetic.main.fragment_filter.view.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
@@ -73,6 +80,7 @@ class CourseUploadActivity : AppCompatActivity() {
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
+    private var job: Job? = null
 
     var imageNames = mutableListOf<String>()
     var imageData = mutableListOf<String>()
@@ -181,27 +189,6 @@ class CourseUploadActivity : AppCompatActivity() {
             openGallery()
         }
 
-/*        val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpload)
-        leftArrow.setOnClickListener {
-            val currentItem = viewPager.currentItem
-            if (currentItem > 0) {
-                viewPager.setCurrentItem(currentItem - 1, true)
-            }
-        }
-
-        rightarrow.setOnClickListener {
-            val currentItem = viewPager.currentItem
-            if (currentItem < selectedPhotos.size - 1) {
-                viewPager.setCurrentItem(currentItem + 1, true)
-            }
-        }
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                updateNavigationButtons(position)
-            }
-        })*/
         courseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()
         }
@@ -243,10 +230,6 @@ class CourseUploadActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
         println("Response: "+ response.id)
-    }
-    private fun updateNavigationButtons(position: Int) {
-        leftArrow.isEnabled = position > 0
-        rightarrow.isEnabled = position < selectedPhotos.size - 1
     }
 
     private fun requestGalleryPermission() {
@@ -372,9 +355,11 @@ class CourseUploadActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    @SuppressLint("MissingInflatedId")
+   @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
+       val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+
+       val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
         val recyclerviewRegions: RecyclerView =
@@ -382,26 +367,23 @@ class CourseUploadActivity : AppCompatActivity() {
         recyclerviewRegions.setHasFixedSize(true)
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getRegions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ reg ->
-                    println("2")
-                    regionAdapter = RegionAdapter(reg.regions)
-                    recyclerviewRegions.adapter = regionAdapter
-                    regionAdapter.setChanged(reg.regions)
-                    regionAdapter.setOnItemClickListener { region ->
-                        courseRegionEditText.setText(region.regionName)
-                        regionId = region.regionId
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestsRegions: $throwable") })
-        )
-        dialog.show()
+       job=appDatabase.regionDao().getAllRegions()
+           .onEach { reg->
+               regionAdapter = RegionAdapter(reg)
+               recyclerviewRegions.adapter = regionAdapter
+               regionAdapter.setChanged(reg)
+               regionAdapter.setOnItemClickListener { region ->
+                   courseRegionEditText.setText(region.regionName)
+                   regionId = region.regionId
+                   dialog.dismiss()
+               }
+           }.catch { thorawable->
+               println("Error 2: "+ thorawable.message)
+           }.launchIn(lifecycleScope)
+               dialog.show()
     }
+
+
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogMode() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_mode, null)

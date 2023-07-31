@@ -15,8 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.*
@@ -30,6 +32,7 @@ import com.example.kurslinemobileapp.api.updateUserCompany.UpdateAPI
 import com.example.kurslinemobileapp.api.updateUserCompany.UpdateResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
@@ -41,6 +44,10 @@ import kotlinx.android.synthetic.main.activity_company_update.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_update_user.*
 import kotlinx.android.synthetic.main.fragment_business_account.view.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -62,6 +69,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var statusId: String
     lateinit var regionId:String
+    private var job: Job? = null
+
     private var isCategoryChanged: Boolean = false
     private var isStatusChanged: Boolean = false
     private var isRegionChanged: Boolean = false
@@ -352,38 +361,42 @@ class CompanyUpdateActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    @SuppressLint("MissingInflatedId")
+   @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
+       val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+       val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
         val recyclerviewRegions: RecyclerView =
             bottomSheetView.findViewById(R.id.recyclerViewRegions)
         recyclerviewRegions.setHasFixedSize(true)
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getRegions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ reg ->
-                    println("2")
-                    regionAdapter = RegionAdapter(reg.regions)
-                    recyclerviewRegions.adapter = regionAdapter
-                    regionAdapter.setChanged(reg.regions)
-                    regionAdapter.setOnItemClickListener { region ->
-                        businessAccountUpdateRegionEditText.setText(region.regionName)
-                        regionId = region.regionId.toString()
-                        isRegionChanged = false
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestsRegions: $throwable") })
-        )
-        dialog.show()
+
+       job=appDatabase.regionDao().getAllRegions()
+           .onEach { reg->
+               println("2")
+               regionAdapter = RegionAdapter(reg)
+               recyclerviewRegions.adapter = regionAdapter
+               regionAdapter.setChanged(reg)
+               regionAdapter.setOnItemClickListener { region ->
+                   businessAccountUpdateRegionEditText.setText(region.regionName)
+                   regionId = region.regionId.toString()
+                   isRegionChanged = false
+                   dialog.dismiss()
+               }
+           }.catch {
+
+           }.launchIn(lifecycleScope)
+
+    }
+    private fun cancelJob() {
+        job?.cancel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelJob()
+    }
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogStatus() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_status, null)
