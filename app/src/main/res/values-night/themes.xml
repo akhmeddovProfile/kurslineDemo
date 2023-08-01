@@ -13,4 +13,12 @@
         <item name="android:statusBarColor">@color/greenColor</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Customize the text color for both light and dark modes -->
+        <item name="android:textColor">@color/nightSearchViewTextColor</item>
+        <!-- Customize the hint (placeholder) text color for both light and dark modes -->
+        <item name="android:textColorHint">@color/nightSearchViewHintColor</item>
+    </style>
+
 </resources>

@@ -137,6 +137,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             }
         }
 
+
+
       view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
