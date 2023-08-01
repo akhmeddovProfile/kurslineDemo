@@ -226,7 +226,7 @@ class FilterFragment : Fragment() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
                 categoryId = category.category.categoryId.toString()
-                view.categoryTextView.setText(category.category.categoryName)
+                view.allCategoriesFilterTxt.setText(category.category.categoryName)
 
                 dialog.dismiss()
             }

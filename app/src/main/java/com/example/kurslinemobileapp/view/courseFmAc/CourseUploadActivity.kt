@@ -325,7 +325,7 @@ class CourseUploadActivity : AppCompatActivity() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
                 allcategoriesId = categorywithsubcategory.category.categoryId
-                courseAllCategoryEditText.setText(categorywithsubcategory.category.categoryId)
+                courseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
                 showSubCategories(categorywithsubcategory.subCategories)
                 dialog.dismiss()
             }

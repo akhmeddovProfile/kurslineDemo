@@ -353,8 +353,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
             recyclerViewCategories.adapter = categoryAdapter
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
-                categoryId = category.categoryId.toString()
-                businessAccountUpdateCategoryEditText.setText(category.categoryName)
+                categoryId = category.category.categoryId.toString()
+                businessAccountUpdateCategoryEditText.setText(category.category.categoryName)
                 isCategoryChanged = true
                 dialog.dismiss()
             }
