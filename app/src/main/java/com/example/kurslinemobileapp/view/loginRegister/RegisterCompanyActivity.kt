@@ -30,6 +30,7 @@ import com.example.kurslinemobileapp.service.Constant.PICK_IMAGE_REQUEST
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -49,6 +50,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
+
+    private lateinit var repository: MyRepositoryForCategory
     private var job: Job? = null
 
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
@@ -81,7 +84,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
-
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(this).categoryDao(),
+            AppDatabase.getDatabase(this).subCategoryDao()
+        )
 
         companyNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -428,24 +434,20 @@ class RegisterCompanyActivity : AppCompatActivity() {
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-/*        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
-                        categoryId = category.categoryId.toString()
-                        companyCategoryEditText.setText(category.categoryName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )*/
+
+        job=repository.getAllCategories().onEach { categories ->
+            println("1")
+            categoryAdapter = CategoryAdapter(categories)
+            recyclerViewCategories.adapter = categoryAdapter
+            categoryAdapter.setChanged(categories)
+            categoryAdapter.setOnItemClickListener { category ->
+                categoryId = category.category.categoryId.toString()
+                companyCategoryEditText.setText(category.category.categoryName)
+                dialog.dismiss()
+            }
+        }.catch { throwable ->
+            println("MyTests: $throwable")
+        }.launchIn(lifecycleScope)
 
         dialog.show()
     }

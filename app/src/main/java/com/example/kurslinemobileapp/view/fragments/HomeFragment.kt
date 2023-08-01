@@ -418,8 +418,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         handler = Handler(Looper.myLooper()!!)
         imageList = ArrayList()
 
-        imageList.add(R.drawable.beyenilen)
-        imageList.add(R.drawable.encoxbaxilan)
+        imageList.add(R.drawable.mainpage2)
+        imageList.add(R.drawable.yenielan2)
         imageList.add(R.drawable.vip)
         viewPagerImageAdapter = ViewPagerImageAdapter(imageList, viewPager2)
 

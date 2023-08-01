@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
@@ -27,6 +28,8 @@ import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
 import com.example.kurslinemobileapp.api.register.UserToCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -34,6 +37,10 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -53,11 +60,18 @@ class UserToCompanyActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var statusId: String
 
+    private var job: Job? = null
+    private lateinit var repository: MyRepositoryForCategory
+
+
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_to_company)
-
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(this).categoryDao(),
+            AppDatabase.getDatabase(this).subCategoryDao()
+        )
         sharedPreferences = getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
         val userId = sharedPreferences.getInt("userID",0)
@@ -277,7 +291,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         return path
     }
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
-/*
+
     private fun showBottomSheetDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)
@@ -286,33 +300,27 @@ class UserToCompanyActivity : AppCompatActivity() {
             bottomSheetView.findViewById(R.id.recyclerViewCategories)
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
-                        categoryId = category.categoryId.toString()
-                        userToCompanyCategoryEditText.setText(category.categoryName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )
+
+        job=repository.getAllCategories().onEach { categories ->
+            println("1")
+            categoryAdapter = CategoryAdapter(categories)
+            recyclerViewCategories.adapter = categoryAdapter
+            categoryAdapter.setChanged(categories)
+            categoryAdapter.setOnItemClickListener { category ->
+                categoryId = category.category.categoryId.toString()
+                userToCompanyCategoryEditText.setText(category.category.categoryName)
+                dialog.dismiss()
+            }
+        }.catch {
+
+        }.launchIn(lifecycleScope)
 
         dialog.show()
     }
-*/
 
-/*
+
+
     @SuppressLint("MissingInflatedId")
-*/
     private fun showBottomSheetDialogStatus() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_status, null)
         val dialog = BottomSheetDialog(this)
