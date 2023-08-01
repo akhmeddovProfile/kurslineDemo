@@ -150,7 +150,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         })
 
         userToCompanyCategoryEditText.setOnClickListener {
-            //showBottomSheetDialog()
+            showBottomSheetDialog()
         }
 
         userToCompanyStatusEditText.setOnClickListener {

@@ -31,4 +31,12 @@
         <item name="android:textColor">#78BFDB</item>
     </style>
 
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Customize the text color for both light and dark modes -->
+        <item name="android:textColor">@color/searchViewTextColor</item>
+        <!-- Customize the hint (placeholder) text color for both light and dark modes -->
+        <item name="android:textColorHint">@color/searchViewHintColor</item>
+    </style>
+
 </resources>

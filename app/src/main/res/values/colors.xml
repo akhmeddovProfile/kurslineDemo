@@ -15,4 +15,8 @@
     <color name="grayColor2">#CAC4C4</color>
     <color name="grayColor3">#ECECEC</color>
     <color name="splashScreenBackgroundCode">#002029</color>
+
+    <color name="searchViewTextColor">#FF000000</color> <!-- Replace with the desired text color -->
+    <color name="searchViewHintColor">#FF000000</color> <!-- Replace with the desired hint text color -->
+
 </resources>

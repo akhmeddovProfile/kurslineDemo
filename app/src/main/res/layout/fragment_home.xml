@@ -29,7 +29,7 @@
             android:text="Kursline.az"
             android:textStyle=""
             android:layout_marginTop="22dp"
-            android:textColor="@color/greenColor"
+            android:textColor="@color/colorForCourseIntheMainScreen"
             android:layout_toRightOf="@+id/logoApp"
             android:layout_marginRight="10dp"
             android:textSize="30dp" />
@@ -74,16 +74,15 @@
                 android:background="@drawable/searchviewbg"
                 android:layout_toLeftOf="@+id/mainFilterContainer"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_below="@id/viewPager2"
                 android:fontFamily="@font/montserrat"
                 android:hint="Kurs Axtar"
                 android:inputType="textPersonName"
                 android:lines="1"
-                android:textColor="@color/black"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/black" />
+                style="@style/SearchViewStyle" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mainFilterContainer"
@@ -93,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewPager2"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"

@@ -219,24 +219,23 @@ class FilterFragment : Fragment() {
             bottomSheetView.findViewById(R.id.recyclerViewCategories)
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+
         job=repository.getAllCategories().onEach { categories ->
-            println("1: "+ categories)
+            println("1")
             categoryAdapter = CategoryAdapter(categories)
             recyclerViewCategories.adapter = categoryAdapter
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
                 categoryId = category.category.categoryId.toString()
-                view.allCategoriesFilterTxt.setText(category.category.categoryName)
-
+                allCategoriesFilterTxt.setText(category.category.categoryName)
                 dialog.dismiss()
             }
-        }.catch {throwable->
-            println("Error Filer Category: "+throwable)
-        }.launchIn(
-            lifecycleScope
-        )
+        }.catch { throwable ->
+            println("MyTests: $throwable")
+        }.launchIn(lifecycleScope)
         dialog.show()
-        }
+
+    }
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
         val appdatabase = AppDatabase.getDatabase(requireContext())
