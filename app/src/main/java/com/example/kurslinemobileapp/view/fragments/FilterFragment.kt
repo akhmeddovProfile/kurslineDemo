@@ -114,8 +114,8 @@ class FilterFragment : Fragment() {
         view.resetFilter.setOnClickListener {
             categoryId = ""
             regionId = ""
-            view.filterRegionsTxt.text = "Hamısına bax"
-            view.allCategoriesFilterTxt.text = "Hamısına bax"
+            view.filterRegionsTxt.text = "Regionlar"
+            view.allCategoriesFilterTxt.text = "Kateqoriyalar"
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
             resetBtnsBackground(button3)
