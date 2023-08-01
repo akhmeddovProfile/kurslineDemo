@@ -137,7 +137,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             }
         }
 
-     /* view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+      view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
@@ -147,7 +147,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                 mainListProductAdapter.getFilter().filter(msg)
                 return false
             }
-        })*/
+        })
 
 
         init()
