@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.SubCategory
+import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
 
-class SubCategoryAdapter (var subCategories: List<SubCategory>) :
+class SubCategoryAdapter (var subCategories: List<SubCategoryEntity>) :
     RecyclerView.Adapter<SubCategoryAdapter.CategoryViewHolder>() {
-    private var onItemClickListener: ((SubCategory) -> Unit)? = null
+    private var onItemClickListener: ((SubCategoryEntity) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (SubCategory) -> Unit) {
+    fun setOnItemClickListener(listener: (SubCategoryEntity) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -32,7 +33,7 @@ class SubCategoryAdapter (var subCategories: List<SubCategory>) :
         return subCategories.size
     }
 
-    fun setChanged(categories: List<SubCategory>){
+    fun setChanged(categories: List<SubCategoryEntity>){
         this.subCategories = categories
         notifyDataSetChanged()
     }
@@ -42,7 +43,7 @@ class SubCategoryAdapter (var subCategories: List<SubCategory>) :
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
         @SuppressLint("ResourceAsColor")
-        fun bind(subCategory: SubCategory) {
+        fun bind(subCategory: SubCategoryEntity) {
             textViewName.setTextColor(R.color.black)
             textViewName.text = subCategory.subCategoryName
             itemView.setOnClickListener {

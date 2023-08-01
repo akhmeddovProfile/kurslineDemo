@@ -136,7 +136,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         })
 
         userToCompanyCategoryEditText.setOnClickListener {
-            showBottomSheetDialog()
+            //showBottomSheetDialog()
         }
 
         userToCompanyStatusEditText.setOnClickListener {
@@ -277,6 +277,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         return path
     }
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
+/*
     private fun showBottomSheetDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)
@@ -307,8 +308,11 @@ class UserToCompanyActivity : AppCompatActivity() {
 
         dialog.show()
     }
+*/
 
+/*
     @SuppressLint("MissingInflatedId")
+*/
     private fun showBottomSheetDialogStatus() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_status, null)
         val dialog = BottomSheetDialog(this)

@@ -7,28 +7,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.room.Room
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
-import com.example.kurslinemobileapp.service.Room.ModeEntity
-import com.example.kurslinemobileapp.service.Room.RegionEntity
+import com.example.kurslinemobileapp.service.Room.category.CategoryEntity
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
+import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
+import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
+import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
-import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
     private lateinit var compositeDisposable: CompositeDisposable
-
+    private lateinit var repository: MyRepositoryForCategory
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         saveRegionsInRoom()
         saveModeInRoom()
+        saveCategoryInRoom()
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(applicationContext).categoryDao(),
+            AppDatabase.getDatabase(applicationContext).subCategoryDao()
+        )
         val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi") {
@@ -94,6 +101,43 @@ class MainActivity : AppCompatActivity() {
         setupWithNavController(bottomNavigationView, navController)
     }
 
+    private fun saveCategoryInRoom(){
+        compositeDisposable= CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCategories()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {reg->
+                        val categoryEntities = reg.categories.map { category ->
+                            CategoryEntity(category.categoryId, category.categoryName)
+                        }
+
+                        GlobalScope.launch {
+                                repository.saveCategories(categoryEntities)
+                                println("Added Room: "+categoryEntities)
+
+                        }
+                        val subCategoryEntities = reg.categories.flatMap { category ->
+                            category.subCategories.map { subCategory ->
+                                SubCategoryEntity(subCategory.subCategoryId, subCategory.subCategoryName, category.categoryId)
+                            }
+                        }
+                        GlobalScope.launch {
+                            repository.saveSubCategories(subCategoryEntities)
+                            println("Added SubCat Room: "+categoryEntities)
+
+                        }
+                    },
+                    {thorawable->
+                        println("Error for Region: "+thorawable.message)
+                    }
+                )
+        )
+    }
+
     private fun saveModeInRoom(){
         val appDatabase = AppDatabase.getDatabase(applicationContext)
         compositeDisposable= CompositeDisposable()
@@ -120,6 +164,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun saveRegionsInRoom(){
         val appDatabase = AppDatabase.getDatabase(applicationContext)
         compositeDisposable= CompositeDisposable()
@@ -145,4 +190,6 @@ class MainActivity : AppCompatActivity() {
                 )
         )
     }
+
+
 }

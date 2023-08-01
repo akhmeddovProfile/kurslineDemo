@@ -139,6 +139,7 @@
             android:id="@+id/filterCategory">
 
             <TextView
+                android:id="@+id/categoryTextView"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

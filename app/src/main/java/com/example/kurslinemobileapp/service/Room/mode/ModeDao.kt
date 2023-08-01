@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.service.Room
+package com.example.kurslinemobileapp.service.Room.mode
 
 import androidx.room.Dao
 import androidx.room.Insert

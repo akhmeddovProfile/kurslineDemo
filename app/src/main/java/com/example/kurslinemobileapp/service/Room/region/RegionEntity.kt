@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.service.Room
+package com.example.kurslinemobileapp.service.Room.region
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -1,10 +1,9 @@
-package com.example.kurslinemobileapp.service.Room
+package com.example.kurslinemobileapp.service.Room.region
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import java.util.concurrent.Flow
 
 @Dao
 interface RegionDao {

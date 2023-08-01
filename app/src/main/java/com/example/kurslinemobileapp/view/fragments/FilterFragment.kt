@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view.fragments
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +24,7 @@ import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -35,6 +38,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class FilterFragment : Fragment() {
     private lateinit var view: ViewGroup
@@ -50,6 +54,7 @@ class FilterFragment : Fragment() {
     lateinit var categoryId: String
     lateinit var regionId:String
     private var job: Job? = null
+    private lateinit var repository: MyRepositoryForCategory
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -61,6 +66,10 @@ class FilterFragment : Fragment() {
             findNavController().navigate(R.id.action_filterFragment_to_homeFragment)
         }
 
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(requireContext()).categoryDao(),
+            AppDatabase.getDatabase(requireContext()).subCategoryDao()
+        )
         categoryId = ""
         regionId = ""
 
@@ -201,8 +210,6 @@ class FilterFragment : Fragment() {
 
     }
 
-
-
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
@@ -212,30 +219,24 @@ class FilterFragment : Fragment() {
             bottomSheetView.findViewById(R.id.recyclerViewCategories)
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
+        job=repository.getAllCategories().onEach { categories ->
+            println("1: "+ categories)
+            categoryAdapter = CategoryAdapter(categories)
+            recyclerViewCategories.adapter = categoryAdapter
+            categoryAdapter.setChanged(categories)
+            categoryAdapter.setOnItemClickListener { category ->
+                categoryId = category.category.categoryId.toString()
+                view.categoryTextView.setText(category.category.categoryName)
 
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
-                        categoryId = category.categoryId.toString()
-                        view.allCategoriesFilterTxt.setText(category.categoryName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
+                dialog.dismiss()
+            }
+        }.catch {throwable->
+            println("Error Filer Category: "+throwable)
+        }.launchIn(
+            lifecycleScope
         )
-
         dialog.show()
-    }
-
+        }
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
         val appdatabase = AppDatabase.getDatabase(requireContext())
@@ -265,5 +266,12 @@ class FilterFragment : Fragment() {
 
         dialog.show()
     }
+    private fun cancelJob() {
+        job?.cancel()
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelJob()
+    }
 }

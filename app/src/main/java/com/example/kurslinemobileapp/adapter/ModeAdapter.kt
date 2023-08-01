@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.companyData.Category
-import com.example.kurslinemobileapp.api.companyData.IsOnline
-import com.example.kurslinemobileapp.api.companyData.Region
-import com.example.kurslinemobileapp.service.Room.ModeEntity
+import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 
 
 class ModeAdapter (var modes: List<ModeEntity>) :

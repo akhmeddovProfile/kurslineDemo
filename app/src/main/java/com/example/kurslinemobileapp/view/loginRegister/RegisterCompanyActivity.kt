@@ -5,29 +5,23 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.ModeAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
 import com.example.kurslinemobileapp.adapter.StatusAdapter
-import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
@@ -36,14 +30,11 @@ import com.example.kurslinemobileapp.service.Constant.PICK_IMAGE_REQUEST
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
-import com.example.kurslinemobileapp.service.Room.RegionEntity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_register_company.*
-import kotlinx.android.synthetic.main.activity_user_register.*
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -437,7 +428,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
+/*        val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
         compositeDisposable.add(
             retrofit.getCategories()
@@ -454,7 +445,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                         dialog.dismiss()
                     }
                 }, { throwable -> println("MyTests: $throwable") })
-        )
+        )*/
 
         dialog.show()
     }

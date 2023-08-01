@@ -52,6 +52,8 @@ import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewP
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
+import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -81,6 +83,7 @@ class CourseUploadActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
     private var job: Job? = null
+    private lateinit var repository: MyRepositoryForCategory
 
     var imageNames = mutableListOf<String>()
     var imageData = mutableListOf<String>()
@@ -124,7 +127,10 @@ class CourseUploadActivity : AppCompatActivity() {
         val authHeader = "Bearer $token"
         println("userid" + userId)
         println("token:"+authHeader)
-
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(this).categoryDao(),
+            AppDatabase.getDatabase(this).subCategoryDao()
+        )
             backtoMainFromCourseUpload.setOnClickListener {
                 val intent = Intent(this@CourseUploadActivity,MainActivity::class.java)
                 startActivity(intent)
@@ -312,31 +318,26 @@ class CourseUploadActivity : AppCompatActivity() {
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
-                        allcategoriesId = category.categoryId
-                        courseAllCategoryEditText.setText(category.categoryName)
-                        showSubCategories(category.subCategories)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )
+        job=repository.getAllCategories().onEach { categories ->
+            println("1")
+            categoryAdapter = CategoryAdapter(categories)
+            recyclerViewCategories.adapter = categoryAdapter
+            categoryAdapter.setChanged(categories)
+            categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
+                allcategoriesId = categorywithsubcategory.category.categoryId
+                courseAllCategoryEditText.setText(categorywithsubcategory.category.categoryId)
+                showSubCategories(categorywithsubcategory.subCategories)
+                dialog.dismiss()
+            }
+        }.catch {
+
+        }.launchIn(lifecycleScope)
 
         dialog.show()
     }
 
 
-    private fun showSubCategories(subCategories: List<SubCategory>) {
+    private fun showSubCategories(subCategories: List<SubCategoryEntity>) {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)

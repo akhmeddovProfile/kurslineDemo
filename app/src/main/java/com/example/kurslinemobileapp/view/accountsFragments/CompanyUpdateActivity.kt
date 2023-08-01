@@ -33,6 +33,7 @@ import com.example.kurslinemobileapp.api.updateUserCompany.UpdateResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
@@ -63,13 +64,16 @@ class CompanyUpdateActivity : AppCompatActivity() {
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var modeAdapter: ModeAdapter
     private lateinit var statusAdapter: StatusAdapter
+
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
     private var block: Boolean = true
     lateinit var categoryId: String
     lateinit var statusId: String
     lateinit var regionId:String
+
     private var job: Job? = null
+    private lateinit var repository: MyRepositoryForCategory
 
     private var isCategoryChanged: Boolean = false
     private var isStatusChanged: Boolean = false
@@ -84,6 +88,11 @@ class CompanyUpdateActivity : AppCompatActivity() {
         val authHeader = "Bearer $token"
         println("userID" + id)
         println("userToken" + authHeader)
+
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(this).categoryDao(),
+            AppDatabase.getDatabase(this).subCategoryDao()
+        )
 
         businessAccountUpdateCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
@@ -337,26 +346,21 @@ class CompanyUpdateActivity : AppCompatActivity() {
             bottomSheetView.findViewById(R.id.recyclerViewCategories)
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
-                        categoryId = category.categoryId.toString()
-                        businessAccountUpdateCategoryEditText.setText(category.categoryName)
-                        isCategoryChanged = true
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )
+
+        job = repository.getAllCategories().onEach { categories ->
+            println("1")
+            categoryAdapter = CategoryAdapter(categories)
+            recyclerViewCategories.adapter = categoryAdapter
+            categoryAdapter.setChanged(categories)
+            categoryAdapter.setOnItemClickListener { category ->
+                categoryId = category.categoryId.toString()
+                businessAccountUpdateCategoryEditText.setText(category.categoryName)
+                isCategoryChanged = true
+                dialog.dismiss()
+            }
+        }.catch {
+
+        }.launchIn(lifecycleScope)
 
         dialog.show()
     }
@@ -384,8 +388,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
                    isRegionChanged = false
                    dialog.dismiss()
                }
-           }.catch {
-
+           }.catch {throwable->
+               println(throwable)
            }.launchIn(lifecycleScope)
 
     }

@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.companyData.Category
-import com.example.kurslinemobileapp.api.companyData.Region
-import com.example.kurslinemobileapp.service.Room.RegionEntity
+import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 
 class RegionAdapter (var regions: List<RegionEntity>) :
     RecyclerView.Adapter<RegionAdapter.RegionViewHolder>() {

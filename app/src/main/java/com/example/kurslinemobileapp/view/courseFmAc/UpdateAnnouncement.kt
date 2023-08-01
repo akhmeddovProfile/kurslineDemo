@@ -395,7 +395,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         //upcourseAllCategoryEditText.setText(category.toString())
         //courseSubCategoryEditText.setText(subcategory.toString())
         upcourseAllCategoryEditText.setOnClickListener {
-            showBottomSheetDialogAllCatogories()
+            //showBottomSheetDialogAllCatogories()
         }
         //upcourseRegionEditText.setText(region.toString())
         upcourseRegionEditText.setOnClickListener {
@@ -433,6 +433,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         dialog.show()
     }
 
+/*
     private fun showBottomSheetDialogAllCatogories() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)
@@ -484,6 +485,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         }
         dialog.show()
     }
+*/
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
