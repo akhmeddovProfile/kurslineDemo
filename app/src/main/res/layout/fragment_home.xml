@@ -60,6 +60,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_margin="10dp"
+                android:id="@+id/viewPager2"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_below="@+id/topProductsRV"/>
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchViewAnnEditText"
                 android:layout_width="match_parent"
@@ -68,7 +75,7 @@
                 android:layout_toLeftOf="@+id/mainFilterContainer"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="16dp"
-                android:layout_below="@id/topProductsRV"
+                android:layout_below="@id/viewPager2"
                 android:fontFamily="@font/montserrat"
                 android:hint="Kurs Axtar"
                 android:inputType="textPersonName"
@@ -84,7 +91,7 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/topProductsRV"
+                android:layout_below="@+id/viewPager2"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
                 app:boxBackgroundColor="@color/white"
