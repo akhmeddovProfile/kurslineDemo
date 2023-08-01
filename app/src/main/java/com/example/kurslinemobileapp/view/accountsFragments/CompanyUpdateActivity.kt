@@ -367,7 +367,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
    @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-       val appDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "app-database").build()
+       val appDatabase = AppDatabase.getDatabase(applicationContext)
        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -403,6 +403,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
     }
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogStatus() {
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_status, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -410,26 +411,21 @@ class CompanyUpdateActivity : AppCompatActivity() {
             bottomSheetView.findViewById(R.id.recyclerViewStatus)
         recyclerViewStatus.setHasFixedSize(true)
         recyclerViewStatus.setLayoutManager(LinearLayoutManager(this))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getStatus()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ status ->
-                    println("4")
-                    statusAdapter = StatusAdapter(status.statuses)
-                    recyclerViewStatus.adapter = statusAdapter
-                    statusAdapter.setChanged(status.statuses)
-                    statusAdapter.setOnItemClickListener { status ->
-                        companyUpdateStatusEditText.setText(status.statusName)
-                        statusId = status.statusId.toString()
-                        isStatusChanged = true
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTestStatus: $throwable") })
-        )
+
+        job=appDatabase.statusDao().getAllMode().onEach { status ->
+            println("4")
+            statusAdapter = StatusAdapter(status)
+            recyclerViewStatus.adapter = statusAdapter
+            statusAdapter.setChanged(status)
+            statusAdapter.setOnItemClickListener { status ->
+                companyUpdateStatusEditText.setText(status.statusName)
+                statusId = status.statusId.toString()
+                isStatusChanged = true
+                dialog.dismiss()
+            }
+        }.catch { throwable ->
+            println("MyTestStatus: $throwable")
+        }.launchIn(lifecycleScope)
         dialog.show()
     }
 

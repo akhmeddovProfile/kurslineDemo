@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,13 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyData.Category
 import com.example.kurslinemobileapp.api.companyData.IsOnline
 import com.example.kurslinemobileapp.api.companyData.Statuse
+import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 
-class StatusAdapter (var status: List<Statuse>) :
+class StatusAdapter (var status: List<StatusEntity>) :
     RecyclerView.Adapter<StatusAdapter.StatusViewHolder>() {
-    private var onItemClickListener: ((Statuse) -> Unit)? = null
+    private var onItemClickListener: ((StatusEntity) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Statuse) -> Unit) {
+    fun setOnItemClickListener(listener: (StatusEntity) -> Unit) {
         onItemClickListener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StatusViewHolder {
@@ -31,7 +33,7 @@ class StatusAdapter (var status: List<Statuse>) :
         return status.size
     }
 
-    fun setChanged(status: List<Statuse>){
+    fun setChanged(status: List<StatusEntity>){
         this.status = status
         notifyDataSetChanged()
     }
@@ -39,7 +41,8 @@ class StatusAdapter (var status: List<Statuse>) :
     inner class StatusViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
-        fun bind(status: Statuse) {
+        @SuppressLint("ResourceAsColor")
+        fun bind(status: StatusEntity) {
             textViewName.setTextColor(R.color.black)
             textViewName.text = status.statusName
             itemView.setOnClickListener {

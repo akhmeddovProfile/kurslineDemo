@@ -12,13 +12,16 @@ import com.example.kurslinemobileapp.service.Room.mode.ModeDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionDao
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
+import com.example.kurslinemobileapp.service.Room.status.StatusDao
+import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 
-@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class], version = 4)
+@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class], version = 5)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun regionDao(): RegionDao
     abstract fun modeDao(): ModeDao
     abstract fun categoryDao(): CategoryDao
     abstract fun subCategoryDao(): SubCategoryDao
+    abstract fun statusDao():StatusDao
 
     companion object {
 

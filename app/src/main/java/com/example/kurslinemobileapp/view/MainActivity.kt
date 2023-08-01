@@ -10,7 +10,10 @@ import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.StatusAdapter
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.service.Constant
@@ -21,13 +24,16 @@ import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCatego
 import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
+import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -49,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         saveRegionsInRoom()
         saveModeInRoom()
         saveCategoryInRoom()
+        saveStatusInRoom()
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(applicationContext).categoryDao(),
             AppDatabase.getDatabase(applicationContext).subCategoryDao()
@@ -190,6 +197,28 @@ class MainActivity : AppCompatActivity() {
                 )
         )
     }
+    @SuppressLint("MissingInflatedId")
+    private fun saveStatusInRoom() {
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getStatus()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ status ->
+                    val statuses=status.statuses.map { status->
+                        StatusEntity(status.statusId,status.statusName)
+                    }
+                    GlobalScope.launch {
+                        appDatabase.statusDao().insertAllStatus(statuses)
+                    }
+                    }, { throwable -> println("MyTestStatus: $throwable")
+                    }))
+    }
 
 
-}
+    }
+
+
