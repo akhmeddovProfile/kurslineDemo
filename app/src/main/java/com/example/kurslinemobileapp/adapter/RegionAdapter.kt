@@ -17,7 +17,7 @@ class RegionAdapter (var regions: List<RegionEntity>) :
         onItemClickListener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RegionViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.filter_details_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
         return RegionViewHolder(view)
     }
 
@@ -34,7 +34,7 @@ class RegionAdapter (var regions: List<RegionEntity>) :
         notifyDataSetChanged()
     }
     inner class RegionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textViewName: TextView = itemView.findViewById(R.id.filterRegionText)
+        private val textViewName: TextView = itemView.findViewById(android.R.id.text1)
 
         @SuppressLint("ResourceAsColor")
         fun bind(region: RegionEntity) {

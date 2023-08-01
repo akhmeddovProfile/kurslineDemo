@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +18,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.HiglightForMainListAdapter
 import com.example.kurslinemobileapp.adapter.MainListProductAdapter
+import com.example.kurslinemobileapp.adapter.ViewPagerImageAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
@@ -37,6 +43,11 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener {
+    private lateinit var view: ViewGroup
+    private lateinit var viewPager2: ViewPager2
+    private lateinit var handler : Handler
+    private lateinit var imageList:ArrayList<Int>
+    private lateinit var viewPagerImageAdapter: ViewPagerImageAdapter
     private lateinit var mainListProductAdapter: MainListProductAdapter
     private lateinit var mainList : ArrayList<GetAllAnnouncement>
     private lateinit var mainList2 : ArrayList<GetAllAnnouncement>
@@ -52,7 +63,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+         view =  inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
             val createAccount = view.findViewById<ImageView>(R.id.createAccountTextMain)
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
@@ -137,6 +148,18 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                 return false
             }
         })
+
+
+        init()
+        setUpTransformer()
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable , 4000)
+            }
+        })
+
 
         return view
     }
@@ -361,6 +384,53 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
         dialog.show()
     }
+
+
+    override fun onPause() {
+        super.onPause()
+
+        handler.removeCallbacks(runnable)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        handler.postDelayed(runnable , 4000)
+    }
+
+    private val runnable = Runnable {
+        viewPager2.currentItem = viewPager2.currentItem + 1
+    }
+
+    private fun setUpTransformer(){
+        val transformer = CompositePageTransformer()
+        transformer.addTransformer(MarginPageTransformer(40))
+        transformer.addTransformer { page, position ->
+            val r = 1 - Math.abs(position)
+            page.scaleY = 0.85f + r * 0.14f
+        }
+
+        viewPager2.setPageTransformer(transformer)
+    }
+
+    private fun init(){
+        viewPager2 = view.findViewById(R.id.viewPager2)
+        handler = Handler(Looper.myLooper()!!)
+        imageList = ArrayList()
+
+        imageList.add(R.drawable.beyenilen)
+        imageList.add(R.drawable.encoxbaxilan)
+        imageList.add(R.drawable.vip)
+        viewPagerImageAdapter = ViewPagerImageAdapter(imageList, viewPager2)
+
+        viewPager2.adapter = viewPagerImageAdapter
+        viewPager2.offscreenPageLimit = 3
+        viewPager2.clipToPadding = false
+        viewPager2.clipChildren = false
+        viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
+    }
+
 
 
 }
