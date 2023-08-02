@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewPager2"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="7dp"
                 app:boxBackgroundColor="@color/white"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
