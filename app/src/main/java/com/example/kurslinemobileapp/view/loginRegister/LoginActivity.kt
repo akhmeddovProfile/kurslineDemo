@@ -26,7 +26,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import kotlin.coroutines.CoroutineContext
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
     private var compositeDisposableLogin: CompositeDisposable? = null
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -74,10 +74,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun resetPassword(email:String){
-/*
-        val companyoruseremail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
-*/
-        kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
+
+        launch(Dispatchers.Main) {
             try {
                 val retrofitService=RetrofitService(Constant.BASE_URL).apiService.resetPassword(RequestBody.create(null,email)).await()
                 handleResetPasswordResponse(retrofitService)
