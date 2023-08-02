@@ -77,12 +77,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/viewPager2"
                 android:fontFamily="@font/montserrat"
-                android:hint="Kurs Axtar"
+              app:queryHint="Elan axtar"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
                 android:inputType="textPersonName"
                 android:lines="1"
                 app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                style="@style/SearchViewStyle" />
+                app:boxStrokeColor="@color/grayColor1" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mainFilterContainer"
