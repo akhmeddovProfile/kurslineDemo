@@ -10,10 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
+import android.widget.SearchView.OnQueryTextListener
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,8 +40,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import androidx.appcompat.widget.SearchView
 
-class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener {
+
+class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener, SearchView.OnQueryTextListener{
     private lateinit var view: ViewGroup
     private lateinit var viewPager2: ViewPager2
     private lateinit var handler : Handler
@@ -138,20 +139,13 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
 
 
+        val searchView = view.findViewById<SearchView>(R.id.searchViewAnnEditText)
+        val searchEditText = searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
-      view.searchViewAnnEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(msg: String): Boolean {
-                if (::mainListProductAdapter.isInitialized) {
-                    mainListProductAdapter.getFilter().filter(msg)
-                }
-                return false
-            }
-        })
+        // Check if the searchEditText is not null before setting the text color
+        searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.grayColor2))
+        searchView.setOnQueryTextListener(this)
 
 
         init()
@@ -435,6 +429,15 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
     }
 
+    override fun onQueryTextSubmit(p0: String?): Boolean {
+        return false
+    }
 
+    override fun onQueryTextChange(msg: String): Boolean {
+        if (::mainListProductAdapter.isInitialized) {
+            mainListProductAdapter.getFilter().filter(msg)
+        }
+        return false
+    }
 
 }
