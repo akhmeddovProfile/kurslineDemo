@@ -5,22 +5,26 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.login.LoginRequest
 import com.example.kurslinemobileapp.api.login.LoginResponseX
+import com.example.kurslinemobileapp.api.login.ResetPasswordResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import kotlin.coroutines.CoroutineContext
 
 class LoginActivity : AppCompatActivity() {
     private var compositeDisposableLogin: CompositeDisposable? = null
@@ -34,21 +38,26 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, MainRegisterActivity::class.java)
             startActivity(intent)
         }
-
         createNewPassword.setOnClickListener {
             passwordLoginContainer.visibility=View.INVISIBLE
             loginButton.visibility=View.INVISIBLE
             enterEmailAddress.visibility=View.VISIBLE
-            val email = emailLoginEditText.text.toString()
-            if(email.isEmpty()){
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            else{
+            enterEmailAddress.setOnClickListener {
+                val email = emailLoginEditText.text.toString()
+                if(email.isEmpty()){
+                    Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
+                        .show()
+                }else{
+                    resetPassword(email)
+                    passwordLoginContainer.visibility=View.VISIBLE
+                    loginButton.visibility=View.VISIBLE
+                    enterEmailAddress.visibility=View.VISIBLE
+                }
+
                 showProgressButton(true)
             }
-
         }
+
 
         loginButton.setOnClickListener {
             val email = emailLoginEditText.text.toString()
@@ -65,9 +74,38 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun resetPassword(email:String){
-
+/*
+        val companyoruseremail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+*/
+        kotlinx.coroutines.GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val retrofitService=RetrofitService(Constant.BASE_URL).apiService.resetPassword(RequestBody.create(null,email)).await()
+                handleResetPasswordResponse(retrofitService)
+            }catch (e:java.lang.Exception){
+                handleError(e)
+            }
+        }
+    }
+    private fun handleResetPasswordResponse(response: ResetPasswordResponse) {
+        // Handle the API response here based on the isSuccess value
+        if (response.isSuccess) {
+            Toast.makeText(this,"Password reset email sent your Mail address successfully",Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this,"Failed to send password reset email.",Toast.LENGTH_SHORT).show()
+        }
     }
 
+    private fun handleError(error: Throwable) {
+        // Handle the error here
+        if(error.message!!.contains("HTTP 403")){
+            Toast.makeText(
+                this,
+                "Try again later. Because you sent email so much",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        Toast.makeText(this,"Error: ${error.message}",Toast.LENGTH_SHORT).show()
+    }
     private fun login(email: String, password: String) {
         compositeDisposableLogin = CompositeDisposable()
         val retrofitService =
