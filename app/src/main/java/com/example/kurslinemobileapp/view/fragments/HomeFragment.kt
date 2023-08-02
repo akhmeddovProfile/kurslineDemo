@@ -146,7 +146,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             }
 
             override fun onQueryTextChange(msg: String): Boolean {
-                mainListProductAdapter.getFilter().filter(msg)
+                if (::mainListProductAdapter.isInitialized) {
+                    mainListProductAdapter.getFilter().filter(msg)
+                }
                 return false
             }
         })
