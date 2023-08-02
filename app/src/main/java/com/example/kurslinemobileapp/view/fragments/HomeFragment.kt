@@ -3,6 +3,7 @@ package com.example.kurslinemobileapp.view.fragments
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -161,6 +162,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
         return view
     }
+
 
     private fun getProducts(){
         compositeDisposable = CompositeDisposable()
