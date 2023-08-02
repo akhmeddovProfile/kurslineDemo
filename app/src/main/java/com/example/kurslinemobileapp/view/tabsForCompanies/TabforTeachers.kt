@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -29,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
 import kotlinx.android.synthetic.main.fragment_tabfor_teachers.view.*
 
 
-class TabforTeachers : Fragment() {
+class TabforTeachers : Fragment() , androidx.appcompat.widget.SearchView.OnQueryTextListener{
     private lateinit var view : ViewGroup
     private lateinit var companyTeacherAdapter: CompanyTeacherAdapter
     private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
@@ -58,18 +60,13 @@ class TabforTeachers : Fragment() {
         })
         recycler.adapter = companyTeacherAdapter
 
-        view.searchViewForTeachers.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return false
-            }
+        val searchView = view.findViewById<androidx.appcompat.widget.SearchView>(com.example.kurslinemobileapp.R.id.searchViewForTeachers)
+        val searchEditText = searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
-            override fun onQueryTextChange(msg: String): Boolean {
-                companyTeacherAdapter.getFilter().filter(msg)
-                return false
-            }
-        })
-
+        // Check if the searchEditText is not null before setting the text color
+        searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), com.example.kurslinemobileapp.R.color.black))
+        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), com.example.kurslinemobileapp.R.color.grayColor2))
+        searchView.setOnQueryTextListener(this)
         getCompanies()
         return view
     }
@@ -92,6 +89,15 @@ class TabforTeachers : Fragment() {
         val filteredList = response.filter { it.companyStatusId == 2 }
         mainList.addAll(filteredList)
         companyTeacherAdapter.notifyDataSetChanged()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        companyTeacherAdapter.getFilter().filter(newText)
+     return false
     }
 
 
