@@ -74,7 +74,6 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
     }
 
     private fun resetPassword(email:String){
-
         launch(Dispatchers.Main) {
             try {
                 val retrofitService=RetrofitService(Constant.BASE_URL).apiService.resetPassword(RequestBody.create(null,email)).await()

@@ -56,9 +56,14 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
+
+    //buna bax
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
+
+
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
@@ -75,6 +80,8 @@ dependencies {
 
     //Gson
     implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -94,7 +101,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.9.3"
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.annotation:annotation:1.5.0'
 
     //CircularImageView

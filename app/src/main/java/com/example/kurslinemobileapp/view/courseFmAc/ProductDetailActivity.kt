@@ -191,22 +191,8 @@ getUserAnnouncement(userId,annId,authHeader)
                 })
         )
 
-/*        val coroutineScope= CoroutineScope(Dispatchers.Main)
-        val job=coroutineScope.launch {
-            try {
-                 withContext(Dispatchers.IO){
-                    retrofit.deleteAnnouncementForOwner(token,userId,annId)
-                }
-                deleteStatus.postValue(true)
-                println("Deleted")
-            }catch (error:Throwable){
-                println("Error: "+error)
-            }
-        }
-        job.cancel()*/
     }
     private fun handleResponseForDeleteCourse(response: DeleteAnnouncementResponse){
-        //scrollViewforProductDescription.visibility = View.VISIBLE
         deleteStatus.postValue(true)
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         Toast.makeText(this@ProductDetailActivity,"Item Deleted",Toast.LENGTH_SHORT).show()

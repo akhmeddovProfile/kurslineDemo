@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.ParcelFileDescriptor.open
 import android.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +24,11 @@ import com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment
 import com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import kotlinx.android.synthetic.main.fragment_settings.view.*
+import kotlinx.android.synthetic.main.pdfview.view.*
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.nio.channels.AsynchronousFileChannel.open
 import java.util.Locale
 
 
@@ -63,7 +69,7 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
-
+        view.drawer
         view.allCoursesLl.setOnClickListener {
             val intent = Intent(requireContext(), AllCompaniesActivity::class.java)
             startActivity(intent)
@@ -129,7 +135,6 @@ class SettingsFragment : Fragment() {
         val mdialog = mBuilder.create()
         mdialog.show()
     }
-
 
     @SuppressLint("SuspiciousIndentation")
     private fun setLocate(Lang: String) {
