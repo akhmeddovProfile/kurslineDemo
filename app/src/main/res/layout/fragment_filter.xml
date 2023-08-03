@@ -406,7 +406,7 @@
             android:layout_marginBottom="25dp"
             android:layout_below="@id/onlinemodeBtn"
             android:background="@drawable/button_bg"
-            android:text="Kursları gör"
+            android:text="@string/elanlari_goster"
             android:textAllCaps="false"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="25dp"

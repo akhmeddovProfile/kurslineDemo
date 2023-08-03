@@ -113,7 +113,7 @@ class CourseUploadActivity : AppCompatActivity() {
     private var block: Boolean = true
 
 
-    @SuppressLint("WrongViewCast", "WrongThread")
+    @SuppressLint("WrongViewCast", "WrongThread", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_upload)

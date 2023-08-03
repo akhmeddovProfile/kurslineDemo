@@ -26,6 +26,7 @@ import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
+import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -79,7 +80,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else{
-            goToUploadActivity.visibility = View.GONE
+            goToUploadActivity.visibility = View.VISIBLE
+            goToUploadActivity.setOnClickListener {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
         }
 
 

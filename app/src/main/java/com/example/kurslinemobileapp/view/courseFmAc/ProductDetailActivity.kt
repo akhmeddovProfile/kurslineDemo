@@ -3,11 +3,15 @@ package com.example.kurslinemobileapp.view.courseFmAc
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64.DEFAULT
+import android.util.Base64.encodeToString
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.Toast
@@ -29,6 +33,9 @@ import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.comment.CommentAPI
 import com.example.kurslinemobileapp.api.comment.CommentRequest
 import com.example.kurslinemobileapp.api.comment.CommentResponse
+import com.example.kurslinemobileapp.api.companyData.Category
+import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.service.Constant
@@ -36,6 +43,8 @@ import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.fragments.HomeFragment
+import com.google.gson.Gson
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -43,10 +52,14 @@ import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_user_register.*
+import kotlinx.android.synthetic.main.fragment_business_account.view.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -55,6 +68,7 @@ class ProductDetailActivity : AppCompatActivity() {
     private var isFavorite:Boolean=false
     private var isFavoriteFromFavoriteFragment:Boolean=false
     var deleteStatus = MutableLiveData<Boolean>()
+    private lateinit var sharedPreferences: SharedPreferences
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +79,7 @@ class ProductDetailActivity : AppCompatActivity() {
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
-        val sharedPreferences = this.getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
+         sharedPreferences = this.getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
@@ -299,6 +313,8 @@ getUserAnnouncement(userId,annId,authHeader)
         val courseDesc = response.announcementDesc
         val categoryId = response.subCategory
         val regionId = response.announcementRegionId
+
+        println("Region Name: "+regionId)
         val modeId = response.isOnline
         val teacherName = response.teacher
         val phoneNumber = response.phone
@@ -368,20 +384,62 @@ getUserAnnouncement(userId,annId,authHeader)
         deleteCourse.visibility = View.VISIBLE
         editCourse.visibility = View.VISIBLE
         println("Image: "+response.photos)
+        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+
+        val annPhoto=response.photos
+        val gson = Gson()
+        val jsonPhotoList = gson.toJson(annPhoto)
+
+        val announcmentname=response.announcementName
+        val aboutannouncement=response.announcementDesc
+        val announcementteacher=response.teacher
+        val price=response.announcementPrice
+        val address=response.announcementRegionId
+        val adressid=response.announcementRegionId.toString()
+        val annCategory=response.categoryId
+
+        println("AnnCategory: "+annCategory)
+        val annSubCategoryId=response.announcementSubCategoryId
+        val category=response.categoryId.toString()
+        val subcategory=response.announcementSubCategoryId.toString()
+        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        editor.putString("annName",announcmentname)
+        editor.putString("annDesc",aboutannouncement)
+        editor.putString("annTeacher",announcementteacher.toString())
+        editor.putInt("annPrice",price)
+        editor.putString("annId",adressid)
+        editor.putString("annCategoryId",category)
+        editor.putString("annSubCat",subcategory)
+        editor.putString("annPhoto",jsonPhotoList)
+
+
+        var categoryName = ""
+        var subCategoryName=""
+
+        getCategoryList()!!.subscribe({ categories ->
+            println("333")
+            categoryName = categories.categories.find { it.categoryId == annCategory }?.categoryName.toString()
+            println(categoryName)
+            editor.putString("companyCategory",categoryName)
+            editor.apply()
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
 
         editCourse.setOnClickListener {
             val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
-            intent.putExtra("companyname",response.companyName)
-            intent.putExtra("aboutcompany",response.announcementDesc)
-            intent.putStringArrayListExtra("teachername",ArrayList(response.teacher))
-            intent.putExtra("annprice",response.announcementPrice)
-            intent.putExtra("courseaddress",response.announcementAddress)
-            intent.putExtra("announcementmode",response.isOnline)
-            intent.putExtra("announcementCategoryId",response.categoryId)
-            intent.putExtra("announcementSubCategory",response.announcementSubCategoryId)
-            intent.putExtra("announcementRegionId",response.announcementRegionId)
 
             startActivity(intent)
         }
     }
+    private fun getCategoryList(): Observable<CompanyRegisterData>? {
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
 }

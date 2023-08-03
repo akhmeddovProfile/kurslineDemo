@@ -25,5 +25,15 @@
     <string name="network_error">Şəbəkə yoxdur</string>
     <string name="check_internet_connection">Zəhmət olmazsa internetə qoşulun</string>
     <string name="card_number">Kart nömrənizi daxil edin</string>
+    <string name="elanlari_goster">Elanları göstər</string>
+    <string name="myaccount">Mənim hesabım</string>
+    <string name="choose_language">Dil seçimi edin</string>
+    <string name="help">Kömək</string>
+    <string name="courses">Kurslar</string>
+    <string name="exit_kursline">Kursline-dan çıxmaq</string>
+    <string name="user_term">İstifadəçi şərtləri</string>
+    <string name="privacy_poliscy">Məxfilik siyasəti</string>
+    <string name="Rules">Qaydalar</string>
+    <string name="contact_us">Bizimlə əlaqə</string>
 
 </resources>

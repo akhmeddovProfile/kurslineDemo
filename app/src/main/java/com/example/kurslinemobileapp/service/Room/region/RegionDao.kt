@@ -12,4 +12,7 @@ interface RegionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(regions: List<RegionEntity>)
+
+    @Query("SELECT * FROM regions where regionId=:regionId")
+    suspend fun getRegionsForEditAnnouncement(regionId:Int):RegionEntity
 }

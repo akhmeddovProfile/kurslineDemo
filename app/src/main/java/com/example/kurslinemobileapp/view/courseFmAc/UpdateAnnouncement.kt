@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.LocusId
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,6 +18,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,6 +44,9 @@ import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
+import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
+import com.example.kurslinemobileapp.service.Room.region.RegionViewModel
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -75,6 +80,9 @@ class UpdateAnnouncement : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
     private var block: Boolean = true
     private var job: Job? = null
+    private val viewModel: RegionViewModel by viewModels()
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var repository: MyRepositoryForCategory
 
     companion object {
         private const val REQUEST_CODE_PERMISSION = 101
@@ -103,6 +111,10 @@ class UpdateAnnouncement : AppCompatActivity() {
         lottie.playAnimation()
         selectedPhotos= ArrayList<String>()
         images= mutableListOf()
+        repository = MyRepositoryForCategory(
+            AppDatabase.getDatabase(this).categoryDao(),
+            AppDatabase.getDatabase(this).subCategoryDao()
+        )
         val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
@@ -132,6 +144,13 @@ class UpdateAnnouncement : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        val category=sharedPreferences.getString("annCategory","")
+        val subcategory=sharedPreferences.getString("annSubCategory","")
+        println("SubCategory: "+subcategory)
+        println("Category: "+category)
+
+
         updateCourseBtn.setOnClickListener {
             val upcourseNameContainer1=upcourseNameEditText?.text?.trim().toString()
             val upcourseAboutContainer1=upcourseAboutEditText?.text?.trim().toString()
@@ -380,7 +399,7 @@ class UpdateAnnouncement : AppCompatActivity() {
      val category=response.categoryId
      val subcategory=response.announcementSubCategoryId
      val region=response.announcementRegionId
-
+    /*   val regioname= viewModel.loadRegionById(region)*/
         upcourseNameEditText.setText(nameofcourse)
         upcourseAboutEditText.setText(coursedesc)
         val listofteachers=teachers.joinToString("[ , ]")
@@ -395,7 +414,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         //upcourseAllCategoryEditText.setText(category.toString())
         //courseSubCategoryEditText.setText(subcategory.toString())
         upcourseAllCategoryEditText.setOnClickListener {
-            //showBottomSheetDialogAllCatogories()
+            showBottomSheetDialogAllCatogories()
         }
         //upcourseRegionEditText.setText(region.toString())
         upcourseRegionEditText.setOnClickListener {
@@ -433,7 +452,6 @@ class UpdateAnnouncement : AppCompatActivity() {
         dialog.show()
     }
 
-/*
     private fun showBottomSheetDialogAllCatogories() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)
@@ -443,31 +461,26 @@ class UpdateAnnouncement : AppCompatActivity() {
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCategories()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ categories ->
-                    println("1")
-                    categoryAdapter = CategoryAdapter(categories.categories)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    categoryAdapter.setChanged(categories.categories)
-                    categoryAdapter.setOnItemClickListener { category ->
-                        allcategoriesId = category.categoryId.toString()
-                        upcourseAllCategoryEditText.setText(category.categoryName)
-                        showSubCategories(category.subCategories)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )
+        job=repository.getAllCategories().onEach { categories ->
+            println("1")
+            categoryAdapter = CategoryAdapter(categories)
+            recyclerViewCategories.adapter = categoryAdapter
+            categoryAdapter.setChanged(categories)
+            categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
+                allcategoriesId = categorywithsubcategory.category.categoryId.toString()
+                upcourseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
+                showSubCategories(categorywithsubcategory.subCategories)
+                dialog.dismiss()
+            }
+        }.catch {
+
+        }.launchIn(lifecycleScope)
 
         dialog.show()
     }
 
 
-    private fun showSubCategories(subCategories: List<SubCategory>) {
+    private fun showSubCategories(subCategories: List<SubCategoryEntity>) {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
@@ -485,7 +498,6 @@ class UpdateAnnouncement : AppCompatActivity() {
         }
         dialog.show()
     }
-*/
 
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
