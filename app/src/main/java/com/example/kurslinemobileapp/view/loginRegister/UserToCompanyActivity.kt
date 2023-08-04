@@ -13,7 +13,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -94,8 +96,10 @@ class UserToCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
+                    characterCountTextViewuserToCompanyName.visibility=View.VISIBLE
                     userToCompanyNameContainer.error = "Name must be between 3 and 50 characters."
                 } else {
+                    characterCountTextViewuserToCompanyName.visibility=View.GONE
                     userToCompanyNameContainer.error = null
                 }
 

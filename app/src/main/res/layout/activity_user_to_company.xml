@@ -57,13 +57,14 @@
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
                     android:hint="Şirkət adınızı daxil edin*"/>
+
                 <TextView
                     android:id="@+id/characterCountTextViewuserToCompanyName"
+                    style="@style/CharacterCountTextAppearance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
                     android:layout_below="@+id/nameContainer"
-                    style="@style/CharacterCountTextAppearance"
+                    android:gravity="end"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
