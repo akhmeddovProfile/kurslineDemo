@@ -337,8 +337,8 @@ class UserToCompanyActivity : AppCompatActivity() {
                 recyclerViewStatus.adapter = statusAdapter
                 statusAdapter.setChanged(status)
                 statusAdapter.setOnItemClickListener { status ->
-                    compantStatusEditText.setText(status.statusName)
                     statusId = status.statusId.toString()
+                    userToCompanyStatusEditText.setText(status.statusName)
                     dialog.dismiss()
                 }
             }.catch { throwable ->
