@@ -35,5 +35,7 @@
     <string name="privacy_poliscy">Məxfilik siyasəti</string>
     <string name="Rules">Qaydalar</string>
     <string name="contact_us">Bizimlə əlaqə</string>
+    <string name="about_us">Haqqımızda</string>
+    <string name="contacts">Əlaqə vasitələri</string>
 
 </resources>

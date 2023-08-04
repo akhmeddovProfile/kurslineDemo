@@ -16,13 +16,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.ContactUsAdapter
+import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment
 import com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment
 import com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.pdfview.view.*
 import java.io.BufferedReader
@@ -33,7 +38,9 @@ import java.util.Locale
 
 
 class SettingsFragment : Fragment() {
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var contactAdapter: ContactUsAdapter
+    private lateinit var contactList: List<ContactItem>
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,9 +99,32 @@ class SettingsFragment : Fragment() {
             val alertDialog =alertDialogBuilder.create()
             alertDialog.show()
         }
+        view.helpLl.setOnClickListener {
+            showBottomSheedDialogHelp()
 
+        }
 
         return view
+    }
+
+    private fun showBottomSheedDialogHelp(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_contact, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerviewContact: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewContacts)
+        recyclerviewContact.setHasFixedSize(true)
+        recyclerviewContact.setLayoutManager(LinearLayoutManager(requireContext()))
+        recyclerviewContact.layoutManager = LinearLayoutManager(requireContext())
+        contactList= listOf(
+            ContactItem("Məktub yazın",R.drawable.email),
+            ContactItem("Instagram",R.drawable.insta),
+            ContactItem("Facebook",R.drawable.facebook)
+        )
+        contactAdapter = ContactUsAdapter(contactList)
+        recyclerviewContact.adapter = contactAdapter
+        dialog.show()
+
     }
 
     private fun clearSharedPreferences(){

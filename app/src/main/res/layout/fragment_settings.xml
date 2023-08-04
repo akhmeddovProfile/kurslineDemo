@@ -66,6 +66,7 @@
                 android:orientation="horizontal"
                 android:background="@color/white"
                 android:layout_marginTop="20dp"
+                android:visibility="gone"
                 android:layout_below="@+id/goToMyAccount"
                 android:id="@+id/nightLightMode">
                 <ImageView
@@ -121,15 +122,16 @@
                 android:layout_below="@+id/languageMode"
                 android:id="@+id/helpLl">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_baseline_help_24"
+                    android:layout_marginTop="1dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/sms"
                     android:layout_marginStart="20dp"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/help"
+                    android:text="@string/contact_us"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nunito"
                     android:textSize="16sp"
@@ -265,7 +267,7 @@
                     android:padding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/contact_us"
+                    android:text="@string/about_us"
                     android:layout_marginTop="5dp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nunito"
