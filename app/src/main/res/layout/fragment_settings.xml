@@ -123,9 +123,9 @@
                 android:id="@+id/helpLl">
                 <ImageView
                     android:layout_marginTop="1dp"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:background="@drawable/sms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_chat_24"
                     android:layout_marginStart="20dp"/>
                 <TextView
                     android:layout_gravity="center"
@@ -163,30 +163,6 @@
                     android:layout_marginStart="20dp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/white"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/allCoursesLl"
-                android:id="@+id/exitCourseLL">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/exit_to_app_24"
-                    android:layout_marginStart="20dp"/>
-                <TextView
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/exit_kursline"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/nunito"
-                    android:textSize="16sp"
-                    android:layout_marginStart="20dp"/>
-            </LinearLayout>
 
 
 
@@ -198,7 +174,7 @@
                 android:orientation="vertical"
                 android:background="@color/white"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/exitCourseLL"
+                android:layout_below="@+id/allCoursesLl"
                 android:id="@+id/otherSettings">
                 <TextView
                     android:layout_gravity="center"
@@ -274,6 +250,32 @@
                     android:textSize="16sp"
                     android:layout_marginStart="20dp"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/otherSettings"
+                android:id="@+id/exitCourseLL">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/exit_to_app_24"
+                    android:layout_marginStart="20dp"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exit_kursline"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"/>
+            </LinearLayout>
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
