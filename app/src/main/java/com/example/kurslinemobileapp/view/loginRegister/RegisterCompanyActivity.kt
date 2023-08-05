@@ -220,7 +220,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         regionId = ""
         createBusinessAccountBtn.setOnClickListener {
             block = true
-            val companyNameContainer = companyNameEditText.text.toString().trim()
+            //val companyNameContainer = companyNameEditText.text.toString().trim()
             val companyEmailContainer = companyEmailEditText.text.toString().trim()
             val companyPasswordContainer = companyPasswordEdit.text.toString().trim()
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
@@ -229,11 +229,11 @@ class RegisterCompanyActivity : AppCompatActivity() {
           //  val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
-            val companyRegionContainer = regionId
+            //val companyRegionContainer = regionId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
             val companyPhotoContainer = companyPhoto.text.toString().trim()
             showProgressButton(true)
-            sendCompanydata(companyNameContainer,companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer,companyRegionContainer)
+            sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer)
         }
         companyPhoto.setOnClickListener {
             launchGalleryIntent()
@@ -242,37 +242,28 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
     fun sendCompanydata(
-        userFullName: String,
         email: String,
         mobileNumber: String,
         password: String,
         companyName: String,
-        companyAddress: String,
         companyAbout: String,
         companyCategoryId: String,
         imagePath: String,
-        companyStatusId:String,
-        companyRegionId:String
-    ) {
+        companyStatusId:String) {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val photo: MultipartBody.Part =
            MultipartBody.Part.createFormData("photos", file.name, reqFile)
-        val companyUsername: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userFullName)
         val companyemail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
         val companyNumber: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), mobileNumber)
         val companyPassword: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), password)
-        val address: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyAddress)
         val name: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyName)
         val about: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), companyAbout)
         val categoryid: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
-        val regionId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId)
+
         val statusId: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId)
 
@@ -282,7 +273,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.createCompany(companyUsername,name,address,about,companyemail,companyNumber,statusId,categoryid,regionId,companyPassword,photo)
+            retrofit.createCompany(name,about,companyemail,companyNumber,statusId,categoryid,companyPassword,photo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,

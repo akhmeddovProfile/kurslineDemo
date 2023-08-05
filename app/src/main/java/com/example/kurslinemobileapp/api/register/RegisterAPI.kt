@@ -20,15 +20,15 @@ interface RegisterAPI {
     @Multipart
     @POST("company-register/")
     fun createCompany(
-        @Part("UserFullName") userFullName: RequestBody,
+       // @Part("UserFullName") userFullName: RequestBody,
         @Part("CompanyName") companyName: RequestBody,
-        @Part("CompanyAddress") companyAddress: RequestBody,
+       // @Part("CompanyAddress") companyAddress: RequestBody,
         @Part("CompanyAbout") companyAbout: RequestBody,
         @Part("Email") email: RequestBody,
         @Part("MobileNumber") mobileNumber: RequestBody,
         @Part("CompanyStatusId") companyStatusId: RequestBody,
         @Part("CompanyCategoryId") companyCategoryId: RequestBody,
-        @Part("CompanyRegionId") companyRegionId: RequestBody,
+       // @Part("CompanyRegionId") companyRegionId: RequestBody,
         @Part("Password") password: RequestBody,
         @Part photos: MultipartBody.Part,
     ):Observable<RegisterCompanyResponse>

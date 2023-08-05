@@ -51,7 +51,7 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
     override fun getItemCount() = contactList.size
 
     private fun openInstagram(context: Context) {
-        val instagramAppUrl = "https://www.instagram.com/your_instagram_username/"
+        val instagramAppUrl = "https://www.instagram.com/aimtech_az/"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(instagramAppUrl))
         intent.setPackage("com.instagram.android")
 
@@ -59,14 +59,14 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
             // If the Instagram app is not installed, open the Instagram website
-            val instagramWebUrl = "https://www.instagram.com/your_instagram_username/"
+            val instagramWebUrl = "https://www.instagram.com/aimtech_az/"
             val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(instagramWebUrl))
             context.startActivity(webIntent)
         }
 
     }
     private fun openFaceook(context: Context) {
-        val instagramAppUrl = "https://www.instagram.com/your_instagram_username/"
+        val instagramAppUrl = "https://www.facebook.com/your_instagram_username/"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(instagramAppUrl))
         intent.setPackage("com.facebook.android")
 
