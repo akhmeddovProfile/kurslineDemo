@@ -40,6 +40,15 @@
     <string name="about_vip">Your ad will appear randomly on the homepage and in the VIP section of the search results.</string>
     <string name="pay">Pay</string>
     <string name="payment">Payment</string>
+    <string name="regions">Regions</string>
+    <string name="kurslar">Courses</string>
+    <string name="tutors">Tutors</string>
+    <string name="categories">Categories</string>
+    <string name="fromAtoZ">From A to Z</string>
+    <string name="mintomax">Min to Max</string>
+    <string name="courseandtutors">Course/Tutors</string>
+    <string name="price_range">Price range</string>
+    <string name="mode">Mode</string>
 
 
 </resources>

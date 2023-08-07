@@ -40,5 +40,14 @@
     <string name="about_vip">Elanınız ana səhifədə və axtarış nəticələrindəki VİP bölməsində təsadüfi qaydada görünəcək</string>
     <string name="pay">Ödə</string>
     <string name="payment">Ödəniş</string>
+    <string name="regions">Regionlar</string>
+    <string name="kurslar">Kurslar</string>
+    <string name="tutors">Repititorlar</string>
+    <string name="categories">Kateqoriyalar</string>
+    <string name="fromAtoZ">A-dan Z-ə</string>
+    <string name="mintomax">Min to Max</string>
+    <string name="courseandtutors">Kurs/Repititor</string>
+    <string name="price_range">Qiymət aralığı</string>
+    <string name="mode">Rejim</string>
 
 </resources>
