@@ -6,4 +6,140 @@
     android:layout_height="match_parent"
     tools:context=".view.payment.VipPaymentPage">
 
+    <ImageView
+        android:id="@+id/backtoMainFromCourseUpload"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
+        app:layout_constraintBottom_toTopOf="@+id/lineForCourseUpload"
+        app:layout_constraintEnd_toStartOf="@+id/uploadCoureText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/uploadCoureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="Ödəniş"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/lineForCourseUpload"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/uploadCoureText"
+        android:src="@color/grayColor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadCoureText"
+        tools:ignore="MissingConstraints" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadCoureText">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="@string/about_vip"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutShowPriceDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/grayColor3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="25.08.2023 14:00 tarixinə kimi ödənilib "
+            android:textColor="@color/greenColor"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="187dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutShowPriceDate">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xidmətin müddəti"
+            android:gravity="center"
+            android:fontFamily="@font/nunito"
+            android:textSize="12sp"
+            />
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginStart="20dp"
+            android:text="7gün/5,00 AZN"
+            android:paddingStart="15dp"
+            android:buttonTint="@color/greenColor"
+            />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:buttonTint="@color/greenColor"
+            android:layout_marginStart="20dp"
+            android:paddingStart="20dp"
+            android:text="7gün/5,00 AZN" />
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:gravity="start"
+            android:paddingStart="20dp"
+            android:layout_marginStart="20dp"
+            android:buttonTint="@color/greenColor"
+            android:layout_height="wrap_content"
+            android:text="7gün/5,00 AZN" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

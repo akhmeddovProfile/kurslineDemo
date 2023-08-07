@@ -59,6 +59,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var items: List<GetAllAnnouncement>
     private var isRegistered:Boolean=false
     private var isFavorite: Boolean = false
+    private var token:String=""
     private var userId:Int=0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +71,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
          userId = sharedPreferences.getInt("userID",0)
+        token= sharedPreferences.getString("USERTOKENNN","")!!
+        println("Clear token: "+token)
+        println("Clear: "+userId)
         items= listOf()
         mainList = ArrayList<GetAllAnnouncement>()
         mainList2 = ArrayList<GetAllAnnouncement>()

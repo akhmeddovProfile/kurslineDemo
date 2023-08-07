@@ -120,7 +120,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
-        getUserAnnouncement(userId,annId,token!!)
+        getUserAnnouncement(userId,annId,authHeader)
         addupCoursePhotos.setOnClickListener {
 
             if (ContextCompat.checkSelfPermission(

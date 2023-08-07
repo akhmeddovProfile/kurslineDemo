@@ -139,9 +139,6 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
         val editor = sharedPreferences.edit()
         sharedPreferences.edit().putString("token", response.accessToken.token).apply()
         editor.putBoolean("token", true)
-/*
-        editor.putBoolean("isFavorite",response.userInfo.isFavorite)
-*/
         editor.putString("userType",response.userInfo.userType)
         editor.putInt("userID",response.userInfo.id)
         editor.putString("USERTOKENNN", response.accessToken.token)

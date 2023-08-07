@@ -36,8 +36,8 @@
     <string name="Rules">Rules</string>
     <string name="contact_us">Contact us</string>
     <string name="about_us">About us</string>
-
     <string name="contacts">Contacts</string>
+    <string name="about_vip">Your ad will appear randomly on the homepage and in the VIP section of the search results.</string>
 
 
 </resources>

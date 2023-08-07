@@ -185,10 +185,10 @@ class CourseUploadActivity : AppCompatActivity() {
                 images.add(img)
             }
             showProgressButton(true)
-            sendAnnouncementData(token!!,userId!!, CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyAllCategoryContainer,companySubCategoryContainer,companyRegionContainer,images,teachersname))
+            sendAnnouncementData(authHeader!!,
+                userId,
+                 CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyAllCategoryContainer,companySubCategoryContainer,companyRegionContainer,images,teachersname))
         }
-
-
 
         addCoursePhotos.setOnClickListener {
             requestGalleryPermission()
@@ -214,7 +214,6 @@ class CourseUploadActivity : AppCompatActivity() {
         createAnnouncementRequest: CreateAnnouncementRequest
 
     ) {
-
         compositeDisposable= CompositeDisposable()
         val retrofitService=RetrofitService(Constant.BASE_URL).retrofit.create(CreataAnnouncementApi::class.java)
         compositeDisposable.add(
@@ -224,6 +223,7 @@ class CourseUploadActivity : AppCompatActivity() {
                 .subscribe(
                     this::handleResponse,
                     {throwable->
+                        println("Error: "+ throwable.message)
                         val text = "Məlumatlar doğru deyil"
                         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         showProgressButton(false)
