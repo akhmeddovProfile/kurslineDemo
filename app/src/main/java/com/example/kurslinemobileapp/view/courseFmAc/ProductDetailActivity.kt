@@ -43,6 +43,7 @@ import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.fragments.HomeFragment
+import com.example.kurslinemobileapp.view.payment.VipPaymentPage
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -103,6 +104,13 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
 getUserAnnouncement(userId,annId,authHeader)
+
+
+        relativeLayoutClickVIP.setOnClickListener {
+        val intent=Intent(this,VipPaymentPage::class.java)
+        startActivity(intent)
+        }
+
         deleteCourse.setOnClickListener {
             val alertDialogBuilder = AlertDialog.Builder(
                 ContextThemeWrapper(this,R.style.CustomAlertDialogTheme))

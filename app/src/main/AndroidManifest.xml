@@ -24,28 +24,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".WriteUs"
+            android:name=".view.tabsForCompanies.WriteUs"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".EnterCardNumberPage"
+            android:name=".view.payment.EnterCardNumberPage"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MoveForwardAnn"
+            android:name=".view.payment.MoveForwardAnn"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".VipPaymentPage"
+            android:name=".view.payment.VipPaymentPage"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

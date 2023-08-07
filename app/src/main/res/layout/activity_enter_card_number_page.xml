@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grayColor3"
+    android:background="@color/white"
     android:id="@+id/courseUploadRl"
     tools:context=".view.payment.EnterCardNumberPage">
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Ödəniş"
+        android:text="@string/payment"
         android:layout_marginTop="30dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -37,6 +37,7 @@
     <ScrollView
         android:layout_below="@+id/lineForCourseUpload"
         android:layout_width="match_parent"
+        android:background="@color/grayColor3"
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_marginTop="20dp"
@@ -75,6 +76,7 @@
 
             <RelativeLayout
                 android:layout_marginTop="22dp"
+                android:background="@color/white"
                 android:layout_below="@+id/sumPriceRl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -99,6 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
+                        android:maxLength="16"
                         android:inputType="number"
                         android:textColor="@color/black"
                         android:drawableEnd="@drawable/credit_card"
@@ -155,10 +158,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lines="1"
+                        android:maxLength="3"
                         android:inputType="numberPassword"
                         android:textColor="@color/black"
                         android:fontFamily="@font/montserrat"
                         android:hint="* * *"
+                        android:imeOptions="actionDone"
                         android:drawableEnd="@drawable/credit_card"
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
