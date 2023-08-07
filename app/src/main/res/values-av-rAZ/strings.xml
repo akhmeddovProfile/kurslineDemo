@@ -50,6 +50,11 @@
     <string name="courseandtutors">Kurs/Repititor</string>
     <string name="price_range">Qiymət aralığı</string>
     <string name="mode">Rejim</string>
-
-
+    <string name="LOGIN">Daxil olun</string>
+    <string name="entermail">Email daxil edin</string>
+    <string name="enterpassword">Şifrə daxil edin</string>
+    <string name="forgetpassword">Şifrəni unutmusunuz?</string>
+    <string name="resetpassword"> Şifrəni yeniləyin</string>
+    <string name="dontaccount">Hesabınız yoxdur?</string>
+    <string name="signup"> Qeydiyyatdan keçin</string>
 </resources>
