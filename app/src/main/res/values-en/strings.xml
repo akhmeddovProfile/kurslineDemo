@@ -58,4 +58,8 @@
     <string name="signup"> Sign up</string>
     <string name="mainuserregister"> Create User Account</string>
     <string name="mainbusinessregister"> Create Business Account</string>
+    <string name="forward_anntxt">Move forward</string>
+    <string name="agreement">By clicking the "Pay" button, you accept the user agreement of kursline.az.</string>
+    <string name="bank_card">Bank card</string>
+
 </resources>

@@ -1,9 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.payment.MoveForwardAnn">
+    android:background="@color/white"
+    tools:context=".view.payment.VipPaymentPage">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/backtoMainFromCourseUpload"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
+        app:layout_constraintBottom_toTopOf="@+id/lineForCourseUpload"
+        app:layout_constraintEnd_toStartOf="@+id/uploadCoureText"
+
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/uploadCoureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center"
+        android:text="@string/forward_anntxt"
+        android:textColor="@color/greenColor"
+        android:textSize="36sp"
+        android:layout_marginTop="21dp"
+         android:layout_marginStart="120dp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/lineForCourseUpload"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/uploadCoureText"
+        android:layout_marginTop="2dp"
+        android:src="@color/grayColor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadCoureText"
+        tools:ignore="MissingConstraints" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/lineForCourseUpload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadCoureText">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="@string/about_vip"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutShowPriceDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_below="@+id/relativeLayout"
+        android:background="@color/grayColor3"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <TextView
+            android:id="@+id/moveForwardDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="25.08.2023 14:00 tarixinə kimi ödənilib "
+            android:textColor="@color/greenColor"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llForChoosePrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="178dp"
+        android:layout_below="@id/relativeLayoutShowPriceDate"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/nextPay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutShowPriceDate">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Xidmətin müddəti"
+            android:textColor="@color/grayColor1"
+            android:textSize="12sp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:buttonTint="@color/greenColor"
+                android:fontFamily="@font/nunito"
+                android:paddingStart="15dp"
+                android:text="4dəfə(24 saatdan bir)/1,00 AZN"
+                android:textColor="@color/black" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:buttonTint="@color/greenColor"
+                android:fontFamily="@font/nunito"
+                android:paddingStart="15dp"
+                android:text="10dəfə(24 saatdan bir)/2,00 AZN"
+                android:textColor="@color/black" />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="Ödəniş üsulu"
+            android:textColor="@color/grayColor1"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/radioButton4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:buttonTint="@color/greenColor"
+            android:fontFamily="@font/nunito"
+            android:paddingStart="15dp"
+            android:text="Bank kartı"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nextPay"
+        android:layout_width="362dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/pay"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_below="@+id/llForChoosePrice"
+        android:textSize="20sp"
+        android:layout_marginTop="-20dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/greenColor"
+        android:fontFamily="@font/nunito"
+        android:paddingStart="10dp"
+        android:text="@string/agreement"
+        android:layout_below="@id/nextPay"
+        android:textColor="@color/black" />
+
+</RelativeLayout>

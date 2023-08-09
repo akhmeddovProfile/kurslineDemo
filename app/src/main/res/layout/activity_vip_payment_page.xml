@@ -177,7 +177,7 @@
             android:buttonTint="@color/greenColor"
             android:fontFamily="@font/nunito"
             android:paddingStart="15dp"
-            android:text="Bank kartı"
+            android:text="@string/bank_card"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -208,7 +208,7 @@
         android:buttonTint="@color/greenColor"
         android:fontFamily="@font/nunito"
         android:paddingStart="10dp"
-        android:text="“Ödə” düyməsini sıxmaqla siz kursline.az-ın istifadəçi sözləşməsini qəbul etmiş olursunuz."
+        android:text="@string/agreement"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -347,13 +347,6 @@
                     android:src="@drawable/upward_24" />
 
             </RelativeLayout>
-
-
-
-
-
-
-
             <RelativeLayout
                 android:id="@+id/relativeLayoutClickVIP"
                 android:layout_width="wrap_content"
