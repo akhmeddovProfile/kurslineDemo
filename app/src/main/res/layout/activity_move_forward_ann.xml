@@ -30,6 +30,7 @@
         android:text="@string/forward_anntxt"
         android:textColor="@color/greenColor"
         android:textSize="36sp"
+
         android:layout_marginTop="21dp"
          android:layout_marginStart="120dp"
         android:textStyle="bold"
@@ -40,8 +41,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/uploadCoureText"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="0dp"
         android:src="@color/grayColor1"
+        android:layout_marginBottom="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uploadCoureText"
