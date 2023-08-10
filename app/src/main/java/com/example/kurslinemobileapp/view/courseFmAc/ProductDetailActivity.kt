@@ -17,17 +17,22 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CommentAdapter
+import com.example.kurslinemobileapp.adapter.MainListProductAdapter
 import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
+import com.example.kurslinemobileapp.adapter.SimilarCoursesAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
+import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementSimilarCourse
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.comment.CommentAPI
@@ -62,6 +67,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -70,6 +76,10 @@ class ProductDetailActivity : AppCompatActivity() {
     private var isFavorite:Boolean=false
     private var isFavoriteFromFavoriteFragment:Boolean=false
     var deleteStatus = MutableLiveData<Boolean>()
+    private lateinit var similarProductAdapter: SimilarCoursesAdapter
+
+    private lateinit var similarcourseList : ArrayList<AnnouncementSimilarCourse>
+
     private lateinit var sharedPreferences: SharedPreferences
 
     @SuppressLint("MissingInflatedId")
@@ -91,20 +101,17 @@ class ProductDetailActivity : AppCompatActivity() {
         println("userid" + userId)
         println("token:"+authHeader)
 
+        similarcourseList= ArrayList<AnnouncementSimilarCourse>()
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
             linearlayoutforinputComment.visibility = View.VISIBLE
-/*          if (userType == "Kurs" || userType == "Repititor"){
-              deleteCourse.visibility=View.VISIBLE
-              editCourse.visibility=View.VISIBLE
-          }*/
         }
 
         else{
             linearlayoutforinputComment.visibility = View.GONE
         }
 
-getUserAnnouncement(userId,annId,authHeader)
+        getUserAnnouncement(userId,annId,authHeader)
 
         relativeLayoutClickUpForward.setOnClickListener {
             val intent=Intent(this,MoveForwardAnn::class.java)
@@ -272,7 +279,13 @@ getUserAnnouncement(userId,annId,authHeader)
 
         // Picasso.get().load(response.photos).into(productDetailImage)
 
-        println("Sub: "+response.subCategory)
+
+        val receivedIntent = intent
+        val valueFromIntent = receivedIntent.getStringExtra("subCategory")
+
+        println("valueFromIntent"+valueFromIntent)
+
+
         val companyName = response.companyName
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
@@ -288,27 +301,38 @@ getUserAnnouncement(userId,annId,authHeader)
         }else{
             vip_product_for_detail.visibility = View.GONE
         }
-
         courseownerName.setText(companyName)
         detailCoursePrice.setText(price + " AZN")
         coursecontentname.setText(courseName)
         aboutCourse.setText(courseDesc)
-        catagoryTitle.setText(categoryId)
+        //catagoryTitle.setText(categoryId)
         regionTitle.setText(regionId)
         rejimTitle.setText(modeId)
         teacherTitle.setText(teacherName.toString())
         contactTitle.setText(phoneNumber)
         viewCount.setText(count.toString())
+        catagoryTitle.setText(valueFromIntent)
+
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewUserComment)
         val commentList: List<Comment> = response.comments
-
         val commentAdapter = CommentAdapter(commentList)
         recyclerView.adapter = commentAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
         val imageUrls = response.photos
         val viewPager: ViewPager2 = findViewById(R.id.viewPagerProductDetail)
         val photoAdapter = ProductDetailImageAdapter(imageUrls)
         viewPager.adapter = photoAdapter
+
+        similarcourseList.addAll(response.announcements)
+        println("size:"+similarcourseList)
+        val recyclerViewSimilarCourse:RecyclerView=findViewById(R.id.recyclerviewforSameCourse)
+        similarProductAdapter=SimilarCoursesAdapter(similarcourseList,this@ProductDetailActivity)
+        recyclerViewSimilarCourse.adapter=similarProductAdapter
+        recyclerViewSimilarCourse.layoutManager=GridLayoutManager(this,2)
+        similarProductAdapter.notifyDataSetChanged()
+
+
     }
 
     private fun handleResponse(response: AnnouncementDetailModel) {
@@ -326,7 +350,7 @@ getUserAnnouncement(userId,annId,authHeader)
         val categoryId = response.subCategory
         val regionId = response.announcementRegionId
 
-        println("Region Name: "+regionId)
+        //println("Similar course: "+response.announcement.size)
         val modeId = response.isOnline
         val teacherName = response.teacher
         val phoneNumber = response.phone

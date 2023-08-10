@@ -75,6 +75,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         var addedToFav = false
         val productRow = items.get(0).announcemenets[position]
+
         val photoUrl = items.get(0).announcemenets[position].photos[0].url
         val url = "1"
         val photo = Photo(url)

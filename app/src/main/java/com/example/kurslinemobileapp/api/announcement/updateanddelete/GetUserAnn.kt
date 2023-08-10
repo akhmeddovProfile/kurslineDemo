@@ -1,5 +1,7 @@
 package com.example.kurslinemobileapp.api.announcement.updateanddelete
 
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
+
 data class GetUserAnn(
     val announcementAddress: String,
     val announcementDesc: String,
@@ -18,4 +20,7 @@ data class GetUserAnn(
     val phone: String,
     val photos: List<Photo>,
     val teacher: List<String>
+/*
+    val announcements:List<Announcemenet>
+*/
 )

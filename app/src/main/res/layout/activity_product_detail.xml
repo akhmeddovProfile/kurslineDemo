@@ -513,33 +513,34 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/ic_baseline_arrow_upward_24"
                     android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeLayoutforsamecourse"
-                android:layout_below="@+id/linearlayoutforinputComment"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:background="@color/grayColor3"
-                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/sameCoursetextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/characterCountTextViewComment"
                     android:layout_centerInParent="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="150dp"
                     android:fontFamily="@font/nunito"
                     android:gravity="center_horizontal"
                     android:text="@string/sameCourse"
                     android:textColor="@color/greenColor"
                     android:textSize="25sp"
+                    android:textStyle="bold"
+                    tools:ignore="NotSibling" />
+            </RelativeLayout>
 
-                    android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/relativeLayoutforsamecourse"
+                android:layout_below="@+id/linearlayoutforinputComment"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:background="@color/grayColor3"
+                android:layout_height="match_parent">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewforSameCourse"
-                    android:layout_below="@+id/sameCoursetextView"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>

@@ -240,6 +240,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             println("SubCategory New: "+it.subCategory)
             val intent = Intent(activity, ProductDetailActivity::class.java)
             intent.putExtra("isFavorite",isFavorite)
+            intent.putExtra("subCategory",it.subCategory)
             activity?.startActivity(intent)
             sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
@@ -300,7 +301,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
     }
 
-
     override fun onFavoriteItemClick(id: Int, position: Int) {
         val adapter = mainListProductAdapter as? MainListProductAdapter
         adapter!!.notifyItemChanged(position)
@@ -316,9 +316,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         else{
             postFav(id,position)
         }
-
-        /*else deleteFav(id)*/
-
     }
 
     fun postFav(id:Int,position: Int){
@@ -340,54 +337,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         )
     }
 
-    fun showBottomSheetDialog() {
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(R.layout.sorted_layout)
-        val btnAtoZ = dialog.findViewById<RelativeLayout>(R.id.rl_atoz)
-        val btnZtoA = dialog.findViewById<RelativeLayout>(R.id.rl_ztoa)
-
-        btnAtoZ?.setOnClickListener {
-            mainList2.clear()
-            mainList2.addAll(mainList.sortedBy { it.announcemenets.firstOrNull()?.announcementName })
-            println("a to z: "+mainList2)
-            mainListProductAdapter.notifyDataSetChanged()
-            dialog.dismiss()
-        }
-        btnZtoA?.setOnClickListener {
-            mainList2.clear()
-            mainList2.addAll(mainList.sortedByDescending {  it.announcemenets.firstOrNull()?.announcementName })
-            println(mainList2)
-            println(mainList)
-            mainListProductAdapter.notifyDataSetChanged()
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
-
-    fun showBottomSheetDialogPrice() {
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(R.layout.sorted_layout_price)
-        val btnMinMax = dialog.findViewById<RelativeLayout>(R.id.rl_minmax)
-        val btnmaxmin = dialog.findViewById<RelativeLayout>(R.id.rl_maxmin)
-
-        btnMinMax?.setOnClickListener {
-            mainList2.clear()
-            mainList2.addAll(mainList.sortedByDescending { it.announcemenets.firstOrNull()?.price })
-            println(mainList2)
-            println(mainList2)
-            mainListProductAdapter.notifySetChanged(mainList2)
-            dialog.dismiss()
-        }
-        btnmaxmin?.setOnClickListener {
-            mainList2.clear()
-            mainList2.addAll(mainList.sortedBy {  it.announcemenets.firstOrNull()?.price })
-            println(mainList2)
-            println(mainList)
-            mainListProductAdapter.notifySetChanged(mainList2)
-            dialog.dismiss()
-        }
-        dialog.show()
-    }
 
 
     override fun onPause() {

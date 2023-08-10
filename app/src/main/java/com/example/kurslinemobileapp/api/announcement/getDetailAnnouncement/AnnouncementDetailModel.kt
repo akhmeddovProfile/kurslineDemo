@@ -1,5 +1,7 @@
 package com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement
 
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
+
 data class AnnouncementDetailModel(
     val announcementAddress: String,
     val announcementDesc: String,
@@ -17,5 +19,6 @@ data class AnnouncementDetailModel(
     val isVIP: Boolean,
     val phone: String,
     val photos: List<Photo>,
-    val teacher: List<String>
+    val teacher: List<String>,
+    val announcements:List<AnnouncementSimilarCourse>
 )

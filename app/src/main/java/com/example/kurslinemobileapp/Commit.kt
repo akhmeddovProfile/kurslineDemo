@@ -2,6 +2,8 @@ package com.example.kurslinemobileapp
 
 import android.net.Uri
 import android.util.Base64
+import android.widget.RelativeLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 /*
 val mainpageFragment=MainPageFragment()
@@ -507,3 +509,56 @@ fun encodeImageToBase64(imageUri: Uri): String {
 
 
     }*/
+
+
+
+/*
+
+fun showBottomSheetDialog() {
+    val dialog = BottomSheetDialog(requireContext())
+    dialog.setContentView(R.layout.sorted_layout)
+    val btnAtoZ = dialog.findViewById<RelativeLayout>(R.id.rl_atoz)
+    val btnZtoA = dialog.findViewById<RelativeLayout>(R.id.rl_ztoa)
+
+    btnAtoZ?.setOnClickListener {
+        mainList2.clear()
+        mainList2.addAll(mainList.sortedBy { it.announcemenets.firstOrNull()?.announcementName })
+        println("a to z: "+mainList2)
+        mainListProductAdapter.notifyDataSetChanged()
+        dialog.dismiss()
+    }
+    btnZtoA?.setOnClickListener {
+        mainList2.clear()
+        mainList2.addAll(mainList.sortedByDescending {  it.announcemenets.firstOrNull()?.announcementName })
+        println(mainList2)
+        println(mainList)
+        mainListProductAdapter.notifyDataSetChanged()
+        dialog.dismiss()
+    }
+    dialog.show()
+}
+
+fun showBottomSheetDialogPrice() {
+    val dialog = BottomSheetDialog(requireContext())
+    dialog.setContentView(R.layout.sorted_layout_price)
+    val btnMinMax = dialog.findViewById<RelativeLayout>(R.id.rl_minmax)
+    val btnmaxmin = dialog.findViewById<RelativeLayout>(R.id.rl_maxmin)
+
+    btnMinMax?.setOnClickListener {
+        mainList2.clear()
+        mainList2.addAll(mainList.sortedByDescending { it.announcemenets.firstOrNull()?.price })
+        println(mainList2)
+        println(mainList2)
+        mainListProductAdapter.notifySetChanged(mainList2)
+        dialog.dismiss()
+    }
+    btnmaxmin?.setOnClickListener {
+        mainList2.clear()
+        mainList2.addAll(mainList.sortedBy {  it.announcemenets.firstOrNull()?.price })
+        println(mainList2)
+        println(mainList)
+        mainListProductAdapter.notifySetChanged(mainList2)
+        dialog.dismiss()
+    }
+    dialog.show()
+}*/
