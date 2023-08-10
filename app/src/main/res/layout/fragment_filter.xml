@@ -159,6 +159,7 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:layout_marginTop="20dp"
+            android:visibility="gone"
             android:layout_below="@+id/filterCategory"
             android:id="@+id/fromAtoZLayout">
 
@@ -183,6 +184,7 @@
             android:orientation="horizontal"
             android:background="@color/white"
             android:layout_marginTop="20dp"
+            android:visibility="gone"
             android:layout_below="@+id/fromAtoZLayout"
             android:id="@+id/fromMaxtoMinLayout">
 
