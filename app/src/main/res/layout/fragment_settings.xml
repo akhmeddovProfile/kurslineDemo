@@ -176,6 +176,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/allCoursesLl"
                 android:id="@+id/otherSettings">
+
+
                 <TextView
                     android:layout_gravity="center"
                     android:padding="5dp"
@@ -239,20 +241,7 @@
                     android:layout_height="1dp"
                     android:src="@color/grayColor2"/>
 
-                <TextView
-                    android:id="@+id/aboutSettingsId"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/about_us"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/nunito"
-                    android:textSize="16sp"
-                    android:layout_marginStart="20dp"/>
             </LinearLayout>
-
             <LinearLayout
                 android:padding="10dp"
                 android:layout_width="match_parent"
