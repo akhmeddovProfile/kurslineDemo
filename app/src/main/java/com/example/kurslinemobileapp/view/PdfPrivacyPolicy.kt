@@ -11,6 +11,4 @@ class PdfPrivacyPolicy : AppCompatActivity() {
         setContentView(R.layout.activity_pdf_privacy_policy)
         pdfPrivacyView.fromAsset("mexfilikword.pdf").load()
     }
-
-
 }
