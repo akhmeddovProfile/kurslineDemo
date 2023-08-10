@@ -22,8 +22,11 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.view.AboutActivity
 import com.example.kurslinemobileapp.view.MainActivity
+import com.example.kurslinemobileapp.view.PdfPrivacyPolicy
 import com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment
+import com.example.kurslinemobileapp.view.accountsFragments.UpdateUserActivity
 import com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment
 import com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
@@ -52,6 +55,15 @@ class SettingsFragment : Fragment() {
             requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
         loadLocate()
+        view.privacySettingsId.setOnClickListener {
+            val intent = Intent(requireContext(), PdfPrivacyPolicy::class.java)
+            startActivity(intent)
+        }
+
+        view.aboutSettingsId.setOnClickListener {
+            val intent = Intent(requireContext(), AboutActivity::class.java)
+            startActivity(intent)
+        }
 
         // Get the saved account information from SharedPreferences
         val isRegistered = sharedPreferences.getBoolean("token", false)

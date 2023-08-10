@@ -106,5 +106,6 @@ dependencies {
 
     androidTestImplementation "com.google.truth:truth:1.0.1"
 
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
 }

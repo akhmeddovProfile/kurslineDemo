@@ -197,6 +197,7 @@
                     android:src="@color/grayColor2"/>
 
                 <TextView
+                    android:id="@+id/privacySettingsId"
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:layout_width="match_parent"
@@ -239,6 +240,7 @@
                     android:src="@color/grayColor2"/>
 
                 <TextView
+                    android:id="@+id/aboutSettingsId"
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:layout_width="match_parent"
