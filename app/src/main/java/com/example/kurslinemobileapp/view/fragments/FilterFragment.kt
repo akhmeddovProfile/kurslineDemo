@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.CourseFilterAdapter
@@ -23,6 +24,7 @@ import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
+import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModel
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -92,6 +94,9 @@ class FilterFragment : Fragment() {
         }
         view.filterRegionsTxt.setOnClickListener {
             showBottomSheetDialogRegions()
+        }
+        view.filterRepititorid.setOnClickListener {
+            showBottomSheetDialogCourses()
         }
 
         val search = ""
@@ -275,13 +280,6 @@ class FilterFragment : Fragment() {
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialogCourses() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_courses1, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(bottomSheetView)
-        val recyclerViewCategories: RecyclerView =
-            bottomSheetView.findViewById(R.id.recyclerViewCourses)
-        recyclerViewCategories.setHasFixedSize(true)
-        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
@@ -289,20 +287,31 @@ class FilterFragment : Fragment() {
             retrofit.getCompanies()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ courses ->
-                    println("1")
-                    mainList = ArrayList()
-                    courseFilterAdapter = CourseFilterAdapter(courses)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    courseFilterAdapter.setChanged(courses)
-                    courseFilterAdapter.setOnItemClickListener { course ->
-                        categoryId = course.
-                        view.allCategoriesFilterTxt.setText(category.categoryName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
+                .subscribe(this::handleResponse, { throwable -> println("MyTests: $throwable") })
         )
 
+
+    }
+
+    private fun handleResponse(response: CompanyTeacherModel) {
+        mainList = ArrayList()
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_courses1, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewCourses)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+        val filteredList = response.filter { it.companyStatusId == 2 }
+        mainList.addAll(filteredList)
+        courseFilterAdapter = CourseFilterAdapter(filteredList)
+        recyclerViewCategories.adapter = courseFilterAdapter
+        courseFilterAdapter.setChanged(filteredList)
+        courseFilterAdapter.setOnItemClickListener { course ->
+            categoryId = course.companyId.toString()
+            view.filterRepititorid.setText(course.companyName)
+            dialog.dismiss()
+        }
         dialog.show()
     }
 
