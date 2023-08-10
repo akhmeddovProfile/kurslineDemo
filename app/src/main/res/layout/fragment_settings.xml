@@ -239,6 +239,7 @@
                     android:src="@color/grayColor2"/>
 
                 <TextView
+                    android:id="@+id/aboutUs"
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:layout_width="match_parent"
