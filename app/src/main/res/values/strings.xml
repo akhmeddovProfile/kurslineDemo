@@ -61,4 +61,13 @@
     <string name="forward_anntxt">İrəli çək</string>
     <string name="agreement">“Ödə” düyməsini sıxmaqla siz kursline.az-ın istifadəçi sözləşməsini qəbul etmiş olursunuz.</string>
     <string name="bank_card">Bank kartı</string>
+    <string name="nameString"> Adınızı daxil edin*</string>
+    <string name="nameCharacterCount">Ad 3 və 50 simvol arasında olmalıdır</string>
+    <string name="passwordCount">Parol ən azı 8 simvol uzunluğunda olmalıdır və ən azı 1 böyük hərf, 1 kiçik hərf, 1 rəqəm və 1 xüsusi simvoldan ibarət olmalıdır.</string>
+    <string name="http409String"> Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur</string>
+    <string name="infosWrong"> Məlumatlar doğru deyil</string>
+    <string name="registerSuccess"> Qeydiyyat uğurla tamamlandı</string>
+    <string name="registerContinue"> Hesab yaradılır...</string>
+    <string name="registerString">Qeydiyyatdan keç</string>
+    <string name="phoneString">Telefon nömrəsi daxil edin*</string>
 </resources>

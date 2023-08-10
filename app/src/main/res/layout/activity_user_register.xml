@@ -56,7 +56,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Adınızı daxil edin*"/>
+                    android:hint="@string/nameString"/>
                 <TextView
                     android:id="@+id/characterCountTextViewUsername"
                     android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="phone"
-                    android:hint="Telefon nömrəsi daxil edin*"/>
+                    android:hint="@string/phoneString"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -166,7 +166,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_below="@id/passwordContainer"
                 android:background="@drawable/button_bg"
-                android:text="Qeydiyyatdan keç"
+                android:text="@string/registerString"
                 android:textAllCaps="false"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="25dp"
