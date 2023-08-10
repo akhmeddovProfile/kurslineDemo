@@ -17,10 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
+import com.example.kurslinemobileapp.adapter.CourseFilterAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
+import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
@@ -41,6 +44,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class FilterFragment : Fragment() {
+    private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
     private lateinit var view: ViewGroup
     var compositeDisposable = CompositeDisposable()
     private lateinit var button1: Button
@@ -50,9 +54,11 @@ class FilterFragment : Fragment() {
     private lateinit var button5: Button
     private lateinit var button6: Button
     private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var courseFilterAdapter: CourseFilterAdapter
     private lateinit var regionAdapter: RegionAdapter
     lateinit var categoryId: String
     lateinit var regionId:String
+    lateinit var courseId: String
     private var job: Job? = null
     private lateinit var repository: MyRepositoryForCategory
 
@@ -72,7 +78,7 @@ class FilterFragment : Fragment() {
         )
         categoryId = ""
         regionId = ""
-
+        courseId = ""
         button1 = view.findViewById(R.id.coursefilter)
         button2 = view.findViewById(R.id.repititorfilter)
         button3 = view.findViewById(R.id.allcourseFilter)
@@ -123,6 +129,7 @@ class FilterFragment : Fragment() {
         view.resetFilter.setOnClickListener {
             categoryId = ""
             regionId = ""
+            courseId = ""
             view.filterRegionsTxt.text = "Regionlar"
             view.allCategoriesFilterTxt.text = "Kateqoriyalar"
             resetBtnsBackground(button1)
@@ -265,6 +272,40 @@ class FilterFragment : Fragment() {
 
         dialog.show()
     }
+
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
+    private fun showBottomSheetDialogCourses() {
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_courses1, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewCourses)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCompanies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ courses ->
+                    println("1")
+                    mainList = ArrayList()
+                    courseFilterAdapter = CourseFilterAdapter(courses)
+                    recyclerViewCategories.adapter = categoryAdapter
+                    courseFilterAdapter.setChanged(courses)
+                    courseFilterAdapter.setOnItemClickListener { course ->
+                        categoryId = course.
+                        view.allCategoriesFilterTxt.setText(category.categoryName)
+                        dialog.dismiss()
+                    }
+                }, { throwable -> println("MyTests: $throwable") })
+        )
+
+        dialog.show()
+    }
+
     private fun cancelJob() {
         job?.cancel()
     }
