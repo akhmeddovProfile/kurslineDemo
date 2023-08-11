@@ -53,18 +53,27 @@ class SimilarCoursesAdapter(val items:ArrayList<AnnouncementSimilarCourse>, val 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: SimilarCoursesAdapter, position: Int) {
         val productRow = items[position]
-   /*     val photoUrl = items[position].photos[0].url
 
-        if (productRow.photos.isNotEmpty()) {
-            val photoUrl = productRow.photos[0].url
-            Picasso.get().load(photoUrl).into(holder.productimage)
+        if (productRow.photos==null||productRow.photos.isEmpty()) {
+            holder.productimage.setImageResource(R.drawable.splash)
         } else {
-            Picasso.get().load("default").into(holder.productimage)
+            var photoUrl: String? = null
+
+            // Iterate through the photos list to find the first available URL
+            for (photo in productRow.photos) {
+                if (!photo.url.isNullOrEmpty()) {
+                    photoUrl = photo.url
+                    break
+                }
+            }
+            if (photoUrl != null) {
+                Picasso.get().load(photoUrl).into(holder.productimage)
+            } else {
+                // Set a default image if no valid photo URL is found
+                holder.productimage.setImageResource(R.drawable.setpp)
+            }
         }
-        val url = "1"*/
-/*
-        Picasso.get().load(photoUrl).into(holder.productimage)
-*/
+
 
         holder.modeView.text = productRow.isOnline
         if(productRow.isOnline == "Online"){
