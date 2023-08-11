@@ -93,5 +93,9 @@
     <string name="add_photos">Şəkil əlavə edin</string>
     <string name="addcourse">Kursu əlavə et</string>
     <string name="duration_service">Xidmətin müddəti</string>
-
+    <string name="tobusinessreg">Biznes hesabı yarat</string>
+    <string name="pending">Gözləmədə olan</string>
+    <string name="active">Aktiv kurslar</string>
+    <string name="deactive">Deaktiv kurslar</string>
+    <string name="notpublish">Dərc edilməmiş kurslar</string>
 </resources>

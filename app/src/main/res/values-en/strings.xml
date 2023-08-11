@@ -93,5 +93,9 @@
     <string name="add_photos">Add photo</string>
     <string name="addcourse">Add course</string>
     <string name="duration_service">Duration of service</string>
-
+    <string name="tobusinessreg">Create business account</string>
+    <string name="pending">Pending</string>
+    <string name="active">Active courses</string>
+    <string name="deactive">Deactive courses</string>
+    <string name="notpublish">Unpublished courses</string>
 </resources>
