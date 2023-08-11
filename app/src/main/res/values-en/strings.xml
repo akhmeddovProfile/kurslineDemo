@@ -98,4 +98,5 @@
     <string name="active">Active courses</string>
     <string name="deactive">Deactive courses</string>
     <string name="notpublish">Unpublished courses</string>
+    <string name="couldnt_find_anycourse">Could not find any course</string>
 </resources>

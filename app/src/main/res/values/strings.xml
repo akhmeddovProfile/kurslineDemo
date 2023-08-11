@@ -98,4 +98,5 @@
     <string name="active">Aktiv kurslar</string>
     <string name="deactive">Deaktiv kurslar</string>
     <string name="notpublish">Dərc edilməmiş kurslar</string>
+    <string name="couldnt_find_anycourse">Burada heç bir kurs tapılmadı</string>
 </resources>

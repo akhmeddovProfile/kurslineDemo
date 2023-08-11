@@ -121,7 +121,7 @@
                 android:id="@+id/notFoundBusinessTransCourseText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Burada heç bir kurs tapılmadı"
+                android:text="@string/couldnt_find_anycourse"
                 android:fontFamily="@font/nunito"
                 android:textColor="@color/colorForCourseIntheMainScreen"
                 android:textSize="24sp"
