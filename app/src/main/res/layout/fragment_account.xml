@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Hesab"
+        android:text="@string/accountText"
         android:layout_marginTop="30dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -50,7 +50,7 @@
                 android:id="@+id/userUpdateTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Düzəliş et"
+                android:text="@string/changing"
                 android:fontFamily="@font/nunito"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -93,7 +93,7 @@
             android:inputType="none"
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
-            android:hint="Adınız"/>
+            android:hint="@string/accountName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -123,7 +123,7 @@
             android:editable="false"
             android:clickable="false"
             android:inputType="none"
-            android:hint="Telefon nömrəsi"/>
+            android:hint="@string/accountPhone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -152,7 +152,7 @@
             android:editable="false"
             android:clickable="false"
             android:inputType="none"
-            android:hint="Email"/>
+            android:hint="@string/accountMail"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:gravity="center_horizontal"
-                android:text="Elan yerləşdirmək üçün"
+                android:text="@string/topostad"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/greenColor"
                 android:textSize="24dp"
@@ -177,7 +177,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_below="@id/accountnot"
                 android:background="@drawable/button_bg"
-                android:text="Biznes hesabı yarat"
+                android:text="@string/tobusinessreg"
                 android:textAllCaps="false"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="25dp"
