@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Hesab"
+        android:text="@string/hesab"
         android:layout_marginTop="30dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -47,7 +47,7 @@
                 android:id="@+id/companyUpdateTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Düzəliş et"
+                android:text="@string/d_z_li_et"
                 android:fontFamily="@font/nunito"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -88,7 +88,7 @@
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Adınız"/>
+                    android:hint="@string/name"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountEmailContainer"
@@ -115,7 +115,7 @@
                 android:editable="false"
                 android:clickable="false"
                 android:inputType="none"
-                android:hint="Email"/>
+                android:hint="@string/email"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountCompanyContainer"
@@ -142,7 +142,7 @@
                     android:editable="false"
                     android:clickable="false"
                     android:inputType="none"
-                    android:hint="Şirkət adı"/>
+                    android:hint="@string/businessAccountName"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountRegionContainer"
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Region"
+                    android:hint="@string/region"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -199,7 +199,7 @@
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Adress"/>
+                    android:hint="@string/businessAccountAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountPhoneContainer"
@@ -227,7 +227,7 @@
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Telefon nömrəsi"/>
+                    android:hint="@string/telephone_number"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountModeContainer"
@@ -289,7 +289,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="none"
-                    android:hint="Status"/>
+                    android:hint="@string/businessStatus"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountCategoryContainer"
@@ -348,7 +348,7 @@
                     android:editable="false"
                     android:clickable="false"
                     android:inputType="none"
-                    android:hint="Şirkət haqqında"/>
+                    android:hint="@string/about_course"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </RelativeLayout>

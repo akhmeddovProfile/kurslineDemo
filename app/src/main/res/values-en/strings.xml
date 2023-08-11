@@ -104,6 +104,9 @@
     <string name="email">Email</string>
     <string name="telephone_number">Telephone number</string>
     <string name="hesab">Account</string>
-    <string name="d_z_li_et">Update</string>
-
+    <string name="d_z_li_et">Edit</string>
+    <string name="gotoAd">To create an ad</string>
+    <string name="businessAccountName">Company Name</string>
+    <string name="businessAccountAddress">Address</string>
+    <string name="saveChange">Save changes</string>
 </resources>

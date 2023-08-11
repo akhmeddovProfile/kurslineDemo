@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Biznes Qeydiyyatı"
+        android:text="@string/businessRegister"
         android:layout_marginTop="10dp"
         android:textColor="@color/greenColor"
         android:textSize="28sp"
@@ -56,7 +56,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət adınızı daxil edin*"/>
+                    android:hint="@string/businessName"/>
 
                 <TextView
                     android:id="@+id/characterCountTextViewuserToCompanyName"
@@ -92,7 +92,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Adress*"/>
+                    android:hint="@string/businessAccountAddress"/>
 
                 <TextView
                     android:id="@+id/characterCountTextViewuserToCompanyAddress"
@@ -132,7 +132,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Status"/>
+                    android:hint="@string/businessStatus"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Şirkət loqonuzu daxil edin"
+                    android:hint="@string/businessRegisterPhoto"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"/>
@@ -220,7 +220,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət haqqında*"/>
+                    android:hint="@string/about_course"/>
 
                 <TextView
                     android:id="@+id/characterCountTextViewuserToCompanyAbout"

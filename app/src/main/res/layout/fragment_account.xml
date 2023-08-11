@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:gravity="center_horizontal"
-                android:text="Biznes hesabı yaradılır"
+                android:text="@string/gotoAd"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/greenColor"
                 android:textSize="24dp"

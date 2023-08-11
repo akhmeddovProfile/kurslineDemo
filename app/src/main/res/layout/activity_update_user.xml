@@ -14,7 +14,7 @@
         android:fontFamily="@font/nunito"
         android:gravity="start"
         android:paddingStart="5dp"
-        android:text="Düzəliş et"
+        android:text="@string/d_z_li_et"
         android:layout_marginTop="20dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -71,7 +71,7 @@
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Adınız"/>
+                    android:hint="@string/name"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -99,7 +99,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="none"
-                    android:hint="Telefon nömrəsi"/>
+                    android:hint="@string/telephone_number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -128,7 +128,7 @@
                     android:editable="false"
                     android:clickable="false"
                     android:inputType="none"
-                    android:hint="Email"/>
+                    android:hint="@string/email"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -142,7 +142,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_below="@id/photoUrlContainer"
                 android:background="@drawable/button_bg"
-                android:text="Dəyişiklikləri yadda saxla"
+                android:text="@string/saveChange"
                 android:textAllCaps="false"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="25dp"
