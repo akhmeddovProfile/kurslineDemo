@@ -325,10 +325,11 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
     fun postFav(id:Int,position: Int){
         val token = sharedPreferences.getString("USERTOKENNN","")
+        val authHeader = "Bearer $token"
         val userId = sharedPreferences.getInt("userID",0)
         val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
         compositeDisposable.add(
-            retrofit.postFavorite(token!!,userId,id).
+            retrofit.postFavorite(authHeader,userId,id).
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribe({
