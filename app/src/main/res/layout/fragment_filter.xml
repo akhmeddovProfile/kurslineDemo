@@ -118,6 +118,7 @@
             android:id="@+id/filterTeachers">
 
             <TextView
+                android:id="@+id/tutorsFilterId"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
