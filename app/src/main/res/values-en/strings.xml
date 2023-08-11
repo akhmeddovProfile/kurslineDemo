@@ -73,7 +73,7 @@
 =    <string name="userRegister">User Register</string>
     <string name="businessRegister">Business Register</string>
     <string name="businessName">Enter company name*</string>
-    <string name="businessRegisterPhoto">Enter company photo*</string>
+    <string name="businessRegisterPhoto">Enter company photo</string>
     <string name="businessStatus">Status*</string>
     <string name="businessAbout">About Company*</string>
     <string name="createBusiness">Create business account</string>
@@ -92,5 +92,6 @@
     <string name="choose_regime">Choose regime</string>
     <string name="add_photos">Add photo</string>
     <string name="addcourse">Add course</string>
+    <string name="duration_service">Duration of service</string>
 
 </resources>

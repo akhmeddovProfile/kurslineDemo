@@ -93,5 +93,6 @@
     <string name="choose_regime">Rejim Seçin</string>
     <string name="add_photos">Şəkil əlavə edin</string>
     <string name="addcourse">Kursu əlavə et</string>
+    <string name="duration_service">Xidmətin müddəti</string>
 
 </resources>

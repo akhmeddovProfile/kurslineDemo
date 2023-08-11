@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:gravity="center"
-            android:text="Xidmətin müddəti"
+            android:text="@string/duration_service"
             android:textColor="@color/grayColor1"
             android:textSize="12sp" />
 
