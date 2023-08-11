@@ -103,7 +103,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    companyNameContainer.error = "Name must be between 3 and 50 characters."
+                    companyNameContainer.error = getString(R.string.nameCharacterCount)
                 } else {
                     companyNameContainer.error = null
                 }
@@ -126,8 +126,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val isValid = isPasswordValid(password)
 
                 if (!isValid) {
-                    companyPasswordContainer.error =
-                        "Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character."
+                    companyPasswordContainer.error = getString(R.string.passwordCount)
                 } else {
                     companyPasswordContainer.error = null
                 }
@@ -148,7 +147,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    companyFullNameContainer.error = "Şirkət ad 3 və 50 simvol arasında olmalıdır"
+                    companyFullNameContainer.error = getString(R.string.busienssNameCharacterCount)
                 } else {
                     companyFullNameContainer.error = null
                 }
@@ -171,7 +170,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 200) {
-                    companyAddressContainer.error = "Ünvan 3 və 200 simvol arasında olmalıdır"
+                    companyAddressContainer.error = getString(R.string.addressCharacterCount)
                 } else {
                     companyAddressContainer.error = null
                 }
@@ -194,7 +193,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 1500) {
-                    aboutCompanyContainer.error = "Haqqında 3 və 1500 simvol arasında olmalıdır"
+                    aboutCompanyContainer.error = getString(R.string.aboutCharacterCount)
                 } else {
                     aboutCompanyContainer.error = null
                 }
@@ -279,9 +278,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 .subscribe(this::handleResponse,
                     { throwable ->
                         if (throwable.message!!.contains("HTTP 409")){
-                            Toast.makeText(this,"Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
-                            val text = "Məlumatlar doğru deyil"
+                            val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         }
                         showProgressButton(false)
@@ -291,7 +290,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
     private fun handleResponse(response: RegisterCompanyResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this,"Qeydiyyat uğurla tamamlandı",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,getString(R.string.registerSuccess),Toast.LENGTH_SHORT).show()
         val intent = Intent(this@RegisterCompanyActivity, LoginActivity::class.java)
         startActivity(intent)
         finish()
@@ -543,13 +542,13 @@ class RegisterCompanyActivity : AppCompatActivity() {
         if (show) {
             createBusinessAccountBtn.apply {
                 isEnabled = false
-                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                text = getString(R.string.registerContinue)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
             createBusinessAccountBtn.apply {
                 isEnabled = true
-                text = "Biznes hesabı yarat"
+                text = getString(R.string.registerString)
                 // Restore original background, text color, etc., if modified
             }
         }

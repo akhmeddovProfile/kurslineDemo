@@ -70,4 +70,14 @@
     <string name="registerContinue"> Creating an account...</string>
     <string name="registerString">Register</string>
     <string name="phoneString">Enter phone number*</string>
+    <string name="userRegister">User Register</string>
+    <string name="businessRegister">Business Register</string>
+    <string name="businessName">Enter company name*</string>
+    <string name="businessRegisterPhoto">Enter company photo*</string>
+    <string name="businessStatus">Status*</string>
+    <string name="businessAbout">About Company*</string>
+    <string name="createBusiness">Create business account</string>
+    <string name="busienssNameCharacterCount"> Company name must be between 3 and 50 characters</string>
+    <string name="addressCharacterCount">Address must be between 3 and 200 characters</string>
+    <string name="aboutCharacterCount">About must be between 3 and 1500 charactesr</string>
 </resources>
