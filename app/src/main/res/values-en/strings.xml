@@ -70,4 +70,25 @@
     <string name="registerContinue"> Creating an account...</string>
     <string name="registerString">Register</string>
     <string name="phoneString">Enter phone number*</string>
+    <string name="business_registration">Business Registration</string>
+    <string name="enter_company_name">Enter company name</string>
+    <string name="enter_company_logo">Enter company logo</string>
+    <string name="telephone_number">Telephone number</string>
+    <string name="irk_t_haqq_nda">About company</string>
+    <string name="enter_email_address">Enter email address</string>
+    <string name="enter_password">Enter password</string>
+    <string name="create_account">Create business account</string>
+    <string name="updatecourse">Update Course</string>
+    <string name="nameofcourse">Name of course</string>
+    <string name="chooseregion">Choose region</string>
+    <string name="chooseCategory">Choose category</string>
+    <string name="chooseSubCat">Choose sub category</string>
+    <string name="aboutcourse">About course</string>
+    <string name="enter_techer_names">Enter teachers name</string>
+    <string name="enter_price">Enter price</string>
+    <string name="courseAdress">Course address</string>
+    <string name="choose_regime">Choose regime</string>
+    <string name="add_course">Add course</string>
+
+
 </resources>

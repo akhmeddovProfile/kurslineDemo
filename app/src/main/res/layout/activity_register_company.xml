@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Biznes Qeydiyyatı"
+        android:text="@string/business_registration"
         android:layout_marginTop="10dp"
         android:textColor="@color/greenColor"
         android:textSize="28sp"
@@ -92,7 +92,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textEmailAddress"
-                    android:hint="Email daxil edin*"/>
+                    android:hint="@string/enter_email_address"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -122,7 +122,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPassword"
-                    android:hint="Şifrə daxil edin*"/>
+                    android:hint="@string/enter_password"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -150,7 +150,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət adınızı daxil edin"/>
+                    android:hint="@string/enter_company_name"/>
                 <TextView
                     android:id="@+id/characterCountTextViewcmpname"
                     android:layout_width="match_parent"
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Şirkət loqonuzu daxil edin"
+                    android:hint="@string/enter_company_logo"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"/>
@@ -284,7 +284,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="phone"
-                    android:hint="Telefon nömrəsi*"/>
+                    android:hint="@string/telephone_number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -405,7 +405,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət haqqında*"/>
+                    android:hint="@string/irk_t_haqq_nda"/>
                 <TextView
                     android:id="@+id/characterCountTextViewcmpabout"
                     android:layout_width="match_parent"
@@ -425,7 +425,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_below="@id/companyPasswordContainer"
                 android:background="@drawable/button_bg"
-                android:text="Biznes hesabı yarat"
+                android:text="@string/create_account"
                 android:textAllCaps="false"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Düzəliş etmək"
+        android:text="@string/updatecourse"
         android:layout_marginTop="30dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -62,7 +62,7 @@
                     android:id="@+id/upcourseNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Kursun adı"
+                    android:hint="@string/nameofcourse"
                     android:drawableTintMode="src_in"
                     android:inputType="textPersonName"
                     android:textColor="@color/black"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="Region Seçin"
+                    android:hint="@string/chooseregion"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="Kateqoriya Seçin"
+                    android:hint="@string/chooseCategory"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="Alt Kateqoriya Seçin"
+                    android:hint="@string/chooseSubCat"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -185,7 +185,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Kurs haqqında*"/>
+                    android:hint="@string/aboutcourse"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -214,7 +214,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Müəllimləri qeyd edin*"/>
+                    android:hint="@string/enter_techer_names"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -241,7 +241,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="number"
-                    android:hint="Qiymət daxil edin*"/>
+                    android:hint="@string/enter_price"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -263,7 +263,7 @@
                     android:id="@+id/upcourseAddressEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Kursun adresi"
+                    android:hint="@string/courseAdress"
                     android:drawableTintMode="src_in"
                     android:inputType="textPersonName"
                     android:textColor="@color/black"
@@ -292,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="Rejim Seçin"
+                    android:hint="@string/choose_regime"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -369,7 +369,7 @@
                 android:layout_marginBottom="40dp"
                 android:layout_below="@id/addupCoursePhotos"
                 android:background="@drawable/button_bg"
-                android:text="Kursu əlavə et"
+                android:text="@string/add_course"
                 android:textAllCaps="false"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
