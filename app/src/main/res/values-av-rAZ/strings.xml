@@ -70,25 +70,15 @@
     <string name="registerSuccess"> Qeydiyyat uğurla tamamlandı</string>
     <string name="registerContinue"> Hesab yaradılır...</string>
     <string name="registerString">Qeydiyyatdan keç</string>
-    <string name="phoneString">Telefon nömrəsi daxil edin</string>
-    <string name="business_registration">Biznes Qeydiyyatı</string>
-    <string name="enter_company_name">Şirkət adınızı daxil edin</string>
-    <string name="enter_company_logo">Şirkət loqonuzu daxil edin</string>
-    <string name="telephone_number">Telefon nömrəsi</string>
-    <string name="irk_t_haqq_nda">Şirkət haqqında</string>
-    <string name="enter_email_address">Email daxil edin</string>
-    <string name="enter_password">Şifrə daxil edin</string>
-    <string name="create_account">Biznes hesabı yarat</string>
-    <string name="updatecourse">Düzəliş etmək</string>
-    <string name="nameofcourse">Kursun adı</string>
-    <string name="chooseregion">Region Seçin</string>
-    <string name="chooseCategory">Kateqoriya Seçin</string>
-    <string name="chooseSubCat">Alt Kateqoriya Seçin</string>
-    <string name="aboutcourse">Kurs haqqında*</string>
-    <string name="enter_techer_names">Müəllimləri qeyd edin*</string>
-    <string name="enter_price">Qiymət daxil edin</string>
-    <string name="courseAdress">Kursun adresi</string>
-    <string name="choose_regime">Rejim Seçin</string>
-    <string name="add_course">Kursu əlavə et</string>
-
+    <string name="phoneString">Telefon nömrəsi daxil edin*</string>
+    <string name="userRegister"> İstifadəçi qeydiyyatı</string>
+    <string name="businessRegister"> Biznes qeydiyyatı</string>
+    <string name="businessName">Şirkət adınızı daxil edin*</string>
+    <string name="businessRegisterPhoto">Şirkət loqonuzu daxil edin*</string>
+    <string name="businessStatus">Status*</string>
+    <string name="businessAbout">Şirkət haqqında*</string>
+    <string name="createBusiness">Biznes hesabı yarat</string>
+    <string name="busienssNameCharacterCount"> Şirkət adı 3 və 50 simvol arasında olmalıdır</string>
+    <string name="addressCharacterCount">Ünvan 3 və 200 simvol arasında olmalıdır</string>
+    <string name="aboutCharacterCount">Haqqında 3 və 1500 simvol arasında olmalıdır</string>
 </resources>

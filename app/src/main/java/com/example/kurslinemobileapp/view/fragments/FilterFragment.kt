@@ -1,29 +1,21 @@
 package com.example.kurslinemobileapp.view.fragments
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
-import com.example.kurslinemobileapp.adapter.CourseFilterAdapter
+import com.example.kurslinemobileapp.adapter.CompanyNamesAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
-import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
-import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
-import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
-import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
@@ -32,19 +24,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_register_company.*
-import kotlinx.android.synthetic.main.activity_user_register.*
-import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.android.synthetic.main.fragment_filter.view.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 class FilterFragment : Fragment() {
-    private lateinit var mainList: ArrayList<CompanyTeacherModelItem>
     private lateinit var view: ViewGroup
     var compositeDisposable = CompositeDisposable()
     private lateinit var button1: Button
@@ -54,7 +41,6 @@ class FilterFragment : Fragment() {
     private lateinit var button5: Button
     private lateinit var button6: Button
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var courseFilterAdapter: CourseFilterAdapter
     private lateinit var regionAdapter: RegionAdapter
     lateinit var categoryId: String
     lateinit var regionId:String
@@ -93,6 +79,13 @@ class FilterFragment : Fragment() {
         view.filterRegionsTxt.setOnClickListener {
             showBottomSheetDialogRegions()
         }
+        view.filterCourses.setOnClickListener {
+            println("repid")
+            showBottomSheetDialogCourses()
+        }
+        view.filterTeachers.setOnClickListener {
+            showBottomSheetDialogTutors()
+        }
 
         val search = ""
         var statusId = ""
@@ -130,8 +123,10 @@ class FilterFragment : Fragment() {
             categoryId = ""
             regionId = ""
             courseId = ""
-            view.filterRegionsTxt.text = "Regionlar"
-            view.allCategoriesFilterTxt.text = "Kateqoriyalar"
+            view.filterRegionsTxt.text = getString(R.string.regions)
+            view.allCategoriesFilterTxt.text = getString(R.string.categories)
+            view.filterCourseId.text = getString(R.string.tutors)
+            view.tutorsFilterId.text = getString(R.string.kurslar)
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
             resetBtnsBackground(button3)
@@ -150,7 +145,7 @@ class FilterFragment : Fragment() {
             val category = categoryId
             val maxPrice = view.maxEditText.text.toString().trim()
             val minPrice = view.minEditText.text.toString().trim()
-
+            val course = courseId
             val bundle = Bundle()
             bundle.putString("search", search)
             bundle.putString("statusId", statusId)
@@ -161,6 +156,7 @@ class FilterFragment : Fragment() {
             bundle.putString("categoryId", category)
             bundle.putString("minPrice", minPrice)
             bundle.putString("maxPrice", maxPrice)
+            bundle.putString("courseId", course)
 
             // Create an instance of the HomeFragment
             val homeFragment = HomeFragment()
@@ -217,6 +213,72 @@ class FilterFragment : Fragment() {
 
     }
 
+    private fun showBottomSheetDialogCourses(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerCourses)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCompanies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ companyNames ->
+                    println("222")
+                    val filteredCompanyNames = companyNames.filter { it.companyStatusId == 1 }
+                    val adapter = CompanyNamesAdapter(filteredCompanyNames) { companyName,companyId ->
+                        filterCourseId.text = companyName
+                        courseId = companyId.toString()
+                        println("courseId: "+ courseId)
+                        dialog.dismiss()
+                    }
+                    recyclerViewCategories.adapter = adapter
+
+
+                }, { throwable -> println("MyTests: $throwable") })
+        )
+        dialog.show()
+    }
+
+    private fun showBottomSheetDialogTutors(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerCourses)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCompanies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ companyNames ->
+                    println("222")
+                    val filteredCompanyNames = companyNames.filter { it.companyStatusId == 2 }
+                    val adapter = CompanyNamesAdapter(filteredCompanyNames) { companyName,companyId ->
+                        tutorsFilterId.text = companyName
+                        courseId = companyId.toString()
+                        println("courseId: "+ courseId)
+                        dialog.dismiss()
+                    }
+                    recyclerViewCategories.adapter = adapter
+
+
+                }, { throwable -> println("MyTests: $throwable") })
+        )
+        dialog.show()
+    }
+
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
@@ -269,39 +331,6 @@ class FilterFragment : Fragment() {
                 println("MyTestsRegions: $throwable")
 
             }.launchIn(lifecycleScope)
-
-        dialog.show()
-    }
-
-    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
-    private fun showBottomSheetDialogCourses() {
-        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_courses1, null)
-        val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(bottomSheetView)
-        val recyclerViewCategories: RecyclerView =
-            bottomSheetView.findViewById(R.id.recyclerViewCourses)
-        recyclerViewCategories.setHasFixedSize(true)
-        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getCompanies()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ courses ->
-                    println("1")
-                    mainList = ArrayList()
-                    courseFilterAdapter = CourseFilterAdapter(courses)
-                    recyclerViewCategories.adapter = categoryAdapter
-                    courseFilterAdapter.setChanged(courses)
-                    courseFilterAdapter.setOnItemClickListener { course ->
-                        categoryId = course.
-                        view.allCategoriesFilterTxt.setText(category.categoryName)
-                        dialog.dismiss()
-                    }
-                }, { throwable -> println("MyTests: $throwable") })
-        )
 
         dialog.show()
     }
