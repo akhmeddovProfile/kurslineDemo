@@ -197,6 +197,9 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
+            println("SubCategory New2: "+it.subCategory)
+
+            intent.putExtra("SubCategory",it.subCategory)
             activity?.startActivity(intent)
             sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()

@@ -344,6 +344,9 @@ class ProductDetailActivity : AppCompatActivity() {
 
        // Picasso.get().load(response.photos).into(productDetailImage)
 
+        val receivedIntent = intent
+        val valueFromIntent = receivedIntent.getStringExtra("SubCategory")
+
         val companyName = response.companyName
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
@@ -368,6 +371,7 @@ class ProductDetailActivity : AppCompatActivity() {
         aboutCourse.setText(courseDesc)
         catagoryTitle.setText(categoryId)
         regionTitle.setText(regionId)
+        catagoryTitle.setText(valueFromIntent)
         rejimTitle.setText(modeId)
         teacherTitle.setText(teacherName.toString())
         contactTitle.setText(phoneNumber)
