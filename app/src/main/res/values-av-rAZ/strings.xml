@@ -106,5 +106,10 @@
     <string name="telephone_number">Telefon nömrəsi</string>
     <string name="hesab">Hesab</string>
     <string name="d_z_li_et">Düzəliş et</string>
-
+    <string name="gotoAd">Elan yaratmaq üçün</string>
+    <string name="businessAccountName">Şirkət adı</string>
+    <string name="businessAccountAddress">Address</string>
+    <string name="saveChange">Dəyişiklikləri yadda saxla</string>
+    <string name="saveSuccesfull">Məlumatlarınız uğurla yeniləndi</string>
+    <string name="savingChange">Dəyişiklikləri yadda saxlanılır...</string>
 </resources>

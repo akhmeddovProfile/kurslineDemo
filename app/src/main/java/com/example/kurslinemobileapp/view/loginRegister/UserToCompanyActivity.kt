@@ -97,7 +97,7 @@ class UserToCompanyActivity : AppCompatActivity() {
 
                 if (characterCount < 3 || characterCount > 50) {
                     characterCountTextViewuserToCompanyName.visibility=View.VISIBLE
-                    userToCompanyNameContainer.error = "Name must be between 3 and 50 characters."
+                    userToCompanyNameContainer.error = getString(R.string.busienssNameCharacterCount)
                 } else {
                     characterCountTextViewuserToCompanyName.visibility=View.GONE
                     userToCompanyNameContainer.error = null
@@ -121,7 +121,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 200) {
-                    userToCompanyAddressContainer.error = "Ünvan 3 və 200 simvol arasında olmalıdır"
+                    userToCompanyAddressContainer.error = getString(R.string.addressCharacterCount)
                 } else {
                     userToCompanyAddressContainer.error = null
                 }
@@ -144,7 +144,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 1500) {
-                    userToCompanyAboutContainer.error = "Haqqında 3 və 1500 simvol arasında olmalıdır"
+                    userToCompanyAboutContainer.error = getString(R.string.aboutCharacterCount)
                 } else {
                     userToCompanyAboutContainer.error = null
                 }
@@ -215,9 +215,9 @@ class UserToCompanyActivity : AppCompatActivity() {
                 .subscribe(this::handleResponse,
                     { throwable ->
                         if (throwable.message!!.contains("HTTP 409")){
-                            Toast.makeText(this,"Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
-                            val text = "Məlumatlar doğru deyil"
+                            val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         }
                         showProgressButton(false)
@@ -227,7 +227,7 @@ class UserToCompanyActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UserToCompanyResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this,"Qeydiyyat uğurla tamamlandı",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,getString(R.string.registerSuccess),Toast.LENGTH_SHORT).show()
         val intent = Intent(this@UserToCompanyActivity, LoginActivity::class.java)
         startActivity(intent)
         finish()
@@ -356,13 +356,13 @@ class UserToCompanyActivity : AppCompatActivity() {
         if (show) {
             userToCompanyRegisterBtn.apply {
                 isEnabled = false
-                text = "Hesab yaradılır..."  // Set empty text or loading indicator text
+                text = getString(R.string.registerContinue)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
             userToCompanyRegisterBtn.apply {
                 isEnabled = true
-                text = "Biznes hesabı yarat"
+                text = getString(R.string.createBusiness)
                 // Restore original background, text color, etc., if modified
             }
         }
