@@ -125,6 +125,8 @@ class FilterFragment : Fragment() {
             courseId = ""
             view.filterRegionsTxt.text = getString(R.string.regions)
             view.allCategoriesFilterTxt.text = getString(R.string.categories)
+            view.filterCourseId.text = getString(R.string.tutors)
+            view.tutorsFilterId.text = getString(R.string.kurslar)
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
             resetBtnsBackground(button3)
@@ -231,7 +233,7 @@ class FilterFragment : Fragment() {
                     println("222")
                     val filteredCompanyNames = companyNames.filter { it.companyStatusId == 1 }
                     val adapter = CompanyNamesAdapter(filteredCompanyNames) { companyName,companyId ->
-                        tutorsFilterId.text = companyName
+                        filterCourseId.text = companyName
                         courseId = companyId.toString()
                         println("courseId: "+ courseId)
                         dialog.dismiss()
@@ -264,7 +266,7 @@ class FilterFragment : Fragment() {
                     println("222")
                     val filteredCompanyNames = companyNames.filter { it.companyStatusId == 2 }
                     val adapter = CompanyNamesAdapter(filteredCompanyNames) { companyName,companyId ->
-                        filterCourseId.text = companyName
+                        tutorsFilterId.text = companyName
                         courseId = companyId.toString()
                         println("courseId: "+ courseId)
                         dialog.dismiss()
