@@ -258,9 +258,9 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 .subscribe(this::handleResponse,
                     { throwable ->
                         if (throwable.message!!.contains("HTTP 409")){
-                            Toast.makeText(this,"Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
-                            val text = "Məlumatlar doğru deyil"
+                            val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         }
                         showProgressButton(false)
@@ -270,7 +270,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this,"Məlumatlarınız uğurla yeniləndi",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this,getString(R.string.saveSuccesfull),Toast.LENGTH_SHORT).show()
         onBackPressed()
     }
 
@@ -433,13 +433,13 @@ class CompanyUpdateActivity : AppCompatActivity() {
         if (show) {
             savedUpdatesBtnCompany.apply {
                 isEnabled = false
-                text = "Dəyişiklikləri yadda saxlanılır..."  // Set empty text or loading indicator text
+                text = getString(R.string.savingChange)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
             savedUpdatesBtnCompany.apply {
                 isEnabled = true
-                text = "Dəyişiklikləri yadda saxla"
+                text = getString(R.string.saveChange)
                 // Restore original background, text color, etc., if modified
             }
         }

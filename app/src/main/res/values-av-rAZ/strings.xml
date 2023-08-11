@@ -110,4 +110,6 @@
     <string name="businessAccountName">Şirkət adı</string>
     <string name="businessAccountAddress">Address</string>
     <string name="saveChange">Dəyişiklikləri yadda saxla</string>
+    <string name="saveSuccesfull">Məlumatlarınız uğurla yeniləndi</string>
+    <string name="savingChange">Dəyişiklikləri yadda saxlanılır...</string>
 </resources>

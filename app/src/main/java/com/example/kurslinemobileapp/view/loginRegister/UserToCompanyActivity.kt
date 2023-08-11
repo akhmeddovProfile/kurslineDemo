@@ -362,7 +362,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         } else {
             userToCompanyRegisterBtn.apply {
                 isEnabled = true
-                text = getString(R.string.registerString)
+                text = getString(R.string.createBusiness)
                 // Restore original background, text color, etc., if modified
             }
         }

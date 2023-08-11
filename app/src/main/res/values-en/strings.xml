@@ -109,4 +109,6 @@
     <string name="businessAccountName">Company Name</string>
     <string name="businessAccountAddress">Address</string>
     <string name="saveChange">Save changes</string>
+    <string name="saveSuccesfull">Your information has been updated successfully</string>
+    <string name="savingChange">Changes are saved...</string>
 </resources>

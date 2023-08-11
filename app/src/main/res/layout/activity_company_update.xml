@@ -14,7 +14,7 @@
         android:fontFamily="@font/nunito"
         android:gravity="start"
         android:paddingStart="5dp"
-        android:text="Düzəliş et"
+        android:text="@string/d_z_li_et"
         android:layout_marginTop="20dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -69,7 +69,7 @@
                     android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Adınız"/>
+                    android:hint="@string/name"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -97,7 +97,7 @@
                     android:editable="false"
                     android:clickable="false"
                     android:inputType="none"
-                    android:hint="Email"/>
+                    android:hint="@string/email"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountUpdateCompanyContainer"
@@ -122,7 +122,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət adı"/>
+                    android:hint="@string/businessAccountName"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountUpdateRegionContainer"
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="Region Seçin"
+                    android:hint="@string/region"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -177,7 +177,7 @@
                     android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Adress"/>
+                    android:hint="@string/businessAccountAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountUpdatePhoneContainer"
@@ -203,7 +203,7 @@
                     android:inputType="phone"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Telefon nömrəsi"/>
+                    android:hint="@string/telephone_number"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountModeContainer"
@@ -265,7 +265,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="none"
-                    android:hint="Status"/>
+                    android:hint="@string/businessStatus"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/businessAccountUpdateCategoryContainer"
@@ -322,7 +322,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="Şirkət haqqında"/>
+                    android:hint="@string/about_course"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -364,7 +364,7 @@
                 android:layout_marginBottom="25dp"
                 android:layout_below="@id/companyUpdatePhotoURLContainer"
                 android:background="@drawable/button_bg"
-                android:text="Dəyişiklikləri yadda saxla"
+                android:text="@string/saveChange"
                 android:textAllCaps="false"
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="25dp"
