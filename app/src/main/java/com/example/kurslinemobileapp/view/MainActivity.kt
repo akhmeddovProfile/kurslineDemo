@@ -7,14 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.adapter.CompanyNamesAdapter
 import com.example.kurslinemobileapp.adapter.StatusAdapter
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -22,6 +25,7 @@ import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.service.Room.category.CategoryEntity
 import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
+import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusEntity
@@ -35,6 +39,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_register_company.*
+import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -57,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         saveModeInRoom()
         saveCategoryInRoom()
         saveStatusInRoom()
+        saveCourseInRoom()
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(applicationContext).categoryDao(),
             AppDatabase.getDatabase(applicationContext).subCategoryDao()
@@ -222,6 +228,35 @@ class MainActivity : AppCompatActivity() {
                     }
                     }, { throwable -> println("MyTestStatus: $throwable")
                     }))
+    }
+
+    private fun saveCourseInRoom(){
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCompanies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ companyNames ->
+                    println("222")
+                    val filteredCompanyNames = companyNames.filter {it->
+                        CourseEntity(it.companyId,it.companyName)
+                        it.companyStatusId == 1
+                    }
+                    val courseEntities = filteredCompanyNames.map {
+                        CourseEntity(it.companyId, it.companyName)
+                    }
+
+                    GlobalScope.launch {
+                        appDatabase.courseDao().insertAllcourse(courseEntities)
+                        println("courseEntities"+courseEntities)
+                    }
+
+
+                }, { throwable -> println("MyTests: $throwable") })
+        )
     }
 
 

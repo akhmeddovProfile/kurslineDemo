@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
+import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
 
 class CompanyNamesAdapter(
-    private val companyNames: List<CompanyTeacherModelItem>,
-    private val itemClickListener: (String,Int) -> Unit
+    private val companyNames: List<CourseEntity>,
+    private val itemClickListener: (String, Int) -> Unit
 ) : RecyclerView.Adapter<CompanyNamesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,11 +31,12 @@ class CompanyNamesAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(response: CompanyTeacherModelItem) {
+        fun bind(response: CourseEntity) {
             val companyNameTextView: TextView = itemView.findViewById(R.id.companyNameTextView)
-            companyNameTextView.text = response.companyName
+            companyNameTextView.text = response.courseName
+
             itemView.setOnClickListener {
-                itemClickListener.invoke(response.companyName,response.companyId)
+                itemClickListener.invoke(response.courseName, response.courseId)
             }
         }
     }

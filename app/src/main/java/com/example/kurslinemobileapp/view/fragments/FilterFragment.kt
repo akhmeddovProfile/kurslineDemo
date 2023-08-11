@@ -84,7 +84,7 @@ class FilterFragment : Fragment() {
             showBottomSheetDialogCourses()
         }
         view.filterTeachers.setOnClickListener {
-            showBottomSheetDialogTutors()
+            //showBottomSheetDialogTutors()
         }
 
         val search = ""
@@ -214,6 +214,8 @@ class FilterFragment : Fragment() {
     }
 
     private fun showBottomSheetDialogCourses(){
+        val appdatabase = AppDatabase.getDatabase(requireContext())
+
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(bottomSheetView)
@@ -222,7 +224,24 @@ class FilterFragment : Fragment() {
         recyclerViewCategories.setHasFixedSize(true)
         recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
 
-        compositeDisposable = CompositeDisposable()
+        job=appdatabase.courseDao().getAllcourse().onEach { courses ->
+            println("222")
+            println("Received ${courses.size} courses")  // Debug log
+            val filteredCompanyNames = courses.filter { it.courseId == 1 }
+            println("Filtered ${filteredCompanyNames.size} courses")  // Debug log
+
+            val adapter = CompanyNamesAdapter(filteredCompanyNames) { companyName,companyId ->
+                filterCourseId.text = companyName
+                courseId = companyId.toString()
+                println("courseId: $courseId")
+                dialog.dismiss()
+            }
+            recyclerViewCategories.adapter = adapter
+        }.catch { throwable ->
+            println("MyTests: $throwable")
+        }.launchIn(lifecycleScope)
+        dialog.show()
+/*        compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
         compositeDisposable.add(
@@ -242,10 +261,10 @@ class FilterFragment : Fragment() {
 
 
                 }, { throwable -> println("MyTests: $throwable") })
-        )
-        dialog.show()
+        )*/
     }
 
+/*
     private fun showBottomSheetDialogTutors(){
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
         val dialog = BottomSheetDialog(requireContext())
@@ -277,7 +296,9 @@ class FilterFragment : Fragment() {
                 }, { throwable -> println("MyTests: $throwable") })
         )
         dialog.show()
+        compositeDisposable.clear()
     }
+*/
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {
@@ -303,6 +324,7 @@ class FilterFragment : Fragment() {
             println("MyTests: $throwable")
         }.launchIn(lifecycleScope)
         dialog.show()
+        compositeDisposable.clear()
 
     }
     @SuppressLint("MissingInflatedId")
@@ -333,6 +355,8 @@ class FilterFragment : Fragment() {
             }.launchIn(lifecycleScope)
 
         dialog.show()
+        compositeDisposable.clear()
+
     }
 
     private fun cancelJob() {

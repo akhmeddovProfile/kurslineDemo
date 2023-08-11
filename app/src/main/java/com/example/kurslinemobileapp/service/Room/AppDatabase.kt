@@ -8,6 +8,8 @@ import com.example.kurslinemobileapp.service.Room.category.CategoryDao
 import com.example.kurslinemobileapp.service.Room.category.CategoryEntity
 import com.example.kurslinemobileapp.service.Room.category.SubCategoryDao
 import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
+import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
+import com.example.kurslinemobileapp.service.Room.courses.CoursesDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionDao
@@ -15,14 +17,14 @@ import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusDao
 import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 
-@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class], version = 5)
+@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class], version = 6)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun regionDao(): RegionDao
     abstract fun modeDao(): ModeDao
     abstract fun categoryDao(): CategoryDao
     abstract fun subCategoryDao(): SubCategoryDao
     abstract fun statusDao():StatusDao
-
+    abstract fun courseDao():CoursesDao
     companion object {
 
         @Volatile
