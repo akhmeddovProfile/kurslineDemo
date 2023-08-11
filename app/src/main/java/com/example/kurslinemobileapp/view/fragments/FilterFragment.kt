@@ -81,36 +81,8 @@ class FilterFragment : Fragment() {
         }
         view.filterCourses.setOnClickListener {
             println("repid")
-            val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
-            val dialog = BottomSheetDialog(requireContext())
-            dialog.setContentView(bottomSheetView)
-            val recyclerViewCategories: RecyclerView =
-                bottomSheetView.findViewById(R.id.recyclerCourses)
-            recyclerViewCategories.setHasFixedSize(true)
-            recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
-
-            compositeDisposable = CompositeDisposable()
-            val retrofit =
-                RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
-            compositeDisposable.add(
-                retrofit.getCompanies()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ companyNames ->
-                        println("222")
-                        val adapter = CompanyNamesAdapter(companyNames) { companyName,companyId ->
-                            filterCourseId.text = companyName
-                            courseId = companyId.toString()
-                            println("courseId: "+ courseId)
-                            dialog.dismiss()
-                        }
-                        recyclerViewCategories.adapter = adapter
-
-
-                    }, { throwable -> println("MyTests: $throwable") })
-            )
-            dialog.show()
-            }
+            showBottomSheetDialogCourses()
+        }
 
         val search = ""
         var statusId = ""
@@ -168,7 +140,7 @@ class FilterFragment : Fragment() {
             val category = categoryId
             val maxPrice = view.maxEditText.text.toString().trim()
             val minPrice = view.minEditText.text.toString().trim()
-
+            val course = courseId
             val bundle = Bundle()
             bundle.putString("search", search)
             bundle.putString("statusId", statusId)
@@ -179,6 +151,7 @@ class FilterFragment : Fragment() {
             bundle.putString("categoryId", category)
             bundle.putString("minPrice", minPrice)
             bundle.putString("maxPrice", maxPrice)
+            bundle.putString("courseId", course)
 
             // Create an instance of the HomeFragment
             val homeFragment = HomeFragment()
@@ -233,6 +206,38 @@ class FilterFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun showBottomSheetDialogCourses(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerCourses)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(CompanyTeacherAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getCompanies()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ companyNames ->
+                    println("222")
+                    val adapter = CompanyNamesAdapter(companyNames) { companyName,companyId ->
+                        filterCourseId.text = companyName
+                        courseId = companyId.toString()
+                        println("courseId: "+ courseId)
+                        dialog.dismiss()
+                    }
+                    recyclerViewCategories.adapter = adapter
+
+
+                }, { throwable -> println("MyTests: $throwable") })
+        )
+        dialog.show()
     }
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")

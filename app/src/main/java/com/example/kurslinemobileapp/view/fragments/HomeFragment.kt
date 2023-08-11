@@ -126,11 +126,12 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val categoryId = arguments?.getString("categoryId", "")
         val minPrice = arguments?.getString("minPrice", "")
         val maxPrice = arguments?.getString("maxPrice", "")
+        val course = arguments?.getString("courseId", "")
 
         // Call the getFilterProducts method with the retrieved filter parameters
-        if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null) {
+        if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null || course != null) {
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
-            getFilterProducts(limit, offset, regionId!!, categoryId!!, search!!, minPrice!!, maxPrice!!, statusId!!, isOnlineId!!, 0)
+            getFilterProducts(limit, offset, regionId!!, categoryId!!, search!!, minPrice!!, maxPrice!!, statusId!!, isOnlineId!!,course!!, 0)
         }
         else{
             recycler.layoutManager = GridLayoutManager(requireContext(),2)
@@ -263,11 +264,12 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         maxPrice: String,
         statusId: String,
         isOnlineId: String,
+        companyId:String,
         userId: Int
     ) {
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(retrofit.getFilterProducts(limit,offset,regionId,categoryId,search,minPrice,maxPrice,statusId,isOnlineId,userId)
+        compositeDisposable.add(retrofit.getFilterProducts(limit,offset,regionId,categoryId,search,minPrice,maxPrice,statusId,isOnlineId,companyId,userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponseFilter, { throwable-> println("MyTests: $throwable") }))
