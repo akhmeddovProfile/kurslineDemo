@@ -15,6 +15,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.CompanyNamesAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
+import com.example.kurslinemobileapp.adapter.TutorsNameAdapter
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -84,7 +85,7 @@ class FilterFragment : Fragment() {
             showBottomSheetDialogCourses()
         }
         view.filterTeachers.setOnClickListener {
-            //showBottomSheetDialogTutors()
+            showBottomSheetDialogTutors()
         }
 
         val search = ""
@@ -227,10 +228,8 @@ class FilterFragment : Fragment() {
         job=appdatabase.courseDao().getAllcourse().onEach { courses ->
             println("222")
             println("Received ${courses.size} courses")  // Debug log
-            val filteredCompanyNames = courses.filter { it.courseId == 1 }
-            println("Filtered ${filteredCompanyNames.size} courses")  // Debug log
 
-            val adapter = CompanyNamesAdapter(filteredCompanyNames) { companyName,companyId ->
+            val adapter = CompanyNamesAdapter(courses) { companyName,companyId ->
                 filterCourseId.text = companyName
                 courseId = companyId.toString()
                 println("courseId: $courseId")
@@ -264,8 +263,37 @@ class FilterFragment : Fragment() {
         )*/
     }
 
-/*
+
+    @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogTutors(){
+
+        val appdatabase = AppDatabase.getDatabase(requireContext())
+
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_tutors, null)
+        val dialog = BottomSheetDialog(requireContext())
+        dialog.setContentView(bottomSheetView)
+        val recyclerViewCategories: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclertutors)
+        recyclerViewCategories.setHasFixedSize(true)
+        recyclerViewCategories.setLayoutManager(LinearLayoutManager(requireContext()))
+
+        job=appdatabase.tutorsDao().getAlltutors().onEach { tutors ->
+            println("222")
+            println("Received ${tutors.size} courses")  // Debug log
+
+            val adapter = TutorsNameAdapter(tutors) { companyName,companyId ->
+                filterCourseId.text = companyName
+                courseId = companyId.toString()
+                println("courseId: $courseId")
+                dialog.dismiss()
+            }
+            recyclerViewCategories.adapter = adapter
+        }.catch { throwable ->
+            println("MyTests: $throwable")
+        }.launchIn(lifecycleScope)
+        dialog.show()
+
+        /*
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_layout_courses, null)
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(bottomSheetView)
@@ -297,8 +325,10 @@ class FilterFragment : Fragment() {
         )
         dialog.show()
         compositeDisposable.clear()
+
+         */
     }
-*/
+
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {

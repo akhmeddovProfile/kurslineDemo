@@ -29,6 +29,7 @@ import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusEntity
+import com.example.kurslinemobileapp.service.Room.tutors.TutorsEntity
 import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
@@ -249,8 +250,21 @@ class MainActivity : AppCompatActivity() {
                         CourseEntity(it.companyId, it.companyName)
                     }
 
+                    val filteredTutorsNames = companyNames.filter {it->
+                        CourseEntity(it.companyId,it.companyName)
+                        it.companyStatusId == 2
+                    }
+                    val tutorsEntities = filteredTutorsNames.map {
+                        TutorsEntity(it.companyId, it.companyName)
+                    }
+
                     GlobalScope.launch {
                         appDatabase.courseDao().insertAllcourse(courseEntities)
+                        println("courseEntities"+courseEntities)
+                    }
+
+                    GlobalScope.launch {
+                        appDatabase.tutorsDao().insertAlltutors(tutorsEntities)
                         println("courseEntities"+courseEntities)
                     }
 

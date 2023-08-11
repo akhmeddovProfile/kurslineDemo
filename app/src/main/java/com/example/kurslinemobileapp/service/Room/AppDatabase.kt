@@ -16,8 +16,10 @@ import com.example.kurslinemobileapp.service.Room.region.RegionDao
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusDao
 import com.example.kurslinemobileapp.service.Room.status.StatusEntity
+import com.example.kurslinemobileapp.service.Room.tutors.TutorsDao
+import com.example.kurslinemobileapp.service.Room.tutors.TutorsEntity
 
-@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class], version = 6)
+@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class], version = 7)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun regionDao(): RegionDao
     abstract fun modeDao(): ModeDao
@@ -25,6 +27,7 @@ abstract class AppDatabase :RoomDatabase(){
     abstract fun subCategoryDao(): SubCategoryDao
     abstract fun statusDao():StatusDao
     abstract fun courseDao():CoursesDao
+    abstract fun tutorsDao():TutorsDao
     companion object {
 
         @Volatile
