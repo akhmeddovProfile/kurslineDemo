@@ -70,7 +70,7 @@
     <string name="registerContinue"> Creating an account...</string>
     <string name="registerString">Register</string>
     <string name="phoneString">Enter phone number*</string>
-    <string name="userRegister">User Register</string>
+=    <string name="userRegister">User Register</string>
     <string name="businessRegister">Business Register</string>
     <string name="businessName">Enter company name*</string>
     <string name="businessRegisterPhoto">Enter company photo*</string>
@@ -80,4 +80,17 @@
     <string name="busienssNameCharacterCount"> Company name must be between 3 and 50 characters</string>
     <string name="addressCharacterCount">Address must be between 3 and 200 characters</string>
     <string name="aboutCharacterCount">About must be between 3 and 1500 charactesr</string>
+    <string name="update_course">Update Course</string>
+    <string name="name_course">Name of course</string>
+    <string name="choose_region">Choose region</string>
+    <string name="kateqoriya_se_in">Choose category</string>
+    <string name="choose_sub">Choose sub category</string>
+    <string name="about_course">About course</string>
+    <string name="add_techer_name">Add teacher name</string>
+    <string name="enter_price">Enter price</string>
+    <string name="course_adress">Course address</string>
+    <string name="choose_regime">Choose regime</string>
+    <string name="add_photos">Add photo</string>
+    <string name="addcourse">Add course</string>
+
 </resources>

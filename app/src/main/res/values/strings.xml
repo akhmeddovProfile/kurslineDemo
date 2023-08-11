@@ -80,4 +80,17 @@
     <string name="busienssNameCharacterCount"> Şirkət adı 3 və 50 simvol arasında olmalıdır</string>
     <string name="addressCharacterCount">Ünvan 3 və 200 simvol arasında olmalıdır</string>
     <string name="aboutCharacterCount">Haqqında 3 və 1500 simvol arasında olmalıdır</string>
+    <string name="update_course">Düzəliş etmək</string>
+    <string name="name_course">Kursun adı</string>
+    <string name="choose_region">Region Seçin</string>
+    <string name="kateqoriya_se_in">Kateqoriya Seçin</string>
+    <string name="choose_sub">Alt Kateqoriya Seçin</string>
+    <string name="about_course">Kurs haqqında</string>
+    <string name="add_techer_name">Müəllimləri qeyd edin</string>
+    <string name="enter_price">Qiymət daxil edin</string>
+    <string name="course_adress">Kursun adresi</string>
+    <string name="choose_regime">Rejim Seçin</string>
+    <string name="add_photos">Şəkil əlavə edin</string>
+    <string name="addcourse">Kursu əlavə et</string>
+
 </resources>

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="@string/updatecourse"
+        android:text="@string/update_course"
         android:layout_marginTop="30dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"
@@ -62,7 +62,7 @@
                     android:id="@+id/upcourseNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/nameofcourse"
+                    android:hint="@string/name_course"
                     android:drawableTintMode="src_in"
                     android:inputType="textPersonName"
                     android:textColor="@color/black"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="@string/chooseregion"
+                    android:hint="@string/choose_region"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="@string/chooseCategory"
+                    android:hint="@string/kateqoriya_se_in"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:editable="true"
                     android:focusable="false"
-                    android:hint="@string/chooseSubCat"
+                    android:hint="@string/choose_sub"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
                     android:inputType="none"
@@ -185,7 +185,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="@string/aboutcourse"/>
+                    android:hint="@string/about_course"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -214,7 +214,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPersonName"
-                    android:hint="@string/enter_techer_names"/>
+                    android:hint="@string/add_techer_name"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -263,7 +263,7 @@
                     android:id="@+id/upcourseAddressEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/courseAdress"
+                    android:hint="@string/course_adress"
                     android:drawableTintMode="src_in"
                     android:inputType="textPersonName"
                     android:textColor="@color/black"
@@ -323,7 +323,7 @@
                     android:fontFamily="@font/montserrat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Şəkil əlavə edin"/>
+                    android:text="@string/add_photos"/>
             </LinearLayout>
             <ImageView
                 android:id="@+id/leftArrow"
@@ -369,7 +369,7 @@
                 android:layout_marginBottom="40dp"
                 android:layout_below="@id/addupCoursePhotos"
                 android:background="@drawable/button_bg"
-                android:text="@string/add_course"
+                android:text="@string/addcourse"
                 android:textAllCaps="false"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
