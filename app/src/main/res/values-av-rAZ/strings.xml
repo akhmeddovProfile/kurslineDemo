@@ -81,4 +81,11 @@
     <string name="busienssNameCharacterCount"> Şirkət adı 3 və 50 simvol arasında olmalıdır</string>
     <string name="addressCharacterCount">Ünvan 3 və 200 simvol arasında olmalıdır</string>
     <string name="aboutCharacterCount">Haqqında 3 və 1500 simvol arasında olmalıdır</string>
+    <string name="accountText">Hesab</string>
+    <string name="changing">Düzəliş et</string>
+    <string name="accountName">Adınız</string>
+    <string name="accountPhone">Telefon nömrəsi</string>
+    <string name="accountMail">Email</string>
+    <string name="topostad">Elan yerləşdirmək üçün</string>
+    <string name="tobusinessreg">Biznes hesabı yarat</string>
 </resources>

@@ -80,4 +80,11 @@
     <string name="busienssNameCharacterCount"> Company name must be between 3 and 50 characters</string>
     <string name="addressCharacterCount">Address must be between 3 and 200 characters</string>
     <string name="aboutCharacterCount">About must be between 3 and 1500 charactesr</string>
+    <string name="accountText">Account</string>
+    <string name="changing">Edit account</string>
+    <string name="accountName">Name</string>
+    <string name="accountPhone">Phone number</string>
+    <string name="accountMail">Email</string>
+    <string name="topostad">To post an announcement</string>
+    <string name="tobusinessreg">Create business account</string>
 </resources>
