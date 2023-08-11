@@ -99,4 +99,11 @@
     <string name="deactive">Deactive courses</string>
     <string name="notpublish">Unpublished courses</string>
     <string name="couldnt_find_anycourse">Could not find any course</string>
+    <string name="theinformationdonotmatch">The information is not correct</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="telephone_number">Telephone number</string>
+    <string name="hesab">Account</string>
+    <string name="d_z_li_et">Update</string>
+
 </resources>

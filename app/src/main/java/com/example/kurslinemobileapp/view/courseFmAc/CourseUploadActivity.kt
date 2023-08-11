@@ -224,7 +224,7 @@ class CourseUploadActivity : AppCompatActivity() {
                     this::handleResponse,
                     {throwable->
                         println("Error: "+ throwable.message)
-                        val text = "Məlumatlar doğru deyil"
+                        val text=getString(R.string.theinformationdonotmatch)
                         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         showProgressButton(false)
                     }

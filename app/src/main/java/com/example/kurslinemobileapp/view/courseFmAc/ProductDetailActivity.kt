@@ -164,6 +164,7 @@ class ProductDetailActivity : AppCompatActivity() {
         })
         if(userId==0){
             getDataFromServer(annId,0)
+            getProductWhichIncludeFavorite(annId,0)
         }else{
             getProductWhichIncludeFavorite(annId,userId)
         }

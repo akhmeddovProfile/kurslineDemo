@@ -99,4 +99,10 @@
     <string name="deactive">Deaktiv kurslar</string>
     <string name="notpublish">Dərc edilməmiş kurslar</string>
     <string name="couldnt_find_anycourse">Burada heç bir kurs tapılmadı</string>
+    <string name="theinformationdonotmatch">Məlumatlar doğru deyil</string>
+    <string name="name">Adınız</string>
+    <string name="email">Email</string>
+    <string name="telephone_number">Telefon nömrəsi</string>
+    <string name="hesab">Hesab</string>
+    <string name="d_z_li_et">Düzəliş et</string>
 </resources>
