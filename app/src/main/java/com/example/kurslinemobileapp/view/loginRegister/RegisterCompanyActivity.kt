@@ -1,10 +1,12 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -14,6 +16,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,6 +66,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var editor: SharedPreferences.Editor
     private lateinit var sharedPreferences: SharedPreferences
 
+
     //Variable
     lateinit var name: String
     lateinit var companyEmail: String
@@ -77,6 +82,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var statusId: String
     lateinit var regionId:String
+    companion object {
+        private const val PERMISSION_READ_EXTERNAL_STORAGE = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -280,6 +288,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
+                            println("Error: "+throwable.message)
                             val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         }
@@ -297,8 +306,19 @@ class RegisterCompanyActivity : AppCompatActivity() {
     }
 
     fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+   /*     val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
+*/
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                PERMISSION_READ_EXTERNAL_STORAGE
+            )
+        }
     }
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)
@@ -313,23 +333,45 @@ class RegisterCompanyActivity : AppCompatActivity() {
         return BitmapFactory.decodeFile(file.absolutePath, options)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_READ_EXTERNAL_STORAGE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, launch the gallery intent
+                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    startActivityForResult(intent, PICK_IMAGE_REQUEST)
+
+                } else {
+                    // Permission denied, handle this case (e.g., show a message)
+                    Toast.makeText(this,"Permission is required",Toast.LENGTH_SHORT).show()
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val selectedImageUri = data?.data
-            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
-            if (imagePath != null) {
-                val compressedBitmap = compressImageFile(imagePath)
-                companyPhoto.setText(imagePath)
-                if(compressedBitmap!=null){
-                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
+            if (selectedImageUri != null) {
+                try {
+                    val inputStream = contentResolver.openInputStream(selectedImageUri)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    val compressedImagePath = saveCompressedBitmapToFile(bitmap)
                     companyPhoto.setText(compressedImagePath)
-                    println("CompressedImagePath"+compressedImagePath)
+                    println("CompressedImagePath: $compressedImagePath")
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
-                println(imagePath)
             }
         }
-    }
+        }
+
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
         val outputDir = this?.cacheDir // Get the directory to store the compressed image
         val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)

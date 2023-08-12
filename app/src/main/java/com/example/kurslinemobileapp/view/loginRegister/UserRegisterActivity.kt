@@ -125,6 +125,7 @@ class UserRegisterActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
+                        println("Error: "+throwable.message)
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{

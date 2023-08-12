@@ -75,7 +75,7 @@ class BusinessAccountFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTestsAccount: $throwable") }
             ))
     }
 
