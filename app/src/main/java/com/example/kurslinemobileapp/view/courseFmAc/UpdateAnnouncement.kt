@@ -42,6 +42,7 @@ import com.example.kurslinemobileapp.api.announcement.createAnnouncement.Img
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
+import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
 import com.example.kurslinemobileapp.api.companyData.SubCategory
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
@@ -54,6 +55,7 @@ import com.example.kurslinemobileapp.service.Room.region.RegionViewModel
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -63,6 +65,7 @@ import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_update_announcement.*
 import kotlinx.android.synthetic.main.activity_update_announcement.lineForCourseUpload
+import kotlinx.android.synthetic.main.fragment_business_account.view.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -351,29 +354,67 @@ class UpdateAnnouncement : AppCompatActivity() {
         //teachersname=response.teacher
      val price=response.announcementPrice
      val address=response.announcementAddress
-     val annmode=response.isOnline
+     val annmode=response.isOnline.toInt()
      val category=response.categoryId
      val subcategory=response.announcementSubCategoryId
-     val region=response.announcementRegionId
-    /*   val regioname= viewModel.loadRegionById(region)*/
+     val regionname=response.announcementRegionId.toInt()
+
         upcourseNameEditText.setText(nameofcourse)
         upcourseAboutEditText.setText(coursedesc)
-        //teachersname= mutableListOf<String>(response.teacher.toString())
         val listofteachers=teachers.joinToString("[ , ]")
         val textView = findViewById<TextInputEditText>(R.id.upcourseTeacherEditText)
         textView.setText(listofteachers)
         upcoursePriceEditText.setText(price.toString())
         upcourseAddressEditText.setText(address)
-       upcourseModeEditText.setText(annmode)
         upcourseModeEditText.setOnClickListener {
             showBottomSheetDialogMode()
         }
+        println("category "+category)
+        var categoryName = ""
+        var subcategorName=""
+        getCategoryList()!!.subscribe({ categories ->
+            println("333")
+            categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
+            upcourseAllCategoryEditText.setText(categoryName)
+
+            subcategorName = categories.categories.find { category ->
+                category.subCategories.find { subCategory ->
+                    subCategory?.subCategoryCategoryId == subcategory
+                } != null
+            }?.subCategories?.find { subCategory ->
+                subCategory?.subCategoryCategoryId == subcategory
+            }?.subCategoryName.toString()
+            courseSubCategoryEditText.setText(subcategorName)
+
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+
+
+        var statusName = ""
+        getStatusList()!!.subscribe({ status ->
+            statusName = status.statuses.find { it.statusId == annmode }?.statusName.toString()
+            upcourseModeEditText.setText(statusName)
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+
+        var regionName = ""
+        getRegionList()!!.subscribe({ region ->
+            regionName = region.regions.find { it.regionId == regionname }?.regionName.toString()
+            upcourseRegionEditText.setText(regionName)
+        }, { throwable ->
+            // Handle error during category retrieval
+            println("Category retrieval error: $throwable")
+        }).let { compositeDisposable.add(it) }
+
+
         upcourseAllCategoryEditText.setText(category.toString())
-        courseSubCategoryEditText.setText(subcategory.toString())
         upcourseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()
         }
-        upcourseRegionEditText.setText(region.toString())
         upcourseRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
@@ -498,5 +539,25 @@ class UpdateAnnouncement : AppCompatActivity() {
                 // Restore original background, text color, etc., if modified
             }
         }
+    }
+
+    private fun getCategoryList(): Observable<CompanyRegisterData>? {
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getCategories()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun getStatusList(): Observable<CompanyRegisterData>?{
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+    private fun getRegionList():Observable<CompanyRegisterData>?{
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(CompanyDatasAPI::class.java)
+        return retrofit.getRegions()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }
