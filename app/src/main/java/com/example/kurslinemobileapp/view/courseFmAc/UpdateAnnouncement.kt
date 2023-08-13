@@ -15,9 +15,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
@@ -28,19 +32,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.adapter.CategoryAdapter
-import com.example.kurslinemobileapp.adapter.ModeAdapter
-import com.example.kurslinemobileapp.adapter.RegionAdapter
-import com.example.kurslinemobileapp.adapter.SubCategoryAdapter
+import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
+import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.Img
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyData.SubCategory
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
+import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
@@ -67,19 +71,17 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 
 class UpdateAnnouncement : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
-    private var selectedPhotos = ArrayList<String>()
+    private var selectedPhotos = ArrayList<SelectionPhotoShowOnViewPager>()
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
     private var block: Boolean = true
     private var job: Job? = null
+
     private val viewModel: RegionViewModel by viewModels()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var repository: MyRepositoryForCategory
@@ -96,10 +98,27 @@ class UpdateAnnouncement : AppCompatActivity() {
     var imageData = mutableListOf<String>()
     var images = mutableListOf<Img>()
     var teachersname= mutableListOf<String>()
-    var allcategoriesId:String=""
-    var categoryId: String =""
-    var modeId: String = ""
-    var regionId:String = ""
+    var allcategoriesId:Int=0
+    var categoryId: Int =0
+    var modeId: Int = 0
+    var regionId:Int = 0
+
+    private val permissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openGallery()
+            } else {
+                // Permission denied, handle accordingly
+            }
+        }
+    private val galleryLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            uris.forEach { imageUri ->
+                val imageName=getImageName(imageUri)
+                convertImageToBase64(imageUri,imageName)
+            }
+        }
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,7 +128,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetailForUpAnn)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
-        selectedPhotos= ArrayList<String>()
+        selectedPhotos= ArrayList<SelectionPhotoShowOnViewPager>()
         images= mutableListOf()
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(this).categoryDao(),
@@ -135,7 +154,8 @@ class UpdateAnnouncement : AppCompatActivity() {
                     REQUEST_CODE_PERMISSION
                 )
             } else {
-                launchGalleryIntent()
+                requestGalleryPermission()
+                openGallery()
             }
         }
 
@@ -154,7 +174,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         updateCourseBtn.setOnClickListener {
             val upcourseNameContainer1=upcourseNameEditText?.text?.trim().toString()
             val upcourseAboutContainer1=upcourseAboutEditText?.text?.trim().toString()
-            val upcoursePriceContainer1=upcoursePriceEditText?.text?.trim().toString()
+            val upcoursePriceContainer1:Int=upcoursePriceEditText?.text?.toString()!!.toInt()
             val upcourseAddressContainer1=upcourseAddressEditText?.text?.trim().toString()
             val upAnnPhoto=selectedPhotos
             val upcourseCategoryContainer1=categoryId
@@ -172,7 +192,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 upcourseAboutEditText.requestFocus()
                 block=false
             }
-            if(upcoursePriceContainer1.isNullOrEmpty()){
+            if(upcoursePriceContainer1.equals("")){
                 upcoursePriceEditText.error="Course Price is not be null"
                 upcoursePriceEditText.requestFocus()
                 block=false
@@ -182,37 +202,30 @@ class UpdateAnnouncement : AppCompatActivity() {
                 upcourseAddressEditText.requestFocus()
                 block=false
             }
-            if(upcourseAllCategoryContainer1.isNullOrEmpty()){
-                upcourseAllCategoryEditText.error="Category is not be null"
-                upcourseAllCategoryEditText.requestFocus()
-                block=false
-            }
-            if(upcourseCategoryContainer1.isNullOrEmpty()){
-                courseSubCategoryEditText.error="Sub-Category is not be null"
-                courseSubCategoryEditText.requestFocus()
-                block=false
-            }
-            if(upcourseRegionContainer1.isNullOrEmpty()){
-                upcourseRegionEditText.error="Region is not be null"
-                upcourseRegionEditText.requestFocus()
-                block=false
-            }
+
             if(upcourseteachername.isNullOrEmpty()){
                 upcourseTeacherEditText.error="Teacher name is not be null"
                 upcourseTeacherEditText.requestFocus()
                 block=false
             }
-
             if (block==false){
                 println("False")
             }
+
+            val name = upcourseTeacherEditText.text.toString().trim()
+            if (name.isNotEmpty()){
+                teachersname.add(name)
+            }
+            for(i in 0 until imageNames.size){
+                val img = Img(imageNames[i], imageData[i].toString())
+                images.add(img)
+            }
             println("SelectedPhotos: "+selectedPhotos.size)
             showProgressButton(true)
-            sendUpdateAnnouncementData(annId!!,authHeader!!,userId!!,upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
-                upcourseRegionContainer1,upcourseCategoryContainer1,
-                upAnnPhoto,upcourseteachername,upcourseModeContainer,upcourseAllCategoryContainer1
-                )
 
+            sendUpdateAnn(authHeader,userId,annId, CreateAnnouncementRequest(upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
+            upcourseModeContainer,upcourseAllCategoryContainer1,upcourseCategoryContainer1,upcourseRegionContainer1,images,teachersname
+                ))
             return@setOnClickListener
         }
 
@@ -231,57 +244,20 @@ class UpdateAnnouncement : AppCompatActivity() {
             ))
     }
 
-    private fun sendUpdateAnnouncementData(
-        announcementId:Int,
-        token:String,
-        userId:Int,
-        announcementName:String,
-        announcementDesc:String,
-        announcementPrice:String,
-        announcementAddress:String,
-        announcementRegionId:String,
-        AnnouncementSubCategoryId:String,
-        imagePath:ArrayList<String>,
-        teachersName:String,
-        announcementIsOnlineId:String,
-        announcementCategoryId:String,
-
-    ){
-        val imageParts = mutableListOf<MultipartBody.Part>()
-
-        // Create MultipartBody.Part for each image path
-        for (imagePath in imagePath) {
-            val file = File(imagePath)
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-            val imagePart = MultipartBody.Part.createFormData("Img[]", file.name, requestFile)
-            imageParts.add(imagePart)
-        }
-        val annname:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementName)
-        val anndesc:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementDesc)
-        val annPrice:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementPrice)
-        val annAddress:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementAddress)
-        val annRegionId:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementRegionId)
-        val annteachersName:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),teachersName)
-        val annSubId:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),AnnouncementSubCategoryId)
-        val annisOnlineId:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementIsOnlineId)
-        val annCategoryId:RequestBody=RequestBody.create("text/plain".toMediaTypeOrNull(),announcementCategoryId)
-
-        compositeDisposable= CompositeDisposable()
-
-        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+    private fun sendUpdateAnn(token: String,userId:Int,announcementId: Int,createAnnouncementRequest: CreateAnnouncementRequest){
+        compositeDisposable=CompositeDisposable()
+        val retrofitService=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
         compositeDisposable.add(
-            retrofit.updateAnnouncement(annname,anndesc,annPrice,annAddress,annRegionId,annSubId,imageParts,annteachersName,annisOnlineId,annCategoryId,token,userId,announcementId)
+            retrofitService.updateAnnJSON(token,userId,announcementId,createAnnouncementRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::handleresponseforUpdateAnnouncement,
-                    {
-                        println("Error Message: "+it.message)
-                        val text = "Məlumatlar doğru deyil"
-                        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-                    showProgressButton(false)
-                    }
-                    )
+                .subscribe(
+                    this::handleresponseforUpdateAnnouncement
+                ,{
+
+                })
         )
+
     }
 
     private fun handleresponseforUpdateAnnouncement(response:UpdateAnnouncementResponse){
@@ -290,97 +266,77 @@ class UpdateAnnouncement : AppCompatActivity() {
         Toast.makeText(this,"Kurs Məlumatlarınız uğurla yeniləndi",Toast.LENGTH_SHORT).show()
         println(response.id)
     }
-
-    @SuppressLint("IntentReset")
-    fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
+    private fun requestGalleryPermission() {
+        permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
-    private fun compressImageFile(imagePath: String): Bitmap? {
-        val file = File(imagePath)
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.absolutePath, options)
-        val imageWidth = options.outWidth
-        val imageHeight = options.outHeight
-        val scaleFactor = Math.min(imageWidth / MAX_IMAGE_WIDTH, imageHeight / MAX_IMAGE_HEIGHT)
-        options.inJustDecodeBounds = false
-        options.inSampleSize = scaleFactor
-        return BitmapFactory.decodeFile(file.absolutePath, options)
+    private fun openGallery() {
+        galleryLauncher.launch("image/*")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            val selectedImageUris = mutableListOf<Uri>()
-            if (data?.clipData != null){
-                val clipData = data.clipData
-                val count = clipData?.itemCount ?: 0
-                for (i in 0 until count) {
-                    val imageUri = clipData?.getItemAt(i)?.uri
-                    imageUri?.let {
-                        selectedImageUris.add(it)
-                    }
-                }
-            }
-            else if (data?.data != null) {
-                val imageUri = data.data
-                imageUri?.let {
-                    selectedImageUris.add(it)
-                }
-            }
-            if (selectedImageUris.isNotEmpty()) {
-                val selectedImagePaths = ArrayList<String>()
-                for (uri in selectedImageUris) {
-                    val imagePath = getRealPathFromURI(uri)
-                    imagePath?.let {
-                        val compressedBitmap = compressImageFile(it)
-                        if (compressedBitmap != null) {
-                            val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                            UpsetImageUrl.setText(compressedImagePath)
-                            selectedImagePaths.add(compressedImagePath ?: it)
-                        } else {
-                            selectedImagePaths.add(it)
-                        }
-                    }
-                }
-                selectedPhotos=selectedImagePaths
-                println("Images: "+ selectedImagePaths)
-            }
-        }
-    }
-
-    private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
-        val outputDir = this?.cacheDir // Get the directory to store the compressed image
-        val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
-        var outputStream: FileOutputStream? = null
-        try {
-            outputStream = FileOutputStream(outputFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // Compress and save the bitmap as JPEG with 80% quality
-            return outputFile.absolutePath
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            outputStream?.close()
-        }
-        return null
-    }
-
-    private fun getRealPathFromURI(uri: Uri): String? {
-        var path: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
+    @SuppressLint("Range")
+    private fun getImageName(imageUri: Uri): String? {
+        val cursor = contentResolver.query(imageUri, null, null, null, null)
+        val name: String? = cursor?.use {
             if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                path = it.getString(columnIndex)
+                val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                displayName
+            } else {
+                null
             }
         }
-        return path
+        cursor?.close()
+        return name
     }
+    private fun convertImageToBase64(imageUri: Uri,imageName:String?) {
 
+        val inputStream = contentResolver.openInputStream(imageUri)
+
+        val compressedBitmap = compressImage(inputStream)
+        val targetSize = 2_500_000 // Target size in bytes (2.5 MB)
+        var compressionQuality = 100 // Start with maximum quality (minimum compression)
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+        while (byteArrayOutputStream.size() > targetSize && compressionQuality > 0) {
+            byteArrayOutputStream.reset() // Reset the output stream
+
+            // Reduce the compression quality by 10%
+            compressionQuality -= 10
+
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+        }
+
+        val imageBytes = byteArrayOutputStream.toByteArray()
+        val base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT)
+
+        inputStream?.close()
+
+        // Use the base64String as needed
+        UpsetImageUrl.setText(imageName?.trim().toString())
+        UpsetImageUrl.visibility=View.GONE
+        println("Image Name: "+UpsetImageUrl.text.toString()+".JPG")
+        imageNames.add(imageName!!)
+        selectedPhotos.add(SelectionPhotoShowOnViewPager(imageName,imageUri,base64String))
+        imageData.add(base64String)
+        setupViewPager()
+        print("Base64: "+base64String)
+
+    }
+    private fun compressImage(inputStream: InputStream?): Bitmap {
+        val options = BitmapFactory.Options()
+        options.inSampleSize = 2 // Adjust the sample size as needed for desired compression
+
+        val bitmap = BitmapFactory.decodeStream(inputStream, null, options)
+        inputStream?.close()
+
+        return bitmap!!
+    }
+    private fun setupViewPager() {
+        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpload)
+
+        // Create the adapter with the selected photos list
+        val adapter = PhotoPagerAdapter( selectedPhotos)
+        viewPager.adapter = adapter
+    }
     @SuppressLint("SuspiciousIndentation")
     private fun handleResponse(response:GetUserAnn) {
         lineForCourseUpload.visibility = View.VISIBLE
@@ -402,6 +358,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     /*   val regioname= viewModel.loadRegionById(region)*/
         upcourseNameEditText.setText(nameofcourse)
         upcourseAboutEditText.setText(coursedesc)
+        //teachersname= mutableListOf<String>(response.teacher.toString())
         val listofteachers=teachers.joinToString("[ , ]")
         val textView = findViewById<TextInputEditText>(R.id.upcourseTeacherEditText)
         textView.setText(listofteachers)
@@ -411,12 +368,12 @@ class UpdateAnnouncement : AppCompatActivity() {
         upcourseModeEditText.setOnClickListener {
             showBottomSheetDialogMode()
         }
-        //upcourseAllCategoryEditText.setText(category.toString())
-        //courseSubCategoryEditText.setText(subcategory.toString())
+        upcourseAllCategoryEditText.setText(category.toString())
+        courseSubCategoryEditText.setText(subcategory.toString())
         upcourseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()
         }
-        //upcourseRegionEditText.setText(region.toString())
+        upcourseRegionEditText.setText(region.toString())
         upcourseRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
@@ -443,7 +400,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 modeAdapter.setChanged(mode)
                 modeAdapter.setOnItemClickListener { mode ->
                     upcourseModeEditText.setText(mode.modeName)
-                    modeId = mode.modeId.toString()
+                    modeId = mode.modeId
                     dialog.dismiss()
                 }
             }.catch {
@@ -467,7 +424,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             recyclerViewCategories.adapter = categoryAdapter
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
-                allcategoriesId = categorywithsubcategory.category.categoryId.toString()
+                allcategoriesId = categorywithsubcategory.category.categoryId
                 upcourseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
                 showSubCategories(categorywithsubcategory.subCategories)
                 dialog.dismiss()
@@ -492,7 +449,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         recyclerViewSubCategories.adapter = subCategoryAdapter
         subCategoryAdapter.setOnItemClickListener { subCategory ->
             // Handle the subcategory selection here
-            categoryId = subCategory.subCategoryId.toString()
+            categoryId = subCategory.subCategoryId
             courseSubCategoryEditText.setText(subCategory.subCategoryName)
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
@@ -518,7 +475,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
                     upcourseRegionEditText.setText(region.regionName)
-                    regionId = region.regionId.toString()
+                    regionId = region.regionId
                     dialog.dismiss()
                 }
             }.catch {throwable->
@@ -526,6 +483,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             }.launchIn(lifecycleScope)
         dialog.show()
     }
+
     private fun showProgressButton(show: Boolean) {
         if (show) {
             updateCourseBtn.apply {

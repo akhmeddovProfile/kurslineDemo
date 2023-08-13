@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.api.announcement
 
+import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
 import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
@@ -9,6 +10,7 @@ import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnno
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -50,6 +52,14 @@ interface AnnouncementAPI {
         @Path("userId")userId:Int,
         @Path("announcementId")announcementId:Int
     ):Observable<DeleteAnnouncementResponse>
+
+    @POST("PutMobileAnnouncement/{userId}/{announcementId}")
+    fun updateAnnJSON(
+        @Header("Authorization")token:String,
+        @Path("userId")userId:Int,
+        @Path("announcementId")announcementId:Int,
+        @Body createAnnouncementRequest: CreateAnnouncementRequest
+    ):Observable<UpdateAnnouncementResponse>
 
     @Multipart
     @POST("PutMobileAnnouncement/{userId}/{announcementId}")

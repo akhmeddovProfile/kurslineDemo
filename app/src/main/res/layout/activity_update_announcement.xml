@@ -367,7 +367,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="40dp"
-                android:layout_below="@id/addupCoursePhotos"
+                android:layout_below="@id/viewPagerCourseUpload"
                 android:background="@drawable/button_bg"
                 android:text="@string/addcourse"
                 android:textAllCaps="false"

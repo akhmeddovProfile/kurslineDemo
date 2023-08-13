@@ -20,7 +20,5 @@ data class GetUserAnn(
     val phone: String,
     val photos: List<Photo>,
     val teacher: List<String>
-/*
-    val announcements:List<Announcemenet>
-*/
+
 )
