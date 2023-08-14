@@ -8,7 +8,7 @@
     tools:context=".view.payment.VipPaymentPage">
 
     <ImageView
-        android:id="@+id/backtoMainFromCourseUpload"
+        android:id="@+id/backtoDetailFromMoveForward"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="9dp"

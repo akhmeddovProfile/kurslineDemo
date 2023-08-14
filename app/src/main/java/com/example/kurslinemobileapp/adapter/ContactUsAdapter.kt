@@ -9,11 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.ContactItem
-import com.example.kurslinemobileapp.view.tabsForCompanies.WriteUs
 
 class ContactUsAdapter (private val contactList: List<ContactItem>) :
     RecyclerView.Adapter<ContactUsAdapter.ContactViewHolder>() {
@@ -36,8 +34,8 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
 
         holder.itemView.setOnClickListener {
             if (position==0){
-                val intent=Intent(holder.itemView.context, WriteUs::class.java)
-                holder.itemView.context.startActivity(intent)
+               // val intent=Intent(holder.itemView.context, WriteUs::class.java)
+                //holder.itemView.context.startActivity(intent)
             }
             else if(position==1){
                 openInstagram(holder.itemView.context)

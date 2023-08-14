@@ -77,6 +77,7 @@ class ProductDetailActivity : AppCompatActivity() {
     private var isFavoriteFromFavoriteFragment:Boolean=false
     var deleteStatus = MutableLiveData<Boolean>()
     private lateinit var similarProductAdapter: SimilarCoursesAdapter
+    private var isRegistered:Boolean=false
 
     private lateinit var similarcourseList : ArrayList<AnnouncementSimilarCourse>
 
@@ -332,6 +333,19 @@ class ProductDetailActivity : AppCompatActivity() {
         recyclerViewSimilarCourse.adapter=similarProductAdapter
         recyclerViewSimilarCourse.layoutManager=GridLayoutManager(this,2)
         similarProductAdapter.notifyDataSetChanged()
+        similarProductAdapter.setOnItemClickListener {
+            isFavorite=it.isFavorite
+            val intent = Intent(this, ProductDetailActivity::class.java)
+            intent.putExtra("isFavorite",isFavorite)
+            startActivity(intent)
+            sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            println("Item Clicked with UserID: "+isRegistered)
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
 
 
     }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import kotlinx.android.synthetic.main.activity_vip_payment_page.*
 
 class VipPaymentPage : AppCompatActivity() {
@@ -21,5 +22,10 @@ class VipPaymentPage : AppCompatActivity() {
             }
 
         }
+        backtoMainFromCourseUpload.setOnClickListener {
+            val intent=Intent(this@VipPaymentPage,ProductDetailActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

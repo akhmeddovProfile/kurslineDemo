@@ -99,6 +99,7 @@ class SettingsFragment : Fragment() {
             showChangeLanguage()
         }
 
+        
         view.exitCourseLL.setOnClickListener {
             val alertDialogBuilder=android.app.AlertDialog.Builder(ContextThemeWrapper(requireContext(),R.style.CustomAlertDialogTheme))
             alertDialogBuilder.setMessage("Are you sure you want to exit Kursline Application?")
