@@ -329,8 +329,8 @@ class CourseUploadActivity : AppCompatActivity() {
                 showSubCategories(categorywithsubcategory.subCategories)
                 dialog.dismiss()
             }
-        }.catch {
-
+        }.catch {exception->
+            println("Exception: "+ exception.message)
         }.launchIn(lifecycleScope)
 
         dialog.show()

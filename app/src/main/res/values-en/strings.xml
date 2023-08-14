@@ -112,4 +112,6 @@
     <string name="saveSuccesfull">Your information has been updated successfully</string>
     <string name="savingChange">Changes are saved...</string>
     <string name="new_course">New course</string>
+    <string name="writeletter">Write letter</string>
+    <string name="enteryourmessage">Enter your message</string>
 </resources>

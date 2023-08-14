@@ -113,4 +113,6 @@
     <string name="saveSuccesfull">Məlumatlarınız uğurla yeniləndi</string>
     <string name="savingChange">Dəyişiklikləri yadda saxlanılır...</string>
     <string name="new_course">Yeni Kurs</string>
+    <string name="writeletter">Məktub yazın</string>
+    <string name="enteryourmessage">Mesajınızı qeyd edin</string>
 </resources>

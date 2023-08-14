@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.ContactItem
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ContactUsAdapter (private val contactList: List<ContactItem>) :
     RecyclerView.Adapter<ContactUsAdapter.ContactViewHolder>() {
@@ -34,8 +37,7 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
 
         holder.itemView.setOnClickListener {
             if (position==0){
-               // val intent=Intent(holder.itemView.context, WriteUs::class.java)
-                //holder.itemView.context.startActivity(intent)
+              openwWriteUs(holder.itemView.context)
             }
             else if(position==1){
                 openInstagram(holder.itemView.context)
@@ -47,6 +49,14 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
     }
 
     override fun getItemCount() = contactList.size
+
+    private fun openwWriteUs(context: Context){
+        val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.write_letter, null)
+        val dialog = BottomSheetDialog(context)
+        dialog.setContentView(bottomSheetView)
+
+        dialog.show()
+    }
 
     private fun openInstagram(context: Context) {
         val instagramAppUrl = "https://www.instagram.com/aimtech_az/"
