@@ -110,10 +110,7 @@ class SimilarCoursesAdapter(private var items:ArrayList<AnnouncementSimilarCours
         }
 
     }
-    fun LikedItems(items: ArrayList<AnnouncementSimilarCourse>, position: Int){
-        this.items=items
-        notifyItemChanged(position)
-    }
+
     fun updateItemFavoriteStatus(position: Int, isFavorite: Boolean) {
         items[position].isFavorite = isFavorite
         notifyItemChanged(position)
