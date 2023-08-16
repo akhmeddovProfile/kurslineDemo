@@ -61,6 +61,7 @@ import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.fragment_business_account.view.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.product_item_row.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -69,7 +70,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ProductDetailActivity : AppCompatActivity() {
+class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.FavoriteItemClickListener {
     private lateinit var compositeDisposable: CompositeDisposable
     var favoriteDetailItem:Boolean = false
     //val isFavoriteAnnouncement:Announcemenet?=intent.getBooleanExtra("announcement",false)
@@ -77,8 +78,7 @@ class ProductDetailActivity : AppCompatActivity() {
     private var isFavoriteFromFavoriteFragment:Boolean=false
     var deleteStatus = MutableLiveData<Boolean>()
     private lateinit var similarProductAdapter: SimilarCoursesAdapter
-    private var isRegistered:Boolean=false
-
+    var checkLogin:Boolean=false
     private lateinit var similarcourseList : ArrayList<AnnouncementSimilarCourse>
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -170,7 +170,7 @@ class ProductDetailActivity : AppCompatActivity() {
             getProductWhichIncludeFavorite(annId,userId)
         }
 
-        val checkLogin=sharedPreferences.getBoolean("checkIsRegistered",true)
+         checkLogin=sharedPreferences.getBoolean("checkIsRegistered",true)
        // println("Check: "+Constant.isFavorite)
          isFavorite=intent.getBooleanExtra("isFavorite",false)
         isFavoriteFromFavoriteFragment=intent.getBooleanExtra("isFavoriteFromFavoriteFragment",false)
@@ -192,7 +192,7 @@ class ProductDetailActivity : AppCompatActivity() {
                 isFavorite=!isFavorite
                 isFavoriteFromFavoriteFragment=!isFavoriteFromFavoriteFragment
                 favorite_button_for_detail.setImageResource(if (isFavorite&&isFavoriteFromFavoriteFragment) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
-                postOrdeletefav(token!!,userId,annId)
+                postOrdeletefav(authHeader,userId,annId)
             }
             else{
                 Toast.makeText(this@ProductDetailActivity,"Please u have to be Log In or Register",Toast.LENGTH_SHORT).show()
@@ -245,6 +245,7 @@ class ProductDetailActivity : AppCompatActivity() {
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribe({
+
                 println(it.isSuccess)
             },{throwable->
                 println("My msg: ${throwable}")
@@ -329,7 +330,7 @@ class ProductDetailActivity : AppCompatActivity() {
         similarcourseList.addAll(response.announcements)
         println("size:"+similarcourseList)
         val recyclerViewSimilarCourse:RecyclerView=findViewById(R.id.recyclerviewforSameCourse)
-        similarProductAdapter=SimilarCoursesAdapter(similarcourseList,this@ProductDetailActivity)
+        similarProductAdapter=SimilarCoursesAdapter(similarcourseList,this@ProductDetailActivity,this@ProductDetailActivity)
         recyclerViewSimilarCourse.adapter=similarProductAdapter
         recyclerViewSimilarCourse.layoutManager=GridLayoutManager(this,2)
         similarProductAdapter.notifyDataSetChanged()
@@ -341,14 +342,44 @@ class ProductDetailActivity : AppCompatActivity() {
             sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
-            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-            println("Item Clicked with UserID: "+isRegistered)
+           // sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            //println("Item Clicked with UserID: "+isRegistered)
             println("gedenId-----"+it.id)
             editor.apply()
         }
 
 
     }
+    override fun onFavoriteItemClick(id: Int, position: Int) {
+        if (checkLogin==true){
+            postOrdeletefavSimilarCourse(id,position)
+            }
+            else{
+            Toast.makeText(this@ProductDetailActivity,"Please u have to be Log In or Register",Toast.LENGTH_SHORT).show()
+        }
+            }
+
+    private fun postOrdeletefavSimilarCourse(id:Int,position: Int) {
+        val annId = sharedPreferences.getInt("announcementId",0)
+        val userId = sharedPreferences.getInt("userID",0)
+        val token = sharedPreferences.getString("USERTOKENNN","")
+        favoriteDetailItem=sharedPreferences.getBoolean("isFavorite",false)
+        val authHeader = "Bearer $token"
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
+        compositeDisposable.add(
+            retrofit.postFavorite(authHeader!!,userId,id).
+            subscribeOn(Schedulers.io()).
+            observeOn(AndroidSchedulers.mainThread()).
+            subscribe({
+                similarProductAdapter.updateItemFavoriteStatus(position, it.isSuccess)
+                similarProductAdapter.notifyDataSetChanged()
+                println(it.isSuccess)
+            },{throwable->
+                println("My msg: ${throwable}")
+            })
+        )
+    }
+
 
     private fun handleResponse(response: AnnouncementDetailModel) {
         scrollViewforProductDescription.visibility = View.VISIBLE
@@ -496,5 +527,7 @@ class ProductDetailActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+
 
 }

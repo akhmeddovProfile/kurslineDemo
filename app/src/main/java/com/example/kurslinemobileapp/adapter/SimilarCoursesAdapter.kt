@@ -16,14 +16,20 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Anno
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementSimilarCourse
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.squareup.picasso.Picasso
 
-class SimilarCoursesAdapter(val items:ArrayList<AnnouncementSimilarCourse>, val context: Context):RecyclerView.Adapter<SimilarCoursesAdapter.SimilarCoursesAdapter>() {
+class SimilarCoursesAdapter(private var items:ArrayList<AnnouncementSimilarCourse>, val context: Context, private val favoriteItemClickListener: FavoriteItemClickListener,
+):RecyclerView.Adapter<SimilarCoursesAdapter.SimilarCoursesAdapter>() {
     private var onItemClickListener: ((AnnouncementSimilarCourse) -> Unit)? = null
     fun setOnItemClickListener(listener: (AnnouncementSimilarCourse) -> Unit) {
         onItemClickListener = listener
+    }
+
+    interface FavoriteItemClickListener{
+        fun onFavoriteItemClick(id: Int,position: Int)
     }
     inner class SimilarCoursesAdapter(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val isonlinebg : RelativeLayout = itemView.findViewById(R.id.relativeForCourseMode)
@@ -74,7 +80,6 @@ class SimilarCoursesAdapter(val items:ArrayList<AnnouncementSimilarCourse>, val 
             }
         }
 
-
         holder.modeView.text = productRow.isOnline
         if(productRow.isOnline == "Online"){
             holder.isonlinebg.setBackgroundResource(R.drawable.isonline_bg)
@@ -95,8 +100,24 @@ class SimilarCoursesAdapter(val items:ArrayList<AnnouncementSimilarCourse>, val 
         }
         holder.bind(productRow)
 
-    }
+        if (productRow.isFavorite==true){
+            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+        }else{
+            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+        }
+        holder.heartButton.setOnClickListener {
+            favoriteItemClickListener.onFavoriteItemClick(productRow.id,position)
+        }
 
+    }
+    fun LikedItems(items: ArrayList<AnnouncementSimilarCourse>, position: Int){
+        this.items=items
+        notifyItemChanged(position)
+    }
+    fun updateItemFavoriteStatus(position: Int, isFavorite: Boolean) {
+        items[position].isFavorite = isFavorite
+        notifyItemChanged(position)
+    }
     override fun getItemCount(): Int {
         return items.size
     }

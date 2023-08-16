@@ -35,7 +35,7 @@
             android:textSize="30dp" />
 
         <ImageView
-            android:id="@+id/createAccountTextMain"
+            android:id="@+id/writeus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"

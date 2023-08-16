@@ -67,7 +67,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     ): View? {
         // Inflate the layout for this fragment
          view =  inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
-            val createAccount = view.findViewById<ImageView>(R.id.createAccountTextMain)
+            val createAccount = view.findViewById<ImageView>(R.id.writeus)
 
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
          userId = sharedPreferences.getInt("userID",0)
@@ -111,10 +111,10 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
-            view.createAccountTextMain.visibility = View.VISIBLE
+            view.writeus.visibility = View.VISIBLE
         }
         else{
-            view.createAccountTextMain.visibility = View.VISIBLE
+            view.writeus.visibility = View.VISIBLE
         }
 
         val search = arguments?.getString("search", "")
