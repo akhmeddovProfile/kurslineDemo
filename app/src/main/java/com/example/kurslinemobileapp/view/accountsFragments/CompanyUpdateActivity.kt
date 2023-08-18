@@ -98,6 +98,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
             showBottomSheetDialog()
         }
         businessAccountUpdateRegionEditText.setOnClickListener {
+            println("onclcik")
             showBottomSheetDialogRegions()
         }
         companyUpdateStatusEditText.setOnClickListener {
