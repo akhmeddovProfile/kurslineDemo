@@ -1,12 +1,10 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -16,8 +14,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,7 +62,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var editor: SharedPreferences.Editor
     private lateinit var sharedPreferences: SharedPreferences
 
-
     //Variable
     lateinit var name: String
     lateinit var companyEmail: String
@@ -82,9 +77,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var categoryId: String
     lateinit var statusId: String
     lateinit var regionId:String
-    companion object {
-        private const val PERMISSION_READ_EXTERNAL_STORAGE = 1
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -183,23 +175,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     companyAddressContainer.error = null
                 }
 
-                characterCountTextViewcmpadress.text = "$characterCount / 200"
-            }
-        })
-
-        aboutCompanyEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val name = s.toString().trim()
-                val characterCount = name.length
-
                 if (characterCount < 3 || characterCount > 1500) {
                     aboutCompanyContainer.error = getString(R.string.aboutCharacterCount)
                 } else {
@@ -233,7 +208,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
             val companyAddressContainer = companyAdressEditText.text.toString().trim()
             val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
-          //  val companyModeContainer = companyModeEditText.text.toString().trim()
+            //  val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             //val companyRegionContainer = regionId
@@ -260,7 +235,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         val file = File(imagePath)
         val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
         val photo: MultipartBody.Part =
-           MultipartBody.Part.createFormData("photos", file.name, reqFile)
+            MultipartBody.Part.createFormData("photos", file.name, reqFile)
         val companyemail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
         val companyNumber: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), mobileNumber)
@@ -288,9 +263,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
-                            println("Error: "+throwable.message)
                             val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                            println("throwable" + throwable.toString())
                         }
                         showProgressButton(false)
                     })
@@ -306,19 +281,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
     }
 
     fun launchGalleryIntent() {
-   /*     val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
-*/
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                PERMISSION_READ_EXTERNAL_STORAGE
-            )
-        }
     }
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)
@@ -333,45 +297,23 @@ class RegisterCompanyActivity : AppCompatActivity() {
         return BitmapFactory.decodeFile(file.absolutePath, options)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSION_READ_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted, launch the gallery intent
-                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    startActivityForResult(intent, PICK_IMAGE_REQUEST)
-
-                } else {
-                    // Permission denied, handle this case (e.g., show a message)
-                    Toast.makeText(this,"Permission is required",Toast.LENGTH_SHORT).show()
-                }
-            }
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
-    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val selectedImageUri = data?.data
-            if (selectedImageUri != null) {
-                try {
-                    val inputStream = contentResolver.openInputStream(selectedImageUri)
-                    val bitmap = BitmapFactory.decodeStream(inputStream)
-                    val compressedImagePath = saveCompressedBitmapToFile(bitmap)
+            val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
+            if (imagePath != null) {
+                val compressedBitmap = compressImageFile(imagePath)
+                companyPhoto.setText(imagePath)
+                if(compressedBitmap!=null){
+                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
                     companyPhoto.setText(compressedImagePath)
-                    println("CompressedImagePath: $compressedImagePath")
-                } catch (e: IOException) {
-                    e.printStackTrace()
+                    println("CompressedImagePath"+compressedImagePath)
                 }
+                println(imagePath)
             }
         }
-        }
-
+    }
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
         val outputDir = this?.cacheDir // Get the directory to store the compressed image
         val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
@@ -497,21 +439,21 @@ class RegisterCompanyActivity : AppCompatActivity() {
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
         compositeDisposable = CompositeDisposable()
 
-         job= appDatabase.regionDao().getAllRegions()
-                .onEach {reg->
-                    println("2")
-                    regionAdapter = RegionAdapter(reg)
-                    recyclerviewRegions.adapter = regionAdapter
-                    regionAdapter.setChanged(reg)
-                    regionAdapter.setOnItemClickListener { region ->
-                        companyRegionEditText.setText(region.regionName)
-                        regionId = region.regionId.toString()
-                        dialog.dismiss()
-                    }
+        job= appDatabase.regionDao().getAllRegions()
+            .onEach {reg->
+                println("2")
+                regionAdapter = RegionAdapter(reg)
+                recyclerviewRegions.adapter = regionAdapter
+                regionAdapter.setChanged(reg)
+                regionAdapter.setOnItemClickListener { region ->
+                    companyRegionEditText.setText(region.regionName)
+                    regionId = region.regionId.toString()
+                    dialog.dismiss()
+                }
 
-                }.catch {thorawable->
-                    println("Error message 2: "+ thorawable.message)
-                }.launchIn(lifecycleScope)
+            }.catch {thorawable->
+                println("Error message 2: "+ thorawable.message)
+            }.launchIn(lifecycleScope)
 
         dialog.show()
     }
@@ -574,9 +516,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
                     statusId = status.statusId.toString()
                     dialog.dismiss()
                 }
-        }.catch { throwable ->
+            }.catch { throwable ->
                 println("MyTestStatus: $throwable")
-        }.launchIn(lifecycleScope)
+            }.launchIn(lifecycleScope)
         dialog.show()
     }
 
