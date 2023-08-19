@@ -145,6 +145,7 @@ class UpdateUserActivity : AppCompatActivity() {
                 .subscribe(
                     this::handleResponseUpdate,
                     { throwable ->
+                        println(throwable.message)
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{

@@ -1,10 +1,12 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -15,6 +17,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,7 +69,11 @@ class UserToCompanyActivity : AppCompatActivity() {
     private var job: Job? = null
     private lateinit var repository: MyRepositoryForCategory
 
+    companion object {
+        private const val PERMISSION_READ_EXTERNAL_STORAGE = 1
+        private const val PICK_IMAGE_REQUEST = 2
 
+    }
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -214,6 +222,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
+                        println(throwable.message)
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
@@ -234,9 +243,39 @@ class UserToCompanyActivity : AppCompatActivity() {
     }
 
     fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false) // Allow only single image selection
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            UserToCompanyActivity.PERMISSION_READ_EXTERNAL_STORAGE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, launch the gallery intent
+                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
+
+                } else {
+                    // Permission denied, handle this case (e.g., show a message)
+                    Toast.makeText(this,"Permission is required",Toast.LENGTH_SHORT).show()
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)
         val options = BitmapFactory.Options()
@@ -266,6 +305,22 @@ class UserToCompanyActivity : AppCompatActivity() {
                 println(imagePath)
             }
         }
+      /*  if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val selectedImageUri = data?.data
+            if (selectedImageUri != null) {
+                try {
+                    val inputStream = contentResolver.openInputStream(selectedImageUri)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    val compressedImagePath = saveCompressedBitmapToFile(bitmap)
+                    userToCompanyPhotoEditText.setText(compressedImagePath)
+                    println("CompressedImagePath: $compressedImagePath")
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+            }
+        }*/
+
     }
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
         val outputDir = this?.cacheDir // Get the directory to store the compressed image

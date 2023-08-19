@@ -8,8 +8,8 @@
         android:name="android.permission.ACCESS_SURFACE_FLINGER"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />-->
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
@@ -38,13 +38,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".view.tabsForCompanies.WriteUs"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".view.payment.EnterCardNumberPage"
             android:exported="false">

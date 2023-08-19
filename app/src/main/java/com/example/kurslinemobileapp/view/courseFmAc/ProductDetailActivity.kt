@@ -360,7 +360,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             }
 
     private fun postOrdeletefavSimilarCourse(id:Int,position: Int) {
-        val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         favoriteDetailItem=sharedPreferences.getBoolean("isFavorite",false)
