@@ -82,6 +82,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_company)
 
+
         sharedPreferences = getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
         repository = MyRepositoryForCategory(
@@ -89,7 +90,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             AppDatabase.getDatabase(this).subCategoryDao()
         )
 
-        companyNameEditText.addTextChangedListener(object : TextWatcher {
+        companyFullNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -103,16 +104,16 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    companyNameContainer.error = getString(R.string.nameCharacterCount)
+                    companyFullNameContainer.error = getString(R.string.nameCharacterCount)
                 } else {
-                    companyNameContainer.error = null
+                    companyFullNameContainer.error = null
                 }
 
-                characterCountTextViewcmpusername.text = "$characterCount / 50"
+                characterCountTextViewcmpname.text = "$characterCount / 50"
             }
         })
 
-        companyPasswordEdit.addTextChangedListener(object : TextWatcher {
+        CompanypasswordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -156,43 +157,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
             }
         })
 
-        companyAdressEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not used
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Not used
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                val name = s.toString().trim()
-                val characterCount = name.length
-
-                if (characterCount < 3 || characterCount > 200) {
-                    companyAddressContainer.error = getString(R.string.addressCharacterCount)
-                } else {
-                    companyAddressContainer.error = null
-                }
-
-                if (characterCount < 3 || characterCount > 1500) {
-                    aboutCompanyContainer.error = getString(R.string.aboutCharacterCount)
-                } else {
-                    aboutCompanyContainer.error = null
-                }
-
-                characterCountTextViewcmpabout.text = "$characterCount / 1500"
-            }
-        })
 
         companyCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
-        }
-        companyRegionEditText.setOnClickListener {
-            showBottomSheetDialogRegions()
-        }
-        companyModeEditText.setOnClickListener {
-            showBottomSheetDialogMode()
         }
         compantStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
@@ -204,9 +171,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
             block = true
             //val companyNameContainer = companyNameEditText.text.toString().trim()
             val companyEmailContainer = companyEmailEditText.text.toString().trim()
-            val companyPasswordContainer = companyPasswordEdit.text.toString().trim()
+            val companyPasswordContainer = CompanypasswordEditText.text.toString().trim()
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
-            val companyAddressContainer = companyAdressEditText.text.toString().trim()
             val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
@@ -265,7 +231,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
                         }else{
                             val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-                            println("throwable" + throwable.toString())
                         }
                         showProgressButton(false)
                     })
@@ -344,59 +309,13 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
     override fun onPause() {
-        getValues()
+        //getValues()
         super.onPause()
     }
 
-    private fun getValues() {
-        if (companyNameEditText.text?.isEmpty()!!) {
-            name = companyNameEditText.text.toString().trim()
-            editor.putString("companyName", name).apply()
-        }
-        if (companyEmailEditText.text?.isEmpty()!!) {
-            companyEmail = companyEmailEditText.text.toString().trim()
-            editor.putString("companyEmail", companyEmail).apply()
-        }
-        if (companyPasswordEdit.text?.isEmpty()!!) {
-            companyPassword = companyPasswordEdit.text.toString().trim()
-            editor.putString("companyPassword", companyPassword).apply()
-        }
-        if (companyFullNameEditText.text?.isEmpty()!!) {
-            companyFullName = companyFullNameEditText.text.toString().trim()
-            editor.putString("companyFullname", companyFullName).apply()
-        }
-        if (companyRegionEditText.text?.isEmpty()!!) {
-            companyRegion = companyRegionEditText.text.toString().trim()
-            editor.putString("companyRegion", companyRegion).apply()
-        }
-        if (companyAdressEditText.text?.isEmpty()!!) {
-            companyAddress = companyAdressEditText.text.toString().trim()
-            editor.putString("companyAddress", companyAddress).apply()
-        }
-        if (companyPhoneEditText.text?.isEmpty()!!) {
-            companyPhone = companyPhoneEditText.text.toString().trim()
-            editor.putString("companyPhone", companyPhone).apply()
-        }
-        if (companyModeEditText.text?.isEmpty()!!) {
-            companyMode = companyModeEditText.text.toString().trim()
-            editor.putString("companyMode", companyMode).apply()
-        }
-        if (compantStatusEditText.text?.isEmpty()!!) {
-            companyStatus = compantStatusEditText.text.toString().trim()
-            editor.putString("companyStatus", companyStatus).apply()
-        }
-        if (companyCategoryEditText.text?.isEmpty()!!) {
-            companyCategory = companyCategoryEditText.text.toString().trim()
-            editor.putString("companyCategory", companyCategory).apply()
-        }
-        if (aboutCompanyEditText.text?.isEmpty()!!) {
-            aboutCompany = aboutCompanyEditText.text.toString().trim()
-            editor.putString("aboutCompany", aboutCompany).apply()
-        }
 
-        editor.commit()
 
-    }
+
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {
@@ -446,7 +365,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
-                    companyRegionEditText.setText(region.regionName)
+                 //   companyRegionEditText.setText(region.regionName)
                     regionId = region.regionId.toString()
                     dialog.dismiss()
                 }
@@ -485,7 +404,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 recyclerViewMode.adapter = modeAdapter
                 modeAdapter.setChanged(mode)
                 modeAdapter.setOnItemClickListener { mode ->
-                    companyModeEditText.setText(mode.modeName)
+                   // companyModeEditText.setText(mode.modeName)
                     dialog.dismiss()
                 }
             }.catch { throwable ->
@@ -543,5 +462,4 @@ class RegisterCompanyActivity : AppCompatActivity() {
         )
         return passwordPattern.matcher(password).matches()
     }
-
 }

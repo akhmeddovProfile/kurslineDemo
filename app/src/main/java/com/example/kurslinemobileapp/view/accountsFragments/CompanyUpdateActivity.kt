@@ -82,6 +82,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company_update)
 
+
+        /*
          sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
@@ -143,8 +145,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
             val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
             if (companyNameContainer.isEmpty()) {
-                companyNameEditText.error = " Name required"
-                companyNameEditText.requestFocus()
+              //  companyNameEditText.error = " Name required"
+             //   companyNameEditText.requestFocus()
                 block = false
             }
             if (companyEmailContainer.isEmpty()) {
@@ -159,8 +161,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
             }
 
             if (companyAddressContainer.isEmpty()) {
-                companyAdressEditText.error = "Address required"
-                companyAdressEditText.requestFocus()
+               // companyAdressEditText.error = "Address required"
+              //  companyAdressEditText.requestFocus()
                 block = false
             }
 
@@ -208,8 +210,11 @@ class CompanyUpdateActivity : AppCompatActivity() {
         myCompanyUpdateProfilePhoto.setOnClickListener {
             launchGalleryIntent()
         }
+
+         */
     }
 
+    /*
     fun sendCompanydata(
         userFullName: String,
         email: String,
@@ -444,5 +449,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 // Restore original background, text color, etc., if modified
             }
         }
+
+     */
+
+     */
     }
-}
