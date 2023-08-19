@@ -520,7 +520,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/sendCommentBtn"
                     android:layout_centerInParent="true"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="60dp"
                     android:fontFamily="@font/nunito"
                     android:gravity="center_horizontal"
                     android:text="@string/sameCourse"
