@@ -543,4 +543,5 @@ class RegisterCompanyActivity : AppCompatActivity() {
         )
         return passwordPattern.matcher(password).matches()
     }
+
 }
