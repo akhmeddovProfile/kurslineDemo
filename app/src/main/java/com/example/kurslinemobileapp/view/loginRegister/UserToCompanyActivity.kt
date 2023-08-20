@@ -5,16 +5,21 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,8 +59,12 @@ class UserToCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
+
+    //Gallery
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
+    private var reenterPermissionRequestCode = 0
+
     private var block: Boolean = true
     lateinit var editor: SharedPreferences.Editor
     private lateinit var sharedPreferences: SharedPreferences
@@ -214,6 +223,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
+                        println(throwable.message)
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
@@ -234,20 +244,58 @@ class UserToCompanyActivity : AppCompatActivity() {
     }
 
     fun launchGalleryIntent() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+       val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
+ /*       if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission already granted, launch the gallery intent
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
+        } else {
+            // Request permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                Constant.PERMISSION_READ_EXTERNAL_STORAGE
+            )
+        }*/
+        /*        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+             val uri = Uri.fromParts("package", packageName, null)
+             intent.data = uri*/
     }
+
     private fun compressImageFile(imagePath: String): Bitmap? {
-        val file = File(imagePath)
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.absolutePath, options)
-        val imageWidth = options.outWidth
-        val imageHeight = options.outHeight
-        val scaleFactor = Math.min(imageWidth / MAX_IMAGE_WIDTH, imageHeight / MAX_IMAGE_HEIGHT)
-        options.inJustDecodeBounds = false
-        options.inSampleSize = scaleFactor
-        return BitmapFactory.decodeFile(file.absolutePath, options)
+            val file = File(imagePath)
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            BitmapFactory.decodeFile(file.absolutePath, options)
+            val imageWidth = options.outWidth
+            val imageHeight = options.outHeight
+            val scaleFactor = Math.min(imageWidth / MAX_IMAGE_WIDTH, imageHeight / MAX_IMAGE_HEIGHT)
+            options.inJustDecodeBounds = false
+            options.inSampleSize = scaleFactor
+            return BitmapFactory.decodeFile(file.absolutePath, options)
+    }
+    private fun showPermissionRequestDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Permission Required")
+            .setMessage("The app needs access to your gallery to select images. Would you like to grant permission now?")
+            .setPositiveButton("Yes") { dialog, which ->
+                // Request permission
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    Constant.PERMISSION_READ_EXTERNAL_STORAGE
+                )
+            }
+            .setNegativeButton("No") { dialog, which ->
+                // User chose not to grant permission, you can show a message or take other actions
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+            .show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
