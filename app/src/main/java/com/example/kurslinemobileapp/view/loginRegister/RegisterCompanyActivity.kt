@@ -1,19 +1,33 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,11 +36,9 @@ import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.ModeAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
 import com.example.kurslinemobileapp.adapter.StatusAdapter
-import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
-import com.example.kurslinemobileapp.service.Constant.PICK_IMAGE_REQUEST
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
@@ -44,6 +56,7 @@ import okhttp3.RequestBody
 import java.io.*
 import java.util.regex.Pattern
 
+
 class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var regionAdapter: RegionAdapter
@@ -56,6 +69,32 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 1 // You can use any integer value
+        private const val REQUEST_CODE_PERMISSIONS = 2 // Another unique integer value
+    }
+
+    private fun checkPermission(): Boolean {
+        return if (SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            val result = ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE)
+            val result1 = ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
+            result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
+        }
+    }
+    private val requestPermissionIntent: ActivityResultLauncher<Intent> =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+
+            } else if (result.resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
     //local data save
     private var block: Boolean = true
@@ -184,7 +223,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
             sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer)
         }
         companyPhoto.setOnClickListener {
-            launchGalleryIntent()
+            if(!checkPermission()){
+                requestPermission()
+            }
+           // launchGalleryIntent()
         }
     }
 
@@ -226,6 +268,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
+                        println(throwable.message)
                         if (throwable.message!!.contains("HTTP 409")){
                             Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
                         }else{
@@ -244,11 +287,76 @@ class RegisterCompanyActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+    private fun checkAndRequestPermissions() {
+        val permissions = arrayOf(
+            READ_EXTERNAL_STORAGE,
+            WRITE_EXTERNAL_STORAGE
+        )
+
+        val hasReadPermission = ContextCompat.checkSelfPermission(
+            this@RegisterCompanyActivity,
+            READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val hasWritePermission = ContextCompat.checkSelfPermission(
+            this@RegisterCompanyActivity,
+            WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (hasReadPermission && hasWritePermission) {
+            // Permissions are already granted, proceed with the intent
+            launchGalleryIntent()
+        } else {
+            // Permissions are not granted, request them
+            ActivityCompat.requestPermissions(
+                this@RegisterCompanyActivity,
+                permissions,
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
+    }
 
     fun launchGalleryIntent() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
+
+    private fun requestPermission() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                intent.addCategory("android.intent.category.DEFAULT")
+                intent.data =
+                    Uri.parse(java.lang.String.format("package:%s", this.getPackageName()))
+                requestPermissionIntent.launch(intent)
+            } catch (e: Exception) {
+                val intent = Intent()
+                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                requestPermissionIntent.launch(intent)
+            }
+        } else {
+            //below android 11
+            ActivityCompat.requestPermissions(
+                (this as Activity?)!!,
+                arrayOf(WRITE_EXTERNAL_STORAGE),
+                80
+            )
+        }
+    }
+/*
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted, proceed with the intent
+                launchGalleryIntent()
+            } else {
+                // Permission was denied, handle accordingly (e.g., show a message)
+            }
+        }
+    }
+*/
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)
         val options = BitmapFactory.Options()
@@ -307,15 +415,10 @@ class RegisterCompanyActivity : AppCompatActivity() {
         return path
     }
 
-
     override fun onPause() {
         //getValues()
         super.onPause()
     }
-
-
-
-
 
     @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     private fun showBottomSheetDialog() {

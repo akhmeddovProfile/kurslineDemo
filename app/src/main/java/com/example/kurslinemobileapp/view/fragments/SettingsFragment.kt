@@ -137,7 +137,6 @@ class SettingsFragment : Fragment() {
         contactAdapter = ContactUsAdapter(contactList)
         recyclerviewContact.adapter = contactAdapter
         dialog.show()
-
     }
 
     private fun clearSharedPreferences(){

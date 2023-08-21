@@ -8,6 +8,7 @@ import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnno
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -45,6 +46,13 @@ interface AnnouncementAPI {
 
     @GET("GetAnnouncements")
     fun getAnnouncementFavoriteForUserId(@Query("userId") userId: Int) : Observable<GetAllAnnouncement>
+
+    @POST("PostMessage")
+    fun writeUs(
+        @Query("tel")tel:String,
+        @Query("message")message:String
+    ):Deferred<WriteUsResponse>
+
 
     @POST("DeleteAnnouncement/{userId}/{announcementId}")
     fun deleteAnnouncementForOwner(
