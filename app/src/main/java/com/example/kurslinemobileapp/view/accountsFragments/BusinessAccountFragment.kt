@@ -96,24 +96,24 @@ class BusinessAccountFragment : Fragment() {
         val userPhoneNumber = response.mobileNumber
         val userEmail  = response.email
         val companyName = response.companyName.toString()
-     //   val companyAddress = response.companyAddress.toString()
+      val companyAddress = response.companyAddress.toString()
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
         val regionCompany = response.companyRegionId
-      //  val regionId = response.companyRegionId.toString()
+      val regionId = response.companyRegionId.toString()
         val userStatusId = response.userStatusId.toString()
         val companyCategoryId = response.companyCategoryId.toString()
      sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("userStatusId", userStatusId)
         editor.putString("companyCategoryId", companyCategoryId)
-      //  editor.putString("companyRegionId",regionId)
+       editor.putString("companyRegionId",regionId)
         editor.putString("companyOwnerName",userFullName)
         editor.putString("companyEmail",userEmail)
         editor.putString("companyNumber",userPhoneNumber)
         editor.putString("companyName",companyName)
-      //  editor.putString("companyAddress",companyAddress)
+      editor.putString("companyAddress",companyAddress)
         editor.putString("companyAbout",about)
         editor.putString("companyPhoto",companyPhoto)
         editor.apply()
@@ -157,7 +157,7 @@ class BusinessAccountFragment : Fragment() {
         view.businessAccountPhoneEditText.setText(userPhoneNumber)
         view.businessAccountEmailEditText.setText(userEmail)
         view.businessAccountCompanyEditText.setText(companyName)
-   //     view.companyAdressEditText.setText(companyAddress)
+    view.companyAdressEditText.setText(companyAddress)
         view.businessAccountAboutEditText.setText(about)
         view.compantStatusEditText.setText(userstaus)
         view.businessAccountCategoryEditText.setText(category)

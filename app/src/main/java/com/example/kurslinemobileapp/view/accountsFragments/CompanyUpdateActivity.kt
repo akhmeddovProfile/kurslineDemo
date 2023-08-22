@@ -42,6 +42,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_company_update.*
+import kotlinx.android.synthetic.main.activity_course_upload.*
 import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_update_user.*
 import kotlinx.android.synthetic.main.fragment_business_account.view.*
@@ -70,7 +71,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
     private var block: Boolean = true
     lateinit var categoryId: String
     lateinit var statusId: String
-    lateinit var regionId:String
+    lateinit var regionId: String
 
     private var job: Job? = null
     private lateinit var repository: MyRepositoryForCategory
@@ -83,8 +84,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
         setContentView(R.layout.activity_company_update)
 
 
-        /*
-         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+
+        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
@@ -111,19 +112,19 @@ class CompanyUpdateActivity : AppCompatActivity() {
         statusId = ""
         regionId = ""
 
-        val categoryCMPid = sharedPreferences.getString("companyCategoryId", "")?:""
-        val statusCMPid = sharedPreferences.getString("userStatusId","")?:""
-        val regionCMPid = sharedPreferences.getString("companyRegionId","")?:""
-        val userFullName = sharedPreferences.getString("companyOwnerName","")?:""
-        val userEmail = sharedPreferences.getString("companyEmail","")?:""
-        val userPhoneNumber = sharedPreferences.getString("companyNumber","")?:""
-        val companyName = sharedPreferences.getString("companyName","")?:""
-        val userAddress = sharedPreferences.getString("companyAddress","")?:""
-        val userAbout = sharedPreferences.getString("companyAbout","")?:""
-        val userPhoto = sharedPreferences.getString("companyPhoto","")?:""
-        val companyCategory = sharedPreferences.getString("companyCategory","")?:""
-        val companyStatus = sharedPreferences.getString("companyStatus","")?:""
-        val companyRegion = sharedPreferences.getString("companyRegion","")?:""
+        val categoryCMPid = sharedPreferences.getString("companyCategoryId", "") ?: ""
+        val statusCMPid = sharedPreferences.getString("userStatusId", "") ?: ""
+        val regionCMPid = sharedPreferences.getString("companyRegionId", "") ?: ""
+        val userFullName = sharedPreferences.getString("companyOwnerName", "") ?: ""
+        val userEmail = sharedPreferences.getString("companyEmail", "") ?: ""
+        val userPhoneNumber = sharedPreferences.getString("companyNumber", "") ?: ""
+        val companyName = sharedPreferences.getString("companyName", "") ?: ""
+        val userAddress = sharedPreferences.getString("companyAddress", "") ?: ""
+        val userAbout = sharedPreferences.getString("companyAbout", "") ?: ""
+        val userPhoto = sharedPreferences.getString("companyPhoto", "") ?: ""
+        val companyCategory = sharedPreferences.getString("companyCategory", "") ?: ""
+        val companyStatus = sharedPreferences.getString("companyStatus", "") ?: ""
+        val companyRegion = sharedPreferences.getString("companyRegion", "") ?: ""
         businessAccountUpdateNameEditText.setText(userFullName)
         businessAccountUpdateEmailEditText.setText(userEmail)
         businessAccountUpdateCompanyEditText.setText(companyName)
@@ -133,53 +134,23 @@ class CompanyUpdateActivity : AppCompatActivity() {
         businessAccountUpdateCategoryEditText.setText(companyCategory)
         companyUpdateStatusEditText.setText(companyStatus)
         businessAccountUpdateRegionEditText.setText(companyRegion)
-        Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
-
+        if (userPhoto == null){
+             myCompanyUpdateProfilePhoto.setImageResource(R.drawable.setpp)
+        }else{
+            Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
+        }
         savedUpdatesBtnCompany.setOnClickListener {
             val companyNameContainer = businessAccountUpdateNameEditText.text.toString().trim()
             val companyEmailContainer = businessAccountUpdateEmailEditText.text.toString().trim()
-            val companyFullNameContainer = businessAccountUpdateCompanyEditText.text.toString().trim()
+            val companyFullNameContainer =
+                businessAccountUpdateCompanyEditText.text.toString().trim()
             val companyAddressContainer = companyUpdateAdressEditText.text.toString().trim()
             val companyPhoneContainer = businessAccountUpdatePhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
 
             val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
-            if (companyNameContainer.isEmpty()) {
-              //  companyNameEditText.error = " Name required"
-             //   companyNameEditText.requestFocus()
-                block = false
-            }
-            if (companyEmailContainer.isEmpty()) {
-                companyEmailEditText.error = "Email required"
-                companyEmailEditText.requestFocus()
-                block = false
-            }
-            if (companyFullNameContainer.isEmpty()) {
-                companyFullNameEditText.error = "Company Name required"
-                companyFullNameEditText.requestFocus()
-                block = false
-            }
 
-            if (companyAddressContainer.isEmpty()) {
-               // companyAdressEditText.error = "Address required"
-              //  companyAdressEditText.requestFocus()
-                block = false
-            }
-
-            if (companyPhoneContainer.isEmpty()) {
-                companyPhoneEditText.error = "Phone required"
-                companyPhoneEditText.requestFocus()
-                block = false
-            }
-
-            if (aboutCompanyContainer.isEmpty()) {
-                aboutCompanyEditText.error = "About Company required"
-                aboutCompanyEditText.requestFocus()
-                block = false
-            }
-
-            val imageUrl = if (companyUpdatePhotoURLEditText.text.toString().isNotEmpty() )
-            {
+            val imageUrl = if (companyUpdatePhotoURLEditText.text.toString().isNotEmpty()) {
                 companyUpdatePhotoURLEditText.text.toString().trim()
             } else {
                 null
@@ -191,9 +162,9 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 categoryCMPid
             }
 
-            val statusContainer = if(isStatusChanged){
+            val statusContainer = if (isStatusChanged) {
                 statusId
-            }else{
+            } else {
                 statusCMPid
             }
 
@@ -205,16 +176,29 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
 
             showProgressButton(true)
-                sendCompanydata(companyNameContainer,companyEmailContainer,companyPhoneContainer,companyFullNameContainer , companyAddressContainer,aboutCompanyContainer,imageUrl,categoryContainer, statusContainer,regionContainer,authHeader,id)
+            sendCompanydata(
+                companyNameContainer,
+                companyEmailContainer,
+                companyPhoneContainer,
+                companyFullNameContainer,
+                companyAddressContainer,
+                aboutCompanyContainer,
+                imageUrl,
+                categoryContainer,
+                statusContainer,
+                regionContainer,
+                authHeader,
+                id
+            )
         }
         myCompanyUpdateProfilePhoto.setOnClickListener {
             launchGalleryIntent()
         }
 
-         */
+
     }
 
-    /*
+
     fun sendCompanydata(
         userFullName: String,
         email: String,
@@ -224,8 +208,8 @@ class CompanyUpdateActivity : AppCompatActivity() {
         companyAbout: String,
         imagePath: String?,
         companyCategoryId: String,
-        companyStatusId:String,
-        companyRegionId:String,
+        companyStatusId: String,
+        companyRegionId: String,
         token: String,
         userId: Int
     ) {
@@ -258,16 +242,34 @@ class CompanyUpdateActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(UpdateAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.companyUpdateMethod(companyUsername,companyemail,companyNumber,name,address,about,photo,statusId,categoryid,regionId,token,userId)
+            retrofit.companyUpdateMethod(
+                companyUsername,
+                companyemail,
+                companyNumber,
+                name,
+                address,
+                about,
+                photo,
+                statusId,
+                categoryid,
+                regionId,
+                token,
+                userId
+            )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
                     { throwable ->
-                        if (throwable.message!!.contains("HTTP 409")){
-                            Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
-                        }else{
+                        if (throwable.message!!.contains("HTTP 409")) {
+                            Toast.makeText(
+                                this,
+                                getString(R.string.http409String),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
                             val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+                            println("error: " + throwable.toString())
                         }
                         showProgressButton(false)
                     })
@@ -276,7 +278,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UpdateResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this,getString(R.string.saveSuccesfull),Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.saveSuccesfull), Toast.LENGTH_SHORT).show()
         onBackPressed()
     }
 
@@ -284,6 +286,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
     }
+
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)
         val options = BitmapFactory.Options()
@@ -306,22 +309,27 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 val compressedBitmap = compressImageFile(imagePath)
                 companyUpdatePhotoURLEditText.setText(imagePath)
                 myCompanyUpdateProfilePhoto.setImageBitmap(compressedBitmap)
-                if(compressedBitmap!=null){
+                if (compressedBitmap != null) {
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
                     companyUpdatePhotoURLEditText.setText(compressedImagePath)
-                    println("CompressedImagePath: "+compressedImagePath)
+                    println("CompressedImagePath: " + compressedImagePath)
                 }
                 println(imagePath)
             }
         }
     }
+
     private fun saveCompressedBitmapToFile(bitmap: Bitmap): String? {
         val outputDir = this?.cacheDir // Get the directory to store the compressed image
         val outputFile = File.createTempFile("compressed_", ".jpg", outputDir)
         var outputStream: FileOutputStream? = null
         try {
             outputStream = FileOutputStream(outputFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // Compress and save the bitmap as JPEG with 80% quality
+            bitmap.compress(
+                Bitmap.CompressFormat.JPEG,
+                80,
+                outputStream
+            ) // Compress and save the bitmap as JPEG with 80% quality
             return outputFile.absolutePath
         } catch (e: IOException) {
             e.printStackTrace()
@@ -330,6 +338,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         }
         return null
     }
+
     private fun getRealPathFromURI(uri: Uri): String? {
         var path: String? = null
         val projection = arrayOf(MediaStore.Images.Media.DATA)
@@ -371,34 +380,37 @@ class CompanyUpdateActivity : AppCompatActivity() {
         dialog.show()
     }
 
-   @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
-       val appDatabase = AppDatabase.getDatabase(applicationContext)
-       val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
+
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
+
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)
         val recyclerviewRegions: RecyclerView =
             bottomSheetView.findViewById(R.id.recyclerViewRegions)
         recyclerviewRegions.setHasFixedSize(true)
         recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
-
-       job=appDatabase.regionDao().getAllRegions()
-           .onEach { reg->
-               println("2")
-               regionAdapter = RegionAdapter(reg)
-               recyclerviewRegions.adapter = regionAdapter
-               regionAdapter.setChanged(reg)
-               regionAdapter.setOnItemClickListener { region ->
-                   businessAccountUpdateRegionEditText.setText(region.regionName)
-                   regionId = region.regionId.toString()
-                   isRegionChanged = false
-                   dialog.dismiss()
-               }
-           }.catch {throwable->
-               println(throwable)
-           }.launchIn(lifecycleScope)
+        compositeDisposable = CompositeDisposable()
+        job=appDatabase.regionDao().getAllRegions()
+            .onEach { reg->
+                regionAdapter = RegionAdapter(reg)
+                recyclerviewRegions.adapter = regionAdapter
+                regionAdapter.setChanged(reg)
+                regionAdapter.setOnItemClickListener { region ->
+                    businessAccountUpdateRegionEditText.setText(region.regionName)
+                    regionId = region.regionId.toString()
+                    isRegionChanged = false
+                    dialog.dismiss()
+                }
+            }.catch { thorawable->
+                println("Error 2: "+ thorawable.message)
+            }.launchIn(lifecycleScope)
+        dialog.show()
 
     }
+
     private fun cancelJob() {
         job?.cancel()
     }
@@ -407,6 +419,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         super.onDestroy()
         cancelJob()
     }
+
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogStatus() {
         val appDatabase = AppDatabase.getDatabase(applicationContext)
@@ -418,7 +431,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         recyclerViewStatus.setHasFixedSize(true)
         recyclerViewStatus.setLayoutManager(LinearLayoutManager(this))
 
-        job=appDatabase.statusDao().getAllMode().onEach { status ->
+        job = appDatabase.statusDao().getAllMode().onEach { status ->
             println("4")
             statusAdapter = StatusAdapter(status)
             recyclerViewStatus.adapter = statusAdapter
@@ -449,8 +462,5 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 // Restore original background, text color, etc., if modified
             }
         }
-
-     */
-
-     */
     }
+}
