@@ -81,7 +81,8 @@ class BlankAccountFragment : Fragment() {
                 // Commit the transaction
                 transaction.commit()
             } else{
-              println("User not found")
+                val intent = Intent(activity, LoginActivity::class.java)
+                activity?.startActivity(intent)
             }
         }
 

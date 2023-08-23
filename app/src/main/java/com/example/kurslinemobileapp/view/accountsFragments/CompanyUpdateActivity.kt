@@ -1,20 +1,28 @@
 package com.example.kurslinemobileapp.view.accountsFragments
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -79,6 +87,32 @@ class CompanyUpdateActivity : AppCompatActivity() {
     private var isCategoryChanged: Boolean = false
     private var isStatusChanged: Boolean = false
     private var isRegionChanged: Boolean = false
+
+    private fun checkPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            val result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            val result1 = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            openGallery()
+        } else {
+
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company_update)
@@ -192,7 +226,19 @@ class CompanyUpdateActivity : AppCompatActivity() {
             )
         }
         myCompanyUpdateProfilePhoto.setOnClickListener {
-            launchGalleryIntent()
+            if(!checkPermission()){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    checkAndRequestPermissions()
+                }
+                /*       val miuiVersion = BuildProperties.getMIUIVersion()
+                       if (miuiVersion == "14.0.3") {
+                           showMIUIExplanationDialog() // Show a custom explanation
+                       }*/
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE) // Launch permission request directly
+            }
+            else{
+                openGallery()
+            }
         }
 
 
@@ -281,11 +327,46 @@ class CompanyUpdateActivity : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.saveSuccesfull), Toast.LENGTH_SHORT).show()
         onBackPressed()
     }
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkAndRequestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // Permission is already granted, proceed with accessing gallery
+                openGallery()
+            } else {
+                // Request permission
+                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+            }
+        } else {
+            showPermissionMessageForOlderDevices()
+            // Handle devices with API level lower than 31
+            // You might want to show a message or handle it differently
+        }
+    }
 
-    fun launchGalleryIntent() {
+    private fun showPermissionMessageForOlderDevices() {
+        AlertDialog.Builder(this)
+            .setTitle("Permission Required")
+            .setMessage("To access the gallery, you need to grant storage permission.")
+            .setPositiveButton("Grant Permission") { dialog, _ ->
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
     }
+
 
     private fun compressImageFile(imagePath: String): Bitmap? {
         val file = File(imagePath)

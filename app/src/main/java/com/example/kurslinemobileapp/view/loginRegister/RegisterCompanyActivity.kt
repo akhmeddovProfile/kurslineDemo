@@ -72,7 +72,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
 
     companion object {
-        private const val PICK_IMAGE_REQUEST = 1 // You can use any integer value
+        const val PICK_IMAGE_REQUEST = 1 // You can use any integer value
         private const val REQUEST_CODE_PERMISSIONS = 2 // Another unique integer value
     }
 
@@ -96,6 +96,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
         }
     }
+
     //local data save
     private var block: Boolean = true
     lateinit var editor: SharedPreferences.Editor
