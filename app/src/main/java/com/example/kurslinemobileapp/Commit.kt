@@ -562,3 +562,118 @@ fun showBottomSheetDialogPrice() {
     }
     dialog.show()
 }*/
+/*     val miuiVersion = BuildProperties.getMIUIVersion()
+      if (miuiVersion == "14.0.3") {
+          showMIUIExplanationDialog() // Show a custom explanation
+      }*/
+/*
+    object BuildProperties {
+        private val miuiVersionRegex = Regex("V(\\d+\\.\\d+\\.\\d+)")
+
+        fun getMIUIVersion(): String? {
+            val properties = System.getProperties()
+            val versionProp = properties.getProperty("ro.miui.ui.version.name", "")
+            val matchResult = miuiVersionRegex.find(versionProp)
+            return matchResult?.groups?.get(1)?.value
+        }
+    }
+*/
+
+/*   private fun requestPermission() {
+       if (SDK_INT >= Build.VERSION_CODES.R) {
+           try {
+               val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+               intent.addCategory("android.intent.category.DEFAULT")
+               intent.data =
+                   Uri.parse(java.lang.String.format("package:%s", this.getPackageName()))
+               requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
+               //requestPermissionIntent.launch(intent)
+           } catch (e: Exception) {
+               val intent = Intent()
+               intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+               //requestPermissionIntent.launch(intent)
+               requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
+
+           }
+       } else {
+           //below android 11
+        *//*   ActivityCompat.requestPermissions(
+                (this as Activity?)!!,
+                arrayOf(WRITE_EXTERNAL_STORAGE),
+                80
+            )*//*
+            if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(WRITE_EXTERNAL_STORAGE),
+                    80
+                )
+            } else {
+                openGallery()
+            }
+
+        }
+    }*/
+/*
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted, proceed with the intent
+                launchGalleryIntent()
+            } else {
+                // Permission was denied, handle accordingly (e.g., show a message)
+            }
+        }
+    }
+*//*    private fun showMIUIExplanationDialog() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle("Gallery Access")
+        dialogBuilder.setMessage("In MIUI 14.0.3, you need to manually grant gallery access. Please follow the steps in the next screen.")
+        dialogBuilder.setPositiveButton("Continue") { _, _ ->
+            requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE)
+        }
+        dialogBuilder.setCancelable(true)
+        val dialog = dialogBuilder.create()
+        dialog.show()
+    }*/
+/* val permissions = arrayOf(
+     READ_EXTERNAL_STORAGE,
+     WRITE_EXTERNAL_STORAGE
+ )
+
+ val hasReadPermission = ContextCompat.checkSelfPermission(
+     this@RegisterCompanyActivity,
+     READ_EXTERNAL_STORAGE
+ ) == PackageManager.PERMISSION_GRANTED
+
+ val hasWritePermission = ContextCompat.checkSelfPermission(
+     this@RegisterCompanyActivity,
+     WRITE_EXTERNAL_STORAGE
+ ) == PackageManager.PERMISSION_GRANTED
+
+ if (hasReadPermission && hasWritePermission) {
+     // Permissions are already granted, proceed with the intent
+     launchGalleryIntent()
+ } else {
+     // Permissions are not granted, request them
+     ActivityCompat.requestPermissions(
+         this@RegisterCompanyActivity,
+         permissions,
+         REQUEST_CODE_PERMISSIONS
+     )
+ }*/
+/*
+    private val requestPermissionIntent: ActivityResultLauncher<Intent> =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == RESULT_OK) {
+                Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show()
+
+            } else if (result.resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+*/
