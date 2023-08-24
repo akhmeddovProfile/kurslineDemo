@@ -17,7 +17,7 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/searchviewbg"
         android:fontFamily="@font/montserrat"
-        app:queryHint="Kurs axtar"
+        app:queryHint="@string/searchCourse"
         app:iconifiedByDefault="false"
         app:queryBackground="@android:color/transparent"
         android:inputType="textPersonName"

@@ -63,7 +63,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager2"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_below="@+id/topProductsRV"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -88,7 +88,7 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/searchviewbg"
                     android:fontFamily="@font/montserrat"
-                    app:queryHint="Elan axtar"
+                    app:queryHint="@string/searchAd"
                     app:iconifiedByDefault="false"
                     app:queryBackground="@android:color/transparent"
                     android:inputType="textPersonName"
@@ -128,7 +128,7 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:id="@+id/line1Main"
                 android:layout_width="match_parent"
                 android:layout_below="@id/LLfilter"

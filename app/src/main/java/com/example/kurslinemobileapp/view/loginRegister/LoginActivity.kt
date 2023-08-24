@@ -117,11 +117,11 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
                         if (throwable.message!!.contains("HTTP 401")) {
                             Toast.makeText(
                                 this,
-                                "Mail ünvanı və ya parol yanlışdır",
+                                getString(R.string.mailOrpassword),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }else {
-                            val text = "Məlumatlar doğru deyil"
+                            val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
                         }
                         showProgressButton(false)
@@ -149,13 +149,13 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
         if (show) {
             loginButton.apply {
                 isEnabled = false
-                text = "Hesaba daxil olunur..."  // Set empty text or loading indicator text
+                text = getString(R.string.loginCtn)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
             loginButton.apply {
                 isEnabled = true
-                text = "Daxil Olun"
+                text = getString(R.string.LOGIN)
                 // Restore original background, text color, etc., if modified
             }
         }

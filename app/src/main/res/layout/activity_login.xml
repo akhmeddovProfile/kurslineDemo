@@ -93,7 +93,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPassword"
-                    android:hint="Şifrə daxil edin"/>
+                    android:hint="@string/enterpassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
