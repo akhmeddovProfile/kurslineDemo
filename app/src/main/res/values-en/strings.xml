@@ -114,4 +114,13 @@
     <string name="new_course">New course</string>
     <string name="writeletter">Write letter</string>
     <string name="enteryourmessage">Enter your message</string>
+    <string name="onlineTxt">Online</string>
+    <string name="offlineTxt">Offline</string>
+    <string name="onOffTxt">Offline/Online</string>
+    <string name="resetTxt">Reset</string>
+    <string name="searchAd">Search Announcement</string>
+    <string name="searchCourse">Search course</string>
+    <string name="searchTutor">Search tutor</string>
+    <string name="mailOrpassword">The email address or password is incorrect</string>
+    <string name="loginCtn">Logging in...</string>
 </resources>

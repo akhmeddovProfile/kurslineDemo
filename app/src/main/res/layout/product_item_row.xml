@@ -56,7 +56,8 @@
         android:layout_width="14dp"
         android:layout_height="12dp"
         android:background="@drawable/vip_icon"
-        android:layout_marginStart="168dp"
+        android:layout_toRightOf="@+id/relativeForproductStatus"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="12dp"
         android:visibility="visible"
         />

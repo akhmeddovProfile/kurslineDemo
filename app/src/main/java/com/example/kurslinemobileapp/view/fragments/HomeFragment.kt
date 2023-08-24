@@ -182,6 +182,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private fun handleResponse(response : GetAllAnnouncement){
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
+
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
