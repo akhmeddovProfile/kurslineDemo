@@ -36,7 +36,11 @@ class MoveForwardAnn : AppCompatActivity() {
             val intent= Intent(this@MoveForwardAnn, ProductDetailActivity::class.java)
             startActivity(intent)
         }
-        //getPriceforMoveForward(userId,annId,authHeader)
+        println("Detail data: "+intent.getStringExtra("radiobuttonMoveFrw1"))
+        val radiobutton1=intent.getStringExtra("radiobuttonMoveFrw1")
+        val radiobutton2=intent.getStringExtra("radiobuttonMoveFrw2")
+        radioButtonMovefor1.text=radiobutton1
+        radioButtonMovefor2.text=radiobutton2
     }
 
 

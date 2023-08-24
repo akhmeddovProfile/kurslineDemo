@@ -536,12 +536,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val apiService =
-                    RetrofitService(Constant.BASE_URL).apiServicemoveForwardInfo.MoveForwardPaymentInfo(
-                        userId,
-                        annId,
-                        token
-                    ).await()
-
+                    RetrofitService(Constant.BASE_URL).apiServicemoveForwardInfo.MoveForwardPaymentInfo(userId, annId, token).await()
                 check = true
                 moveforwardList = ArrayList(listOf(apiService))
                 if (moveforwardList.isNotEmpty()) {
@@ -556,10 +551,13 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                             "${vipInfo2.irelicekDate}dəfə(24 saatdan bir)/${vipInfo2.irelicekCost} AZN "
                         // radioButtonMovefor2.text=bottomText2
                         println(bottomText2)
+                        val intent=Intent(this@ProductDetailActivity,MoveForwardAnn::class.java)
+                        intent.putExtra("radiobuttonMoveFrw1",bottomText)
+                        intent.putExtra("radiobuttonMoveFrw2",bottomText2)
+                        startActivity(intent)
                     }
                 }
-                val intent=Intent(this@ProductDetailActivity,MoveForwardAnn::class.java)
-                startActivity(intent)
+
             } catch (e: HttpException) {
                 if (e.code() == 401) {
                     // Handle HTTP 401 error (Unauthorized)
