@@ -81,7 +81,6 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
                 val message = textView.text.toString()
                 CoroutineScope(Dispatchers.Main).launch {
                     val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber,message).await()
-
                     try {
                         if (apiService.isSuccess){
                         Toast.makeText(context,"Your message had been sent successfully",Toast.LENGTH_SHORT).show()

@@ -47,11 +47,14 @@ interface AnnouncementAPI {
     @GET("GetAnnouncements")
     fun getAnnouncementFavoriteForUserId(@Query("userId") userId: Int) : Observable<GetAllAnnouncement>
 
+
+
     @POST("PostMessage")
     fun writeUs(
         @Query("tel")tel:String,
         @Query("message")message:String
     ):Deferred<WriteUsResponse>
+
 
 
     @POST("DeleteAnnouncement/{userId}/{announcementId}")
@@ -68,5 +71,7 @@ interface AnnouncementAPI {
         @Path("announcementId")announcementId:Int,
         @Body createAnnouncementRequest: CreateAnnouncementRequest
     ):Observable<UpdateAnnouncementResponse>
+
+
 
 }

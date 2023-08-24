@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity() {
         setupWithNavController(bottomNavigationView, navController)
     }
 
+
     private fun saveCategoryInRoom(){
         compositeDisposable= CompositeDisposable()
         val retrofit =

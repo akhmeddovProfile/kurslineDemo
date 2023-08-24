@@ -303,8 +303,8 @@
 
             <RelativeLayout
                 android:id="@+id/relativeLayoutClickUpForward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
                 android:layout_below="@+id/imageView5"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
@@ -316,7 +316,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="İrəli çək"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginStart="30dp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/black"
@@ -324,18 +324,7 @@
                     android:textSize="20sp"
                     />
 
-                <TextView
-                    android:id="@+id/priceforUpForward"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20 AZN-dən"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="30dp"
-                    android:fontFamily="@font/nunito"
-                    android:textColor="@color/colorForCourseIntheMainScreen"
-                    android:textSize="15sp"
-                    android:layout_below="@+id/upForwardTitle"
-                    />
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -343,17 +332,17 @@
                     android:layout_centerInParent="true"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="30dp"
+                    android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/upForwardTitle"
                     android:src="@drawable/upward_24" />
 
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/relativeLayoutClickVIP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
                 android:layout_below="@+id/imageView5"
-         android:layout_alignParentEnd="true"
-
+                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="31dp"
                 android:background="@drawable/bck_upforwandvip"
@@ -363,34 +352,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="VIP"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="40dp"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     />
 
-                <TextView
-                    android:id="@+id/priceforVIP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20 AZN-dən"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/nunito"
-                    android:textColor="@color/colorForCourseIntheMainScreen"
-                    android:textSize="15sp"
-                    android:layout_below="@+id/vipTitle"
-                    />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="15dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_toRightOf="@id/priceforVIP"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_toRightOf="@+id/vipTitle"
                     android:src="@drawable/vip_icon" />
 
             </RelativeLayout>

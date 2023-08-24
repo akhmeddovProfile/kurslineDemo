@@ -12,6 +12,8 @@ import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
 import com.example.kurslinemobileapp.service.Room.courses.CoursesDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
+import com.example.kurslinemobileapp.service.Room.moveforwardinfo.MoveForwardDao
+import com.example.kurslinemobileapp.service.Room.moveforwardinfo.MoveForwardEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionDao
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusDao

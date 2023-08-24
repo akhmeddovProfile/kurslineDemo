@@ -33,6 +33,7 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Anno
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.announcement.payment.priceMoveForward.MoveforwardPriceResponseX
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.comment.CommentAPI
@@ -57,6 +58,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_move_forward_ann.*
 import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.fragment_business_account.view.*
@@ -66,6 +68,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -80,7 +83,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     private lateinit var similarProductAdapter: SimilarCoursesAdapter
     var checkLogin:Boolean=false
     private lateinit var similarcourseList : ArrayList<AnnouncementSimilarCourse>
-
+    lateinit var moveforwardList:ArrayList<MoveforwardPriceResponseX>
+    private var check:Boolean=false
     private lateinit var sharedPreferences: SharedPreferences
 
     @SuppressLint("MissingInflatedId")
@@ -101,7 +105,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         println("gelenid" + annId)
         println("userid" + userId)
         println("token:"+authHeader)
-
+        moveforwardList= ArrayList<MoveforwardPriceResponseX>()
         similarcourseList= ArrayList<AnnouncementSimilarCourse>()
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
@@ -115,8 +119,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         getUserAnnouncement(userId,annId,authHeader)
 
         relativeLayoutClickUpForward.setOnClickListener {
-            val intent=Intent(this,MoveForwardAnn::class.java)
-            startActivity(intent)
+            getPriceforMoveForward(userId,annId,authHeader)
+
         }
         relativeLayoutClickVIP.setOnClickListener {
         val intent=Intent(this,VipPaymentPage::class.java)
@@ -527,6 +531,60 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    @SuppressLint("SetTextI18n")
+    fun getPriceforMoveForward(userId: Int, annId: Int, token: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val apiService =
+                    RetrofitService(Constant.BASE_URL).apiServicemoveForwardInfo.MoveForwardPaymentInfo(
+                        userId,
+                        annId,
+                        token
+                    ).await()
 
+                check = true
+                moveforwardList = ArrayList(listOf(apiService))
+                if (moveforwardList.isNotEmpty()) {
+                    val vipInfoList = moveforwardList[0].vipInfo
+                    if (vipInfoList.isNotEmpty()) {
+                        val vipInfo = vipInfoList[0]
+                        val bottomText =
+                            "${vipInfo.irelicekDate}dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
+                        // radioButtonMovefor1.text = bottomText
+                        val vipInfo2 = vipInfoList[1]
+                        val bottomText2 =
+                            "${vipInfo2.irelicekDate}dəfə(24 saatdan bir)/${vipInfo2.irelicekCost} AZN "
+                        // radioButtonMovefor2.text=bottomText2
+                        println(bottomText2)
+                    }
+                }
+                val intent=Intent(this@ProductDetailActivity,MoveForwardAnn::class.java)
+                startActivity(intent)
+            } catch (e: HttpException) {
+                if (e.code() == 401) {
+                    // Handle HTTP 401 error (Unauthorized)
+                    Toast.makeText(
+                        this@ProductDetailActivity,
+                        "Yalnız özünüzə məxsus elanı İrəli çəkə bilərsiz",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Handle other HTTP error codes
+                    Toast.makeText(
+                        this@ProductDetailActivity,
+                        "An error occurred: ${e.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                // Handle other exceptions (network errors, etc.)
+                Toast.makeText(
+                    this@ProductDetailActivity,
+                    "An error occurred: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
 }

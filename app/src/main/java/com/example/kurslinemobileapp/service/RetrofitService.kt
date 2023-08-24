@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.service
 
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
+import com.example.kurslinemobileapp.api.announcement.payment.Payment
 import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.service.Constant.BASE_URL
@@ -29,7 +30,7 @@ class RetrofitService(url: String) {
 
     val apiService: LogInAPi = retrofit2.create(LogInAPi::class.java)
     val apiServicewriteUs :AnnouncementAPI=retrofit2.create(AnnouncementAPI::class.java)
-
+    val apiServicemoveForwardInfo :Payment=retrofit2.create(Payment::class.java)
 
 
 }
