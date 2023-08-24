@@ -127,6 +127,8 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+
+
             <ImageView
                 android:layout_marginTop="20dp"
                 android:id="@+id/line1Main"
@@ -145,7 +147,7 @@
                 android:layout_below="@id/line1Main"
                 android:textColor="@color/greenColor"
                 android:layout_marginRight="10dp"
-                android:textSize="16dp" />
+                android:textSize="12sp" />
             <ImageView
                 android:layout_marginTop="5dp"
                 android:id="@+id/line2Main"
@@ -160,6 +162,42 @@
                 android:layout_below="@id/line2Main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:id="@+id/line3Main"
+                android:layout_width="match_parent"
+                android:layout_below="@id/allCoursesRV"
+                android:layout_height="1dp"
+                android:src="@color/grayColor2"/>
+            <TextView
+                android:id="@+id/AnnouncementTextMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito"
+                android:text="Son elanlar"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/line3Main"
+                android:textColor="@color/greenColor"
+                android:layout_marginRight="10dp"
+                android:textSize="12sp" />
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/line4Main"
+                android:layout_width="match_parent"
+                android:layout_below="@id/AnnouncementTextMain"
+                android:layout_height="1dp"
+                android:src="@color/grayColor2"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:elevation="5dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/lastCoursesRV"
+                android:layout_below="@id/line4Main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:elevation="5dp"
