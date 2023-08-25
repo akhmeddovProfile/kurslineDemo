@@ -103,7 +103,7 @@
         android:layout_marginBottom="178dp"
         android:layout_below="@id/relativeLayoutShowPriceDate"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/nextPay"
+        app:layout_constraintBottom_toTopOf="@+id/nextPayEnterCardNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayoutShowPriceDate">
@@ -118,6 +118,7 @@
             android:textSize="12sp" />
 
         <RadioGroup
+            android:id="@+id/radiogroupformoveforward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -170,7 +171,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/nextPay"
+        android:id="@+id/nextPayEnterCardNumber"
         android:layout_width="362dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -186,14 +187,14 @@
         android:layout_marginTop="-20dp" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxMoveForward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:buttonTint="@color/greenColor"
         android:fontFamily="@font/nunito"
         android:paddingStart="10dp"
         android:text="@string/agreement"
-        android:layout_below="@id/nextPay"
+        android:layout_below="@id/nextPayEnterCardNumber"
         android:textColor="@color/black" />
 
 </RelativeLayout>

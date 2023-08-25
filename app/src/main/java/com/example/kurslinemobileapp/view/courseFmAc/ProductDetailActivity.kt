@@ -544,7 +544,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                     if (vipInfoList.isNotEmpty()) {
                         val vipInfo = vipInfoList[0]
                         val bottomText =
-                            "${vipInfo.irelicekDate}dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
+                            "${vipInfo.irelicekDate} dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
                         // radioButtonMovefor1.text = bottomText
                         val vipInfo2 = vipInfoList[1]
                         val bottomText2 =

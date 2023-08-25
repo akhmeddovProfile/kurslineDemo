@@ -22,11 +22,11 @@ import kotlinx.coroutines.launch
 
 class MoveForwardAnn : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
-    lateinit var moveforwardList:ArrayList<MoveforwardPriceResponseX>
+    private var selectedRadioButtonText: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
-        moveforwardList= ArrayList<MoveforwardPriceResponseX>()
         setContentView(R.layout.activity_move_forward_ann)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
@@ -41,7 +41,36 @@ class MoveForwardAnn : AppCompatActivity() {
         val radiobutton2=intent.getStringExtra("radiobuttonMoveFrw2")
         radioButtonMovefor1.text=radiobutton1
         radioButtonMovefor2.text=radiobutton2
-    }
 
+        radioButtonMovefor1.setOnClickListener {
+            selectedRadioButtonText=radioButtonMovefor1.text.toString()
+
+        }
+        radioButtonMovefor2.setOnClickListener {
+            selectedRadioButtonText=radioButtonMovefor2.text.toString()
+
+        }
+
+        nextPayEnterCardNumber.setOnClickListener {
+            if (radiogroupformoveforward.checkedRadioButtonId==-1){
+                Toast.makeText(this, "Please select a price.", Toast.LENGTH_SHORT).show()
+            }
+            else if(!checkBoxMoveForward.isChecked){
+                Toast.makeText(this, "Please agree to the terms.", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val intent= Intent(this@MoveForwardAnn, EnterCardNumberPage::class.java)
+                selectedRadioButtonText?.let {
+                    intent.putExtra("selectedText", it)
+                    startActivity(intent)
+                }
+            }
+
+        }
+
+    }
+    private fun sendToAnotherActivity(intent:Intent,selectedText: String) {
+        intent.putExtra("selectedText", selectedText)
+    }
 
 }
