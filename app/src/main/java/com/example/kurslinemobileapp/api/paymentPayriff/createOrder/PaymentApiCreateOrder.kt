@@ -10,3 +10,4 @@ interface PaymentApiCreateOrder {
     @POST("v2/{method_name}/")
     fun createOrder(@Header("Authorization") secretKey : String, @Path("method_name") methodName : String, @Body params : CreateOrderRequest) : Observable<CreateOrderResponse>
 }
+//Secret key: 0B6505100D2941019771F6D3C8DDF6AD
