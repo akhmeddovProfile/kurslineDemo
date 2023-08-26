@@ -8,11 +8,11 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 
 interface Payment {
-    @GET("GetVipinfo/{annouuncementId}/{userId}")
+    @GET("GetVipinfo/{announcementId}/{userId}")
     fun VipPaymentInfo(
-        @Header("Authorization") token: String,
+        @Path("userId") userId: Int,
         @Path("announcementId") announcementId:Int,
-        @Path("userId") userId: Int
+        @Header("Authorization") token: String
     ):Deferred<VipPriceResponse>
 
     @GET("GetIreliCekInfo/{userId}/{announcementId}")

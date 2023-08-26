@@ -33,6 +33,7 @@ class RetrofitService(url: String) {
     val apiService: LogInAPi = retrofit2.create(LogInAPi::class.java)
     val apiServicewriteUs :AnnouncementAPI=retrofit2.create(AnnouncementAPI::class.java)
     val apiServicemoveForwardInfo :Payment=retrofit2.create(Payment::class.java)
+    val apiVip : Payment = retrofit2.create(Payment::class.java)
     val apiServicePaymentPayriff:PaymentApiCreateOrder=retrofit2.create(PaymentApiCreateOrder::class.java)
     val apiservicePaymentGetOrderPayriff:PaymentApiGetOrderStatus=retrofit2.create(PaymentApiGetOrderStatus::class.java)
 }
