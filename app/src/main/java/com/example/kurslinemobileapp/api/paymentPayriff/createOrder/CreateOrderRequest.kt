@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.api.payment.createOrder
+package com.example.kurslinemobileapp.api.paymentPayriff.createOrder
 
 import com.google.gson.annotations.SerializedName
 

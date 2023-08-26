@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.api.payment.getStatusOrder
+package com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder
 
 import io.reactivex.Observable
 import retrofit2.http.Body

@@ -1,8 +1,8 @@
-package com.example.kurslinemobileapp.api.payment.getStatusOrder
+package com.example.kurslinemobileapp.api.paymentPayriff.createOrder
 
 import com.google.gson.annotations.SerializedName
 
-data class GetStatusOrderResponse(
+data class CreateOrderResponse(
     @SerializedName("code")
     var code : String,
     @SerializedName("internalMessage")
@@ -10,12 +10,14 @@ data class GetStatusOrderResponse(
     @SerializedName("message")
     var message : String,
     @SerializedName("payload")
-    var payload : GetStatusOrderResponsePayload) {
+    var payload : CreateOrderResponsePayload) {
 }
 
-data class GetStatusOrderResponsePayload(
+data class CreateOrderResponsePayload(
     @SerializedName("orderId")
     var orderId : String,
-    @SerializedName("orderStatus")
-    var orderStatus : String) {
+    @SerializedName("paymentUrl")
+    var paymentUrl : String,
+    @SerializedName("sessionId")
+    var sessionId : String) {
 }

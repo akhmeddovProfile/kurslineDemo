@@ -1,4 +1,4 @@
-package com.example.kurslinemobileapp.api.payment.getStatusOrder
+package com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder
 
 import com.google.gson.annotations.SerializedName
 
