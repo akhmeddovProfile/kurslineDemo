@@ -607,7 +607,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                             "${vipInfo2.vipPriceDate} gün/${vipInfo2.vipPriceCost} AZN "
                         val vipInfo3 = vipInfoList[2]
                         val bottomText3 =
-                            "${vipInfo.vipPriceDate} gün/${vipInfo3.vipPriceCost} AZN "
+                            "${vipInfo3.vipPriceDate} gün/${vipInfo3.vipPriceCost} AZN "
+                        println("bt3: "+ bottomText3)
                         // radioButtonMovefor2.text=bottomText2
                         println(bottomText2)
                         val intent=Intent(this@ProductDetailActivity,VipPaymentPage::class.java)

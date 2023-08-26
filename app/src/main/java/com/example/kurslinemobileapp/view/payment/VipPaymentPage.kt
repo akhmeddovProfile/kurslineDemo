@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.RadioButton
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.service.Constant
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_vip_payment_page.*
 class VipPaymentPage : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedRadioButtonText: String? = null
+    private lateinit var radioButton: RadioButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vip_payment_page)
@@ -24,7 +26,7 @@ class VipPaymentPage : AppCompatActivity() {
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
-
+        radioButton = findViewById(R.id.radioButton4Vip)
         backtoMainFromCourseUpload.setOnClickListener {
             val intent=Intent(this@VipPaymentPage,ProductDetailActivity::class.java)
             startActivity(intent)
@@ -56,9 +58,8 @@ class VipPaymentPage : AppCompatActivity() {
             }
             else if(!checkBoxForVip.isChecked){
                 Toast.makeText(this, "Please agree to the terms.", Toast.LENGTH_SHORT).show()
-            }
-            else if (radioButton4.isChecked==false){
-                Toast.makeText(this,"Please select payment method",Toast.LENGTH_SHORT).show()
+            }else if (radioButton.isChecked ==false){
+                Toast.makeText(this, "Please select payment method.", Toast.LENGTH_SHORT).show()
             }
             else{
                 val intent= Intent(this@VipPaymentPage, EnterCardNumberPage::class.java)

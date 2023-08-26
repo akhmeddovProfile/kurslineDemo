@@ -31,7 +31,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Vip"
+        android:text="VIP"
         android:layout_marginStart="190dp"
         android:textColor="@color/greenColor"
         android:textSize="36sp"
@@ -61,11 +61,11 @@
         app:layout_constraintTop_toBottomOf="@+id/uploadCoureText">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/nunito"
-            android:gravity="center"
+          android:gravity="center_horizontal"
             android:text="@string/about_vip"
             android:textColor="@color/black"
             android:textSize="12sp" />
@@ -91,12 +91,9 @@
         android:id="@+id/llForChoosePrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="40dp"
         android:orientation="vertical"
-        android:layout_below="@+id/relativeLayoutShowPriceDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutShowPriceDate">
+        android:layout_below="@+id/relativeLayoutShowPriceDate">
 
         <TextView
             android:layout_width="match_parent"
