@@ -3,6 +3,8 @@ package com.example.kurslinemobileapp.service
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.payment.Payment
 import com.example.kurslinemobileapp.api.login.LogInAPi
+import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.PaymentApiCreateOrder
+import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.PaymentApiGetOrderStatus
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.service.Constant.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -31,6 +33,6 @@ class RetrofitService(url: String) {
     val apiService: LogInAPi = retrofit2.create(LogInAPi::class.java)
     val apiServicewriteUs :AnnouncementAPI=retrofit2.create(AnnouncementAPI::class.java)
     val apiServicemoveForwardInfo :Payment=retrofit2.create(Payment::class.java)
-
-
+    val apiServicePaymentPayriff:PaymentApiCreateOrder=retrofit2.create(PaymentApiCreateOrder::class.java)
+    val apiservicePaymentGetOrderPayriff:PaymentApiGetOrderStatus=retrofit2.create(PaymentApiGetOrderStatus::class.java)
 }
