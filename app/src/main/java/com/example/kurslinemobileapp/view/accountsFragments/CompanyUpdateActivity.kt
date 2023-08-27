@@ -309,7 +309,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
                         if (throwable.message!!.contains("HTTP 409")) {
                             Toast.makeText(
                                 this,
-                                getString(R.string.http409String),
+                                getString(R.string.http409Stringupdate),
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
