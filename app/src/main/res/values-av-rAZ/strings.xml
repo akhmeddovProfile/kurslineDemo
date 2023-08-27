@@ -66,6 +66,7 @@
     <string name="nameCharacterCount">Ad 3 və 50 simvol arasında olmalıdır</string>
     <string name="passwordCount">Parol ən azı 8 simvol uzunluğunda olmalıdır və ən azı 1 böyük hərf, 1 kiçik hərf, 1 rəqəm və 1 xüsusi simvoldan ibarət olmalıdır.</string>
     <string name="http409String"> Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur</string>
+    <string name="http409Stringupdate"> Bu nömrə, mail ünvanı və ya şirkət adı artıq başqa istifadəçidə istifadə olunur</string>
     <string name="infosWrong"> Məlumatlar doğru deyil</string>
     <string name="registerSuccess"> Qeydiyyat uğurla tamamlandı</string>
     <string name="registerContinue"> Hesab yaradılır...</string>

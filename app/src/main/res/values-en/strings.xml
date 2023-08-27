@@ -65,6 +65,7 @@
     <string name="nameCharacterCount">Name must be between 3 and 50 characters</string>
     <string name="passwordCount">Password must be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and 1 special character.</string>
     <string name="http409String"> This number or email address is already in use by another user</string>
+    <string name="http409Stringupdate"> This number, email address or company name is already in use by another user</string>
     <string name="infosWrong"> The information is not correct</string>
     <string name="registerSuccess"> Registration completed successfully</string>
     <string name="registerContinue"> Creating an account...</string>
