@@ -41,8 +41,8 @@
     <string name="pay">Pay</string>
     <string name="payment">Payment</string>
     <string name="regions">Regions</string>
-    <string name="kurslar">Courses</string>
-    <string name="tutors">Tutors</string>
+    <string name="kurslar">Course</string>
+    <string name="tutors">Tutor</string>
     <string name="categories">Categories</string>
     <string name="fromAtoZ">From A to Z</string>
     <string name="mintomax">Min to Max</string>

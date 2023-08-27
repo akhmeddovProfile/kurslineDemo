@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".view.fragments.ContactUsFragment">
+    <TextView
+        android:id="@+id/favoritesMainText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="@string/contact_us"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_below="@+id/favoritesMainText"
+        android:id="@+id/lineFavorites"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/grayColor1"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/writeUsPhoneContainer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/lineFavorites"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/grayColor1"
+        app:hintTextColor="@color/grayColor1"
+        android:textColorHint="@color/grayColor1"
+        app:prefixText="+994 "
+        app:prefixTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/writeUsPhoneText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserrat"
+        android:inputType="phone"
+        android:hint="@string/phoneString"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/writeUsLetterContainer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/writeUsPhoneContainer"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeColor="@color/grayColor1"
+        app:hintTextColor="@color/grayColor1"
+        android:textColorHint="@color/grayColor1"
+        app:prefixTextColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/writeUsLetterEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat"
+            android:inputType="textPersonName"
+            android:hint="@string/writeletter"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sendLetterBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginBottom="25dp"
+        android:layout_below="@id/writeUsLetterContainer"
+        android:background="@drawable/button_bg"
+        android:text="Send"
+        android:textAllCaps="false"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
+
+
+</RelativeLayout>

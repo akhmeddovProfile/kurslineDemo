@@ -89,12 +89,34 @@ class UserRegisterActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString().trim()
             // Validate input fields
                 // Save user registration data to shared preferences
+
+            if(name.isEmpty()){
+                nameEditText.requestFocus()
+                nameEditText.error = "Full name is not be empty"
+                block  = false
+            }
+            if(email.isEmpty()){
+                mailEditText.requestFocus()
+                mailEditText.error = "Email address is not be empty"
+                block  = false
+            }
+            if(phone.isEmpty()){
+                phoneEditText.requestFocus()
+                phoneEditText.error ="Phone is not be empty"
+                block  = false
+            }
+            if(password.isEmpty()){
+                passwordEditText.requestFocus()
+                passwordEditText.error ="Password is not be empty"
+                block  = false
+            }else{
                 val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putBoolean("is_registered", true)
                 editor.apply()
                 showProgressButton(true)
                 register(name, email, "+994"+phone, password, "1")
+            }
             }
     }
 

@@ -100,10 +100,10 @@ class BusinessAccountFragment : Fragment() {
         val about = response.companyAbout.toString()
         val userstaus = response.userStatusId
         val category  = response.companyCategoryId
-        val regionCompany = response.companyRegionId
-      val regionId = response.companyRegionId.toString()
         val userStatusId = response.userStatusId.toString()
         val companyCategoryId = response.companyCategoryId.toString()
+        val regionCompany = response.companyRegionId
+        val regionId = response.companyRegionId.toString()
      sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("userStatusId", userStatusId)

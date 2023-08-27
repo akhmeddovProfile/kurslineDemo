@@ -57,8 +57,9 @@
         android:layout_width="14dp"
         android:layout_height="12dp"
         android:background="@drawable/vip_icon"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/favoriteRelativeForproductStatus"
+        android:layout_marginTop="10dp"
         android:visibility="visible"
         />
     <androidx.cardview.widget.CardView

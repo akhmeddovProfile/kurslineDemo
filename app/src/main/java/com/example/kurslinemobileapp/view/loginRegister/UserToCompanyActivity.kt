@@ -213,9 +213,45 @@ class UserToCompanyActivity : AppCompatActivity() {
             val photoContainer = userToCompanyPhotoEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
+            val statusContainer = userToCompanyStatusEditText.text.toString().trim()
+            val categoryContainer = userToCompanyCategoryEditText.text.toString().trim()
             val aboutCompanyContainer = userToCompanyAboutEditText.text.toString().trim()
-            showProgressButton(true)
-            sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, photoContainer, companyStatusContainer, authHeader, userId)
+
+            if(companyNameContainer.isEmpty()){
+                userToCompanyNameEditText.requestFocus()
+                userToCompanyNameEditText.error = "Company Name is not be empty"
+                block  = false
+            }
+            if(companyAddressContainer.isEmpty()){
+                userToCompanyAddressEditText.requestFocus()
+                userToCompanyAddressEditText.error = "Address is not be empty"
+                block  = false
+            }
+            if(statusContainer.isEmpty()){
+                userToCompanyStatusEditText.requestFocus()
+                userToCompanyStatusEditText.error = "Status is not be empty"
+                block  = false
+            }
+            if(categoryContainer.isEmpty()){
+                userToCompanyCategoryEditText.requestFocus()
+                userToCompanyCategoryEditText.error = "Category is not be empty"
+                block  = false
+            }
+            if(aboutCompanyContainer.isEmpty()){
+                userToCompanyAboutEditText.requestFocus()
+                userToCompanyAboutEditText.error ="Company about is not be empty"
+                block  = false
+            }
+            if(photoContainer.isEmpty()){
+                userToCompanyPhotoEditText.requestFocus()
+                userToCompanyPhotoEditText.error ="Company photo is not be empty"
+                block  = false
+            }else{
+                showProgressButton(true)
+                sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, photoContainer, companyStatusContainer, authHeader, userId)
+            }
+
+
         }
         userToCompanyPhotoEditText.setOnClickListener {
             if(!checkPermission()){

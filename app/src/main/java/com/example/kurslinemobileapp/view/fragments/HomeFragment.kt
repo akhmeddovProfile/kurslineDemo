@@ -99,8 +99,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
 
         createAccount.setOnClickListener {
-            val intent = Intent(activity, MainRegisterActivity::class.java)
-            activity?.startActivity(intent)
+            findNavController().navigate(R.id.action_homeFragment_to_contactUsFragment)
         }
 
         val goToFilter = view.findViewById<TextInputEditText>(R.id.mainFilterEditText)

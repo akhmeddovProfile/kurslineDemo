@@ -29,7 +29,7 @@
     <string name="myaccount">Mənim hesabım</string>
     <string name="choose_language">Dil seçimi edin</string>
     <string name="help">Kömək</string>
-    <string name="courses">Kurslar</string>
+    <string name="courses">Kurs</string>
     <string name="exit_kursline">Kursline-dan çıxmaq</string>
     <string name="user_term">İstifadəçi şərtləri</string>
     <string name="privacy_poliscy">Məxfilik siyasəti</string>
@@ -41,8 +41,8 @@
     <string name="pay">Ödə</string>
     <string name="payment">Ödəniş</string>
     <string name="regions">Regionlar</string>
-    <string name="kurslar">Kurslar</string>
-    <string name="tutors">Repititorlar</string>
+    <string name="kurslar">Kurs</string>
+    <string name="tutors">Repititor</string>
     <string name="categories">Kateqoriyalar</string>
     <string name="fromAtoZ">A-dan Z-ə</string>
     <string name="mintomax">Min to Max</string>

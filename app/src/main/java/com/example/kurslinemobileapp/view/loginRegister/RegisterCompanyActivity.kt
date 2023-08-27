@@ -208,6 +208,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
         categoryId = ""
         statusId = ""
         regionId = ""
+
+
         createBusinessAccountBtn.setOnClickListener {
             block = true
             //val companyNameContainer = companyNameEditText.text.toString().trim()
@@ -215,14 +217,58 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val companyPasswordContainer = CompanypasswordEditText.text.toString().trim()
             val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
             val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
+            val statusContainer = compantStatusEditText.text.toString().trim()
+            val categoryContainer = companyCategoryEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             //val companyRegionContainer = regionId
             val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
             val companyPhotoContainer = companyPhoto.text.toString().trim()
-            showProgressButton(true)
-            sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer)
+
+            if(companyEmailContainer.isEmpty()){
+                companyEmailEditText.requestFocus()
+                companyEmailEditText.error = "Email address is not be empty"
+                block = false
+            }
+            if(companyPasswordContainer.isEmpty()){
+                CompanypasswordEditText.requestFocus()
+                CompanypasswordEditText.error = "Password is not be empty"
+                block = false
+            }
+            if(companyFullNameContainer.isEmpty()){
+                companyFullNameEditText.requestFocus()
+                companyFullNameEditText.error = "Company Name is not be empty"
+                block  = false
+            }
+            if(companyPhoneContainer.isEmpty()){
+                companyPhoneEditText.requestFocus()
+                companyPhoneEditText.error = "Phone is not be empty"
+                block  = false
+            }
+         if(statusContainer.isEmpty()){
+                compantStatusEditText.requestFocus()
+                compantStatusEditText.error = "Status is not be empty"
+                block  = false
+            }
+            if(categoryContainer.isEmpty()){
+                companyCategoryEditText.requestFocus()
+                companyCategoryEditText.error = "Category is not be empty"
+                block  = false
+            }
+            if(aboutCompanyContainer.isEmpty()){
+                aboutCompanyEditText.requestFocus()
+                aboutCompanyEditText.error ="Company about is not be empty"
+                block  = false
+            }
+            if(companyPhotoContainer.isEmpty()){
+                companyPhoto.requestFocus()
+                companyPhoto.error ="Company photo is not be empty"
+                block  = false
+            }else{
+                showProgressButton(true)
+                sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer)
+            }
         }
         companyPhoto.setOnClickListener {
             if(!checkPermission()){
