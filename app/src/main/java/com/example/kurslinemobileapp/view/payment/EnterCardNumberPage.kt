@@ -2,14 +2,13 @@ package com.example.kurslinemobileapp.view.payment
 
 import android.annotation.SuppressLint
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequest
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequestBody
@@ -28,7 +27,6 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 
 class EnterCardNumberPage : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -65,7 +63,7 @@ class EnterCardNumberPage : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createOrder(){
-        val amount=0.1
+        val amount=0.01
         val totalAmount =amount
         val requestBody = CreateOrderRequestBody(totalAmount, "", "", "",
             "AZN", "", "This is Description", true, 0,
@@ -82,7 +80,7 @@ class EnterCardNumberPage : AppCompatActivity() {
 
                 val encryptedData= encryptSecretKey(secretKey,iv)
                 println("Encrypted data: $encryptedData")
-                val apiService=RetrofitService(Constant.BASE_URL_PAYMENT).apiServicePaymentPayriff.createOrder("0B6505100D2941019771F6D3C8DDF6AD","createOrder",request).await()
+                val apiService=RetrofitService(Constant.BASE_URL_PAYMENT).apiServicePaymentPayriff.createOrder(Constant.secretKey,"createOrder",request).await()
                 paymentWebView.visibility = View.VISIBLE
                 paymentWebView.loadUrl(apiService.payload.paymentUrl)
                 paymentWebView.webViewClient=object :WebViewClient(){
@@ -131,7 +129,7 @@ class EnterCardNumberPage : AppCompatActivity() {
         val requestBody = GetStatusOrderRequestBody("AZ", orderId, sessionId)
         val request = GetStatusOrderRequest(requestBody, "ES1092105")
         CoroutineScope(Dispatchers.Main).launch {
-            val apiService=RetrofitService(Constant.BASE_URL_PAYMENT).apiservicePaymentGetOrderPayriff.getStatusOrder("0B6505100D2941019771F6D3C8DDF6AD","getStatusOrder",request).await()
+            val apiService=RetrofitService(Constant.BASE_URL_PAYMENT).apiservicePaymentGetOrderPayriff.getStatusOrder(Constant.secretKey,"getStatusOrder",request).await()
             try {
                 if (apiService.payload.orderStatus.equals("DECLINED")){
                     paymentState=false

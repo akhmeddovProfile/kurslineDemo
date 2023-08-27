@@ -8,6 +8,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface PaymentApiGetOrderStatus {
-    @POST("{method_name}/")
+    @POST("v2/{method_name}/")
     fun getStatusOrder(@Header("Authorization") secretKey : String, @Path("method_name") methodName : String, @Body params : GetStatusOrderRequest) : Deferred<GetStatusOrderResponse>
 }

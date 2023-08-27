@@ -546,14 +546,18 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                         val bottomText =
                             "${vipInfo.irelicekDate} dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
                         // radioButtonMovefor1.text = bottomText
+                        val bottomtextCost=vipInfo.irelicekCost
                         val vipInfo2 = vipInfoList[1]
                         val bottomText2 =
                             "${vipInfo2.irelicekDate}dəfə(24 saatdan bir)/${vipInfo2.irelicekCost} AZN "
+                        val bottomtextCost2=vipInfo2.irelicekCost
                         // radioButtonMovefor2.text=bottomText2
                         println(bottomText2)
                         val intent=Intent(this@ProductDetailActivity,MoveForwardAnn::class.java)
                         intent.putExtra("radiobuttonMoveFrw1",bottomText)
                         intent.putExtra("radiobuttonMoveFrw2",bottomText2)
+                        intent.putExtra("redioBtncost1",bottomtextCost)
+                        intent.putExtra("redioBtncost1",bottomtextCost2)
                         startActivity(intent)
                     }
                 }
