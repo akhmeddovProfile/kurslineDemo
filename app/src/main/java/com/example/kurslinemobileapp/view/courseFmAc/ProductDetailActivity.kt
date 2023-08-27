@@ -34,6 +34,7 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comm
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.payment.priceMoveForward.MoveforwardPriceResponseX
+import com.example.kurslinemobileapp.api.announcement.payment.priceVIP.VipPriceResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.comment.CommentAPI
@@ -84,6 +85,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     var checkLogin:Boolean=false
     private lateinit var similarcourseList : ArrayList<AnnouncementSimilarCourse>
     lateinit var moveforwardList:ArrayList<MoveforwardPriceResponseX>
+    lateinit var vipList:ArrayList<VipPriceResponse>
     private var check:Boolean=false
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -106,6 +108,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         println("userid" + userId)
         println("token:"+authHeader)
         moveforwardList= ArrayList<MoveforwardPriceResponseX>()
+        vipList = ArrayList<VipPriceResponse>()
         similarcourseList= ArrayList<AnnouncementSimilarCourse>()
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
@@ -123,8 +126,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
         }
         relativeLayoutClickVIP.setOnClickListener {
-        val intent=Intent(this,VipPaymentPage::class.java)
-        startActivity(intent)
+            getPriceForVip(userId,annId,authHeader)
         }
 
         deleteCourse.setOnClickListener {
@@ -580,6 +582,67 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                 }
             } catch (e: Exception) {
                 // Handle other exceptions (network errors, etc.)
+                Toast.makeText(
+                    this@ProductDetailActivity,
+                    "An error occurred: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+
+    fun getPriceForVip(userId: Int, annId: Int, token: String){
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val apiService =
+                    RetrofitService(Constant.BASE_URL).apiVip.VipPaymentInfo(userId, annId, token).await()
+                check = true
+                vipList = ArrayList(listOf(apiService))
+                if (vipList.isNotEmpty()) {
+                    val vipInfoList = vipList[0].vipInfo
+                    if (vipInfoList.isNotEmpty()) {
+                        val vipInfo = vipInfoList[0]
+                        val bottomText =
+                            "${vipInfo.vipPriceDate} gün/${vipInfo.vipPriceCost} AZN "
+                        // radioButtonMovefor1.text = bottomText
+                        val vipInfo2 = vipInfoList[1]
+                        val bottomText2 =
+                            "${vipInfo2.vipPriceDate} gün/${vipInfo2.vipPriceCost} AZN "
+                        val vipInfo3 = vipInfoList[2]
+                        val bottomText3 =
+                            "${vipInfo3.vipPriceDate} gün/${vipInfo3.vipPriceCost} AZN "
+                        println("bt3: "+ bottomText3)
+                        // radioButtonMovefor2.text=bottomText2
+                        println(bottomText2)
+                        val intent=Intent(this@ProductDetailActivity,VipPaymentPage::class.java)
+                        intent.putExtra("radiobuttonVip1",bottomText)
+                        intent.putExtra("radiobuttonVip2",bottomText2)
+                        intent.putExtra("radiobuttonVip3",bottomText3)
+                        startActivity(intent)
+                    }
+                }
+
+            } catch (e: HttpException) {
+                if (e.code() == 401) {
+                    // Handle HTTP 401 error (Unauthorized)
+                    Toast.makeText(
+                        this@ProductDetailActivity,
+                        "Yalnız özünüzə məxsus elanı İrəli çəkə bilərsiz",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    // Handle other HTTP error codes
+                    println("An error occurred1: ${e.message()}")
+                    Toast.makeText(
+                        this@ProductDetailActivity,
+                        "An error occurred: ${e.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                // Handle other exceptions (network errors, etc.)
+                println("An error occurred2: ${e.message}")
                 Toast.makeText(
                     this@ProductDetailActivity,
                     "An error occurred: ${e.message}",
