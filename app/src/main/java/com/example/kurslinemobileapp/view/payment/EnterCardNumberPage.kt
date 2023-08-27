@@ -1,12 +1,15 @@
 package com.example.kurslinemobileapp.view.payment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kurslinemobileapp.R
@@ -16,6 +19,7 @@ import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.GetStatus
 import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.GetStatusOrderRequestBody
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.MainActivity
 import kotlinx.android.synthetic.main.activity_enter_card_number_page.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -90,10 +94,19 @@ class EnterCardNumberPage : AppCompatActivity() {
                     ): Boolean {
                         val url = request?.url ?: return false
                         paymentWebView.loadUrl(url.toString())
+
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
                         return super.shouldOverrideUrlLoading(view, request)
                     }
 
+                    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                        if (url != null && url.contains("approveURL")) {
+                            // Handle payment success
+                            handlePaymentSuccess()
+                            return true
+                        }
+                        return super.shouldOverrideUrlLoading(view, url)
+                    }
                     override fun doUpdateVisitedHistory(
                         view: WebView?,
                         url: String?,
@@ -104,6 +117,16 @@ class EnterCardNumberPage : AppCompatActivity() {
 
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
+                    }
+
+                    override fun onReceivedError(
+                        view: WebView?,
+                        request: WebResourceRequest?,
+                        error: WebResourceError?
+                    ) {
+                        println("Request error: "+request)
+                        println("Error: "+error?.errorCode)
+                        super.onReceivedError(view, request, error)
                     }
                 }
                 paymentWebView.settings.javaScriptEnabled = true
@@ -117,15 +140,20 @@ class EnterCardNumberPage : AppCompatActivity() {
             }
         }
     }
+    private fun handlePaymentSuccess() {
+        // Payment was successful, handle the result accordingly
+        // For example, navigate to a success screen or update UI
+
+        Toast.makeText(this,"Successfully",Toast.LENGTH_SHORT).show()
+        // You might also navigate to a success screen
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getStatusOrderMethod(orderId:String, sessionId:String) {
-        val originalSecretKey = Constant.secretKey
-        val secretKey = generateSecretKey(originalSecretKey)
-        val iv = ByteArray(16)
-        SecureRandom().nextBytes(iv)
 
-        val encryptedData= encryptSecretKey(secretKey,iv)
         val requestBody = GetStatusOrderRequestBody("AZ", orderId, sessionId)
         val request = GetStatusOrderRequest(requestBody, "ES1092105")
         CoroutineScope(Dispatchers.Main).launch {
