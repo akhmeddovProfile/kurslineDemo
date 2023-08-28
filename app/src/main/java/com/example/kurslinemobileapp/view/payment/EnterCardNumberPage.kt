@@ -69,8 +69,8 @@ class EnterCardNumberPage : AppCompatActivity() {
     private fun createOrder(){
         val amount=0.01
         val totalAmount =amount
-        val requestBody = CreateOrderRequestBody(totalAmount, "", "", "",
-            "AZN", "", "This is Description", true, 0,
+        val requestBody = CreateOrderRequestBody(totalAmount, "https://www.youtube.com/", "", "",
+            "AZN", "https://www.youtube.com/", "This is Description", true, 0,
             "BIRKART", "AZ", "")
 
         val request = CreateOrderRequest(requestBody, "ES1092105")
@@ -94,19 +94,12 @@ class EnterCardNumberPage : AppCompatActivity() {
                     ): Boolean {
                         val url = request?.url ?: return false
                         paymentWebView.loadUrl(url.toString())
-
+                        println("url: "+url)
+                        println("OrderId: "+apiService.payload.orderId)
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
                         return super.shouldOverrideUrlLoading(view, request)
                     }
 
-                    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                        if (url != null && url.contains("approveURL")) {
-                            // Handle payment success
-                            handlePaymentSuccess()
-                            return true
-                        }
-                        return super.shouldOverrideUrlLoading(view, url)
-                    }
                     override fun doUpdateVisitedHistory(
                         view: WebView?,
                         url: String?,
@@ -140,15 +133,7 @@ class EnterCardNumberPage : AppCompatActivity() {
             }
         }
     }
-    private fun handlePaymentSuccess() {
-        // Payment was successful, handle the result accordingly
-        // For example, navigate to a success screen or update UI
 
-        Toast.makeText(this,"Successfully",Toast.LENGTH_SHORT).show()
-        // You might also navigate to a success screen
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -26,14 +26,9 @@ class ContactUsFragment : Fragment() {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_contact_us, container, false) as ViewGroup
 
-
-
         view?.sendLetterBtn?.setOnClickListener {
             sendMessage(requireContext())
         }
-
-
-
         return view
     }
 
