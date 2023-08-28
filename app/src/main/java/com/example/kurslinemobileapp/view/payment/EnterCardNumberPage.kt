@@ -151,7 +151,7 @@ class EnterCardNumberPage : AppCompatActivity() {
                     paymentState=false
                 }
                 if (apiService.payload.orderStatus.equals("APPROVED")){
-                    paymentState=false
+                    paymentState=true
                 }
                 paymentWebView.visibility = View.GONE
             }catch (e:HttpException){

@@ -93,7 +93,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
-
         scrollViewforProductDescription.visibility = View.GONE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         lottie.visibility = View.VISIBLE
@@ -159,16 +158,11 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             override fun afterTextChanged(s: Editable?) {
                 val name = s.toString().trim()
                 val characterCount = name.length
-
-                if (characterCount < 3 || characterCount > 100) {
-                    commentforUser.error = "Comment must be between 3 and 100 characters."
-                } else {
-                    commentforUser.error = null
-                }
-
-                characterCountTextViewComment.text = "$characterCount / 100"
+                characterCountTextViewComment.text = "Comment must be between 3 and 100 characters: " +
+                         "$characterCount / 100"
             }
         })
+
         if(userId==0){
             getDataFromServer(annId,0)
             getProductWhichIncludeFavorite(annId,0)
