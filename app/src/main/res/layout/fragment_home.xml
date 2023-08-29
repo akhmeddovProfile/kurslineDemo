@@ -158,7 +158,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:elevation="5dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/allCoursesRV"
+                android:id="@+id/vipCoursesRV"
                 android:layout_below="@id/line2Main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -167,7 +167,7 @@
                 android:layout_marginTop="20dp"
                 android:id="@+id/line3Main"
                 android:layout_width="match_parent"
-                android:layout_below="@id/allCoursesRV"
+                android:layout_below="@id/vipCoursesRV"
                 android:layout_height="1dp"
                 android:src="@color/grayColor2"/>
             <TextView
@@ -192,7 +192,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:elevation="5dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/lastCoursesRV"
+                android:id="@+id/allCoursesRV"
                 android:layout_below="@id/line4Main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
