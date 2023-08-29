@@ -51,8 +51,10 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private lateinit var imageList:ArrayList<Int>
     private lateinit var viewPagerImageAdapter: ViewPagerImageAdapter
     private lateinit var mainListProductAdapter: MainListProductAdapter
-    private lateinit var mainList : ArrayList<GetAllAnnouncement>
-    private lateinit var mainList2 : ArrayList<GetAllAnnouncement>
+    private lateinit var mainListProductAdapter2: MainListProductAdapter
+    private lateinit var mainList : ArrayList<Announcemenet>
+    private lateinit var mainList2 : ArrayList<Announcemenet>
+    private lateinit var vipList : ArrayList<Announcemenet>
     private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
@@ -75,14 +77,18 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         println("Clear token: "+token)
         println("Clear: "+userId)
         items= listOf()
-        mainList = ArrayList<GetAllAnnouncement>()
-        mainList2 = ArrayList<GetAllAnnouncement>()
+        mainList = ArrayList<Announcemenet>()
+        mainList2 = ArrayList<Announcemenet>()
+        vipList =  ArrayList<Announcemenet>()
         val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.GONE
+        val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        vipRv.visibility = View.GONE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         recycler.layoutManager = GridLayoutManager(requireContext(),2)
+        vipRv.layoutManager = GridLayoutManager(requireContext(),2)
         //getProducts()
 
         val imageWithTextList = listOf(
@@ -181,13 +187,24 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private fun handleResponse(response : GetAllAnnouncement){
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
-
+        val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        vipRv.visibility = View.VISIBLE
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
         announcements.addAll(response.announcemenets)
-        mainList.addAll(listOf(response))
-        mainList2.addAll(listOf(response))
+
+
+        //mainList.addAll(listOf(response))
+        //mainList2.addAll(listOf(response))
+
+        for( newList in response.announcemenets){
+            if (newList.isVIP){
+                vipList.add(newList)
+            }else{
+                mainList2.add(newList)
+            }
+        }
 
         println("responseElan: " + response.announcemenets)
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
@@ -209,6 +226,28 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             println("gedenId-----"+it.id)
             editor.apply()
         }
+
+        mainListProductAdapter2 = MainListProductAdapter(vipList,this@HomeFragment,requireActivity())
+        vipRv.adapter = mainListProductAdapter2
+        vipRv.isNestedScrollingEnabled=false
+        mainListProductAdapter2.notifyDataSetChanged()
+
+        mainListProductAdapter2.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            println("SubCategory New2: "+it.subCategory)
+
+            intent.putExtra("SubCategory",it.subCategory)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            println("Fav Item Clicked without UserID: "+isRegistered)
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
+
+
     }
 
     private fun getProductWhichIncludeFavorite(id: Int) {
@@ -226,13 +265,21 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private fun handleResponseforAllItemsAndFavItems(response : GetAllAnnouncement){
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
+        val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        vipRv.visibility = View.VISIBLE
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
         announcements.addAll(response.announcemenets)
-        mainList.addAll(listOf(response))
-        mainList2.addAll(listOf(response))
 
+
+        for( newList in response.announcemenets){
+            if (newList.isVIP){
+                vipList.add(newList)
+            }else{
+                mainList2.add(newList)
+            }
+        }
         println("responseElanFavoriteTrue: " + response.announcemenets)
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter
@@ -251,6 +298,26 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
             sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
             println("Item Clicked with UserID: "+isRegistered)
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
+
+        mainListProductAdapter2 = MainListProductAdapter(vipList,this@HomeFragment,requireActivity())
+        vipRv.adapter = mainListProductAdapter2
+        vipRv.isNestedScrollingEnabled=false
+        mainListProductAdapter2.notifyDataSetChanged()
+
+        mainListProductAdapter2.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            println("SubCategory New2: "+it.subCategory)
+
+            intent.putExtra("SubCategory",it.subCategory)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            println("Fav Item Clicked without UserID: "+isRegistered)
             println("gedenId-----"+it.id)
             editor.apply()
         }
@@ -281,14 +348,21 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     private fun handleResponseFilter(response : GetAllAnnouncement){
         mainList.clear()
         mainList2.clear()
+        vipList.clear()
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
+        val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        vipRv.visibility = View.VISIBLE
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
-        mainList.addAll(listOf(response))
-        mainList2.addAll(listOf(response))
-
+        for( newList in response.announcemenets){
+            if (newList.isVIP){
+                vipList.add(newList)
+            }else{
+                mainList2.add(newList)
+            }
+        }
         mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
         recycler.adapter = mainListProductAdapter
         mainListProductAdapter.notifyDataSetChanged()
@@ -301,6 +375,26 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
            // println("Item Clicked with UserID: "+isRegistered)
 
+            println("gedenId-----"+it.id)
+            editor.apply()
+        }
+
+        mainListProductAdapter2 = MainListProductAdapter(vipList,this@HomeFragment,requireActivity())
+        vipRv.adapter = mainListProductAdapter2
+        vipRv.isNestedScrollingEnabled=false
+        mainListProductAdapter2.notifyDataSetChanged()
+
+        mainListProductAdapter2.setOnItemClickListener {
+            val intent = Intent(activity, ProductDetailActivity::class.java)
+            println("SubCategory New2: "+it.subCategory)
+
+            intent.putExtra("SubCategory",it.subCategory)
+            activity?.startActivity(intent)
+            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            sharedPreferences.edit().putInt("announcementId", it.id).apply()
+            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
+            println("Fav Item Clicked without UserID: "+isRegistered)
             println("gedenId-----"+it.id)
             editor.apply()
         }
@@ -334,7 +428,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
             observeOn(AndroidSchedulers.mainThread()).
             subscribe({
                       println(it.isSuccess)
-                mainList2[0].announcemenets[position].isFavorite=it.isSuccess
+                mainList2[position].isFavorite=it.isSuccess
                 mainListProductAdapter.LikedItems(mainList2,position)
 
             },{throwable->

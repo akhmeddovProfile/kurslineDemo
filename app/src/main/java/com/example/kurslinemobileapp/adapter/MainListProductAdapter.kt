@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.product_item_row.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
+class MainListProductAdapter(private var items: List<Announcemenet>,
                              private val favoriteItemClickListener: FavoriteItemClickListener,
                              private val context:Context
 ) :
@@ -34,7 +34,7 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
     private var onItemClickListener: ((Announcemenet) -> Unit)? = null
 
     init {
-        fullList = items[0].announcemenets
+        fullList = items
     }
 
     fun setOnItemClickListener(listener: (Announcemenet) -> Unit) {
@@ -74,9 +74,9 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
     @SuppressLint("SetTextI18n", "CommitPrefEdits")
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         var addedToFav = false
-        val productRow = items.get(0).announcemenets[position]
+        val productRow = items[position]
 
-        val photoUrl = items.get(0).announcemenets[position].photos[0].url
+        val photoUrl = items[position].photos[0].url
         val url = "1"
         val photo = Photo(url)
         Picasso.get().load(photoUrl).into(holder.productimage)
@@ -117,15 +117,15 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
     }
 
     override fun getItemCount(): Int {
-        return items.get(0).announcemenets.size
+        return items.size
     }
 
-    fun LikedItems(items: List<GetAllAnnouncement>,position: Int){
+    fun LikedItems(items: List<Announcemenet>,position: Int){
         this.items=items
         notifyItemChanged(position)
     }
 
-    fun notifySetChanged(productList: MutableList<GetAllAnnouncement>){
+    fun notifySetChanged(productList: MutableList<Announcemenet>){
         items = productList
         notifyDataSetChanged()
     }
@@ -157,9 +157,9 @@ class MainListProductAdapter(private var items: List<GetAllAnnouncement>,
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                var newFullList :ArrayList<GetAllAnnouncement>
+                var newFullList :ArrayList<Announcemenet>
                 newFullList = arrayListOf()
-                newFullList.add(GetAllAnnouncement(newList,0))
+                newFullList.addAll(newList)
                 items = newFullList
                 notifyDataSetChanged()
             }
