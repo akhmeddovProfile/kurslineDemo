@@ -114,7 +114,6 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                 }
             }
         }
-        handleResponsePagination()
         val imageWithTextList = listOf(
             Highlight(R.drawable.mainpage2, "Ən çox baxılanlar"),
             Highlight(R.drawable.yenielan2, "1345 yeni kurs"),
@@ -169,7 +168,8 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                 isRegistered=false
                 /*setupScrollListener(nestedScrollView)*/
                 viewModel.loadMoreData()
-               // handleResponsePagination()
+                handleResponsePagination()
+                // handleResponsePagination()
                 //getProductsAndSetupScrollListener(0)
             }else{
                 isRegistered=true
