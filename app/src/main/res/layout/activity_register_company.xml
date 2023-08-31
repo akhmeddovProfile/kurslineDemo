@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,11 +29,9 @@
         android:layout_below="@+id/registerBusinessPhoto"
         android:textStyle="bold"/>
 
-    <ScrollView
-        android:layout_below="@+id/businessRegisterText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
     <RelativeLayout
+        android:layout_below="@id/businessRegisterText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -248,7 +249,7 @@
                 android:focusable="false"
                 android:hint="@string/businessRegisterPhoto"
                 android:inputType="none"
-                android:textColor="@color/black"
+                android:textColor="@color/colorForCourseIntheMainScreen"
                 android:fontFamily="@font/montserrat"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -303,5 +304,6 @@
 
 
     </RelativeLayout>
-    </ScrollView>
+
 </RelativeLayout>
+</ScrollView>

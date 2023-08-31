@@ -64,7 +64,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
-
+    lateinit var companyPhotoUrl : String
     private lateinit var repository: MyRepositoryForCategory
     private var job: Job? = null
 
@@ -130,6 +130,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
             AppDatabase.getDatabase(this).categoryDao(),
             AppDatabase.getDatabase(this).subCategoryDao()
         )
+
+
 
         companyFullNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -208,7 +210,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         categoryId = ""
         statusId = ""
         regionId = ""
-
+        companyPhotoUrl = ""
 
         createBusinessAccountBtn.setOnClickListener {
             block = true
@@ -267,7 +269,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 block  = false
             }else{
                 showProgressButton(true)
-                sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoContainer,companyStatusContainer)
+                sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoUrl,companyStatusContainer)
             }
         }
         companyPhoto.setOnClickListener {
@@ -406,7 +408,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 companyPhoto.setText(imagePath)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    companyPhoto.setText(compressedImagePath)
+                    companyPhotoUrl = compressedImagePath!!
+                    companyPhoto.setText("Şəkil seçildi!")
                     println("CompressedImagePath"+compressedImagePath)
                 }
                 println(imagePath)

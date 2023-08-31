@@ -64,7 +64,7 @@ class UserToCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
-
+    lateinit var companyPhotoUrl : String
     //Gallery
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
@@ -204,6 +204,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         }
         categoryId = ""
         statusId = ""
+        companyPhotoUrl = ""
 
 
         userToCompanyRegisterBtn.setOnClickListener{
@@ -384,7 +385,8 @@ class UserToCompanyActivity : AppCompatActivity() {
                 userToCompanyPhotoEditText.setText(imagePath)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    userToCompanyPhotoEditText.setText(compressedImagePath)
+                    userToCompanyPhotoEditText.setText("Şəkil seçildi!")
+                    companyPhotoUrl = compressedImagePath!!
                     println("CompressedImagePath"+compressedImagePath)
                 }
                 println(imagePath)
