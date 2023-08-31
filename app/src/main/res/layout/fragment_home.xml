@@ -49,10 +49,12 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/nestedScrollHome"
         android:layout_below="@+id/mainFirstRl">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
             <androidx.recyclerview.widget.RecyclerView
                 android:elevation="5dp"
                 android:layout_marginTop="5dp"

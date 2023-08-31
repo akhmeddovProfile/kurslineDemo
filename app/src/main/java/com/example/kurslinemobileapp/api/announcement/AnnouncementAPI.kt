@@ -22,7 +22,7 @@ import retrofit2.http.Query
 
 interface AnnouncementAPI {
     @GET("GetAnnouncements")
-    fun getAnnouncement() : Observable<GetAllAnnouncement>
+    fun getAnnouncement(@Query("limit") limit: Int, @Query("offset") offset: Int) : Observable<GetAllAnnouncement>
 
     @GET("GetAnnouncementById/{annouuncementId}/{userId}")
     fun getDataById(@Path("annouuncementId") id: Int,@Path("userId")userId: Int): Observable<AnnouncementDetailModel>

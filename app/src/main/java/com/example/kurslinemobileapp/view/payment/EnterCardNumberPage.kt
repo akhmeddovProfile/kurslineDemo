@@ -149,6 +149,7 @@ class EnterCardNumberPage : AppCompatActivity() {
                 }
                 if (apiService.payload.orderStatus.equals("CANCELLED")){
                     paymentState=false
+
                 }
                 if (apiService.payload.orderStatus.equals("APPROVED")){
                     paymentState=true

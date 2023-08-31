@@ -677,3 +677,47 @@ fun showBottomSheetDialogPrice() {
             }
         }
 */
+/*   val token = sharedPreferences.getString("USERTOKENNN", "")
+   val authHeader = "Bearer $token"
+   val userId = sharedPreferences.getInt("userID", 0)
+   val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
+
+   val targetList = if (isVip) vipList else mainList2 // Determine the target list
+
+   if (position >= 0 && position < targetList.size) { // Check if position is within valid range
+       compositeDisposable.add(
+           retrofit.postFavorite(authHeader, userId, id)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe({ response ->
+                   println(response.isSuccess)
+                   targetList[position].isFavorite = response.isSuccess
+                   mainListProductAdapter.LikedItems(targetList, position)
+               }, { throwable ->
+                   println("Error: ${throwable.message}")
+               })
+       )
+   } else {
+       println("Invalid position: $position")
+   }*/
+/*
+
+        recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as? LinearLayoutManager
+                val visibleItemCount = layoutManager?.childCount ?: 0
+                val totalItemCount = layoutManager?.itemCount ?: 0
+                val firstVisibleItemPosition = layoutManager?.findFirstVisibleItemPosition() ?: 0
+
+                if (!isLoading && (visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                    && firstVisibleItemPosition >= 0 && totalItemCount >= PAGE_SIZE
+                ) {
+                    // Load more data
+                    currentOffset += 1
+                    loadMoreData(currentOffset)
+                }
+            }
+        })
+*/
