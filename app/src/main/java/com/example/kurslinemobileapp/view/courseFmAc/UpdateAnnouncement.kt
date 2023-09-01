@@ -39,6 +39,7 @@ import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.Img
+import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Photo
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
@@ -55,6 +56,8 @@ import com.example.kurslinemobileapp.service.Room.region.RegionViewModel
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -131,15 +134,54 @@ class UpdateAnnouncement : AppCompatActivity() {
 
         selectedPhotos= ArrayList<SelectionPhotoShowOnViewPager>()
         images= mutableListOf()
+
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(this).categoryDao(),
             AppDatabase.getDatabase(this).subCategoryDao()
         )
+
+
         val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
+
+        val uProdCategory = sharedPreferences.getString("productDetailCategory", "") ?: ""
+        val uProdSubCategory = sharedPreferences.getString("productDetailSubCategory", "") ?: ""
+        val uProdPrice = sharedPreferences.getString("productDetailPrice", "") ?: ""
+        val uProdName = sharedPreferences.getString("productDetailName", "") ?: ""
+        val uProdDesc = sharedPreferences.getString("productDetailDesc", "") ?: ""
+        val uProdRegion = sharedPreferences.getString("productDetailRegion", "") ?: ""
+        val uProdMode = sharedPreferences.getString("productDetailMode", "") ?: ""
+        val uProdTeacher = sharedPreferences.getString("productDetailTeacher", "") ?: ""
+        val uProdAddress = sharedPreferences.getString("productDetailAddress", "") ?: ""
+        val jsonImageUrls = intent.getStringExtra("imageUrlsJson")
+
+        upcourseNameEditText.setText(uProdName)
+        upcourseAboutEditText.setText(uProdDesc)
+        upcourseTeacherEditText.setText(uProdTeacher)
+        upcoursePriceEditText.setText(uProdPrice)
+        upcourseAddressEditText.setText(uProdAddress)
+        upcourseModeEditText.setText(uProdMode)
+        upcourseAllCategoryEditText.setText(uProdCategory)
+        courseSubCategoryEditText.setText(uProdSubCategory)
+        upcourseRegionEditText.setText(uProdRegion)
+
+        if (jsonImageUrls != null) {
+            val gson = Gson()
+            val type = object : TypeToken<List<Photo>>() {}.type
+            val imageUrls = gson.fromJson<List<Photo>>(jsonImageUrls, type)
+
+            val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpdate)
+            val photoAdapter = ProductDetailImageAdapter(imageUrls)
+            viewPager.adapter = photoAdapter
+        }
+     //   businessAccountUpdateNameEditText.setText(userFullName)
+
+
+
+
 
         addupCoursePhotos.setOnClickListener {
 
@@ -170,35 +212,6 @@ class UpdateAnnouncement : AppCompatActivity() {
         val subcategory=sharedPreferences.getString("annSubCategory","")
         println("SubCategory: "+subcategory)
         println("Category: "+category)
-
-
-        updateCourseBtn.setOnClickListener {
-            val upcourseNameContainer1=upcourseNameEditText?.text?.trim().toString()
-            val upcourseAboutContainer1=upcourseAboutEditText?.text?.trim().toString()
-            val upcoursePriceContainer1:Int=upcoursePriceEditText?.text?.toString()!!.toInt()
-            val upcourseAddressContainer1=upcourseAddressEditText?.text?.trim().toString()
-            val upAnnPhoto=selectedPhotos
-            val upcourseCategoryContainer1=categoryId
-            val upcourseAllCategoryContainer1=allcategoriesId
-            val upcourseRegionContainer1=regionId
-            val upcourseModeContainer=modeId
-            val upcourseteachername=upcourseTeacherEditText?.text?.trim().toString()
-            val name = upcourseTeacherEditText.text.toString().trim()
-            if (name.isNotEmpty()){
-                teachersname.add(name)
-            }
-            for(i in 0 until imageNames.size){
-                val img = Img(imageNames[i], imageData[i].toString())
-                images.add(img)
-            }
-            println("SelectedPhotos: "+selectedPhotos.size)
-            showProgressButton(true)
-
-            sendUpdateAnn(authHeader,userId,annId, CreateAnnouncementRequest(upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
-            upcourseModeContainer,upcourseAllCategoryContainer1,upcourseCategoryContainer1,upcourseRegionContainer1,images,teachersname
-                ))
-            return@setOnClickListener
-        }
 
 
     }
@@ -292,7 +305,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         return bitmap!!
     }
     private fun setupViewPager() {
-        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpload)
+        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpdate)
 
         // Create the adapter with the selected photos list
         val adapter = PhotoPagerAdapter(selectedPhotos)

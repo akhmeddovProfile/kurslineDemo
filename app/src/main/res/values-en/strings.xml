@@ -12,7 +12,8 @@
     <string name="filterFromAtoZ">From A to Z</string>
     <string name="filterforPrice">For Price</string>
     <string name="favcoursenotfound">No courses found here</string>
-    <string name="catagory">Category</string>
+    <string name="catagory">Sub Category</string>
+    <string name="category">Category</string>
     <string name="region">Region</string>
     <string name="rejim">Mode</string>
     <string name="contact">Contact</string>

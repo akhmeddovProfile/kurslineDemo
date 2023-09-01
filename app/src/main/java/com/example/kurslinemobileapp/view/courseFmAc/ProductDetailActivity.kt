@@ -263,6 +263,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                 { throwable -> println("MyDescTest: $throwable") }
             ))
     }
+
     private fun getProductWhichIncludeFavorite(announId:Int,userId: Int) {
         compositeDisposable=CompositeDisposable()
         val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
@@ -280,20 +281,13 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         lottie.pauseAnimation()
         lottie.visibility = View.GONE
 
-        // Picasso.get().load(response.photos).into(productDetailImage)
-
-
-        val receivedIntent = intent
-        val valueFromIntent = receivedIntent.getStringExtra("subCategory")
-
-        println("valueFromIntent"+valueFromIntent)
-
-
         val companyName = response.companyName
+        val address = response.announcementAddress
+        val subcategory = response.announcementSubCategoryName
+        val category = response.announcementCategoryName
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
         val courseDesc = response.announcementDesc
-        val categoryId = response.subCategory
         val regionId = response.announcementRegionId
         val modeId = response.isOnline
         val teacherName = response.teacher
@@ -304,6 +298,28 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         }else{
             vip_product_for_detail.visibility = View.GONE
         }
+
+        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("productDetailCompName", companyName)
+        editor.putString("productDetailCategory", category)
+        editor.putString("productDetailSubCategory", subcategory)
+        editor.putString("productDetailPrice", price)
+        editor.putString("productDetailName", courseName)
+        editor.putString("productDetailDesc", courseDesc)
+        editor.putString("productDetailRegion", regionId)
+        editor.putString("productDetailMode", modeId)
+        editor.putString("productDetailTeacher", teacherName.toString())
+        editor.putString("productDetailPhone", phoneNumber)
+        editor.putString("productDetailAddress", address)
+        editor.putString("productDetailCount", count.toString())
+        val imageUrls = response.photos
+        val gson = Gson()
+        val jsonPhotoList = gson.toJson(imageUrls)
+        editor.putString("productDetailImages", jsonPhotoList)
+        editor.apply()
+
+        addresTitle.setText(address)
         courseownerName.setText(companyName)
         detailCoursePrice.setText(price + " AZN")
         coursecontentname.setText(courseName)
@@ -314,7 +330,10 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         teacherTitle.setText(teacherName.toString())
         contactTitle.setText(phoneNumber)
         viewCount.setText(count.toString())
-        catagoryTitle.setText(valueFromIntent)
+        categoryTitle.setText(category)
+        catagoryTitle.setText(subcategory)
+
+        println("sub: " + subcategory)
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewUserComment)
         val commentList: List<Comment> = response.comments
@@ -322,10 +341,13 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         recyclerView.adapter = commentAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val imageUrls = response.photos
+
+
+
         val viewPager: ViewPager2 = findViewById(R.id.viewPagerProductDetail)
         val photoAdapter = ProductDetailImageAdapter(imageUrls)
         viewPager.adapter = photoAdapter
+
 
         similarcourseList.addAll(response.announcements)
         println("size:"+similarcourseList)
@@ -395,7 +417,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val price = response.announcementPrice.toString()
         val courseName = response.announcementName
         val courseDesc = response.announcementDesc
-        val categoryId = response.subCategory
+        val categoryId = response.announcementSubCategoryName
         val regionId = response.announcementRegionId
 
         //println("Similar course: "+response.announcement.size)
@@ -408,6 +430,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         }else{
             vip_product_for_detail.visibility = View.GONE
         }
+
 
         courseownerName.setText(companyName)
         detailCoursePrice.setText(price + " AZN")
@@ -431,7 +454,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val photoAdapter = ProductDetailImageAdapter(imageUrls)
         viewPager.adapter = photoAdapter
     }
-
 
 
     private fun sendComment(comment:String,token:String,userId:Int,annId:Int) {
@@ -469,7 +491,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         deleteCourse.visibility = View.VISIBLE
         editCourse.visibility = View.VISIBLE
         println("Image: "+response.photos)
-        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
         val annPhoto=response.photos
         val gson = Gson()
@@ -479,14 +500,11 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val aboutannouncement=response.announcementDesc
         val announcementteacher=response.teacher
         val price=response.announcementPrice
-        val address=response.announcementRegionId
         val adressid=response.announcementRegionId.toString()
         val annCategory=response.categoryId
-
-        println("AnnCategory: "+annCategory)
-        val annSubCategoryId=response.announcementSubCategoryId
         val category=response.categoryId.toString()
         val subcategory=response.announcementSubCategoryId.toString()
+
         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
@@ -501,7 +519,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
 
         var categoryName = ""
-        var subCategoryName=""
 
         getCategoryList()!!.subscribe({ categories ->
             println("333")
@@ -516,7 +533,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
         editCourse.setOnClickListener {
             val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
-
             startActivity(intent)
         }
     }

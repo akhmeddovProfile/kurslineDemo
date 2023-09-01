@@ -12,7 +12,8 @@
     <string name="filterFromAtoZ">A-dan Z-ə</string>
     <string name="filterforPrice">Qiymətə görə</string>
     <string name="favcoursenotfound">Burada heç bir kurs tapılmadı</string>
-    <string name="catagory">Kateqoriya</string>
+    <string name="catagory">Alt Kateqoriya</string>
+    <string name="category">Kateqoriya</string>
     <string name="region">Region</string>
     <string name="rejim">Rejim</string>
     <string name="contact">Əlaqə</string>
