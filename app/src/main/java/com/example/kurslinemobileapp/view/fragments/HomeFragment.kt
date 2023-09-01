@@ -299,7 +299,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         compositeDisposable=CompositeDisposable()
         val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
         compositeDisposable.add(
-            retrofit.getAnnouncementFavoriteForUserId(id).
+            retrofit.getAnnouncementFavoriteForUserId(id,100000,0).
             subscribeOn(Schedulers.io()).
             observeOn(AndroidSchedulers.mainThread()).
             subscribe(this::handleResponseforAllItemsAndFavItems,{

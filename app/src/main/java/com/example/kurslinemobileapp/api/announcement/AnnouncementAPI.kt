@@ -45,7 +45,7 @@ interface AnnouncementAPI {
                           @Query("userId") userId: Int) : Observable<GetAllAnnouncement>
 
     @GET("GetAnnouncements")
-    fun getAnnouncementFavoriteForUserId(@Query("userId") userId: Int) : Observable<GetAllAnnouncement>
+    fun getAnnouncementFavoriteForUserId(@Query("userId") userId: Int,@Query("limit")limit:Int,@Query("offset")offset:Int) : Observable<GetAllAnnouncement>
 
 
 
