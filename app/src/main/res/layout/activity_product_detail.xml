@@ -125,11 +125,47 @@
                 android:text="Test asdkakjsdkhasd"
                 />
 
+
             <TextView
-                android:id="@+id/catagory"
+                android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/aboutCourse"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/category"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/categoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutCourse"
+                android:layout_marginTop="33dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:layout_marginEnd="15dp"
+                android:text="It/Proqramlasdirma"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/imageViewcat"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/category"
+                android:src="@color/grayColor2"/>
+
+            <TextView
+                android:id="@+id/subCatagory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/category"
                 android:layout_marginTop="33dp"
                 android:layout_marginStart="17dp"
                 android:text="@string/catagory"
@@ -141,7 +177,7 @@
                 android:id="@+id/catagoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/aboutCourse"
+                android:layout_below="@+id/category"
                 android:layout_marginTop="33dp"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
@@ -162,10 +198,46 @@
 
 
             <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subCatagory"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="Address"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/addresTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subCatagory"
+                android:layout_marginTop="33dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:layout_marginEnd="15dp"
+                android:text="It/Proqramlasdirma"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:id="@+id/imageViewadd"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/addresTitle"
+                android:src="@color/grayColor2"/>
+
+
+            <TextView
                 android:id="@+id/region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/catagory"
+                android:layout_below="@+id/imageViewadd"
                 android:layout_marginTop="33dp"
                 android:layout_marginStart="17dp"
                 android:text="@string/region"
@@ -177,7 +249,7 @@
                 android:id="@+id/regionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/catagoryTitle"
+                android:layout_below="@+id/imageViewadd"
                 android:layout_marginTop="33dp"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"

@@ -39,6 +39,7 @@ import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.Img
+import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Photo
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
@@ -55,6 +56,8 @@ import com.example.kurslinemobileapp.service.Room.region.RegionViewModel
 import com.example.kurslinemobileapp.view.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -127,22 +130,59 @@ class UpdateAnnouncement : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_announcement)
-        lineForCourseUpload.visibility = View.GONE
-        val lottie = findViewById<LottieAnimationView>(R.id.loadingDetailForUpAnn)
-        lottie.visibility = View.VISIBLE
-        lottie.playAnimation()
+
+
         selectedPhotos= ArrayList<SelectionPhotoShowOnViewPager>()
         images= mutableListOf()
+
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(this).categoryDao(),
             AppDatabase.getDatabase(this).subCategoryDao()
         )
+
+
         val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
-        getUserAnnouncement(userId,annId,authHeader)
+
+        val uProdCategory = sharedPreferences.getString("productDetailCategory", "") ?: ""
+        val uProdSubCategory = sharedPreferences.getString("productDetailSubCategory", "") ?: ""
+        val uProdPrice = sharedPreferences.getString("productDetailPrice", "") ?: ""
+        val uProdName = sharedPreferences.getString("productDetailName", "") ?: ""
+        val uProdDesc = sharedPreferences.getString("productDetailDesc", "") ?: ""
+        val uProdRegion = sharedPreferences.getString("productDetailRegion", "") ?: ""
+        val uProdMode = sharedPreferences.getString("productDetailMode", "") ?: ""
+        val uProdTeacher = sharedPreferences.getString("productDetailTeacher", "") ?: ""
+        val uProdAddress = sharedPreferences.getString("productDetailAddress", "") ?: ""
+        val jsonImageUrls = intent.getStringExtra("imageUrlsJson")
+
+        upcourseNameEditText.setText(uProdName)
+        upcourseAboutEditText.setText(uProdDesc)
+        upcourseTeacherEditText.setText(uProdTeacher)
+        upcoursePriceEditText.setText(uProdPrice)
+        upcourseAddressEditText.setText(uProdAddress)
+        upcourseModeEditText.setText(uProdMode)
+        upcourseAllCategoryEditText.setText(uProdCategory)
+        courseSubCategoryEditText.setText(uProdSubCategory)
+        upcourseRegionEditText.setText(uProdRegion)
+
+        if (jsonImageUrls != null) {
+            val gson = Gson()
+            val type = object : TypeToken<List<Photo>>() {}.type
+            val imageUrls = gson.fromJson<List<Photo>>(jsonImageUrls, type)
+
+            val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpdate)
+            val photoAdapter = ProductDetailImageAdapter(imageUrls)
+            viewPager.adapter = photoAdapter
+        }
+     //   businessAccountUpdateNameEditText.setText(userFullName)
+
+
+
+
+
         addupCoursePhotos.setOnClickListener {
 
             if (ContextCompat.checkSelfPermission(
@@ -174,78 +214,9 @@ class UpdateAnnouncement : AppCompatActivity() {
         println("Category: "+category)
 
 
-        updateCourseBtn.setOnClickListener {
-            val upcourseNameContainer1=upcourseNameEditText?.text?.trim().toString()
-            val upcourseAboutContainer1=upcourseAboutEditText?.text?.trim().toString()
-            val upcoursePriceContainer1:Int=upcoursePriceEditText?.text?.toString()!!.toInt()
-            val upcourseAddressContainer1=upcourseAddressEditText?.text?.trim().toString()
-            val upAnnPhoto=selectedPhotos
-            val upcourseCategoryContainer1=categoryId
-            val upcourseAllCategoryContainer1=allcategoriesId
-            val upcourseRegionContainer1=regionId
-            val upcourseModeContainer=modeId
-            val upcourseteachername=upcourseTeacherEditText?.text?.trim().toString()
-            if (upcourseNameContainer1.isNullOrEmpty()){
-                upcourseNameEditText?.error="Name is not be null"
-                upcourseNameEditText?.requestFocus()
-                block=false
-            }
-            if(upcourseAboutContainer1.isNullOrEmpty()){
-                upcourseAboutEditText.error="Course description is not be null"
-                upcourseAboutEditText.requestFocus()
-                block=false
-            }
-            if(upcoursePriceContainer1.equals("")){
-                upcoursePriceEditText.error="Course Price is not be null"
-                upcoursePriceEditText.requestFocus()
-                block=false
-            }
-            if(upcourseAddressContainer1.isNullOrEmpty()){
-                upcourseAddressEditText.error="Course Address is not be null"
-                upcourseAddressEditText.requestFocus()
-                block=false
-            }
-
-            if(upcourseteachername.isNullOrEmpty()){
-                upcourseTeacherEditText.error="Teacher name is not be null"
-                upcourseTeacherEditText.requestFocus()
-                block=false
-            }
-            if (block==false){
-                println("False")
-            }
-
-            val name = upcourseTeacherEditText.text.toString().trim()
-            if (name.isNotEmpty()){
-                teachersname.add(name)
-            }
-            for(i in 0 until imageNames.size){
-                val img = Img(imageNames[i], imageData[i].toString())
-                images.add(img)
-            }
-            println("SelectedPhotos: "+selectedPhotos.size)
-            showProgressButton(true)
-
-            sendUpdateAnn(authHeader,userId,annId, CreateAnnouncementRequest(upcourseNameContainer1,upcourseAboutContainer1,upcoursePriceContainer1,upcourseAddressContainer1,
-            upcourseModeContainer,upcourseAllCategoryContainer1,upcourseCategoryContainer1,upcourseRegionContainer1,images,teachersname
-                ))
-            return@setOnClickListener
-        }
-
-
     }
 
 
-    private fun getUserAnnouncement(id: Int,annId: Int,token: String) {
-        compositeDisposable = CompositeDisposable()
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(retrofit.getAnnouncementForUser(id,annId,token)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
-            ))
-    }
 
     private fun sendUpdateAnn(token: String,userId:Int,announcementId: Int,createAnnouncementRequest: CreateAnnouncementRequest){
         compositeDisposable=CompositeDisposable()
@@ -334,92 +305,11 @@ class UpdateAnnouncement : AppCompatActivity() {
         return bitmap!!
     }
     private fun setupViewPager() {
-        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpload)
+        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpdate)
 
         // Create the adapter with the selected photos list
-        val adapter = PhotoPagerAdapter( selectedPhotos)
+        val adapter = PhotoPagerAdapter(selectedPhotos)
         viewPager.adapter = adapter
-    }
-    @SuppressLint("SuspiciousIndentation")
-    private fun handleResponse(response:GetUserAnn) {
-        lineForCourseUpload.visibility = View.VISIBLE
-        val lottie = findViewById<LottieAnimationView>(R.id.loadingDetailForUpAnn)
-        lottie.pauseAnimation()
-        lottie.visibility = View.GONE
-        println("Response 1: "+ listOf(response))
-
-     val nameofcourse=response.announcementName
-     val coursedesc=response.announcementDesc
-     val teachers=response.teacher
-        //teachersname=response.teacher
-     val price=response.announcementPrice
-     val address=response.announcementAddress
-     val annmode=response.isOnline.toInt()
-     val category=response.categoryId
-     val subcategory=response.announcementSubCategoryId
-     val regionname=response.announcementRegionId.toInt()
-
-        upcourseNameEditText.setText(nameofcourse)
-        upcourseAboutEditText.setText(coursedesc)
-        val listofteachers=teachers.joinToString("[ , ]")
-        val textView = findViewById<TextInputEditText>(R.id.upcourseTeacherEditText)
-        textView.setText(listofteachers)
-        upcoursePriceEditText.setText(price.toString())
-        upcourseAddressEditText.setText(address)
-        upcourseModeEditText.setOnClickListener {
-            showBottomSheetDialogMode()
-        }
-        println("category "+category)
-        var categoryName = ""
-        var subcategorName=""
-        getCategoryList()!!.subscribe({ categories ->
-            println("333")
-            categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
-            upcourseAllCategoryEditText.setText(categoryName)
-
-            subcategorName = categories.categories.find { category ->
-                category.subCategories.find { subCategory ->
-                    subCategory?.subCategoryCategoryId == subcategory
-                } != null
-            }?.subCategories?.find { subCategory ->
-                subCategory?.subCategoryCategoryId == subcategory
-            }?.subCategoryName.toString()
-            courseSubCategoryEditText.setText(subcategorName)
-
-        }, { throwable ->
-            // Handle error during category retrieval
-            println("Category retrieval error: $throwable")
-        }).let { compositeDisposable.add(it) }
-
-
-        var statusName = ""
-        getStatusList()!!.subscribe({ status ->
-            statusName = status.statuses.find { it.statusId == annmode }?.statusName.toString()
-            upcourseModeEditText.setText(statusName)
-        }, { throwable ->
-            // Handle error during category retrieval
-            println("Category retrieval error: $throwable")
-        }).let { compositeDisposable.add(it) }
-
-        var regionName = ""
-        getRegionList()!!.subscribe({ region ->
-            regionName = region.regions.find { it.regionId == regionname }?.regionName.toString()
-            upcourseRegionEditText.setText(regionName)
-        }, { throwable ->
-            // Handle error during category retrieval
-            println("Category retrieval error: $throwable")
-        }).let { compositeDisposable.add(it) }
-
-
-        upcourseAllCategoryEditText.setText(category.toString())
-        upcourseAllCategoryEditText.setOnClickListener {
-            showBottomSheetDialogAllCatogories()
-        }
-        upcourseRegionEditText.setOnClickListener {
-            showBottomSheetDialogRegions()
-        }
-
-
     }
 
     private fun showBottomSheetDialogMode() {

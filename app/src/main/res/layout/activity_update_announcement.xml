@@ -333,7 +333,7 @@
                 android:background="@drawable/ic_baseline_chevron_left_24"
                 android:layout_below="@+id/addupCoursePhotos"/>
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPagerCourseUpload"
+                android:id="@+id/viewPagerCourseUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/addupCoursePhotos"
@@ -367,7 +367,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="40dp"
-                android:layout_below="@id/viewPagerCourseUpload"
+                android:layout_below="@id/viewPagerCourseUpdate"
                 android:background="@drawable/button_bg"
                 android:text="@string/addcourse"
                 android:textAllCaps="false"
@@ -376,11 +376,4 @@
                 android:layout_marginRight="25dp"/>
         </RelativeLayout>
     </ScrollView>
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loadingDetailForUpAnn"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:lottie_rawRes="@raw/loading"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
 </RelativeLayout>

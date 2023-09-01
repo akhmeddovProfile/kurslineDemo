@@ -192,7 +192,8 @@
                     android:focusable="false"
                     android:hint="@string/businessRegisterPhoto"
                     android:inputType="none"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorForCourseIntheMainScreen"
+
                     android:fontFamily="@font/montserrat"/>
             </com.google.android.material.textfield.TextInputLayout>
 
