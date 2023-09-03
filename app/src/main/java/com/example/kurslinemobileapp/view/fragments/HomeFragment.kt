@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,10 +45,12 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.doOnLayout
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.VIPAdapter
 import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
 import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
@@ -253,6 +256,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     }*/
 
 
+
     private fun handleResponsePagination() {
         viewModel.newAnnouncements.observe(viewLifecycleOwner) { announcementspagination ->
             val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
@@ -264,6 +268,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             lottie.pauseAnimation()
             announcements.addAll(announcementspagination)
 
+            Log.d("MyTag","${announcements.size}")
             //mainList.addAll(listOf(response))
             //mainList2.addAll(listOf(response))
             for (newList in announcementspagination) {
@@ -276,15 +281,21 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             mainListProductAdapter =
                 MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
             recycler.adapter = mainListProductAdapter
-            recycler.isNestedScrollingEnabled = true
-
+            recycler.isNestedScrollingEnabled = false
+            println("Item Count: "+mainListProductAdapter.itemCount)
             vipAdapter =
                 VIPAdapter(vipList, this@HomeFragment, requireActivity())
             vipRv.adapter = vipAdapter
             vipRv.isNestedScrollingEnabled = true
 
+            Handler(Looper.getMainLooper()).postDelayed({
+                view.doOnLayout {
+                    it.measuredHeight
+                    Toast.makeText(requireContext(),"${it.measuredHeight}",Toast.LENGTH_SHORT).show()
+                }
+            },4000)
 
-            println("responseElan: " + announcementspagination)
+            println("ResponseElan: " + announcementspagination)
             mainListProductAdapter =
                 MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
             recycler.adapter = mainListProductAdapter
@@ -314,6 +325,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             vipRv.isNestedScrollingEnabled = false
             vipAdapter.notifyDataSetChanged()
 
+            println("Vip ItemCount: "+ vipAdapter.itemCount)
             vipAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
                 println("SubCategory New2: " + it.subCategory)
@@ -336,17 +348,18 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setscroollListenerGuest() {
 // cox guman ram  zen edirem
         recycler.layoutManager = linearLayoutManager
 
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
-        nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight)
+        nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+           /* if (scrollY == v.(0).measuredHeight - v.measuredHeight)*/
                 viewModel.loadMoreData()
         }
 
-        recycler.addOnScrollListener( object: PaginationScrollListener(linearLayoutManager){
+      /*  recycler.addOnScrollListener( object: PaginationScrollListener(linearLayoutManager){
             lateinit var compositeDisposable:CompositeDisposable
             private var currentOffset = 0
             private val PAGE_SIZE = 10
@@ -386,7 +399,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             }
 
         }
-        )
+        )*/
         /*recycler.addOnScrollListener(
             NormalAnnouncementPagination(linearLayoutManager,
                 object : OnPaginationResponseListener {
@@ -590,44 +603,19 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     override fun onFavoriteItemClick(
         id: Int,
         position: Int,
-        isVip: Boolean,
-        newFavoriteStatus: Boolean
+
     ) {
         if (!isRegistered) {
             // User is not registered, show a toast message
-            Toast.makeText(requireActivity(), "Please log in", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "Please log in in Home", Toast.LENGTH_SHORT).show()
             return
-        }
-        else {
-            val recyclerView =
-                if (isVip) view.findViewById<RecyclerView>(R.id.vipCoursesRV) else view.findViewById(R.id.allCoursesRV)
-            recyclerView?.let {
-                val viewHolder =
-                    it.findViewHolderForAdapterPosition(position) as? MainListProductAdapter.ProductRowHolder
-                viewHolder?.heartButton?.setImageResource(if (newFavoriteStatus) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
-                val adapter = it.adapter as? MainListProductAdapter
-                if (isVip) {
-                    adapter?.updateVipFavoriteStatus(id, newFavoriteStatus)
-                } else {
-                    adapter?.updateNormalFavoriteStatus(id, newFavoriteStatus)
-                }
-            }
-            val isVipItem = vipList.any { it.id == id }
-            val itemPosition = announcements.indexOfFirst { it.id == id }
-            println("Clicked heat isVip: $isVipItem}")
-            if (itemPosition >= 0 && itemPosition < announcements.size) {
-                // User is registered, proceed to update favorite status
-                postFav(id, itemPosition, isVipItem)
-            }
+        } else {
+            val normalAnnouncement:Boolean=true
+            postFav(id,position,true)
         }
     }
+    fun postFav(id: Int, position: Int,isVipOrNormal:Boolean) {
 
-    fun postFav(id: Int, position: Int, isVip: Boolean) {
-        /*val adapter = mainListProductAdapter as? MainListProductAdapter
-        if (adapter != null) {
-            adapter.getItem(position).isFavorite = isFavorite
-            adapter.notifyItemChanged(position)
-        }*/
         val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
         val userId = sharedPreferences.getInt("userID", 0)
@@ -638,23 +626,16 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             compositeDisposable.add(
                 retrofit.postFavorite(authHeader, userId, id).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe({
-                    /*           println(it.isSuccess)
-                         println("postFav - id: $id, position: $position, isVip: $isVip")
-                         val updatedList = if (isVip) vipList else mainList2
-                         val isSuccess = it.isSuccess
-                         updatedList[position].isFavorite = isSuccess
-                         mainListProductAdapter.notifyItemChanged(position)
-                         mainListProductAdapter.LikedItems(updatedList, position)*/
                     println(it.isSuccess)
-                    println("postFav - id: $id, position: $position, isVip: $isVip")
-                    val updatedList = if (isVip) vipList else mainList2
-                    val isSuccess = it.isSuccess
-                    updatedList[position].isFavorite = isSuccess
-                    item.isFavorite = it.isSuccess
-                    mainListProductAdapter.notifyItemChanged(position)
-                    mainListProductAdapter.LikedItems(updatedList, position)
-                        vipAdapter.notifyItemChanged(position)
-                        vipAdapter.LikedItems(updatedList,position)
+                        item.isFavorite = it.isSuccess
+                        if (isVipOrNormal!=true){
+                            vipAdapter.LikedItemsforVip(position,it.isSuccess)
+                            vipAdapter.notifyDataSetChanged()
+                        }
+                            else{
+                            mainListProductAdapter.LikedItems(position,it.isSuccess)
+                            mainListProductAdapter.notifyItemChanged(position)
+                            }
 
                 }, { throwable ->
                     println("My msg: ${throwable}")
@@ -735,7 +716,13 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     }
 
     override fun VIPonFavoriteItemClick(id: Int, position: Int) {
-        TODO("Not yet implemented")
+        if (!isRegistered) {
+            // User is not registered, show a toast message
+            Toast.makeText(requireActivity(), "Please log in in Home", Toast.LENGTH_SHORT).show()
+            return
+        } else {
+            postFav(id,position,false)
+        }
     }
 
 }

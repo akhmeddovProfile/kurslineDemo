@@ -22,7 +22,7 @@ class ViewModelPagination():ViewModel() {
     val newAnnouncements: LiveData<List<Announcemenet>> = _newAnnouncements
     lateinit var compositeDisposable:CompositeDisposable
     private var currentOffset = 0
-    private val PAGE_SIZE = 10
+    private val PAGE_SIZE = 100
     private var isLoading = false
 
     fun loadMoreData() {

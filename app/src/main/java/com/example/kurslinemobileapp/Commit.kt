@@ -721,3 +721,15 @@ fun showBottomSheetDialogPrice() {
             }
         })
 */
+/*val adapter = mainListProductAdapter as? MainListProductAdapter
+    if (adapter != null) {
+        adapter.getItem(position).isFavorite = isFavorite
+        adapter.notifyItemChanged(position)
+    }*/
+/*           println(it.isSuccess)
+     println("postFav - id: $id, position: $position, isVip: $isVip")
+     val updatedList = if (isVip) vipList else mainList2
+     val isSuccess = it.isSuccess
+     updatedList[position].isFavorite = isSuccess
+     mainListProductAdapter.notifyItemChanged(position)
+     mainListProductAdapter.LikedItems(updatedList, position)*/

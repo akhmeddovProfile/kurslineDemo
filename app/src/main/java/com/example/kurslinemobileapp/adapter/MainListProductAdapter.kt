@@ -63,7 +63,7 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
     private lateinit var sharedPreferences: SharedPreferences
 
     interface FavoriteItemClickListener{
-        fun onFavoriteItemClick(id: Int,position: Int ,isVip: Boolean, newFavoriteStatus: Boolean)
+        fun onFavoriteItemClick(id: Int,position: Int )
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val isonlinebg : RelativeLayout = itemView.findViewById(R.id.relativeForCourseMode)
@@ -128,8 +128,22 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
 
         // Set the heart button background color based on the favorite status
        val userId = sharedPreferences.getInt("userID", 0)
+             if (productRow.isFavorite==true){
+                   holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+               } else {
+                   holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+               }
+              // sharedPreferences.edit().putBoolean("isFavoriteItemForDetail_${position}",productRow.isFavorite).apply()
 
-        val isFavorite = if (productRow.isVIP) vipFavorites[productRow.id] ?: false else normalFavorites[productRow.id] ?: false
+               holder.heartButton.setOnClickListener {
+                   if (userId!=0){
+                       favoriteItemClickListener.onFavoriteItemClick(productRow.id,position)
+                   }
+                   else{
+                       Toast.makeText(context, "Please log in", Toast.LENGTH_SHORT).show()
+                   }
+               }
+/*        val isFavorite = if (productRow.isVIP) vipFavorites[productRow.id] ?: false else normalFavorites[productRow.id] ?: false
         if (isFavorite) {
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
         } else {
@@ -160,21 +174,12 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
                 )
             }
             else{
-                Toast.makeText(context, "Please log in", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please log in!", Toast.LENGTH_SHORT).show()
             }
-            }
+            }*/
 
 
-  /*      if (productRow.isFavorite==true){
-            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-        } else {
-            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-        }
-       // sharedPreferences.edit().putBoolean("isFavoriteItemForDetail_${position}",productRow.isFavorite).apply()
 
-        holder.heartButton.setOnClickListener {
-            favoriteItemClickListener.onFavoriteItemClick(productRow.id,position)
-        }*/
     }
 
     override fun getItemCount(): Int {
@@ -189,17 +194,15 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
         }
     }*/
 
-    fun LikedItems(items: List<Announcemenet>,position: Int){
-/*
-        this.items=items
+    fun LikedItems(position: Int,isFavorite:Boolean){
+        items[position].isFavorite = isFavorite
         notifyItemChanged(position)
-*/
-
+/*
         if (position < vipItems.size) {
             vipItems[position] = items[position]
         } else {
             normalItems[position - vipItems.size] = items[position]
-        }
+        }*/
     }
 
     fun notifySetChanged(productList: MutableList<Announcemenet>){

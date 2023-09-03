@@ -102,8 +102,10 @@ class VIPAdapter(private var items: List<Announcemenet>,
         }
 
         holder.bind(productRow)
-        //  sharedPreferences = context.getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+        sharedPreferences=context.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
+        // Set the heart button background color based on the favorite status
+        val userId = sharedPreferences.getInt("userID", 0)
         if (productRow.isFavorite==true){
             holder.heartButton.setImageResource(R.drawable.favorite_for_product)
         } else {
@@ -112,7 +114,13 @@ class VIPAdapter(private var items: List<Announcemenet>,
         // sharedPreferences.edit().putBoolean("isFavoriteItemForDetail_${position}",productRow.isFavorite).apply()
 
         holder.heartButton.setOnClickListener {
-            favoriteItemClickListener.VIPonFavoriteItemClick(productRow.id,position)
+            if (userId!=0){
+                favoriteItemClickListener.VIPonFavoriteItemClick(productRow.id,position)
+            }
+            else{
+                Toast.makeText(context, "Please log in@", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
@@ -120,9 +128,10 @@ class VIPAdapter(private var items: List<Announcemenet>,
         return items.size
     }
 
-    fun LikedItems(items: List<Announcemenet>,position: Int){
-        this.items=items
+    fun LikedItemsforVip(position: Int,isFavorite:Boolean){
+        items[position].isFavorite = isFavorite
         notifyItemChanged(position)
+
     }
 
     fun notifySetChanged(productList: MutableList<Announcemenet>){
