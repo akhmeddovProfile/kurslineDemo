@@ -42,13 +42,13 @@ class EnterCardNumberPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enter_card_number_page)
 
-        println("Value: "+intent.getStringExtra("selectedText"))
+ /*       println("Value: "+intent.getStringExtra("selectedText"))
         priceSum.text="${intent.getStringExtra("selectedText")}"
 
         val parts = priceSum.text.split("/")
         val pricePart = parts.last()
         val cleanedPricePart = pricePart.trim()
-
+*/
        // createOrder(cleanedPricePart)
 // Remove any leading and trailing white spaces
         println("Before Encrypted: "+Constant.secretKey )
@@ -59,15 +59,15 @@ class EnterCardNumberPage : AppCompatActivity() {
 
        val encryptedData= encryptSecretKey(secretKey,iv)
         println("Encrypted data: $encryptedData")
-        pay.setOnClickListener {
-            createOrder()
-        }
+
+        createOrder()
+
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createOrder(){
-        val amount=0.01
+        val amount=intent.getDoubleExtra("selectedCost",1.5)
         val totalAmount =amount
         val requestBody = CreateOrderRequestBody(totalAmount, "https://www.youtube.com/", "", "",
             "AZN", "https://www.youtube.com/", "This is Description", true, 0,

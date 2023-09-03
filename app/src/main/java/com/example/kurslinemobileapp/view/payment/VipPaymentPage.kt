@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_vip_payment_page.*
 class VipPaymentPage : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedRadioButtonText: String? = null
+    private var selectedPrice:Double?=null
     private lateinit var radioButton: RadioButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

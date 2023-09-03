@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class MoveForwardAnn : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedRadioButtonText: String? = null
-
+    private  var selectedCost:Double?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
@@ -41,14 +41,15 @@ class MoveForwardAnn : AppCompatActivity() {
         val radiobutton2=intent.getStringExtra("radiobuttonMoveFrw2")
         radioButtonMovefor1.text=radiobutton1
         radioButtonMovefor2.text=radiobutton2
-
+        val costbutton1=intent.getDoubleExtra("redioBtncost1",1.00)
+        val costbutton2=intent.getDoubleExtra("redioBtncost2",2.00)
         radioButtonMovefor1.setOnClickListener {
             selectedRadioButtonText=radioButtonMovefor1.text.toString()
-
+            selectedCost=costbutton1
         }
         radioButtonMovefor2.setOnClickListener {
             selectedRadioButtonText=radioButtonMovefor2.text.toString()
-
+            selectedCost=costbutton2
         }
 
         nextPayEnterCardNumber.setOnClickListener {
@@ -62,8 +63,12 @@ class MoveForwardAnn : AppCompatActivity() {
                 val intent= Intent(this@MoveForwardAnn, EnterCardNumberPage::class.java)
                 selectedRadioButtonText?.let {
                     intent.putExtra("selectedText", it)
-                    startActivity(intent)
                 }
+                selectedCost?.let { it->
+                    intent.putExtra("selectedCost", it)
+                }
+                startActivity(intent)
+
             }
 
         }
