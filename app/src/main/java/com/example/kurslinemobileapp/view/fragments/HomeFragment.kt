@@ -48,6 +48,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.kurslinemobileapp.adapter.VIPAdapter
 import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
 import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
 import com.example.kurslinemobileapp.viewmodel.PaginationScrollListener
@@ -55,7 +56,7 @@ import com.example.kurslinemobileapp.viewmodel.ViewModelPagination
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListener,
+class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListener,VIPAdapter.VIPFavoriteItemClickListener,
     SearchView.OnQueryTextListener {
     private lateinit var view: ViewGroup
     private lateinit var viewPager2: ViewPager2
@@ -63,7 +64,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private lateinit var imageList: ArrayList<Int>
     private lateinit var viewPagerImageAdapter: ViewPagerImageAdapter
     private lateinit var mainListProductAdapter: MainListProductAdapter
-    private lateinit var mainListProductAdapter2: MainListProductAdapter
+    private lateinit var vipAdapter: VIPAdapter
     private lateinit var mainList: ArrayList<Announcemenet>
     private lateinit var mainList2: ArrayList<Announcemenet>
     private lateinit var vipList: ArrayList<Announcemenet>
@@ -277,9 +278,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             recycler.adapter = mainListProductAdapter
             recycler.isNestedScrollingEnabled = true
 
-            mainListProductAdapter2 =
-                MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
-            vipRv.adapter = mainListProductAdapter2
+            vipAdapter =
+                VIPAdapter(vipList, this@HomeFragment, requireActivity())
+            vipRv.adapter = vipAdapter
             vipRv.isNestedScrollingEnabled = true
 
 
@@ -307,13 +308,13 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 editor.apply()
             }
 
-            mainListProductAdapter2 =
-                MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
-            vipRv.adapter = mainListProductAdapter2
+            vipAdapter =
+                VIPAdapter(vipList, this@HomeFragment, requireActivity())
+            vipRv.adapter = vipAdapter
             vipRv.isNestedScrollingEnabled = false
-            mainListProductAdapter2.notifyDataSetChanged()
+            vipAdapter.notifyDataSetChanged()
 
-            mainListProductAdapter2.setOnItemClickListener {
+            vipAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
                 println("SubCategory New2: " + it.subCategory)
 
@@ -467,13 +468,14 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             editor.apply()
         }
 
-        mainListProductAdapter2 =
-            MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
-        vipRv.adapter = mainListProductAdapter2
+        vipAdapter =
+            VIPAdapter(vipList, this@HomeFragment, requireActivity())
+        vipRv.adapter = vipAdapter
         vipRv.isNestedScrollingEnabled = false
-        mainListProductAdapter2.notifyDataSetChanged()
+        vipAdapter.notifyDataSetChanged()
 
-        mainListProductAdapter2.setOnItemClickListener {
+        vipAdapter.setOnItemClickListener {
+            isFavorite = it.isFavorite
             val intent = Intent(activity, ProductDetailActivity::class.java)
             println("SubCategory New2: " + it.subCategory)
             intent.putExtra("SubCategory", it.subCategory)
@@ -563,13 +565,13 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             editor.apply()
         }
 
-        mainListProductAdapter2 =
-            MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
-        vipRv.adapter = mainListProductAdapter2
+        vipAdapter =
+            VIPAdapter(vipList, this@HomeFragment, requireActivity())
+        vipRv.adapter = vipAdapter
         vipRv.isNestedScrollingEnabled = false
-        mainListProductAdapter2.notifyDataSetChanged()
+        vipAdapter.notifyDataSetChanged()
 
-        mainListProductAdapter2.setOnItemClickListener {
+        vipAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
             println("SubCategory New2: " + it.subCategory)
 
@@ -585,7 +587,6 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             editor.apply()
         }
     }
-
     override fun onFavoriteItemClick(
         id: Int,
         position: Int,
@@ -600,35 +601,25 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         else {
             val recyclerView =
                 if (isVip) view.findViewById<RecyclerView>(R.id.vipCoursesRV) else view.findViewById(R.id.allCoursesRV)
-
             recyclerView?.let {
                 val viewHolder =
                     it.findViewHolderForAdapterPosition(position) as? MainListProductAdapter.ProductRowHolder
                 viewHolder?.heartButton?.setImageResource(if (newFavoriteStatus) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
-
                 val adapter = it.adapter as? MainListProductAdapter
-
                 if (isVip) {
                     adapter?.updateVipFavoriteStatus(id, newFavoriteStatus)
                 } else {
                     adapter?.updateNormalFavoriteStatus(id, newFavoriteStatus)
                 }
             }
-
             val isVipItem = vipList.any { it.id == id }
-
             val itemPosition = announcements.indexOfFirst { it.id == id }
-
             println("Clicked heat isVip: $isVipItem}")
-
             if (itemPosition >= 0 && itemPosition < announcements.size) {
-
                 // User is registered, proceed to update favorite status
                 postFav(id, itemPosition, isVipItem)
-
             }
         }
-
     }
 
     fun postFav(id: Int, position: Int, isVip: Boolean) {
@@ -662,6 +653,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                     item.isFavorite = it.isSuccess
                     mainListProductAdapter.notifyItemChanged(position)
                     mainListProductAdapter.LikedItems(updatedList, position)
+                        vipAdapter.notifyItemChanged(position)
+                        vipAdapter.LikedItems(updatedList,position)
+
                 }, { throwable ->
                     println("My msg: ${throwable}")
                 })
@@ -724,6 +718,10 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         if (::mainListProductAdapter.isInitialized) {
             mainListProductAdapter.getFilter().filter(msg)
         }
+        if (::vipAdapter.isInitialized){
+            vipAdapter.getFilter().filter(msg)
+        }
+
         return false
     }
 
@@ -735,4 +733,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         editor.putInt("offset", currentOffset)
         editor.apply()
     }
+
+    override fun VIPonFavoriteItemClick(id: Int, position: Int) {
+        TODO("Not yet implemented")
+    }
+
 }
