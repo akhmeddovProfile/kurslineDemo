@@ -208,6 +208,12 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
                 sendComment(comment,authHeader,userId,annId)
+                if(userId==0){
+                    getDataFromServer(annId,0)
+                    getProductWhichIncludeFavorite(annId,0)
+                }else{
+                    getProductWhichIncludeFavorite(annId,userId)
+                }
             }
         }
 
@@ -474,9 +480,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     }
 
     private fun handleResponse(response: CommentResponse) {
-        recreate()
         commentEditText.text!!.clear()
-        Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.commentSending), Toast.LENGTH_SHORT).show()
     }
     private fun getUserAnnouncement(id: Int,annId: Int,token: String) {
         compositeDisposable = CompositeDisposable()

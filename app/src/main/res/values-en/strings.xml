@@ -125,4 +125,5 @@
     <string name="searchTutor">Search tutor</string>
     <string name="mailOrpassword">The email address or password is incorrect</string>
     <string name="loginCtn">Logging in...</string>
+    <string name="commentSending">Your comment is sending...</string>
 </resources>

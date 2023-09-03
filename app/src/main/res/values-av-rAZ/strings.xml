@@ -126,4 +126,5 @@
     <string name="searchTutor">Repititor axtar</string>
     <string name="mailOrpassword">Mail ünvanı və ya parol yanlışdır</string>
     <string name="loginCtn">Giriş edilir...</string>
+    <string name="commentSending">Rəyiniz göndərilir...</string>
 </resources>
