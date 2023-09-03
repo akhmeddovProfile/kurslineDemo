@@ -34,6 +34,7 @@ class VipPaymentPage : AppCompatActivity() {
         }
 
         println("Detail data: "+intent.getStringExtra("radiobuttonVip1"))
+
         val radiobutton1=intent.getStringExtra("radiobuttonVip1")
         val radiobutton2=intent.getStringExtra("radiobuttonVip2")
         val radiobutton3=intent.getStringExtra("radiobuttonVip3")
@@ -41,16 +42,23 @@ class VipPaymentPage : AppCompatActivity() {
         radioButton2VIP.text=radiobutton2
         radioButton3VIP.text=radiobutton3
 
+        val costbutton1=intent.getDoubleExtra("radiobuttonVipCost1",1.00)
+        val costbutton2=intent.getDoubleExtra("radiobuttonVipCost2",2.00)
+        println("getting" + costbutton2
+        )
+        val costbutton3=intent.getDoubleExtra("radiobuttonVipCost3",3.00)
+
         radioButton1VIP.setOnClickListener {
             selectedRadioButtonText=radioButton1VIP.text.toString()
-
+            selectedPrice = costbutton1
         }
         radioButton2VIP.setOnClickListener {
             selectedRadioButtonText=radioButton2VIP.text.toString()
-
+            selectedPrice = costbutton2
         }
         radioButton3VIP.setOnClickListener {
             selectedRadioButtonText=radioButton3VIP.text.toString()
+            selectedPrice = costbutton3
         }
 
         nextPayForVip.setOnClickListener {
@@ -66,8 +74,12 @@ class VipPaymentPage : AppCompatActivity() {
                 val intent= Intent(this@VipPaymentPage, EnterCardNumberPage::class.java)
                 selectedRadioButtonText?.let {
                     intent.putExtra("selectedText", it)
-                    startActivity(intent)
                 }
+                selectedPrice?.let { it->
+                    intent.putExtra("selectedCost", it)
+                }
+                startActivity(intent)
+
             }
 
         }

@@ -93,6 +93,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
+
+
         scrollViewforProductDescription.visibility = View.GONE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         lottie.visibility = View.VISIBLE
@@ -603,7 +605,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
 
     fun getPriceForVip(userId: Int, annId: Int, token: String){
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val apiService =
                     RetrofitService(Constant.BASE_URL).apiVip.VipPaymentInfo(userId, annId, token).await()
@@ -615,13 +617,16 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                         val vipInfo = vipInfoList[0]
                         val bottomText =
                             "${vipInfo.vipPriceDate} gün/${vipInfo.vipPriceCost} AZN "
+                        val bottomtextCost=vipInfo.vipPriceCost.toDouble()
                         // radioButtonMovefor1.text = bottomText
                         val vipInfo2 = vipInfoList[1]
                         val bottomText2 =
                             "${vipInfo2.vipPriceDate} gün/${vipInfo2.vipPriceCost} AZN "
+                        val bottomtextCost2=vipInfo2.vipPriceCost.toDouble()
                         val vipInfo3 = vipInfoList[2]
                         val bottomText3 =
                             "${vipInfo3.vipPriceDate} gün/${vipInfo3.vipPriceCost} AZN "
+                        val bottomtextCost3=vipInfo3.vipPriceCost.toDouble()
                         println("bt3: "+ bottomText3)
                         // radioButtonMovefor2.text=bottomText2
                         println(bottomText2)
@@ -629,7 +634,12 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                         intent.putExtra("radiobuttonVip1",bottomText)
                         intent.putExtra("radiobuttonVip2",bottomText2)
                         intent.putExtra("radiobuttonVip3",bottomText3)
+                        intent.putExtra("radiobuttonVipCost1",bottomtextCost)
+                        intent.putExtra("radiobuttonVipCost2",bottomtextCost2)
+                        intent.putExtra("radiobuttonVipCost3",bottomtextCost3)
                         startActivity(intent)
+
+                        println("vip2cost: " + bottomtextCost2 )
                     }
                 }
 
