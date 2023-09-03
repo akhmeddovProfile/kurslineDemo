@@ -1,31 +1,23 @@
 package com.example.kurslinemobileapp.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
-import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-//interface ViewModelCallBack{
-//    fun <T>run(response:T)
-//}
+open class NormalAnnouncementPagination(val linearLayoutManager: LinearLayoutManager, val onPaginationResponseListener: OnPaginationResponseListener):PaginationScrollListener(
+    linearLayoutManager
+) {
 
-class ViewModelPagination():ViewModel() {
-    private val _newAnnouncements = MutableLiveData<List<Announcemenet>>()
-    val newAnnouncements: LiveData<List<Announcemenet>> = _newAnnouncements
     lateinit var compositeDisposable:CompositeDisposable
     private var currentOffset = 0
     private val PAGE_SIZE = 10
     private var isLoading = false
-
-    fun loadMoreData() {
+    override fun loadMoreItems() {
         if (isLoading) {
             return
         }
@@ -38,9 +30,7 @@ class ViewModelPagination():ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     isLoading = false
-//                    responseListener.run(response)
-                    handleResponse(response)
-
+                    onPaginationResponseListener.run(response)
                     currentOffset += PAGE_SIZE
                 }, { throwable ->
                     isLoading = false
@@ -50,10 +40,12 @@ class ViewModelPagination():ViewModel() {
 
     }
 
-    private fun handleResponse(response: GetAllAnnouncement) {
-        val newAnnouncements = response.announcemenets
-        _newAnnouncements.value = newAnnouncements
+    override fun isLastPage(): Boolean {
+//        TODO("Not yet implemented")
+        return false
     }
 
-
+    override fun isLoading(): Boolean {
+        return isLoading
+    }
 }

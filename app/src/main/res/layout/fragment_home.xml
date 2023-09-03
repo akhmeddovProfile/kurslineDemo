@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,56 +9,59 @@
     android:background="@color/mainPageBackgroundColor"
     tools:context=".view.fragments.HomeFragment">
 
-    <RelativeLayout
-        android:id="@+id/mainFirstRl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/mainPageBackgroundColor">
-
-        <ImageView
-            android:id="@+id/logoApp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/kurslinelogo" />
-
-        <TextView
-            android:id="@+id/appNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito"
-            android:text="Kursline.az"
-            android:textStyle=""
-            android:layout_marginTop="21dp"
-            android:textColor="@color/colorForCourseIntheMainScreen"
-            android:layout_toRightOf="@+id/logoApp"
-            android:layout_marginRight="10dp"
-            android:textSize="30dp" />
-
-        <ImageView
-            android:id="@+id/writeus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/ic_baseline_chat_24"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="27dp"
-            android:textSize="18dp" />
-    </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nestedScrollHome"
-        android:layout_below="@+id/mainFirstRl">
+        android:layout_below="@+id/relativeLayoutMain">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
+            <LinearLayout
+                android:id="@+id/mainFirstRl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/mainPageBackgroundColor">
+
+                <ImageView
+                    android:id="@+id/logoApp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/kurslinelogo" />
+
+                <TextView
+                    android:id="@+id/appNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
+                    android:text="Kursline.az"
+                    android:textStyle=""
+                    android:layout_marginTop="21dp"
+                    android:textColor="@color/colorForCourseIntheMainScreen"
+                    android:layout_toRightOf="@+id/logoApp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="30dp" />
+
+                <ImageView
+                    android:id="@+id/writeus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="28dp"
+                    android:background="@drawable/ic_baseline_chat_24"
+                    android:layout_marginEnd="0dp"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:elevation="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="80dp"
                 android:id="@+id/topProductsRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -221,4 +225,4 @@
                 app:lottie_loop="true" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

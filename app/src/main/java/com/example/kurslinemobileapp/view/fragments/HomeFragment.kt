@@ -46,31 +46,38 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
+import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
+import com.example.kurslinemobileapp.viewmodel.PaginationScrollListener
 import com.example.kurslinemobileapp.viewmodel.ViewModelPagination
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
-class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener, SearchView.OnQueryTextListener{
+class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListener,
+    SearchView.OnQueryTextListener {
     private lateinit var view: ViewGroup
     private lateinit var viewPager2: ViewPager2
-    private lateinit var handler : Handler
-    private lateinit var imageList:ArrayList<Int>
+    private lateinit var handler: Handler
+    private lateinit var imageList: ArrayList<Int>
     private lateinit var viewPagerImageAdapter: ViewPagerImageAdapter
     private lateinit var mainListProductAdapter: MainListProductAdapter
     private lateinit var mainListProductAdapter2: MainListProductAdapter
-    private lateinit var mainList : ArrayList<Announcemenet>
-    private lateinit var mainList2 : ArrayList<Announcemenet>
-    private lateinit var vipList : ArrayList<Announcemenet>
+    private lateinit var mainList: ArrayList<Announcemenet>
+    private lateinit var mainList2: ArrayList<Announcemenet>
+    private lateinit var vipList: ArrayList<Announcemenet>
     private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var items: List<GetAllAnnouncement>
-    private var isRegistered:Boolean=false
+    private var isRegistered: Boolean = false
     private var isFavorite: Boolean = false
-    private var token:String=""
-    private var userId:Int=0
+    private var token: String = ""
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private var userId: Int = 0
     private var currentOffset = 0
+    lateinit var vipRv: RecyclerView
+    lateinit var recycler: RecyclerView
     private val PAGE_SIZE = 5
     private var isLoading = false
     private lateinit var viewModel: ViewModelPagination // Initialize this appropriately
@@ -81,31 +88,37 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         view =  inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
-            val createAccount = view.findViewById<ImageView>(R.id.writeus)
+        view = inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
+        val createAccount = view.findViewById<ImageView>(R.id.writeus)
 
-         sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
-         userId = sharedPreferences.getInt("userID",0)
-        token= sharedPreferences.getString("USERTOKENNN","")!!
-        println("Clear token: "+token)
-        println("Clear: "+userId)
-        items= listOf()
+        viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
+        handleResponsePagination()
+        sharedPreferences =
+            requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getInt("userID", 0)
+        token = sharedPreferences.getString("USERTOKENNN", "")!!
+        println("Clear token: " + token)
+        println("Clear: " + userId)
         mainList = ArrayList<Announcemenet>()
         mainList2 = ArrayList<Announcemenet>()
-        vipList =  ArrayList<Announcemenet>()
+        vipList = ArrayList<Announcemenet>()
 
-        val recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
+        linearLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler.visibility = View.GONE
-        val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
         vipRv.visibility = View.GONE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
-        recycler.layoutManager = GridLayoutManager(requireContext(),2)
-        vipRv.layoutManager = GridLayoutManager(requireContext(),2)
+        recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+        vipRv.layoutManager = GridLayoutManager(requireContext(), 2)
         //getProducts()
+
+        viewModel.loadMoreData()
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
-        viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
+/*        viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) { // Scrolling downwards
                 val contentHeight = nestedScrollView.getChildAt(0).height
@@ -116,7 +129,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
                     viewModel.loadMoreData()
                 }
             }
-        }
+        }*/
         val imageWithTextList = listOf(
             Highlight(R.drawable.mainpage2, "Ən çox baxılanlar"),
             Highlight(R.drawable.yenielan2, "1345 yeni kurs"),
@@ -140,14 +153,13 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
 
 
-        val userType = sharedPreferences.getString("userType",null)
+        val userType = sharedPreferences.getString("userType", null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
             view.writeus.visibility = View.VISIBLE
-        }
-
-        else{
+        } else {
             view.writeus.visibility = View.VISIBLE
         }
+        //setscroollListenerGuest()
 
         val search = arguments?.getString("search", "")
         val statusId = arguments?.getString("statusId", "")
@@ -162,41 +174,59 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
         // Call the getFilterProducts method with the retrieved filter parameters
         if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null || course != null) {
-            recycler.layoutManager = GridLayoutManager(requireContext(),2)
-            getFilterProducts(limit, offset, regionId!!, categoryId!!, search!!, minPrice!!, maxPrice!!, statusId!!, isOnlineId!!,course!!, 0)
-        }
-        else{
-            recycler.layoutManager = GridLayoutManager(requireContext(),2)
-            if (userId==0){
-                isRegistered=false
+            recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+            getFilterProducts(
+                limit,
+                offset,
+                regionId!!,
+                categoryId!!,
+                search!!,
+                minPrice!!,
+                maxPrice!!,
+                statusId!!,
+                isOnlineId!!,
+                course!!,
+                0
+            )
+        } else {
+            recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+            if (userId == 0) {
+                isRegistered = false
                 /*setupScrollListener(nestedScrollView)*/
-                viewModel.loadMoreData()
-                handleResponsePagination()
+                /* viewModel.loadMoreData()
+                 handleResponsePagination()*/
+                setscroollListenerGuest()
                 // handleResponsePagination()
                 //getProductsAndSetupScrollListener(0)
-            }else{
-                isRegistered=true
+            } else {
+                isRegistered = true
                 getProductWhichIncludeFavorite(userId)
             }
         }
-
+//elanlar gorurem istesen emulatorda run ver ram yaxsidir komo ses exo verir google meet baglayaq istesen wpdan zeng vurum
 
         val searchView = view.findViewById<SearchView>(R.id.searchViewAnnEditText)
-        val searchEditText = searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val searchEditText =
+            searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
         // Check if the searchEditText is not null before setting the text color
         searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.grayColor2))
+        searchEditText?.setHintTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.grayColor2
+            )
+        )
         searchView.setOnQueryTextListener(this)
 
 
         init()
         setUpTransformer()
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 handler.removeCallbacks(runnable)
-                handler.postDelayed(runnable , 4000)
+                handler.postDelayed(runnable, 4000)
             }
         })
 
@@ -222,7 +252,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     }*/
 
 
-    private fun handleResponsePagination(){
+    private fun handleResponsePagination() {
         viewModel.newAnnouncements.observe(viewLifecycleOwner) { announcementspagination ->
             val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
             recycler.visibility = View.VISIBLE
@@ -235,59 +265,69 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
             //mainList.addAll(listOf(response))
             //mainList2.addAll(listOf(response))
-            for( newList in announcementspagination){
-                if (newList.isVIP){
+            for (newList in announcementspagination) {
+                if (newList.isVIP) {
                     vipList.add(newList)
-                }else{
+                } else {
                     mainList2.add(newList)
                 }
             }
-            mainListProductAdapter = MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
+            mainListProductAdapter =
+                MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
             recycler.adapter = mainListProductAdapter
             recycler.isNestedScrollingEnabled = true
 
-            mainListProductAdapter2 = MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
+            mainListProductAdapter2 =
+                MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
             vipRv.adapter = mainListProductAdapter2
             vipRv.isNestedScrollingEnabled = true
 
 
             println("responseElan: " + announcementspagination)
-            mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+            mainListProductAdapter =
+                MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
             recycler.adapter = mainListProductAdapter
             mainListProductAdapter.notifyDataSetChanged()
 
             mainListProductAdapter.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
-                println("SubCategory New2: "+it.subCategory)
+                println("SubCategory New2: " + it.subCategory)
 
-                intent.putExtra("SubCategory",it.subCategory)
+                intent.putExtra("SubCategory", it.subCategory)
                 activity?.startActivity(intent)
-                sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+                sharedPreferences = requireContext().getSharedPreferences(
+                    Constant.sharedkeyname,
+                    Context.MODE_PRIVATE
+                )
                 val editor = sharedPreferences.edit()
                 sharedPreferences.edit().putInt("announcementId", it.id).apply()
-                sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-                println("Fav Item Clicked without UserID: "+isRegistered)
-                println("gedenId-----"+it.id)
+                sharedPreferences.edit().putBoolean("checkIsRegistered", isRegistered).apply()
+                println("Fav Item Clicked without UserID: " + isRegistered)
+                println("gedenId-----" + it.id)
                 editor.apply()
             }
 
-            mainListProductAdapter2 = MainListProductAdapter(vipList,this@HomeFragment,requireActivity())
+            mainListProductAdapter2 =
+                MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
             vipRv.adapter = mainListProductAdapter2
-            vipRv.isNestedScrollingEnabled=false
+            vipRv.isNestedScrollingEnabled = false
             mainListProductAdapter2.notifyDataSetChanged()
 
             mainListProductAdapter2.setOnItemClickListener {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
-                println("SubCategory New2: "+it.subCategory)
+                println("SubCategory New2: " + it.subCategory)
 
-                intent.putExtra("SubCategory",it.subCategory)
+                intent.putExtra("SubCategory", it.subCategory)
                 activity?.startActivity(intent)
-                sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+                sharedPreferences = requireContext().getSharedPreferences(
+                    Constant.sharedkeyname,
+                    Context.MODE_PRIVATE
+                )
                 val editor = sharedPreferences.edit()
                 sharedPreferences.edit().putInt("announcementId", it.id).apply()
-                sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-                println("Fav Item Clicked without UserID: "+isRegistered)
-                println("gedenId-----"+it.id)
+                sharedPreferences.edit().putBoolean("checkIsRegistered", isRegistered).apply()
+                println("Fav Item Clicked without UserID: " + isRegistered)
+                println("gedenId-----" + it.id)
                 editor.apply()
             }
         }
@@ -295,20 +335,86 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
 
     }
 
-    private fun getProductWhichIncludeFavorite(id: Int) {
-        compositeDisposable=CompositeDisposable()
-        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getAnnouncementFavoriteForUserId(id,100000,0).
-            subscribeOn(Schedulers.io()).
-            observeOn(AndroidSchedulers.mainThread()).
-            subscribe(this::handleResponseforAllItemsAndFavItems,{
+    private fun setscroollListenerGuest() {
+// cox guman ram  zen edirem
+        recycler.layoutManager = linearLayoutManager
 
-            })
+        val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
+        nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight)
+                viewModel.loadMoreData()
+        }
+
+        recycler.addOnScrollListener( object: PaginationScrollListener(linearLayoutManager){
+            lateinit var compositeDisposable:CompositeDisposable
+            private var currentOffset = 0
+            private val PAGE_SIZE = 10
+            private var isLoading = false
+            override fun loadMoreItems() {
+                if (isLoading) {
+                    return
+                }
+                isLoading = true
+                compositeDisposable = CompositeDisposable()
+                val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+                compositeDisposable.add(
+                    retrofit.getAnnouncement(limit = PAGE_SIZE, offset = currentOffset)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ response ->
+                            isLoading = false
+//                            onPaginationResponseListener.run(response)
+                            if(response != null){
+                                println("Emin:" + response.announcemenets)
+                                handleResponseforAllItemsAndFavItems(response)
+                            }
+                            currentOffset += PAGE_SIZE
+                        }, { throwable ->
+                            isLoading = false
+                            println("Error: $throwable")
+                        })
+                )
+            }
+
+            override fun isLastPage(): Boolean {
+                return false
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+
+        }
+        )
+        /*recycler.addOnScrollListener(
+            NormalAnnouncementPagination(linearLayoutManager,
+                object : OnPaginationResponseListener {
+
+                    override fun <T> run(response: T?) {
+                        if ((response as GetAllAnnouncement) != null) {
+                            handleResponseforAllItemsAndFavItems(response)
+                        }
+                    }
+
+                })
+        )*/
+    }
+
+
+    private fun getProductWhichIncludeFavorite(id: Int) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getAnnouncementFavoriteForUserId(id, 10000, 0).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResponseforAllItemsAndFavItems, {
+
+                })
         )
     }
 
-    private fun handleResponseforAllItemsAndFavItems(response : GetAllAnnouncement){
+    private fun handleResponseforAllItemsAndFavItems(response: GetAllAnnouncement) {
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
         recycler.visibility = View.VISIBLE
         val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
@@ -318,51 +424,67 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         lottie.pauseAnimation()
         announcements.addAll(response.announcemenets)
 
-        for( newList in response.announcemenets){
-            if (newList.isVIP){
+        for (newList in response.announcemenets) {
+            if (newList.isVIP) {
                 vipList.add(newList)
-            }else{
+            } else {
                 mainList2.add(newList)
             }
         }
+
         println("responseElanFavoriteTrue: " + response.announcemenets)
-        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+
+        /* for (favItems in response.announcemenets){
+             val heartButton=requireView().findViewById<ImageButton>(R.id.favorite_button)
+             if (favItems.isFavorite){
+                 heartButton.setImageResource(R.drawable.favorite_for_product)
+             }
+             else{
+                 heartButton.setImageResource(R.drawable.favorite_border_for_product)
+             }
+
+         }*/
+        mainListProductAdapter =
+            MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
         recycler.adapter = mainListProductAdapter
-        recycler.isNestedScrollingEnabled=false
+        recycler.isNestedScrollingEnabled = false
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
             //isFavorite=!isFavorite
-            isFavorite=it.isFavorite
-            println("SubCategory New: "+it.subCategory)
+            isFavorite = it.isFavorite
+            println("SubCategory New: " + it.subCategory)
             val intent = Intent(activity, ProductDetailActivity::class.java)
-            intent.putExtra("isFavorite",isFavorite)
-            intent.putExtra("subCategory",it.subCategory)
+            intent.putExtra("isFavorite", isFavorite)
+            intent.putExtra("subCategory", it.subCategory)
             activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            sharedPreferences =
+                requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
-            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-            println("Item Clicked with UserID: "+isRegistered)
-            println("gedenId-----"+it.id)
+            sharedPreferences.edit().putBoolean("checkIsRegistered", isRegistered).apply()
+            println("Item Clicked with UserID: " + isRegistered)
+            println("gedenId-----" + it.id)
             editor.apply()
         }
 
-        mainListProductAdapter2 = MainListProductAdapter(vipList,this@HomeFragment,requireActivity())
+        mainListProductAdapter2 =
+            MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
         vipRv.adapter = mainListProductAdapter2
-        vipRv.isNestedScrollingEnabled=false
+        vipRv.isNestedScrollingEnabled = false
         mainListProductAdapter2.notifyDataSetChanged()
 
         mainListProductAdapter2.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
-            println("SubCategory New2: "+it.subCategory)
-            intent.putExtra("SubCategory",it.subCategory)
+            println("SubCategory New2: " + it.subCategory)
+            intent.putExtra("SubCategory", it.subCategory)
             activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            sharedPreferences =
+                requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
-            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-            println("Fav Item Clicked without UserID: "+isRegistered)
-            println("gedenId-----"+it.id)
+            sharedPreferences.edit().putBoolean("checkIsRegistered", isRegistered).apply()
+            println("Fav Item Clicked without UserID: " + isRegistered)
+            println("gedenId-----" + it.id)
             editor.apply()
         }
 
@@ -378,19 +500,35 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         maxPrice: String,
         statusId: String,
         isOnlineId: String,
-        companyId:String,
+        companyId: String,
         userId: Int
     ) {
         compositeDisposable = CompositeDisposable()
-        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(retrofit.getFilterProducts(limit,offset,regionId,categoryId,search,minPrice,maxPrice,statusId,isOnlineId,companyId,userId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::handleResponseFilter, { throwable-> println("MyTests: $throwable") }))
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getFilterProducts(
+                limit,
+                offset,
+                regionId,
+                categoryId,
+                search,
+                minPrice,
+                maxPrice,
+                statusId,
+                isOnlineId,
+                companyId,
+                userId
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    this::handleResponseFilter,
+                    { throwable -> println("MyTests: $throwable") })
+        )
     }
 
-    private fun handleResponseFilter(response : GetAllAnnouncement){
-        mainList.clear()
+    private fun handleResponseFilter(response: GetAllAnnouncement) {
         mainList2.clear()
         vipList.clear()
         val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
@@ -400,102 +538,137 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
-        for( newList in response.announcemenets){
-            if (newList.isVIP){
+        for (newList in response.announcemenets) {
+            if (newList.isVIP) {
                 vipList.add(newList)
-            }else{
+            } else {
                 mainList2.add(newList)
             }
         }
-        mainListProductAdapter = MainListProductAdapter(mainList2,this@HomeFragment,requireActivity())
+        mainListProductAdapter =
+            MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
         recycler.adapter = mainListProductAdapter
         mainListProductAdapter.notifyDataSetChanged()
         mainListProductAdapter.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
             activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            sharedPreferences =
+                requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
-            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-           // println("Item Clicked with UserID: "+isRegistered)
+            sharedPreferences.edit().putBoolean("checkIsRegistered", isRegistered).apply()
+            // println("Item Clicked with UserID: "+isRegistered)
 
-            println("gedenId-----"+it.id)
+            println("gedenId-----" + it.id)
             editor.apply()
         }
 
-        mainListProductAdapter2 = MainListProductAdapter(vipList,this@HomeFragment,requireActivity())
+        mainListProductAdapter2 =
+            MainListProductAdapter(vipList, this@HomeFragment, requireActivity())
         vipRv.adapter = mainListProductAdapter2
-        vipRv.isNestedScrollingEnabled=false
+        vipRv.isNestedScrollingEnabled = false
         mainListProductAdapter2.notifyDataSetChanged()
 
         mainListProductAdapter2.setOnItemClickListener {
             val intent = Intent(activity, ProductDetailActivity::class.java)
-            println("SubCategory New2: "+it.subCategory)
+            println("SubCategory New2: " + it.subCategory)
 
-            intent.putExtra("SubCategory",it.subCategory)
+            intent.putExtra("SubCategory", it.subCategory)
             activity?.startActivity(intent)
-            sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname,Context.MODE_PRIVATE)
+            sharedPreferences =
+                requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             sharedPreferences.edit().putInt("announcementId", it.id).apply()
-            sharedPreferences.edit().putBoolean("checkIsRegistered",isRegistered).apply()
-            println("Fav Item Clicked without UserID: "+isRegistered)
-            println("gedenId-----"+it.id)
+            sharedPreferences.edit().putBoolean("checkIsRegistered", isRegistered).apply()
+            println("Fav Item Clicked without UserID: " + isRegistered)
+            println("gedenId-----" + it.id)
             editor.apply()
         }
     }
 
-    override fun onFavoriteItemClick(id: Int,position: Int) {
-       /* val adapter = mainListProductAdapter as? MainListProductAdapter
-        if (adapter != null) {
-            if (isFavorite) {
-                adapter.getItem(position).isFavorite = true
-            } else {
-                adapter.getItem(position).isFavorite = false
+    override fun onFavoriteItemClick(
+        id: Int,
+        position: Int,
+        isVip: Boolean,
+        newFavoriteStatus: Boolean
+    ) {
+        if (!isRegistered) {
+            // User is not registered, show a toast message
+            Toast.makeText(requireActivity(), "Please log in", Toast.LENGTH_SHORT).show()
+            return
+        }
+        else {
+            val recyclerView =
+                if (isVip) view.findViewById<RecyclerView>(R.id.vipCoursesRV) else view.findViewById(R.id.allCoursesRV)
+
+            recyclerView?.let {
+                val viewHolder =
+                    it.findViewHolderForAdapterPosition(position) as? MainListProductAdapter.ProductRowHolder
+                viewHolder?.heartButton?.setImageResource(if (newFavoriteStatus) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
+
+                val adapter = it.adapter as? MainListProductAdapter
+
+                if (isVip) {
+                    adapter?.updateVipFavoriteStatus(id, newFavoriteStatus)
+                } else {
+                    adapter?.updateNormalFavoriteStatus(id, newFavoriteStatus)
+                }
             }
-            // Notify the adapter about the change in favorite status
-            adapter.notifyItemChanged(position)
-        }*/
-        val userId = sharedPreferences.getInt("userID",0)
-        val token = sharedPreferences.getString("USERTOKENNN","")
-        val authHeader = "Bearer $token"
-        println("userid" + userId)
-        println("token:"+authHeader)
-        if (isRegistered==false){
-            Toast.makeText(requireActivity(),"Please to be Log in",Toast.LENGTH_SHORT).show()
+
+            val isVipItem = vipList.any { it.id == id }
+
+            val itemPosition = announcements.indexOfFirst { it.id == id }
+
+            println("Clicked heat isVip: $isVipItem}")
+
+            if (itemPosition >= 0 && itemPosition < announcements.size) {
+
+                // User is registered, proceed to update favorite status
+                postFav(id, itemPosition, isVipItem)
+
+            }
         }
-        else{
-            postFav(id,position,isFavorite)
-        }
+
     }
 
-    fun postFav(id:Int,position: Int,isVip:Boolean){
+    fun postFav(id: Int, position: Int, isVip: Boolean) {
         /*val adapter = mainListProductAdapter as? MainListProductAdapter
         if (adapter != null) {
             adapter.getItem(position).isFavorite = isFavorite
             adapter.notifyItemChanged(position)
         }*/
-        val token = sharedPreferences.getString("USERTOKENNN","")
+        val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
-        val userId = sharedPreferences.getInt("userID",0)
-        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
-        compositeDisposable.add(
-            retrofit.postFavorite(authHeader,userId,id).
-            subscribeOn(Schedulers.io()).
-            observeOn(AndroidSchedulers.mainThread()).
-            subscribe({
-                      println(it.isSuccess)
-                println("postFav - id: $id, position: $position, isVip: $isVip")
-                val updatedList = if (isVip) vipList else mainList2
-                val isSuccess = it.isSuccess
-                updatedList[position].isFavorite = isSuccess
-                mainListProductAdapter.notifyItemChanged(position)
-                mainListProductAdapter.LikedItems(updatedList, position)
-            },{throwable->
-                println("My msg: ${throwable}")
-            })
-        )
-    }
+        val userId = sharedPreferences.getInt("userID", 0)
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(FavoriteApi::class.java)
 
+        if (position >= 0 && position < announcements.size) {
+            val item = announcements[position]
+            compositeDisposable.add(
+                retrofit.postFavorite(authHeader, userId, id).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    /*           println(it.isSuccess)
+                         println("postFav - id: $id, position: $position, isVip: $isVip")
+                         val updatedList = if (isVip) vipList else mainList2
+                         val isSuccess = it.isSuccess
+                         updatedList[position].isFavorite = isSuccess
+                         mainListProductAdapter.notifyItemChanged(position)
+                         mainListProductAdapter.LikedItems(updatedList, position)*/
+                    println(it.isSuccess)
+                    println("postFav - id: $id, position: $position, isVip: $isVip")
+                    val updatedList = if (isVip) vipList else mainList2
+                    val isSuccess = it.isSuccess
+                    updatedList[position].isFavorite = isSuccess
+                    item.isFavorite = it.isSuccess
+                    mainListProductAdapter.notifyItemChanged(position)
+                    mainListProductAdapter.LikedItems(updatedList, position)
+                }, { throwable ->
+                    println("My msg: ${throwable}")
+                })
+            )
+        }
+
+    }
 
 
     override fun onPause() {
@@ -507,14 +680,14 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
     override fun onResume() {
         super.onResume()
 
-        handler.postDelayed(runnable , 4000)
+        handler.postDelayed(runnable, 4000)
     }
 
     private val runnable = Runnable {
         viewPager2.currentItem = viewPager2.currentItem + 1
     }
 
-    private fun setUpTransformer(){
+    private fun setUpTransformer() {
         val transformer = CompositePageTransformer()
         transformer.addTransformer(MarginPageTransformer(40))
         transformer.addTransformer { page, position ->
@@ -525,7 +698,7 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         viewPager2.setPageTransformer(transformer)
     }
 
-    private fun init(){
+    private fun init() {
         viewPager2 = view.findViewById(R.id.viewPager2)
         handler = Handler(Looper.myLooper()!!)
         imageList = ArrayList()
@@ -553,9 +726,11 @@ class HomeFragment : Fragment(),MainListProductAdapter.FavoriteItemClickListener
         }
         return false
     }
+
     override fun onDestroy() {
         super.onDestroy()
-        val sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("offset", currentOffset)
         editor.apply()
