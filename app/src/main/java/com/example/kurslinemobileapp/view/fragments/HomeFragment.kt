@@ -55,6 +55,8 @@ import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
 import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
 import com.example.kurslinemobileapp.viewmodel.PaginationScrollListener
 import com.example.kurslinemobileapp.viewmodel.ViewModelPagination
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -135,33 +137,25 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         }*/
 
 
-        compositeDisposable = CompositeDisposable()
-        val retrofit =
-            RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
-        compositeDisposable.add(
-            retrofit.getHighlight().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ highlightModel ->
-                    // The data has been successfully fetched from the server
-                    // Now, you can update your imageWithTextList
-                    val imageWithTextList = listOf(
-                        Highlight(R.drawable.mainpage2,"Ən çox baxılanlar ${highlightModel[0].mostView}" ),
-                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} yeni kurs"),
-                        Highlight(R.drawable.vip, "${highlightModel[0].vip} VIP kurs")
-                    )
-                    val recylerviewForHighlight =
-                        view.findViewById<RecyclerView>(R.id.topProductsRV)
-                    val adapter = HiglightForMainListAdapter(imageWithTextList)
-                    recylerviewForHighlight.adapter = adapter
-                    recylerviewForHighlight.layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val imageWithTextListJson = sharedPreferences.getString("imageWithTextList", null)
 
 
-                    // Use the updated imageWithTextList for your UI
-                }, { error ->
-                    // Handle the error if the request fails
-                })
-        )
+// Check if the JSON string is not null
+        if (imageWithTextListJson != null) {
+            // Convert the JSON string back to a list
+            val gson = Gson()
+            val type = object : TypeToken<List<Highlight>>() {}.type
+            val imageWithTextList = gson.fromJson<List<Highlight>>(imageWithTextListJson, type)
+            println("imagetext: "+ imageWithTextList)
+            val recylerviewForHighlight =
+                view.findViewById<RecyclerView>(R.id.topProductsRV)
+            val adapter = HiglightForMainListAdapter(imageWithTextList)
+            recylerviewForHighlight.adapter = adapter
+            recylerviewForHighlight.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            // Now, you have the imageWithTextList in this activity
+        }
+
 
 
         createAccount.setOnClickListener {
