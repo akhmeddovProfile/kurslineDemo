@@ -50,7 +50,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.VIPAdapter
 import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
 import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
@@ -134,17 +133,35 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 }
             }
         }*/
-        val imageWithTextList = listOf(
-            Highlight(R.drawable.mainpage2, "Ən çox baxılanlar"),
-            Highlight(R.drawable.yenielan2, "1345 yeni kurs"),
-            Highlight(R.drawable.vip, "234 VIP kurs")
+
+
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getHighlight().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ highlightModel ->
+                    // The data has been successfully fetched from the server
+                    // Now, you can update your imageWithTextList
+                    val imageWithTextList = listOf(
+                        Highlight(R.drawable.mainpage2,"Ən çox baxılanlar ${highlightModel[0].mostView}" ),
+                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} yeni kurs"),
+                        Highlight(R.drawable.vip, "${highlightModel[0].vip} VIP kurs")
+                    )
+                    val recylerviewForHighlight =
+                        view.findViewById<RecyclerView>(R.id.topProductsRV)
+                    val adapter = HiglightForMainListAdapter(imageWithTextList)
+                    recylerviewForHighlight.adapter = adapter
+                    recylerviewForHighlight.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+
+                    // Use the updated imageWithTextList for your UI
+                }, { error ->
+                    // Handle the error if the request fails
+                })
         )
-        val recylerviewForHighlight =
-            view.findViewById<RecyclerView>(R.id.topProductsRV)
-        val adapter = HiglightForMainListAdapter(imageWithTextList)
-        recylerviewForHighlight.adapter = adapter
-        recylerviewForHighlight.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
 
         createAccount.setOnClickListener {

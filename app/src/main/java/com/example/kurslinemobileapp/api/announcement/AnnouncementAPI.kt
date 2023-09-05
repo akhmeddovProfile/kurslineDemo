@@ -7,6 +7,8 @@ import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAll
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
+import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
+import com.example.kurslinemobileapp.model.HiglightNew.HiglightModel
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
@@ -72,6 +74,9 @@ interface AnnouncementAPI {
         @Body createAnnouncementRequest: CreateAnnouncementRequest
     ):Observable<UpdateAnnouncementResponse>
 
+
+    @GET("GetHighLights")
+    fun getHighlight(): Observable<HiglightModel>
 
 
 }
