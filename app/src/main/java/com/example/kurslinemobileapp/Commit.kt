@@ -733,3 +733,37 @@ fun showBottomSheetDialogPrice() {
      updatedList[position].isFavorite = isSuccess
      mainListProductAdapter.notifyItemChanged(position)
      mainListProductAdapter.LikedItems(updatedList, position)*/
+/*        val isFavorite = if (productRow.isVIP) vipFavorites[productRow.id] ?: false else normalFavorites[productRow.id] ?: false
+        if (isFavorite) {
+            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
+        } else {
+            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
+        }
+
+        // Set a click listener for the heart button
+        holder.heartButton.setOnClickListener {
+            val productId = productRow.id
+            val isVip = productRow.isVIP
+            val newFavoriteStatus = !isFavorite
+
+            if (userId!=0){
+
+                // Update the favorite status in the appropriate map
+                if (isVip) {
+                    updateVipFavoriteStatus(productId, newFavoriteStatus)
+                } else {
+                    updateNormalFavoriteStatus(productId, newFavoriteStatus)
+                }
+
+                // Call the click listener callback
+                favoriteItemClickListener.onFavoriteItemClick(
+                    productId,
+                    position,
+                    isVip,
+                    newFavoriteStatus
+                )
+            }
+            else{
+                Toast.makeText(context, "Please log in!", Toast.LENGTH_SHORT).show()
+            }
+            }*/

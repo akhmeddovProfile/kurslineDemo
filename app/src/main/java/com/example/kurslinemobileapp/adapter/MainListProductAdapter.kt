@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,33 +24,13 @@ import kotlinx.android.synthetic.main.product_item_row.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainListProductAdapter(private var items: List<Announcemenet>,
+class MainListProductAdapter(var items: MutableList<Announcemenet>,
                              private val favoriteItemClickListener: FavoriteItemClickListener,
                              private val context:Context
 ) :
     RecyclerView.Adapter<MainListProductAdapter.ProductRowHolder>() {
      var fullList :kotlin.collections.List<Announcemenet>
     var newList = arrayListOf<Announcemenet>()
-
-    private val vipFavorites = mutableMapOf<Int, Boolean>() // Map to track VIP item favorite status by ID
-    private val normalFavorites = mutableMapOf<Int, Boolean>() // Map to track normal item favorite status by ID
-    private val vipItems = mutableListOf<Announcemenet>() // VIP items list
-    private val normalItems = mutableListOf<Announcemenet>() // Normal items list
-
-    // Other adapter code...
-
-    // Update the favorite status of a VIP item
-    fun updateVipFavoriteStatus(productId: Int, isFavorite: Boolean) {
-        vipFavorites[productId] = isFavorite
-        notifyDataSetChanged()
-    }
-
-    // Update the favorite status of a normal item
-    fun updateNormalFavoriteStatus(productId: Int, isFavorite: Boolean) {
-        normalFavorites[productId] = isFavorite
-        notifyDataSetChanged()
-    }
-
 
     private var onItemClickListener: ((Announcemenet) -> Unit)? = null
 
@@ -91,7 +72,7 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("SetTextI18n", "CommitPrefEdits")
+    @SuppressLint("SetTextI18n", "CommitPrefEdits", "SuspiciousIndentation")
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         var addedToFav = false
         val productRow = items[position]
@@ -143,66 +124,20 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
                        Toast.makeText(context, "Please log in", Toast.LENGTH_SHORT).show()
                    }
                }
-/*        val isFavorite = if (productRow.isVIP) vipFavorites[productRow.id] ?: false else normalFavorites[productRow.id] ?: false
-        if (isFavorite) {
-            holder.heartButton.setImageResource(R.drawable.favorite_for_product)
-        } else {
-            holder.heartButton.setImageResource(R.drawable.favorite_border_for_product)
-        }
-
-        // Set a click listener for the heart button
-        holder.heartButton.setOnClickListener {
-            val productId = productRow.id
-            val isVip = productRow.isVIP
-            val newFavoriteStatus = !isFavorite
-
-            if (userId!=0){
-
-                // Update the favorite status in the appropriate map
-                if (isVip) {
-                    updateVipFavoriteStatus(productId, newFavoriteStatus)
-                } else {
-                    updateNormalFavoriteStatus(productId, newFavoriteStatus)
-                }
-
-                // Call the click listener callback
-                favoriteItemClickListener.onFavoriteItemClick(
-                    productId,
-                    position,
-                    isVip,
-                    newFavoriteStatus
-                )
-            }
-            else{
-                Toast.makeText(context, "Please log in!", Toast.LENGTH_SHORT).show()
-            }
-            }*/
-
 
 
     }
 
     override fun getItemCount(): Int {
+        Log.d("MyTagHere", "getItemCount: ${items.size}")
         return items.size
     }
 
-/*    fun getItem(position: Int): Announcemenet {
-        return if (position < vipItems.size) {
-            vipItems[position]
-        } else {
-            normalItems[position - vipItems.size]
-        }
-    }*/
 
     fun LikedItems(position: Int,isFavorite:Boolean){
         items[position].isFavorite = isFavorite
         notifyItemChanged(position)
-/*
-        if (position < vipItems.size) {
-            vipItems[position] = items[position]
-        } else {
-            normalItems[position - vipItems.size] = items[position]
-        }*/
+
     }
 
     fun notifySetChanged(productList: MutableList<Announcemenet>){
@@ -245,6 +180,13 @@ class MainListProductAdapter(private var items: List<Announcemenet>,
             }
 
         }
+    }
+
+    fun addData(announcemenets: List<Announcemenet>) {
+        val startPosition = items.size
+        items.addAll(announcemenets)
+        Log.d("MyTagHere", "addData: we are in Adapter")
+        notifyItemInserted(startPosition)
     }
 
 

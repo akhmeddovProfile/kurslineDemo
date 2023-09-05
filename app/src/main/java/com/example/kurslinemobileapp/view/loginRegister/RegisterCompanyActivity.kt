@@ -93,7 +93,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             openGallery()
         } else {
 
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -360,7 +360,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(READ_MEDIA_IMAGES)
             }
         } else {
-            showPermissionMessageForOlderDevices()
+           // showPermissionMessageForOlderDevices()
             // Handle devices with API level lower than 31
             // You might want to show a message or handle it differently
         }

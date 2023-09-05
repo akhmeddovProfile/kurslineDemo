@@ -93,6 +93,11 @@
         tools:layout="@layout/fragment_contact_us" >
         <action
             android:id="@+id/action_contactUsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="true"
+            />
     </fragment>
+
+
 </navigation>

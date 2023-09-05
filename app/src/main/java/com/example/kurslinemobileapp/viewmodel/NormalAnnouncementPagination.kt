@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-open class NormalAnnouncementPagination(val linearLayoutManager: LinearLayoutManager, val onPaginationResponseListener: OnPaginationResponseListener):PaginationScrollListener(
+open class NormalAnnouncementPagination(val linearLayoutManager: LinearLayoutManager, val onPaginationResponseListener: OnPaginationResponseListener):DataSetChangedCallBack(
     linearLayoutManager
 ) {
 
