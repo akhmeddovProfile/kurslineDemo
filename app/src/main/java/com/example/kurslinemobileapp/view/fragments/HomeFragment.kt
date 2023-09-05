@@ -54,7 +54,6 @@ import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.VIPAdapter
 import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
 import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
-import com.example.kurslinemobileapp.viewmodel.PaginationScrollListener
 import com.example.kurslinemobileapp.viewmodel.ViewModelPagination
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -95,8 +94,10 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         view = inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
         val createAccount = view.findViewById<ImageView>(R.id.writeus)
 
-        viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
+       // viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
+/*
         handleResponsePagination()
+*/
         sharedPreferences =
             requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         userId = sharedPreferences.getInt("userID", 0)
@@ -120,7 +121,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         vipRv.layoutManager = GridLayoutManager(requireContext(), 2)
         //getProducts()
 
-        viewModel.loadMoreData()
+     //   viewModel.loadMoreData()
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
 /*        viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
         nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
@@ -257,6 +258,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
 
 
+/*
     private fun handleResponsePagination() {
         viewModel.newAnnouncements.observe(viewLifecycleOwner) { announcementspagination ->
             val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
@@ -347,6 +349,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
 
     }
+*/
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setscroollListenerGuest() {
@@ -356,7 +359,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
         nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
            /* if (scrollY == v.(0).measuredHeight - v.measuredHeight)*/
+/*
                 viewModel.loadMoreData()
+*/
         }
 
       /*  recycler.addOnScrollListener( object: PaginationScrollListener(linearLayoutManager){
