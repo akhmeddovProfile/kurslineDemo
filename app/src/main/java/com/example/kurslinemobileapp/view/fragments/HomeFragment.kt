@@ -52,6 +52,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.VIPAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -96,6 +98,12 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 /*
         handleResponsePagination()
 */
+
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+        val goToUploadActivity=requireActivity().findViewById<FloatingActionButton>(R.id.goToUploadActivity)
+        // Hide the BottomNavigationView
+        goToUploadActivity.visibility=View.VISIBLE
+        bottomNavigationView.visibility = View.VISIBLE
         sharedPreferences =
             requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         userId = sharedPreferences.getInt("userID", 0)
