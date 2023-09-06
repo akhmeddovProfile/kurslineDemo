@@ -52,9 +52,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.VIPAdapter
-import com.example.kurslinemobileapp.view.callback.OnPaginationResponseListener
-import com.example.kurslinemobileapp.viewmodel.NormalAnnouncementPagination
-import com.example.kurslinemobileapp.viewmodel.ViewModelPagination
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -83,7 +82,6 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     lateinit var recycler: RecyclerView
     private val PAGE_SIZE = 5
     private var isLoading = false
-    private lateinit var viewModel: ViewModelPagination // Initialize this appropriately
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
@@ -121,6 +119,23 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         vipRv.layoutManager = GridLayoutManager(requireContext(), 2)
         //getProducts()
 
+        val imageWithTextListJson = sharedPreferences.getString("imageWithTextList", null)
+
+// Check if the JSON string is not null
+        if (imageWithTextListJson != null) {
+            // Convert the JSON string back to a list
+            val gson = Gson()
+            val type = object : TypeToken<List<Highlight>>() {}.type
+            val imageWithTextList = gson.fromJson<List<Highlight>>(imageWithTextListJson, type)
+
+            val recylerviewForHighlight = view.findViewById<RecyclerView>(R.id.topProductsRV)
+            val adapter = HiglightForMainListAdapter(imageWithTextList)
+            recylerviewForHighlight.adapter = adapter
+            recylerviewForHighlight.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            // Now, you have the imageWithTextList in this activity
+        }
+
      //   viewModel.loadMoreData()
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
 /*        viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
@@ -135,18 +150,6 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 }
             }
         }*/
-        val imageWithTextList = listOf(
-            Highlight(R.drawable.mainpage2, "Ən çox baxılanlar"),
-            Highlight(R.drawable.yenielan2, "1345 yeni kurs"),
-            Highlight(R.drawable.vip, "234 VIP kurs")
-        )
-        val recylerviewForHighlight =
-            view.findViewById<RecyclerView>(R.id.topProductsRV)
-        val adapter = HiglightForMainListAdapter(imageWithTextList)
-        recylerviewForHighlight.adapter = adapter
-        recylerviewForHighlight.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
 
         createAccount.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_contactUsFragment)

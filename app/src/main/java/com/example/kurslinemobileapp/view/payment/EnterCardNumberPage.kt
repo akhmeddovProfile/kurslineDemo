@@ -96,6 +96,7 @@ class EnterCardNumberPage : AppCompatActivity() {
                         paymentWebView.loadUrl(url.toString())
                         println("url: "+url)
                         println("OrderId: "+apiService.payload.orderId)
+                        println("SessionId: " + apiService.payload.sessionId)
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
                         return super.shouldOverrideUrlLoading(view, request)
                     }
