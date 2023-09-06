@@ -41,7 +41,6 @@ class EnterCardNumberPage : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     var paymentState = false
     private lateinit var sharedPreferences: SharedPreferences
-    lateinit var createOrderRequest:RequestOrderInfo
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,9 +114,9 @@ class EnterCardNumberPage : AppCompatActivity() {
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
 
                         if(selectedPriceIdVip!=0){
-                            createOrderRequest=RequestOrderInfo(annId, ireliCekId = null,apiService.payload.orderId,apiService.payload.sessionId,selectedPriceIdVip)
+                            postOrderInfoToServer(authHeader,userId,RequestOrderInfo(annId, ireliCekId = null,apiService.payload.orderId,apiService.payload.sessionId,selectedPriceIdVip))
+
                         }
-                        postOrderInfoToServer(authHeader,userId,createOrderRequest)
                         return super.shouldOverrideUrlLoading(view, request)
                     }
 
