@@ -17,6 +17,7 @@ class VipPaymentPage : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedRadioButtonText: String? = null
     private var selectedPrice:Double?=null
+    private var selectedButtonId:Int?=null
     private lateinit var radioButton: RadioButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,9 @@ class VipPaymentPage : AppCompatActivity() {
         val radiobutton1=intent.getStringExtra("radiobuttonVip1")
         val radiobutton2=intent.getStringExtra("radiobuttonVip2")
         val radiobutton3=intent.getStringExtra("radiobuttonVip3")
+        val radiobuttonid1=intent.getIntExtra("vipId1",1)
+        val radiobuttonid2=intent.getIntExtra("vipId2",2)
+        val radiobuttonid3=intent.getIntExtra("vipId3",3)
         radioButton1VIP.text=radiobutton1
         radioButton2VIP.text=radiobutton2
         radioButton3VIP.text=radiobutton3
@@ -51,14 +55,17 @@ class VipPaymentPage : AppCompatActivity() {
         radioButton1VIP.setOnClickListener {
             selectedRadioButtonText=radioButton1VIP.text.toString()
             selectedPrice = costbutton1
+            selectedButtonId=radiobuttonid1
         }
         radioButton2VIP.setOnClickListener {
             selectedRadioButtonText=radioButton2VIP.text.toString()
             selectedPrice = costbutton2
+            selectedButtonId=radiobuttonid2
         }
         radioButton3VIP.setOnClickListener {
             selectedRadioButtonText=radioButton3VIP.text.toString()
             selectedPrice = costbutton3
+            selectedButtonId=radiobuttonid3
         }
 
         nextPayForVip.setOnClickListener {
@@ -77,6 +84,9 @@ class VipPaymentPage : AppCompatActivity() {
                 }
                 selectedPrice?.let { it->
                     intent.putExtra("selectedCost", it)
+                }
+                selectedButtonId?.let { it->
+                    intent.putExtra("selectedId",it)
                 }
                 startActivity(intent)
 

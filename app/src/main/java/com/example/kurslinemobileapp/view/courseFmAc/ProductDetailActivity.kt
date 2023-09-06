@@ -12,9 +12,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64.DEFAULT
 import android.util.Base64.encodeToString
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.MainThread
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,6 +35,7 @@ import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Anno
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.announcement.payment.Payment
 import com.example.kurslinemobileapp.api.announcement.payment.priceMoveForward.MoveforwardPriceResponseX
 import com.example.kurslinemobileapp.api.announcement.payment.priceVIP.VipPriceResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
@@ -54,6 +57,7 @@ import com.example.kurslinemobileapp.view.payment.MoveForwardAnn
 import com.example.kurslinemobileapp.view.payment.VipPaymentPage
 import com.google.gson.Gson
 import io.reactivex.Observable
+import io.reactivex.android.MainThreadDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -70,6 +74,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import retrofit2.create
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -123,8 +128,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         getUserAnnouncement(userId,annId,authHeader)
 
         relativeLayoutClickUpForward.setOnClickListener {
-            getPriceforMoveForward(userId,annId,authHeader)
-
+            getPriceforMoveForward2(userId,annId,authHeader)
         }
         relativeLayoutClickVIP.setOnClickListener {
             getPriceForVip(userId,annId,authHeader)
@@ -550,62 +554,203 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    @SuppressLint("SetTextI18n")
     fun getPriceforMoveForward(userId: Int, annId: Int, token: String) {
+        compositeDisposable= CompositeDisposable()
+        val apiservice=RetrofitService(Constant.BASE_URL).retrofit.create(Payment::class.java)
+        println("UserId: "+userId)
+        println("AnnId: "+annId)
+        println("token: "+token)
+        compositeDisposable.add(
+        apiservice.MoveForwardPaymentInfo2(annId,userId,token)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    check = true
+                    moveforwardList = ArrayList(listOf(it))
+                    if (moveforwardList!!.isEmpty()) {
+                        val vipInfoList = moveforwardList!![0].ireliCekInfo
+                        if (vipInfoList.isNotEmpty()) {
+                            val vipInfo = vipInfoList[0]
+                            println("Sizes: "+vipInfo)
+
+                            val bottomText =
+                                "${vipInfo.irelicekDate} dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
+                            val moveFRWId = vipInfo.irelicekId
+                            // radioButtonMovefor1.text = bottomText
+                            val bottomtextCost = vipInfo.irelicekCost.toDouble()
+                            val vipInfo2 = vipInfoList[1]
+                            val moveFRWId2 = vipInfo2.irelicekId
+                            val bottomText2 =
+                                "${vipInfo2.irelicekDate}dəfə(24 saatdan bir)/${vipInfo2.irelicekCost} AZN "
+                            val bottomtextCost2 = vipInfo2.irelicekCost.toDouble()
+                            // radioButtonMovefor2.text=bottomText2
+                            println(bottomText2)
+                            val intent = Intent(this@ProductDetailActivity, MoveForwardAnn::class.java)
+                            intent.putExtra("radiobuttonMoveFrw1", bottomText)
+                            intent.putExtra("radiobuttonMoveFrw2", bottomText2)
+                            intent.putExtra("ireliCekId1", moveFRWId)
+                            intent.putExtra("ireliCekId2", moveFRWId2)
+                            intent.putExtra("redioBtncost1", bottomtextCost)
+                            intent.putExtra("redioBtncost2", bottomtextCost2)
+                            runOnUiThread {
+                                startActivity(intent)
+                            }
+                        }
+                    }
+                },{thorowable->
+                    println(thorowable.message)
+                    // Handle error, e.g., show an error message
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ProductDetailActivity,
+                            "An error occurred: ${thorowable.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            )
+        )
+
+/*
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val apiService =
-                    RetrofitService(Constant.BASE_URL).apiServicemoveForwardInfo.MoveForwardPaymentInfo(userId, annId, token).await()
+                    RetrofitService(Constant.BASE_URL).apiServicemoveForwardInfo.MoveForwardPaymentInfo(
+                        userId,
+                        annId,
+                        token
+                    ).await()
                 check = true
                 moveforwardList = ArrayList(listOf(apiService))
-                if (moveforwardList.isNotEmpty()) {
-                    val vipInfoList = moveforwardList[0].vipInfo
-                    if (vipInfoList.isNotEmpty()) {
+            println("Size"+moveforwardList[0].ireliCekInfo)
+                if (moveforwardList != null &&moveforwardList.isNotEmpty()) {
+                    val vipInfoList = moveforwardList[0].ireliCekInfo
+                    if (vipInfoList.isNotEmpty()&&vipInfoList!=null) {
                         val vipInfo = vipInfoList[0]
+                        println("Sizes: "+vipInfo)
+
                         val bottomText =
                             "${vipInfo.irelicekDate} dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
+                        val moveFRWId = vipInfo.irelicekId
                         // radioButtonMovefor1.text = bottomText
-                        val bottomtextCost=vipInfo.irelicekCost.toDouble()
+                        val bottomtextCost = vipInfo.irelicekCost.toDouble()
                         val vipInfo2 = vipInfoList[1]
+                        val moveFRWId2 = vipInfo2.irelicekId
                         val bottomText2 =
                             "${vipInfo2.irelicekDate}dəfə(24 saatdan bir)/${vipInfo2.irelicekCost} AZN "
-                        val bottomtextCost2=vipInfo2.irelicekCost.toDouble()
+                        val bottomtextCost2 = vipInfo2.irelicekCost.toDouble()
                         // radioButtonMovefor2.text=bottomText2
                         println(bottomText2)
-                        val intent=Intent(this@ProductDetailActivity,MoveForwardAnn::class.java)
-                        intent.putExtra("radiobuttonMoveFrw1",bottomText)
-                        intent.putExtra("radiobuttonMoveFrw2",bottomText2)
-                        intent.putExtra("redioBtncost1",bottomtextCost)
-                        intent.putExtra("redioBtncost2",bottomtextCost2)
-                        startActivity(intent)
+                        val intent = Intent(this@ProductDetailActivity, MoveForwardAnn::class.java)
+                        intent.putExtra("radiobuttonMoveFrw1", bottomText)
+                        intent.putExtra("radiobuttonMoveFrw2", bottomText2)
+                        intent.putExtra("ireliCekId1", moveFRWId)
+                        intent.putExtra("ireliCekId2", moveFRWId2)
+                        intent.putExtra("redioBtncost1", bottomtextCost)
+                        intent.putExtra("redioBtncost2", bottomtextCost2)
+                            runOnUiThread {
+                                startActivity(intent)
+                            }
                     }
                 }
 
             } catch (e: HttpException) {
-                if (e.code() == 401) {
-                    // Handle HTTP 401 error (Unauthorized)
+                // Handle HTTP exceptions
+                    if (e.code() == 401) {
+                        // Handle HTTP 401 error (Unauthorized)
+                        runOnUiThread{
+                            Toast.makeText(
+                                this@ProductDetailActivity,
+                                "Yalnız özünüzə məxsus elanı İrəli çəkə bilərsiz",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        // Handle other HTTP error codes
+                        println("An error occurred1: ${e.message()}")
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@ProductDetailActivity,
+                                "An error occurred: ${e.message()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    // Handle other exceptions (network errors, etc.)
+                    println("An error occurred2: ${e.message}")
+                runOnUiThread {
                     Toast.makeText(
                         this@ProductDetailActivity,
-                        "Yalnız özünüzə məxsus elanı İrəli çəkə bilərsiz",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    // Handle other HTTP error codes
-                    Toast.makeText(
-                        this@ProductDetailActivity,
-                        "An error occurred: ${e.message()}",
+                        "An error occurred: ${e.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            } catch (e: Exception) {
-                // Handle other exceptions (network errors, etc.)
-                Toast.makeText(
-                    this@ProductDetailActivity,
-                    "An error occurred: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                }
             }
+*/
+
         }
+
+    fun getPriceforMoveForward2(userId: Int, annId: Int, token: String) {
+        compositeDisposable = CompositeDisposable()
+        val apiService = RetrofitService(Constant.BASE_URL).retrofit.create(Payment::class.java)
+        println("UserId: "+userId)
+        println("AnnId: "+annId)
+        println("token: "+token)
+        compositeDisposable.add(
+            apiService.MoveForwardPaymentInfo1(userId,annId, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { response ->
+                        println("Response: "+response)
+                        // This code block is executed when the network request is successful
+
+                        check = true
+                        val moveforwardList = response.ireliCekInfo // Assuming response.ireliCekInfo is a List<MoveForwardInfo>
+
+                        if (moveforwardList.isNotEmpty()) {
+                            val vipInfo = moveforwardList[0]
+                            val bottomText =
+                                "${vipInfo.irelicekDate} dəfə(24 saatdan bir)/${vipInfo.irelicekCost} AZN "
+                            val moveFRWId = vipInfo.irelicekId
+                            val bottomtextCost = vipInfo.irelicekCost.toDouble()
+
+                            val vipInfo2 = moveforwardList[1]
+                            val moveFRWId2 = vipInfo2.irelicekId
+                            val bottomText2 =
+                                "${vipInfo2.irelicekDate}dəfə(24 saatdan bir)/${vipInfo2.irelicekCost} AZN "
+                            val bottomtextCost2 = vipInfo2.irelicekCost.toDouble()
+
+                            val intent = Intent(this@ProductDetailActivity, MoveForwardAnn::class.java)
+                            intent.putExtra("radiobuttonMoveFrw1", bottomText)
+                            intent.putExtra("radiobuttonMoveFrw2", bottomText2)
+                            intent.putExtra("ireliCekId1", moveFRWId)
+                            intent.putExtra("ireliCekId2", moveFRWId2)
+                            intent.putExtra("redioBtncost1", bottomtextCost)
+                            intent.putExtra("redioBtncost2", bottomtextCost2)
+
+                            runOnUiThread {
+                                startActivity(intent)
+                            }
+                        }
+                    },
+                    { throwable ->
+                        // This code block is executed in case of an error
+                        println(throwable.message)
+                        // Handle error, e.g., show an error message
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@ProductDetailActivity,
+                                "An error occurred: ${throwable.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                )
+        )
     }
 
 
@@ -613,7 +758,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val apiService =
-                    RetrofitService(Constant.BASE_URL).apiVip.VipPaymentInfo(userId, annId, token).await()
+                    RetrofitService(Constant.BASE_URL).apiVip.VipPaymentInfo( userId,annId, token).await()
                 check = true
                 vipList = ArrayList(listOf(apiService))
                 if (vipList.isNotEmpty()) {
@@ -634,11 +779,17 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                         val bottomtextCost3=vipInfo3.vipPriceCost.toDouble()
                         println("bt3: "+ bottomText3)
                         // radioButtonMovefor2.text=bottomText2
+                        val vipId=vipInfo.vipPriceId
+                        val vipId2=vipInfo2.vipPriceId
+                        val vipId3=vipInfo3.vipPriceId
                         println(bottomText2)
                         val intent=Intent(this@ProductDetailActivity,VipPaymentPage::class.java)
                         intent.putExtra("radiobuttonVip1",bottomText)
                         intent.putExtra("radiobuttonVip2",bottomText2)
                         intent.putExtra("radiobuttonVip3",bottomText3)
+                        intent.putExtra("vipId1",vipId)
+                        intent.putExtra("vipId2",vipId2)
+                        intent.putExtra("vipId3",vipId3)
                         intent.putExtra("radiobuttonVipCost1",bottomtextCost)
                         intent.putExtra("radiobuttonVipCost2",bottomtextCost2)
                         intent.putExtra("radiobuttonVipCost3",bottomtextCost3)

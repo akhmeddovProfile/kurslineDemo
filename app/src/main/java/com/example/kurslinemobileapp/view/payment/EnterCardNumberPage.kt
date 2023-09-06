@@ -1,9 +1,12 @@
 package com.example.kurslinemobileapp.view.payment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -13,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfo
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequest
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequestBody
 import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.GetStatusOrderRequest
@@ -36,7 +40,8 @@ class EnterCardNumberPage : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     var paymentState = false
-
+    private lateinit var sharedPreferences: SharedPreferences
+    lateinit var createOrderRequest:RequestOrderInfo
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +61,8 @@ class EnterCardNumberPage : AppCompatActivity() {
         val secretKey = generateSecretKey(originalSecretKey)
         val iv = ByteArray(16)
         SecureRandom().nextBytes(iv)
-
+        val selectedPriceIdVip=intent.getIntExtra("selectedId",0)
+        println("selectedPriceIdVip: $selectedPriceIdVip")
        val encryptedData= encryptSecretKey(secretKey,iv)
         println("Encrypted data: $encryptedData")
 
@@ -67,9 +73,18 @@ class EnterCardNumberPage : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createOrder(){
+        sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+        val annId = sharedPreferences.getInt("announcementId",0)
+        val userId = sharedPreferences.getInt("userID",0)
+        val token = sharedPreferences.getString("USERTOKENNN","")
+        val authHeader = "Bearer $token"
+        val selectedPriceIdVip=intent.getIntExtra("selectedId",0)
         val amount=intent.getDoubleExtra("selectedCost",1.5)
         val totalAmount =amount
-        val requestBody = CreateOrderRequestBody(totalAmount, "https://www.youtube.com/", "", "",
+
+
+       // val requestOrderInfo=RequestOrderInfo(annId)
+        val requestBody = CreateOrderRequestBody(0.01, "https://www.youtube.com/", "", "",
             "AZN", "https://www.youtube.com/", "This is Description", true, 0,
             "BIRKART", "AZ", "")
 
@@ -98,6 +113,11 @@ class EnterCardNumberPage : AppCompatActivity() {
                         println("OrderId: "+apiService.payload.orderId)
                         println("SessionId: " + apiService.payload.sessionId)
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
+
+                        if(selectedPriceIdVip!=0){
+                            createOrderRequest=RequestOrderInfo(annId, ireliCekId = null,apiService.payload.orderId,apiService.payload.sessionId,selectedPriceIdVip)
+                        }
+                        postOrderInfoToServer(authHeader,userId,createOrderRequest)
                         return super.shouldOverrideUrlLoading(view, request)
                     }
 
@@ -134,7 +154,20 @@ class EnterCardNumberPage : AppCompatActivity() {
             }
         }
     }
-
+    /*announcementId:Int,orderId:String,sessionId:String,vipId:Int,ireliCekId:Int*/
+    fun postOrderInfoToServer(token:String,userId:Int,createOrderRequest: RequestOrderInfo){
+        CoroutineScope(Dispatchers.IO).launch {
+            val apiservice=RetrofitService(Constant.BASE_URL).apipaymentpostorderinfo.postOrderIformation(userId,token,createOrderRequest).await()
+            try {
+                Log.d("MyTag","Success: ${apiservice.success}")
+            }catch (e:HttpException){
+                Log.d("MyTag","message:${e.message}, code: ${e.code()}")
+            }
+            catch (e:java.lang.Exception){
+                Log.d("MyTag","${e.message}")
+            }
+        }
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -142,7 +175,7 @@ class EnterCardNumberPage : AppCompatActivity() {
 
         val requestBody = GetStatusOrderRequestBody("AZ", orderId, sessionId)
         val request = GetStatusOrderRequest(requestBody, "ES1092105")
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val apiService=RetrofitService(Constant.BASE_URL_PAYMENT).apiservicePaymentGetOrderPayriff.getStatusOrder(Constant.secretKey,"getStatusOrder",request).await()
             try {
                 if (apiService.payload.orderStatus.equals("DECLINED")){
@@ -165,6 +198,7 @@ class EnterCardNumberPage : AppCompatActivity() {
             }
         }
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun generateSecretKey(secretKey: String): SecretKey {
