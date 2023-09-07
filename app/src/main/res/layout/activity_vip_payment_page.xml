@@ -61,11 +61,12 @@
         app:layout_constraintTop_toBottomOf="@+id/uploadCoureText">
 
         <TextView
+            android:id="@+id/elanInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/nunito"
-          android:gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:text="@string/about_vip"
             android:textColor="@color/black"
             android:textSize="12sp" />

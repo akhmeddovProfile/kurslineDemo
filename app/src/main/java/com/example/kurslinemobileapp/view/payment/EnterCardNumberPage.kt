@@ -114,7 +114,14 @@ class EnterCardNumberPage : AppCompatActivity() {
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
 
                         if(selectedPriceIdVip!=0){
-                            postOrderInfoToServer(authHeader,userId,RequestOrderInfo(annId, ireliCekId = null,apiService.payload.orderId,apiService.payload.sessionId,selectedPriceIdVip))
+                            postOrderInfoToServer(authHeader,
+                                userId,
+                                RequestOrderInfo(
+                                annId,
+                                ireliCekId = null,
+                                apiService.payload.orderId,
+                                apiService.payload.sessionId,
+                                selectedPriceIdVip))
 
                         }
                         return super.shouldOverrideUrlLoading(view, request)

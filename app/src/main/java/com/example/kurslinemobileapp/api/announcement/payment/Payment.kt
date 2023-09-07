@@ -6,6 +6,7 @@ import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.Requ
 import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.ResponsePostInfo
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -25,7 +26,7 @@ interface Payment {
         @Path("userId") userId: Int,
         @Path("announcementId") announcementId:Int,
         @Header("Authorization") token: String
-    ):Deferred<MoveforwardPriceResponseX>
+    ):Deferred<Response<MoveforwardPriceResponseX>>
 
     @GET("GetIreliCekInfo/{userId}/{announcementId}")
     fun MoveForwardPaymentInfo1(

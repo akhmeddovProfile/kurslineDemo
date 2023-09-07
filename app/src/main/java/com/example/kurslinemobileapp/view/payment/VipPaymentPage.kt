@@ -1,11 +1,13 @@
 package com.example.kurslinemobileapp.view.payment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RadioButton
+import android.widget.TextView
 import android.widget.Toast
 import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.service.Constant
@@ -19,6 +21,8 @@ class VipPaymentPage : AppCompatActivity() {
     private var selectedPrice:Double?=null
     private var selectedButtonId:Int?=null
     private lateinit var radioButton: RadioButton
+    private lateinit var elanInfo:TextView
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vip_payment_page)
@@ -29,6 +33,7 @@ class VipPaymentPage : AppCompatActivity() {
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
         radioButton = findViewById(R.id.radioButton4Vip)
+        elanInfo=findViewById(R.id.elanInfo)
         backtoMainFromCourseUpload.setOnClickListener {
             val intent=Intent(this@VipPaymentPage,ProductDetailActivity::class.java)
             startActivity(intent)
@@ -42,10 +47,11 @@ class VipPaymentPage : AppCompatActivity() {
         val radiobuttonid1=intent.getIntExtra("vipId1",1)
         val radiobuttonid2=intent.getIntExtra("vipId2",2)
         val radiobuttonid3=intent.getIntExtra("vipId3",3)
+        val elaninfofromintent=intent.getStringExtra("elanInfo")
         radioButton1VIP.text=radiobutton1
         radioButton2VIP.text=radiobutton2
         radioButton3VIP.text=radiobutton3
-
+        elanInfo.text=elaninfofromintent.toString().trim()
         val costbutton1=intent.getDoubleExtra("radiobuttonVipCost1",1.00)
         val costbutton2=intent.getDoubleExtra("radiobuttonVipCost2",2.00)
         println("getting" + costbutton2
