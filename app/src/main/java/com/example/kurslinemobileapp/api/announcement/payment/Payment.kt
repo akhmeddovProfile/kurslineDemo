@@ -26,7 +26,7 @@ interface Payment {
         @Path("userId") userId: Int,
         @Path("announcementId") announcementId:Int,
         @Header("Authorization") token: String
-    ):Deferred<Response<MoveforwardPriceResponseX>>
+    ):Deferred<MoveforwardPriceResponseX>
 
     @GET("GetIreliCekInfo/{userId}/{announcementId}")
     fun MoveForwardPaymentInfo1(

@@ -83,7 +83,7 @@ class EnterCardNumberPage : AppCompatActivity() {
 
 
        // val requestOrderInfo=RequestOrderInfo(annId)
-        val requestBody = CreateOrderRequestBody(0.01, "https://www.youtube.com/", "", "",
+        val requestBody = CreateOrderRequestBody(totalAmount, "https://www.youtube.com/", "", "",
             "AZN", "https://www.youtube.com/", "This is Description", true, 0,
             "BIRKART", "AZ", "")
 
