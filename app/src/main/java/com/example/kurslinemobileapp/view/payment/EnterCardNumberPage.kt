@@ -78,6 +78,7 @@ class EnterCardNumberPage : AppCompatActivity() {
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
         val selectedPriceIdVip=intent.getIntExtra("selectedId",0)
+        val selectedPriceIdForward=intent.getIntExtra("selectedId",0)
         val amount=intent.getDoubleExtra("selectedCost",1.5)
         val totalAmount =amount
 
@@ -113,12 +114,12 @@ class EnterCardNumberPage : AppCompatActivity() {
                         println("SessionId: " + apiService.payload.sessionId)
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
 
-                        if(selectedPriceIdVip!=0){
+                        if(selectedPriceIdVip!=0 || selectedPriceIdForward !=0){
                             postOrderInfoToServer(authHeader,
                                 userId,
                                 RequestOrderInfo(
                                 annId,
-                                ireliCekId = null,
+                                    selectedPriceIdForward,
                                 apiService.payload.orderId,
                                 apiService.payload.sessionId,
                                 selectedPriceIdVip))
