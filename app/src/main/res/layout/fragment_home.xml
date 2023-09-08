@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayoutMain">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,6 +135,14 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/higlightCoursesRV"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line2Main"
+                android:layout_marginTop="10dp"
+                android:elevation="5dp" />
 
             <ImageView
                 android:id="@+id/line1Main"

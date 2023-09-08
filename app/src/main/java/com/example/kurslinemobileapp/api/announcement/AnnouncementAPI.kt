@@ -8,6 +8,7 @@ import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnno
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
+import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncement
 import com.example.kurslinemobileapp.model.HiglightNew.HiglightModel
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
@@ -79,4 +80,12 @@ interface AnnouncementAPI {
     fun getHighlight(): Observable<HiglightModel>
 
 
+    @GET("GetNewAnnouncments")
+    fun getNewHiglight():Observable<CompanyTransactionAnnouncement>
+
+    @GET("GetVipAnnouncments")
+    fun getVipHiglight():Observable<CompanyTransactionAnnouncement>
+
+    @GET("GetMostViewedAnnouncments")
+    fun getMostViewHiglight():Observable<CompanyTransactionAnnouncement>
 }

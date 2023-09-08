@@ -10,7 +10,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.squareup.picasso.Picasso
 
-class HiglightForMainListAdapter(private val items: List<Highlight>) :
+class HiglightForMainListAdapter(private val items: List<Highlight>,  private val clickListener: OnHighlightItemClickListener) :
     RecyclerView.Adapter<HiglightForMainListAdapter.ImageRowViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageRowViewHolder {
@@ -35,6 +35,18 @@ class HiglightForMainListAdapter(private val items: List<Highlight>) :
     inner class ImageRowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageText)
         val textView: TextView = itemView.findViewById(R.id.textImage)
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val clickedItem = items[position]
+                    clickListener.onItemClick(clickedItem)
+                }
+            }
+        }
+    }
+    interface OnHighlightItemClickListener {
+        fun onItemClick(item: Highlight)
     }
 
 }

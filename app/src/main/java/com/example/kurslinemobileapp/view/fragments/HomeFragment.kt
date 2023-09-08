@@ -26,9 +26,6 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.adapter.HiglightForMainListAdapter
-import com.example.kurslinemobileapp.adapter.MainListProductAdapter
-import com.example.kurslinemobileapp.adapter.ViewPagerImageAdapter
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
@@ -51,7 +48,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amar.library.ui.StickyScrollView
-import com.example.kurslinemobileapp.adapter.VIPAdapter
+import com.example.kurslinemobileapp.adapter.*
+import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -60,8 +58,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListener,VIPAdapter.VIPFavoriteItemClickListener,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener, HiglightForMainListAdapter.OnHighlightItemClickListener{
     private lateinit var view: ViewGroup
+    private lateinit var companyTransactionAdapter: CompanyTransactionAdapter
     private lateinit var viewPager2: ViewPager2
     private lateinit var handler: Handler
     private lateinit var imageList: ArrayList<Int>
@@ -70,6 +69,8 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private lateinit var vipAdapter: VIPAdapter
     private lateinit var mainList: ArrayList<Announcemenet>
     private lateinit var mainList2: ArrayList<Announcemenet>
+    private lateinit var mainListHigh: ArrayList<CompanyTransactionAnnouncementItem>
+    private lateinit var mainList2High: ArrayList<CompanyTransactionAnnouncementItem>
     private lateinit var vipList: ArrayList<Announcemenet>
     private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
@@ -112,6 +113,8 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         println("Clear: " + userId)
         mainList = ArrayList<Announcemenet>()
         mainList2 = ArrayList<Announcemenet>()
+        mainListHigh = ArrayList<CompanyTransactionAnnouncementItem>()
+        mainList2High = ArrayList<CompanyTransactionAnnouncementItem>()
         vipList = ArrayList<Announcemenet>()
 
         recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
@@ -137,7 +140,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             val imageWithTextList = gson.fromJson<List<Highlight>>(imageWithTextListJson, type)
 
             val recylerviewForHighlight = view.findViewById<RecyclerView>(R.id.topProductsRV)
-            val adapter = HiglightForMainListAdapter(imageWithTextList)
+            val adapter = HiglightForMainListAdapter(imageWithTextList,this@HomeFragment)
             recylerviewForHighlight.adapter = adapter
             recylerviewForHighlight.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -738,6 +741,154 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             return
         } else {
             postFav(id,position,false)
+        }
+    }
+
+    override fun onItemClick(item: Highlight) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+
+        when (item.highlightImage) {
+            R.drawable.mainpage2 -> {
+
+                // User clicked on "Ən çox baxılanlar" item
+                compositeDisposable.add(
+                    retrofit.getMostViewHiglight()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ announcementModel ->
+                            // Handle the response from the API
+                            println("most view")
+
+                            mainListHigh.clear()
+                            mainList2High.clear()
+                            val companyDetailItem = announcementModel
+                            mainListHigh.addAll(companyDetailItem)
+                            mainList2High.addAll(companyDetailItem)
+                            val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+                            recycler.visibility = View.VISIBLE
+                            val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                            recycler1.visibility = View.GONE
+                            view.vipAnnouncementTextMain.text = "Most Viewed"
+                            view.line3Main.visibility = View.GONE
+                            view.AnnouncementTextMain.visibility = View.GONE
+                            view.line4Main.visibility = View.GONE
+                            view.allCoursesRV.visibility = View.GONE
+                            println("responseElan: " + announcementModel)
+                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
+                            recycler.adapter = companyTransactionAdapter
+                            recycler.isNestedScrollingEnabled = false
+                            companyTransactionAdapter.notifyDataSetChanged()
+                            companyTransactionAdapter.setOnItemClickListener {
+
+                                val intent = Intent(activity, ProductDetailActivity::class.java)
+                                activity?.startActivity(intent)
+                                sharedPreferences =
+                                    requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                                println("gedenId-----" + it.id)
+                                editor.apply()
+                            }
+
+                        }, { error ->
+                            // Handle the error
+                        })
+                )
+            }
+            R.drawable.yenielan2 -> {
+                // User clicked on "${highlightModel[0].newCourse} yeni kurs" item
+                compositeDisposable.add(
+                    retrofit.getNewHiglight()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ announcementModel ->
+                            // Handle the response from the API
+                            println("new course")
+
+                            mainListHigh.clear()
+                            mainList2High.clear()
+                            val companyDetailItem = announcementModel
+                            mainListHigh.addAll(companyDetailItem)
+                            mainList2High.addAll(companyDetailItem)
+                            val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+                            recycler.visibility = View.VISIBLE
+                            val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                            recycler1.visibility = View.GONE
+                            view.vipAnnouncementTextMain.text = "New Course"
+                            view.line3Main.visibility = View.GONE
+                            view.AnnouncementTextMain.visibility = View.GONE
+                            view.line4Main.visibility = View.GONE
+                            view.allCoursesRV.visibility = View.GONE
+                            println("responseElan: " + announcementModel)
+                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
+                            recycler.adapter = companyTransactionAdapter
+                            recycler.isNestedScrollingEnabled = false
+                            companyTransactionAdapter.notifyDataSetChanged()
+                            companyTransactionAdapter.setOnItemClickListener {
+
+                                val intent = Intent(activity, ProductDetailActivity::class.java)
+                                activity?.startActivity(intent)
+                                sharedPreferences =
+                                    requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                                println("gedenId-----" + it.id)
+                                editor.apply()
+                            }
+                        }, { error ->
+                            // Handle the error
+                        })
+                )
+            }
+            R.drawable.vip -> {
+                // User clicked on "${highlightModel[0].vip} VIP kurs" item
+                compositeDisposable.add(
+                    retrofit.getVipHiglight()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ announcementModel ->
+                            // Handle the response from the API
+                            println("vip course")
+                            mainListHigh.clear()
+                            mainList2High.clear()
+                            val companyDetailItem = announcementModel
+                            mainListHigh.addAll(companyDetailItem)
+                            mainList2High.addAll(companyDetailItem)
+                            val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+                            recycler.visibility = View.VISIBLE
+                            val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                            recycler1.visibility = View.GONE
+                            view.vipAnnouncementTextMain.text = "VIP Courses"
+                            view.line3Main.visibility = View.GONE
+                            view.AnnouncementTextMain.visibility = View.GONE
+                            view.line4Main.visibility = View.GONE
+                            view.allCoursesRV.visibility = View.GONE
+                            println("responseElan: " + announcementModel)
+                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
+                            recycler.adapter = companyTransactionAdapter
+                            recycler.isNestedScrollingEnabled = false
+                            companyTransactionAdapter.notifyDataSetChanged()
+                            companyTransactionAdapter.setOnItemClickListener {
+
+                                val intent = Intent(activity, ProductDetailActivity::class.java)
+                                activity?.startActivity(intent)
+                                sharedPreferences =
+                                    requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                                println("gedenId-----" + it.id)
+                                editor.apply()
+                            }
+                        }, { error ->
+                            // Handle the error
+                        })
+                )
+            }
+            else -> {
+                // Handle any other items or conditions
+            }
         }
     }
 
