@@ -5,6 +5,7 @@ import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.Filter
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
+import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.UpdateAnnouncementResponse
 import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
@@ -67,6 +68,11 @@ interface AnnouncementAPI {
         @Path("announcementId")announcementId:Int
     ):Observable<DeleteAnnouncementResponse>
 
+
+    @GET("GetAnnouncementForUserById/{userId}/{announcementId}")
+    fun getAnnouncementForUpdate(
+        @Path("userId") userId: Int,@Path("announcementId") announcementId:Int, @Header("Authorization") token: String
+    ):Observable<GetAnnouncementResponse>
     @POST("PutMobileAnnouncement/{userId}/{announcementId}")
     fun updateAnnJSON(
         @Header("Authorization")token:String,
@@ -75,6 +81,22 @@ interface AnnouncementAPI {
         @Body createAnnouncementRequest: CreateAnnouncementRequest
     ):Observable<UpdateAnnouncementResponse>
 
+    @POST("PutAnnouncement/{userId}/{announcementId}")
+    fun updateAnnouncementFormData(
+        @Header("Authorization")token:String,
+        @Path("userId")userId:Int,
+        @Path("announcementId")announcementId:Int,
+        @Part("AnnouncementName")AnnouncementName:RequestBody,
+        @Part("AnnouncementDesc")AnnouncementDesc:RequestBody,
+        @Part("AnnouncementPrice")AnnouncementPrice:RequestBody,
+        @Part("AnnouncementAddress")AnnouncementAddress:RequestBody,
+        @Part("AnnouncementRegionId")AnnouncementRegionId:RequestBody,
+        @Part("AnnouncementSubCategoryId")AnnouncementSubCategoryId:RequestBody,
+        @Part Img:MultipartBody.Part,
+        @Part("Teacher")Teacher:RequestBody,
+        @Part("AnnouncementIsOnlineId")AnnouncementIsOnlineId:RequestBody,
+        @Part("AnnouncementCategoryId")AnnouncementCategoryId:RequestBody
+    ):Observable<UpdateAnnouncementResponse>
 
     @GET("GetHighLights")
     fun getHighlight(): Observable<HiglightModel>

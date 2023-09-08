@@ -128,7 +128,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         getUserAnnouncement(userId,annId,authHeader)
 
         relativeLayoutClickUpForward.setOnClickListener {
-            getPriceforMoveForward2(userId,annId,authHeader)
+            getPriceforMoveForward(userId,annId,authHeader)
         }
         relativeLayoutClickVIP.setOnClickListener {
             getPriceForVip(userId,annId,authHeader)
@@ -540,7 +540,9 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         }, { throwable ->
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
-        }).let { compositeDisposable.add(it) }
+        }).let {
+            compositeDisposable.add(it)
+        }
 
         editCourse.setOnClickListener {
             val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
@@ -690,11 +692,14 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                         }
                     },
                     { throwable ->
+
                         Log.d("MYTAG","Empty")
                         // This code block is executed in case of an error
                         println(throwable.message)
                         // Handle error, e.g., show an error message
+                        kotlin.runCatching {
 
+                        }
                         runOnUiThread {
                             Toast.makeText(
                                 this@ProductDetailActivity,

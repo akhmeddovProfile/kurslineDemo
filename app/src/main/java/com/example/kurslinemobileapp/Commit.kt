@@ -1,9 +1,20 @@
 package com.example.kurslinemobileapp
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Base64
+import android.view.View
 import android.widget.RelativeLayout
+import androidx.viewpager2.widget.ViewPager2
+import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
+import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_update_announcement.*
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 /*
 val mainpageFragment=MainPageFragment()
@@ -767,3 +778,128 @@ fun showBottomSheetDialogPrice() {
                 Toast.makeText(context, "Please log in!", Toast.LENGTH_SHORT).show()
             }
             }*/
+/*
+        val uProdCategory = sharedPreferences.getString("productDetailCategory", "") ?: ""
+        val uProdSubCategory = sharedPreferences.getString("productDetailSubCategory", "") ?: ""
+        val uProdPrice = sharedPreferences.getString("productDetailPrice", "") ?: ""
+        val uProdName = sharedPreferences.getString("productDetailName", "") ?: ""
+        val uProdDesc = sharedPreferences.getString("productDetailDesc", "") ?: ""
+        val uProdRegion = sharedPreferences.getString("productDetailRegion", "") ?: ""
+        val uProdMode = sharedPreferences.getString("productDetailMode", "") ?: ""
+        val uProdTeacher = sharedPreferences.getString("productDetailTeacher", "") ?: ""
+        val uProdAddress = sharedPreferences.getString("productDetailAddress", "") ?: ""
+        val jsonImageUrls = intent.getStringExtra("imageUrlsJson")
+*/
+
+/* upcourseNameEditText.setText(uProdName)
+ upcourseAboutEditText.setText(uProdDesc)
+ upcourseTeacherEditText.setText(uProdTeacher)
+ upcoursePriceEditText.setText(uProdPrice)
+ upcourseAddressEditText.setText(uProdAddress)
+ upcourseModeEditText.setText(uProdMode)
+ upcourseAllCategoryEditText.setText(uProdCategory)
+ courseSubCategoryEditText.setText(uProdSubCategory)
+ upcourseRegionEditText.setText(uProdRegion)
+         if (jsonImageUrls != null) {
+     val gson = Gson()
+     val type = object : TypeToken<List<Photo>>() {}.type
+     val imageUrls = gson.fromJson<List<Photo>>(jsonImageUrls, type)
+
+     val viewPager: ViewPager2 = findViewById(R.id.viewPagerCourseUpdate)
+     val photoAdapter = ProductDetailImageAdapter(imageUrls)
+     viewPager.adapter = photoAdapter
+ }
+ //   businessAccountUpdateNameEditText.setText(userFullName)
+ */
+
+
+/*    private val permissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openGallery()
+            } else {
+                // Permission denied, handle accordingly
+            }
+        }
+    private val galleryLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            uris.forEach { imageUri ->
+                val imageName=getImageName(imageUri)
+                convertImageToBase64(imageUri,imageName)
+            }
+        }*/
+
+/*
+private fun requestGalleryPermission() {
+    permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+}
+private fun openGallery() {
+    galleryLauncher.launch("image/*")
+}
+
+@SuppressLint("Range")
+private fun getImageName(imageUri: Uri): String? {
+    val cursor = contentResolver.query(imageUri, null, null, null, null)
+    val name: String? = cursor?.use {
+        if (it.moveToFirst()) {
+            val displayName = it.getString(it.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+            displayName
+        } else {
+            null
+        }
+    }
+    cursor?.close()
+    return name
+}
+private fun convertImageToBase64(imageUri: Uri,imageName:String?) {
+
+    val inputStream = contentResolver.openInputStream(imageUri)
+
+    val compressedBitmap = compressImage(inputStream)
+    val targetSize = 2_500_000 // Target size in bytes (2.5 MB)
+    var compressionQuality = 100 // Start with maximum quality (minimum compression)
+    val byteArrayOutputStream = ByteArrayOutputStream()
+    compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+    while (byteArrayOutputStream.size() > targetSize && compressionQuality > 0) {
+        byteArrayOutputStream.reset() // Reset the output stream
+
+        // Reduce the compression quality by 10%
+        compressionQuality -= 10
+
+        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, compressionQuality, byteArrayOutputStream)
+    }
+
+    val imageBytes = byteArrayOutputStream.toByteArray()
+    val base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT)
+
+    inputStream?.close()
+
+    // Use the base64String as needed
+    UpsetImageUrl.setText(imageName?.trim().toString())
+    UpsetImageUrl.visibility= View.GONE
+    println("Image Name: "+UpsetImageUrl.text.toString()+".JPG")
+    imageNames.add(imageName!!)
+    selectedPhotos.add(SelectionPhotoShowOnViewPager(imageName,imageUri,base64String))
+    imageData.add(base64String)
+    setupViewPager()
+    print("Base64: "+base64String)
+
+}
+
+
+private fun compressImage(inputStream: InputStream?): Bitmap {
+    val options = BitmapFactory.Options()
+    options.inSampleSize = 2 // Adjust the sample size as needed for desired compression
+
+    val bitmap = BitmapFactory.decodeStream(inputStream, null, options)
+    inputStream?.close()
+
+    return bitmap!!
+}
+private fun setupViewPager() {
+    val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpdate)
+
+    // Create the adapter with the selected photos list
+    val adapter = PhotoPagerAdapter(selectedPhotos)
+    viewPager.adapter = adapter
+ */
