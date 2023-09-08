@@ -64,6 +64,9 @@ class MoveForwardAnn : AppCompatActivity() {
             else if(!checkBoxMoveForward.isChecked){
                 Toast.makeText(this, "Please agree to the terms.", Toast.LENGTH_SHORT).show()
             }
+            else if (radioButton4.isChecked ==false){
+                Toast.makeText(this, "Please select payment method.", Toast.LENGTH_SHORT).show()
+            }
             else{
                 val intent= Intent(this@MoveForwardAnn, EnterCardNumberPage::class.java)
                 selectedRadioButtonText?.let {

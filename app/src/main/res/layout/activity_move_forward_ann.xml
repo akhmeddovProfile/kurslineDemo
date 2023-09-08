@@ -49,64 +49,17 @@
         app:layout_constraintTop_toBottomOf="@+id/uploadCoureText"
         tools:ignore="MissingConstraints" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/lineForCourseUpload"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadCoureText">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center"
-            android:text="@string/about_vip"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayoutShowPriceDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/relativeLayout"
-        android:background="@color/grayColor3"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
-
-        <TextView
-            android:id="@+id/moveForwardDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center"
-            android:text="25.08.2023 14:00 tarixinə kimi ödənilib "
-            android:textColor="@color/greenColor"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
 
     <LinearLayout
         android:id="@+id/llForChoosePrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="178dp"
-        android:layout_below="@id/relativeLayoutShowPriceDate"
+        android:layout_marginBottom="30dp"
+        android:layout_below="@id/lineForCourseUpload"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/nextPayEnterCardNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayoutShowPriceDate">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:layout_width="match_parent"
@@ -131,7 +84,6 @@
                 android:buttonTint="@color/greenColor"
                 android:fontFamily="@font/nunito"
                 android:paddingStart="15dp"
-                android:text="4dəfə(24 saatdan bir)/1,00 AZN"
                 android:textColor="@color/black" />
 
             <RadioButton
@@ -142,7 +94,6 @@
                 android:buttonTint="@color/greenColor"
                 android:fontFamily="@font/nunito"
                 android:paddingStart="15dp"
-                android:text="10dəfə(24 saatdan bir)/2,00 AZN"
                 android:textColor="@color/black" />
 
 
@@ -176,15 +127,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_bg"
         android:fontFamily="@font/montserrat"
         android:text="@string/pay"
+        android:layout_below="@+id/checkBoxMoveForward"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:layout_below="@+id/llForChoosePrice"
         android:textSize="20sp"
-        android:layout_marginTop="-20dp" />
+        android:layout_marginTop="20dp" />
 
     <CheckBox
         android:id="@+id/checkBoxMoveForward"
@@ -194,7 +145,7 @@
         android:fontFamily="@font/nunito"
         android:paddingStart="10dp"
         android:text="@string/agreement"
-        android:layout_below="@id/nextPayEnterCardNumber"
+        android:layout_below="@id/llForChoosePrice"
         android:textColor="@color/black" />
 
 </RelativeLayout>

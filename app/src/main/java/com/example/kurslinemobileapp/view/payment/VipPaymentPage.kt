@@ -21,7 +21,6 @@ class VipPaymentPage : AppCompatActivity() {
     private var selectedPrice:Double?=null
     private var selectedButtonId:Int?=null
     private lateinit var radioButton: RadioButton
-    private lateinit var elanInfo:TextView
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,6 @@ class VipPaymentPage : AppCompatActivity() {
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
         radioButton = findViewById(R.id.radioButton4Vip)
-        elanInfo=findViewById(R.id.elanInfo)
         backtoMainFromCourseUpload.setOnClickListener {
             val intent=Intent(this@VipPaymentPage,ProductDetailActivity::class.java)
             startActivity(intent)
@@ -51,7 +49,6 @@ class VipPaymentPage : AppCompatActivity() {
         radioButton1VIP.text=radiobutton1
         radioButton2VIP.text=radiobutton2
         radioButton3VIP.text=radiobutton3
-        elanInfo.text=elaninfofromintent.toString().trim()
         val costbutton1=intent.getDoubleExtra("radiobuttonVipCost1",1.00)
         val costbutton2=intent.getDoubleExtra("radiobuttonVipCost2",2.00)
         println("getting" + costbutton2

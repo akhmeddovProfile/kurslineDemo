@@ -50,27 +50,6 @@
         app:layout_constraintTop_toBottomOf="@+id/uploadCoureText"
         tools:ignore="MissingConstraints" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/lineForCourseUpload"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadCoureText">
-
-        <TextView
-            android:id="@+id/elanInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_horizontal"
-            android:text="@string/about_vip"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayoutShowPriceDate"
@@ -80,11 +59,10 @@
         android:layout_marginBottom="1dp"
         android:background="@color/grayColor3"
         android:gravity="center"
-        android:layout_below="@+id/relativeLayout"
+        android:layout_below="@+id/lineForCourseUpload"
         app:layout_constraintBottom_toTopOf="@+id/llForChoosePrice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+        app:layout_constraintStart_toStartOf="parent">
     </RelativeLayout>
 
 
