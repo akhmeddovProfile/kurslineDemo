@@ -1,14 +1,20 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.model.AdsModel.AdModelItem
+import com.squareup.picasso.Picasso
 
-class ViewPagerImageAdapter(private val imageList: ArrayList<Int>, private val viewPager2: ViewPager2) :
+class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, private val viewPager2: ViewPager2) :
     RecyclerView.Adapter<ViewPagerImageAdapter.ImageViewHolder>() {
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,8 +28,18 @@ class ViewPagerImageAdapter(private val imageList: ArrayList<Int>, private val v
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        holder.imageView.setImageResource(imageList[position])
-        if (position == imageList.size-1){
+        val imageUrl = imageList[position].reklamPhoto
+        // Load the image into the ImageView
+        Picasso.get().load(imageUrl).into(holder.imageView)
+
+
+
+        holder.imageView.setOnClickListener {
+            val link = imageList[position].reklamLink
+            openReklamLink(holder.imageView.context, link)
+        }
+
+        if (position == imageList.size - 1) {
             viewPager2.post(runnable)
         }
     }
@@ -35,5 +51,18 @@ class ViewPagerImageAdapter(private val imageList: ArrayList<Int>, private val v
     private val runnable = Runnable {
         imageList.addAll(imageList)
         notifyDataSetChanged()
+    }
+
+    private fun openReklamLink(context: Context, link: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+
+        // Check if there's an app that can handle the intent
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            // Handle the case where no app can handle the link
+            // You can show a message or take alternative actions here
+            Toast.makeText(context, "No app can handle this link.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

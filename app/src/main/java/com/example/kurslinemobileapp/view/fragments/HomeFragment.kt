@@ -49,6 +49,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.*
+import com.example.kurslinemobileapp.api.ad.AdAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -695,18 +696,30 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private fun init() {
         viewPager2 = view.findViewById(R.id.viewPager2)
         handler = Handler(Looper.myLooper()!!)
-        imageList = ArrayList()
 
-        imageList.add(R.drawable.mainpage2)
-        imageList.add(R.drawable.yenielan2)
-        imageList.add(R.drawable.vip)
-        viewPagerImageAdapter = ViewPagerImageAdapter(imageList, viewPager2)
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(AdAPI::class.java)
 
-        viewPager2.adapter = viewPagerImageAdapter
-        viewPager2.offscreenPageLimit = 3
-        viewPager2.clipToPadding = false
-        viewPager2.clipChildren = false
-        viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        compositeDisposable.add(
+            retrofit.getAds()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ adModel ->
+                    // Handle the response from the API
+                        println("1")
+                    // Create the adapter and set it to the ViewPager2
+                    val adapter = ViewPagerImageAdapter(adModel, viewPager2)
+                    viewPager2.adapter = adapter
+                    viewPager2.offscreenPageLimit = 3
+                    viewPager2.clipToPadding = false
+                    viewPager2.clipChildren = false
+                    viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                }, { error ->
+                    // Handle the error
+                })
+        )
+
 
     }
 
