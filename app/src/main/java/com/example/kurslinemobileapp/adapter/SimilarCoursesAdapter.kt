@@ -61,7 +61,7 @@ class SimilarCoursesAdapter(private var items:ArrayList<AnnouncementSimilarCours
         val productRow = items[position]
 
         if (productRow.photos==null||productRow.photos.isEmpty()) {
-            holder.productimage.setImageResource(R.drawable.splash)
+            holder.productimage.setImageResource(R.drawable.yenielan2)
         } else {
             var photoUrl: String? = null
 

@@ -76,10 +76,15 @@ class VIPAdapter(private var items: List<Announcemenet>,
         var addedToFav = false
         val productRow = items[position]
 
-        val photoUrl = items[position].photos[0].url
-        val url = "1"
-        val photo = Photo(url)
-        Picasso.get().load(photoUrl).into(holder.productimage)
+        if (productRow.photos.isNotEmpty()) {
+            val photoUrl = productRow.photos[0].url
+            Picasso.get().load(photoUrl).into(holder.productimage)
+        } else {
+            // Handle the case when the list is empty
+            // You can set a placeholder image or display a message here
+            Picasso.get().load(R.drawable.yenielan2).into(holder.productimage)
+        }
+
 
 
         holder.modeView.text = productRow.isOnline

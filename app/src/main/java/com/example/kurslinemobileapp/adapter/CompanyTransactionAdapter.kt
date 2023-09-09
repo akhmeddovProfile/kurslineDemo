@@ -48,9 +48,14 @@ class CompanyTransactionAdapter (private val items: List<CompanyTransactionAnnou
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ProductRowHolder, position: Int) {
         val productRow =  items[position]
-        val photoUrl = productRow.photos.get(0).url
-        val url = "1"
-        Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
+        if (productRow.photos.isNotEmpty()) {
+            val photoUrl = productRow.photos[0].url
+            Picasso.get().load(photoUrl).into(holder.productimage)
+        } else {
+            // Handle the case when the list is empty
+            // You can set a placeholder image or display a message here
+            Picasso.get().load(R.drawable.yenielan2).into(holder.productimage)
+        }
         holder.modeView.text = productRow.isOnline
         holder.statusView.text = productRow.isStatus
         //holder.imageVIPView.setImageResource(productRow.vipIcon)

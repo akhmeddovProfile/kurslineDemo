@@ -49,8 +49,14 @@ class CourseBusinessProfileAdapter (var products: List<Announcement>) :
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val productRow = products[position]
-        val photoUrl = products[position].photos[0].url
-        Picasso.get().load(photoUrl).transform(ResizeTransformation(1000, 800)).into(holder.productimage)
+        if (productRow.photos.isNotEmpty()) {
+            val photoUrl = productRow.photos[0].url
+            Picasso.get().load(photoUrl).into(holder.productimage)
+        } else {
+            // Handle the case when the list is empty
+            // You can set a placeholder image or display a message here
+            Picasso.get().load(R.drawable.yenielan2).into(holder.productimage)
+        }
 
         val context: Context = holder.itemView.context
         holder.modeView.text = productRow.isOnline
