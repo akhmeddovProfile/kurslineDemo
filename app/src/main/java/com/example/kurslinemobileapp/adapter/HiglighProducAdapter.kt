@@ -2,7 +2,6 @@ package com.example.kurslinemobileapp.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -11,25 +10,24 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
-import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncement
+import com.example.kurslinemobileapp.api.announcement.higlightProduct.HiglightProductModel
+import com.example.kurslinemobileapp.api.announcement.higlightProduct.HiglightProductModelItem
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CompanyTransactionAdapter ( var items: List<CompanyTransactionAnnouncementItem>,   private val context: Context) :
-    RecyclerView.Adapter<CompanyTransactionAdapter.ProductRowHolder>() {
+class HiglighProducAdapter (var items: List<HiglightProductModelItem>, private val context: Context) :
+    RecyclerView.Adapter<HiglighProducAdapter.ProductRowHolder>() {
 
-    var fullList :kotlin.collections.List<CompanyTransactionAnnouncementItem>
-    var newList = arrayListOf<CompanyTransactionAnnouncementItem>()
+    var fullList :kotlin.collections.List<HiglightProductModelItem>
+    var newList = arrayListOf<HiglightProductModelItem>()
     init {
         fullList = items
     }
-    private var onItemClickListener: ((CompanyTransactionAnnouncementItem) -> Unit)? = null
+    private var onItemClickListener: ((HiglightProductModelItem) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (CompanyTransactionAnnouncementItem) -> Unit) {
+    fun setOnItemClickListener(listener: (HiglightProductModelItem) -> Unit) {
         onItemClickListener = listener
     }
     inner class ProductRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,7 +41,7 @@ class CompanyTransactionAdapter ( var items: List<CompanyTransactionAnnouncement
         val productDescription: TextView =
             itemView.findViewById(R.id.productDescriptionIntheMainScreen)
         val heartButton: ImageButton =itemView.findViewById(R.id.favorite_button)
-        fun bind(elan: CompanyTransactionAnnouncementItem) {
+        fun bind(elan: HiglightProductModelItem) {
             itemView.setOnClickListener {
                 onItemClickListener?.invoke(elan)
             }
@@ -86,7 +84,7 @@ class CompanyTransactionAdapter ( var items: List<CompanyTransactionAnnouncement
         } else {
             holder.imageVIPView.visibility = View.GONE
         }
-        holder.heartButton.visibility=View.INVISIBLE
+        holder.heartButton.visibility= View.INVISIBLE
         holder.bind(productRow)
 
     }
@@ -96,4 +94,38 @@ class CompanyTransactionAdapter ( var items: List<CompanyTransactionAnnouncement
         return items.size
     }
 
+    fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                newList.clear()
+                if (charSearch.isEmpty() ) {
+                    newList.addAll(fullList)
+                } else {
+//                    val resultList = ArrayList()
+                    for (row in fullList) {
+                        if (row.announcementName.lowercase(Locale.ROOT)
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
+                            newList.add(row)
+                        }
+                    }
+//                    countryFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = newList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                var newFullList :ArrayList<HiglightProductModelItem>
+                newFullList = arrayListOf()
+                newFullList.addAll(newList)
+                items = newFullList
+                notifyDataSetChanged()
+            }
+
+        }
+    }
 }

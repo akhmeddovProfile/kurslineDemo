@@ -4,6 +4,7 @@ import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateA
 import com.example.kurslinemobileapp.api.announcement.filterAnnouncements.FilterModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
+import com.example.kurslinemobileapp.api.announcement.higlightProduct.HiglightProductModel
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetAnnouncementResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.GetUserAnn
@@ -103,11 +104,11 @@ interface AnnouncementAPI {
 
 
     @GET("GetNewAnnouncments")
-    fun getNewHiglight():Observable<CompanyTransactionAnnouncement>
+    fun getNewHiglight():Observable<HiglightProductModel>
 
     @GET("GetVipAnnouncments")
-    fun getVipHiglight():Observable<CompanyTransactionAnnouncement>
+    fun getVipHiglight():Observable<HiglightProductModel>
 
     @GET("GetMostViewedAnnouncments")
-    fun getMostViewHiglight():Observable<CompanyTransactionAnnouncement>
+    fun getMostViewHiglight():Observable<HiglightProductModel>
 }

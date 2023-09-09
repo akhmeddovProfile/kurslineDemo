@@ -50,6 +50,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.amar.library.ui.StickyScrollView
 import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.ad.AdAPI
+import com.example.kurslinemobileapp.api.announcement.higlightProduct.HiglightProductModelItem
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -61,7 +62,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListener,VIPAdapter.VIPFavoriteItemClickListener,
     SearchView.OnQueryTextListener, HiglightForMainListAdapter.OnHighlightItemClickListener{
     private lateinit var view: ViewGroup
-    private lateinit var companyTransactionAdapter: CompanyTransactionAdapter
+    private lateinit var higlightProducAdapter: HiglighProducAdapter
+
     private lateinit var viewPager2: ViewPager2
     private lateinit var handler: Handler
     private lateinit var imageList: ArrayList<Int>
@@ -70,7 +72,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private lateinit var vipAdapter: VIPAdapter
     private lateinit var mainList: ArrayList<Announcemenet>
     private lateinit var mainList2: ArrayList<Announcemenet>
-    private lateinit var mainList2High: ArrayList<CompanyTransactionAnnouncementItem>
+    private lateinit var mainList2High: ArrayList<HiglightProductModelItem>
     private lateinit var vipList: ArrayList<Announcemenet>
     private val announcements: MutableList<Announcemenet> = mutableListOf()
     private lateinit var compositeDisposable: CompositeDisposable
@@ -113,7 +115,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         println("Clear: " + userId)
         mainList = ArrayList<Announcemenet>()
         mainList2 = ArrayList<Announcemenet>()
-        mainList2High = ArrayList<CompanyTransactionAnnouncementItem>()
+        mainList2High = ArrayList<HiglightProductModelItem>()
         vipList = ArrayList<Announcemenet>()
 
         recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
@@ -764,8 +766,8 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         if (::vipAdapter.isInitialized){
             vipAdapter.getFilter().filter(msg)
         }
-        if (::companyTransactionAdapter.isInitialized){
-            companyTransactionAdapter.getFilter().filter(msg)
+        if (::higlightProducAdapter.isInitialized){
+            higlightProducAdapter.getFilter().filter(msg)
         }
 
         return false
@@ -824,11 +826,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             val companyDetailItem = announcementModel
                             mainList2High.addAll(companyDetailItem)
                             println("responseElan: " + announcementModel)
-                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High,requireContext())
-                            recycler.adapter = companyTransactionAdapter
+                            higlightProducAdapter = HiglighProducAdapter(mainList2High,requireContext())
+                            recycler.adapter = higlightProducAdapter
                             recycler.isNestedScrollingEnabled = false
-                            companyTransactionAdapter.notifyDataSetChanged()
-                            companyTransactionAdapter.setOnItemClickListener {
+                            higlightProducAdapter.notifyDataSetChanged()
+                            higlightProducAdapter.setOnItemClickListener {
 
                                 val intent = Intent(activity, ProductDetailActivity::class.java)
                                 activity?.startActivity(intent)
@@ -873,11 +875,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             val companyDetailItem = announcementModel
                             mainList2High.addAll(companyDetailItem)
                             println("responseElan: " + announcementModel)
-                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High,requireContext())
-                            recycler.adapter = companyTransactionAdapter
+                            higlightProducAdapter = HiglighProducAdapter(mainList2High,requireContext())
+                            recycler.adapter = higlightProducAdapter
                             recycler.isNestedScrollingEnabled = false
-                            companyTransactionAdapter.notifyDataSetChanged()
-                            companyTransactionAdapter.setOnItemClickListener {
+                            higlightProducAdapter.notifyDataSetChanged()
+                            higlightProducAdapter.setOnItemClickListener {
 
                                 val intent = Intent(activity, ProductDetailActivity::class.java)
                                 activity?.startActivity(intent)
@@ -922,11 +924,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             mainList2High.addAll(companyDetailItem)
 
                             println("responseElan: " + announcementModel)
-                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High,requireContext())
-                            recycler.adapter = companyTransactionAdapter
+                            higlightProducAdapter = HiglighProducAdapter(mainList2High,requireContext())
+                            recycler.adapter = higlightProducAdapter
                             recycler.isNestedScrollingEnabled = false
-                            companyTransactionAdapter.notifyDataSetChanged()
-                            companyTransactionAdapter.setOnItemClickListener {
+                            higlightProducAdapter.notifyDataSetChanged()
+                            higlightProducAdapter.setOnItemClickListener {
 
                                 val intent = Intent(activity, ProductDetailActivity::class.java)
                                 activity?.startActivity(intent)
