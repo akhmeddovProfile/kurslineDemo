@@ -68,7 +68,7 @@
     <string name="http409String"> Bu nömrə və ya mail ünvanı artıq başqa istifadəçidə istifadə olunur</string>
     <string name="http409Stringupdate"> Bu nömrə, mail ünvanı və ya şirkət adı artıq başqa istifadəçidə istifadə olunur</string>
     <string name="infosWrong"> Məlumatlar doğru deyil</string>
-    <string name="registerSuccess"> Qeydiyyat uğurla tamamlandı</string>
+    <string name="registerSuccess"> Qeydiyyat uğurla tamamlandı. Email ünvanınıza təsdiq mesajı göndərildi.</string>
     <string name="registerContinue"> Hesab yaradılır...</string>
     <string name="registerString">Qeydiyyatdan keç</string>
     <string name="phoneString">Telefon nömrəsi daxil edin</string>

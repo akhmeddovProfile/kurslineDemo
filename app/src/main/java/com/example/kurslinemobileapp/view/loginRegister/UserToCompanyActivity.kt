@@ -62,6 +62,7 @@ import java.io.IOException
 
 class UserToCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var regionAdapter: RegionAdapter
     private lateinit var statusAdapter: StatusAdapter
     var compositeDisposable = CompositeDisposable()
     lateinit var companyPhotoUrl : String
@@ -78,6 +79,7 @@ class UserToCompanyActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var categoryId: String
     lateinit var statusId: String
+    lateinit var regionId:String
 
     private var job: Job? = null
     private lateinit var repository: MyRepositoryForCategory
@@ -202,10 +204,14 @@ class UserToCompanyActivity : AppCompatActivity() {
         userToCompanyStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
+
+        userToCompanyRegionEditText.setOnClickListener {
+            showBottomSheetDialogRegions()
+        }
         categoryId = ""
         statusId = ""
         companyPhotoUrl = ""
-
+        regionId = ""
 
         userToCompanyRegisterBtn.setOnClickListener{
             block = true
@@ -214,9 +220,11 @@ class UserToCompanyActivity : AppCompatActivity() {
             val photoContainer = userToCompanyPhotoEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
+            val regionContainer = regionId
             val statusContainer = userToCompanyStatusEditText.text.toString().trim()
             val categoryContainer = userToCompanyCategoryEditText.text.toString().trim()
             val aboutCompanyContainer = userToCompanyAboutEditText.text.toString().trim()
+            val region = userToCompanyRegionEditText.text.toString().trim()
 
             if(companyNameContainer.isEmpty()){
                 userToCompanyNameEditText.requestFocus()
@@ -247,9 +255,14 @@ class UserToCompanyActivity : AppCompatActivity() {
                 userToCompanyPhotoEditText.requestFocus()
                 userToCompanyPhotoEditText.error ="Company photo is not be empty"
                 block  = false
+            }
+            if(region.isEmpty()){
+                userToCompanyRegionEditText.requestFocus()
+                userToCompanyRegionEditText.error ="Region is not be empty"
+                block  = false
             }else{
                 showProgressButton(true)
-                sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, photoContainer, companyStatusContainer, authHeader, userId)
+                sendCompanydata(companyNameContainer, companyCategoryContainer, companyAddressContainer, aboutCompanyContainer, companyPhotoUrl, companyStatusContainer,regionContainer, authHeader, userId)
             }
 
 
@@ -276,6 +289,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         companyAbout: String,
         imagePath: String,
         companyStatusId:String,
+        companyRegionId:String,
         token:String,userId:Int
     ) {
         val file = File(imagePath)
@@ -291,6 +305,8 @@ class UserToCompanyActivity : AppCompatActivity() {
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyCategoryId)
         val statusId: RequestBody =
             RequestBody.create("text/plain".toMediaTypeOrNull(), companyStatusId)
+        val regionId : RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), companyRegionId)
 
 
         compositeDisposable = CompositeDisposable()
@@ -298,7 +314,7 @@ class UserToCompanyActivity : AppCompatActivity() {
             RetrofitService(Constant.BASE_URL).retrofit.create(RegisterAPI::class.java)
 
         compositeDisposable.add(
-            retrofit.userToCompanyCreate(companyame,categoryid,address,about,photo,statusId,token,userId)
+            retrofit.userToCompanyCreate(companyame,categoryid,address,about,photo,statusId,regionId,token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
@@ -473,6 +489,39 @@ class UserToCompanyActivity : AppCompatActivity() {
                 }
             }.catch { throwable ->
                 println("MyTestStatus: $throwable")
+            }.launchIn(lifecycleScope)
+
+        dialog.show()
+    }
+
+    @SuppressLint("MissingInflatedId")
+    private fun showBottomSheetDialogRegions() {
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
+
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(bottomSheetView)
+        val recyclerviewRegions: RecyclerView =
+            bottomSheetView.findViewById(R.id.recyclerViewRegions)
+        recyclerviewRegions.setHasFixedSize(true)
+        recyclerviewRegions.setLayoutManager(LinearLayoutManager(this))
+        compositeDisposable = CompositeDisposable()
+
+        job= appDatabase.regionDao().getAllRegions()
+            .onEach {reg->
+                println("2")
+                regionAdapter = RegionAdapter(reg)
+                recyclerviewRegions.adapter = regionAdapter
+                regionAdapter.setChanged(reg)
+                regionAdapter.setOnItemClickListener { region ->
+                    //   companyRegionEditText.setText(region.regionName)
+                    regionId = region.regionId.toString()
+                    userToCompanyRegionEditText.setText(region.regionName)
+                    dialog.dismiss()
+                }
+
+            }.catch {thorawable->
+                println("Error message 2: "+ thorawable.message)
             }.launchIn(lifecycleScope)
 
         dialog.show()
