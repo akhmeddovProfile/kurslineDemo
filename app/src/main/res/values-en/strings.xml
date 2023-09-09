@@ -68,7 +68,7 @@
     <string name="http409String"> This number or email address is already in use by another user</string>
     <string name="http409Stringupdate"> This number, email address or company name is already in use by another user</string>
     <string name="infosWrong"> The information is not correct</string>
-    <string name="registerSuccess"> Registration completed successfully</string>
+    <string name="registerSuccess"> Registration completed successfully. A confirmation message has been sent to your email address.</string>
     <string name="registerContinue"> Creating an account...</string>
     <string name="registerString">Register</string>
     <string name="phoneString">Enter phone number*</string>
