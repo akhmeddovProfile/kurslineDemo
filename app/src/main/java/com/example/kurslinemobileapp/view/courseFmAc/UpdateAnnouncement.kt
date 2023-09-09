@@ -266,6 +266,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             }
 
             updateCourseBtn.setOnClickListener {
+                showProgressButton(true)
                 val modifiedCourseName = if (courseNameChanged) upcourseNameEditText.text.toString() else courseName
                 val modifiedAboutCourse = if (aboutCourseChanged) upcourseAboutEditText.text.toString() else aboutrcourse
                 val modifiedTeacherName = if (teacherNameChanged) upcourseTeacherEditText.text.toString() else teachersname
@@ -519,8 +520,10 @@ class UpdateAnnouncement : AppCompatActivity() {
                         val intent:Intent
                         intent=Intent(this@UpdateAnnouncement,ProductDetailActivity::class.java)
                         startActivity(intent)
+                        finish()
                     },
                     {
+                        showProgressButton(false)
                         println("Success: "+ it)
                     }
                 )
