@@ -70,7 +70,6 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private lateinit var vipAdapter: VIPAdapter
     private lateinit var mainList: ArrayList<Announcemenet>
     private lateinit var mainList2: ArrayList<Announcemenet>
-    private lateinit var mainListHigh: ArrayList<CompanyTransactionAnnouncementItem>
     private lateinit var mainList2High: ArrayList<CompanyTransactionAnnouncementItem>
     private lateinit var vipList: ArrayList<Announcemenet>
     private val announcements: MutableList<Announcemenet> = mutableListOf()
@@ -114,7 +113,6 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         println("Clear: " + userId)
         mainList = ArrayList<Announcemenet>()
         mainList2 = ArrayList<Announcemenet>()
-        mainListHigh = ArrayList<CompanyTransactionAnnouncementItem>()
         mainList2High = ArrayList<CompanyTransactionAnnouncementItem>()
         vipList = ArrayList<Announcemenet>()
 
@@ -767,6 +765,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
         when (item.highlightImage) {
             R.drawable.mainpage2 -> {
+                mainList2High.clear()
                 val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
                 recycler.visibility = View.VISIBLE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
@@ -789,13 +788,10 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             println("most view")
                             lottie.visibility = View.GONE
                             lottie.pauseAnimation()
-                            mainListHigh.clear()
-                            mainList2High.clear()
                             val companyDetailItem = announcementModel
-                            mainListHigh.addAll(companyDetailItem)
                             mainList2High.addAll(companyDetailItem)
                             println("responseElan: " + announcementModel)
-                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
+                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High,requireContext())
                             recycler.adapter = companyTransactionAdapter
                             recycler.isNestedScrollingEnabled = false
                             companyTransactionAdapter.notifyDataSetChanged()
@@ -817,6 +813,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 )
             }
             R.drawable.yenielan2 -> {
+                mainList2High.clear()
                 val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
                 recycler.visibility = View.VISIBLE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
@@ -839,14 +836,10 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             println("new course")
                             lottie.visibility = View.GONE
                             lottie.pauseAnimation()
-                            mainListHigh.clear()
-                            mainList2High.clear()
                             val companyDetailItem = announcementModel
-                            mainListHigh.addAll(companyDetailItem)
                             mainList2High.addAll(companyDetailItem)
-
                             println("responseElan: " + announcementModel)
-                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
+                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High,requireContext())
                             recycler.adapter = companyTransactionAdapter
                             recycler.isNestedScrollingEnabled = false
                             companyTransactionAdapter.notifyDataSetChanged()
@@ -867,6 +860,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 )
             }
             R.drawable.vip -> {
+                mainList2High.clear()
                 val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
                 recycler.visibility = View.VISIBLE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
@@ -889,14 +883,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             lottie.pauseAnimation()
                             // Handle the response from the API
                             println("vip course")
-                            mainListHigh.clear()
-                            mainList2High.clear()
                             val companyDetailItem = announcementModel
-                            mainListHigh.addAll(companyDetailItem)
                             mainList2High.addAll(companyDetailItem)
 
                             println("responseElan: " + announcementModel)
-                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
+                            companyTransactionAdapter = CompanyTransactionAdapter(mainList2High,requireContext())
                             recycler.adapter = companyTransactionAdapter
                             recycler.isNestedScrollingEnabled = false
                             companyTransactionAdapter.notifyDataSetChanged()

@@ -222,7 +222,7 @@ getDataFromServer(id,authHeader)
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             println("responseElan: " + response)
-            companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
+            companyTransactionAdapter = CompanyTransactionAdapter(mainList2,requireContext())
             recycler.adapter = companyTransactionAdapter
             recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
@@ -278,7 +278,7 @@ getDataFromServer(id,authHeader)
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             println("responseElan: " + response)
-            companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
+            companyTransactionAdapter = CompanyTransactionAdapter(mainList2,requireContext())
             recycler.adapter = companyTransactionAdapter
             recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
@@ -333,7 +333,7 @@ getDataFromServer(id,authHeader)
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             println("responseElan: " + response)
-            companyTransactionAdapter = CompanyTransactionAdapter(mainList2)
+            companyTransactionAdapter = CompanyTransactionAdapter(mainList2,requireContext())
             recycler.adapter = companyTransactionAdapter
             recycler.isNestedScrollingEnabled = false
             companyTransactionAdapter.notifyDataSetChanged()
