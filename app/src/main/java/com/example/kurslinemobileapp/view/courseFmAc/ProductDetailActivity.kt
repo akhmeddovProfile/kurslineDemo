@@ -366,6 +366,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val recyclerViewSimilarCourse:RecyclerView=findViewById(R.id.recyclerviewforSameCourse)
         similarProductAdapter=SimilarCoursesAdapter(similarcourseList,this@ProductDetailActivity,this@ProductDetailActivity)
         recyclerViewSimilarCourse.adapter=similarProductAdapter
+        recyclerViewSimilarCourse.isNestedScrollingEnabled = false
         recyclerViewSimilarCourse.layoutManager=GridLayoutManager(this,2)
         similarProductAdapter.notifyDataSetChanged()
         similarProductAdapter.setOnItemClickListener {
