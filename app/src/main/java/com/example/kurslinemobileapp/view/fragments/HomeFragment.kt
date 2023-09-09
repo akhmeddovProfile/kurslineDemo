@@ -129,6 +129,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         vipRv.layoutManager = GridLayoutManager(requireContext(), 2)
         //getProducts()
 
+
         val imageWithTextListJson = sharedPreferences.getString("imageWithTextList", null)
 
 // Check if the JSON string is not null
@@ -145,6 +146,37 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             // Now, you have the imageWithTextList in this activity
         }
+
+        compositeDisposable = CompositeDisposable()
+        val retrofit =
+            RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getHighlight().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ highlightModel ->
+                    // The data has been successfully fetched from the server
+                    // Now, you can update your imageWithTextList
+                    val imageWithTextList = listOf(
+                        Highlight(R.drawable.mainpage2,"Ən çox baxılanlar ${highlightModel[0].mostView}" ),
+                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} yeni kurs"),
+                        Highlight(R.drawable.vip, "${highlightModel[0].vip} VIP kurs")
+                    )
+                    val recylerviewForHighlight = view.findViewById<RecyclerView>(R.id.topProductsRV)
+                    val adapter = HiglightForMainListAdapter(imageWithTextList,this@HomeFragment)
+                    recylerviewForHighlight.adapter = adapter
+                    recylerviewForHighlight.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+// Save the JSON string in SharedPreferences
+
+                    // Use the updated imageWithTextList for your UI
+                }, { error ->
+                    // Handle the error if the request fails
+                })
+        )
+
+
+
 
      //   viewModel.loadMoreData()
         val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
@@ -213,7 +245,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 /*setupScrollListener(nestedScrollView)*/
                 /* viewModel.loadMoreData()
                  handleResponsePagination()*/
-                setscroollListenerGuest()
+                getProductWhichIncludeFavorite(userId)
                 // handleResponsePagination()
                 //getProductsAndSetupScrollListener(0)
             } else {
@@ -775,6 +807,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 view.AnnouncementTextMain.visibility = View.GONE
                 view.line4Main.visibility = View.GONE
                 view.allCoursesRV.visibility = View.GONE
+                view.filteredCoursesRV.visibility = View.GONE
                 val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
                 lottie.visibility = View.VISIBLE
                 lottie.playAnimation()
@@ -823,6 +856,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 view.AnnouncementTextMain.visibility = View.GONE
                 view.line4Main.visibility = View.GONE
                 view.allCoursesRV.visibility = View.GONE
+                view.filteredCoursesRV.visibility = View.GONE
                 val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
                 lottie.visibility = View.VISIBLE
                 lottie.playAnimation()
@@ -870,6 +904,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 view.AnnouncementTextMain.visibility = View.GONE
                 view.line4Main.visibility = View.GONE
                 view.allCoursesRV.visibility = View.GONE
+                view.filteredCoursesRV.visibility = View.GONE
                 val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
                 lottie.visibility = View.VISIBLE
                 lottie.playAnimation()
