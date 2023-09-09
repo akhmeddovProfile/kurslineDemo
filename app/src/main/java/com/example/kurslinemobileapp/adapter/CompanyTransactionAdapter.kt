@@ -5,18 +5,28 @@ import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncement
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
 import com.squareup.picasso.Picasso
+import java.util.*
+import kotlin.collections.ArrayList
 
-class CompanyTransactionAdapter (private val items: List<CompanyTransactionAnnouncementItem>) :
+class CompanyTransactionAdapter ( var items: List<CompanyTransactionAnnouncementItem>) :
     RecyclerView.Adapter<CompanyTransactionAdapter.ProductRowHolder>() {
+
+    var fullList :kotlin.collections.List<CompanyTransactionAnnouncementItem>
+    var newList = arrayListOf<CompanyTransactionAnnouncementItem>()
+    init {
+        fullList = items
+    }
     private var onItemClickListener: ((CompanyTransactionAnnouncementItem) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (CompanyTransactionAnnouncementItem) -> Unit) {
@@ -75,5 +85,40 @@ class CompanyTransactionAdapter (private val items: List<CompanyTransactionAnnou
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                newList.clear()
+                if (charSearch.isEmpty() ) {
+                    newList.addAll(fullList)
+                } else {
+//                    val resultList = ArrayList()
+                    for (row in fullList) {
+                        if (row.announcementName.lowercase(Locale.ROOT)
+                                .contains(charSearch.lowercase(Locale.ROOT))
+                        ) {
+                            newList.add(row)
+                        }
+                    }
+//                    countryFilterList = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = newList
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                var newFullList :ArrayList<CompanyTransactionAnnouncementItem>
+                newFullList = arrayListOf()
+                newFullList.addAll(newList)
+                items = newFullList
+                notifyDataSetChanged()
+            }
+
+        }
     }
 }

@@ -734,6 +734,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         if (::vipAdapter.isInitialized){
             vipAdapter.getFilter().filter(msg)
         }
+        if (::companyTransactionAdapter.isInitialized){
+            companyTransactionAdapter.getFilter().filter(msg)
+        }
 
         return false
     }
@@ -764,7 +767,18 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
         when (item.highlightImage) {
             R.drawable.mainpage2 -> {
-
+                val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+                recycler.visibility = View.VISIBLE
+                val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                recycler1.visibility = View.GONE
+                view.vipAnnouncementTextMain.text = "Most Viewed"
+                view.line3Main.visibility = View.GONE
+                view.AnnouncementTextMain.visibility = View.GONE
+                view.line4Main.visibility = View.GONE
+                view.allCoursesRV.visibility = View.GONE
+                val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+                lottie.visibility = View.VISIBLE
+                lottie.playAnimation()
                 // User clicked on "Ən çox baxılanlar" item
                 compositeDisposable.add(
                     retrofit.getMostViewHiglight()
@@ -773,21 +787,13 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                         .subscribe({ announcementModel ->
                             // Handle the response from the API
                             println("most view")
-
+                            lottie.visibility = View.GONE
+                            lottie.pauseAnimation()
                             mainListHigh.clear()
                             mainList2High.clear()
                             val companyDetailItem = announcementModel
                             mainListHigh.addAll(companyDetailItem)
                             mainList2High.addAll(companyDetailItem)
-                            val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
-                            recycler.visibility = View.VISIBLE
-                            val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
-                            recycler1.visibility = View.GONE
-                            view.vipAnnouncementTextMain.text = "Most Viewed"
-                            view.line3Main.visibility = View.GONE
-                            view.AnnouncementTextMain.visibility = View.GONE
-                            view.line4Main.visibility = View.GONE
-                            view.allCoursesRV.visibility = View.GONE
                             println("responseElan: " + announcementModel)
                             companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
                             recycler.adapter = companyTransactionAdapter
@@ -811,6 +817,18 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 )
             }
             R.drawable.yenielan2 -> {
+                val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+                recycler.visibility = View.VISIBLE
+                val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                recycler1.visibility = View.GONE
+                view.vipAnnouncementTextMain.text = "New Course"
+                view.line3Main.visibility = View.GONE
+                view.AnnouncementTextMain.visibility = View.GONE
+                view.line4Main.visibility = View.GONE
+                view.allCoursesRV.visibility = View.GONE
+                val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+                lottie.visibility = View.VISIBLE
+                lottie.playAnimation()
                 // User clicked on "${highlightModel[0].newCourse} yeni kurs" item
                 compositeDisposable.add(
                     retrofit.getNewHiglight()
@@ -819,21 +837,14 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                         .subscribe({ announcementModel ->
                             // Handle the response from the API
                             println("new course")
-
+                            lottie.visibility = View.GONE
+                            lottie.pauseAnimation()
                             mainListHigh.clear()
                             mainList2High.clear()
                             val companyDetailItem = announcementModel
                             mainListHigh.addAll(companyDetailItem)
                             mainList2High.addAll(companyDetailItem)
-                            val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
-                            recycler.visibility = View.VISIBLE
-                            val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
-                            recycler1.visibility = View.GONE
-                            view.vipAnnouncementTextMain.text = "New Course"
-                            view.line3Main.visibility = View.GONE
-                            view.AnnouncementTextMain.visibility = View.GONE
-                            view.line4Main.visibility = View.GONE
-                            view.allCoursesRV.visibility = View.GONE
+
                             println("responseElan: " + announcementModel)
                             companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
                             recycler.adapter = companyTransactionAdapter
@@ -856,12 +867,26 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 )
             }
             R.drawable.vip -> {
+                val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+                recycler.visibility = View.VISIBLE
+                val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                recycler1.visibility = View.GONE
+                view.vipAnnouncementTextMain.text = "VIP Courses"
+                view.line3Main.visibility = View.GONE
+                view.AnnouncementTextMain.visibility = View.GONE
+                view.line4Main.visibility = View.GONE
+                view.allCoursesRV.visibility = View.GONE
+                val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+                lottie.visibility = View.VISIBLE
+                lottie.playAnimation()
                 // User clicked on "${highlightModel[0].vip} VIP kurs" item
                 compositeDisposable.add(
                     retrofit.getVipHiglight()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ announcementModel ->
+                            lottie.visibility = View.GONE
+                            lottie.pauseAnimation()
                             // Handle the response from the API
                             println("vip course")
                             mainListHigh.clear()
@@ -869,15 +894,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             val companyDetailItem = announcementModel
                             mainListHigh.addAll(companyDetailItem)
                             mainList2High.addAll(companyDetailItem)
-                            val recycler = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
-                            recycler.visibility = View.VISIBLE
-                            val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
-                            recycler1.visibility = View.GONE
-                            view.vipAnnouncementTextMain.text = "VIP Courses"
-                            view.line3Main.visibility = View.GONE
-                            view.AnnouncementTextMain.visibility = View.GONE
-                            view.line4Main.visibility = View.GONE
-                            view.allCoursesRV.visibility = View.GONE
+
                             println("responseElan: " + announcementModel)
                             companyTransactionAdapter = CompanyTransactionAdapter(mainList2High)
                             recycler.adapter = companyTransactionAdapter
