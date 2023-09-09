@@ -806,7 +806,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             R.drawable.mainpage2 -> {
                 mainList2High.clear()
 
-                highRv.visibility = View.VISIBLE
+                highRv.visibility = View.GONE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
                 view.vipAnnouncementTextMain.text = "Most Viewed"
@@ -826,6 +826,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                         .subscribe({ announcementModel ->
                             // Handle the response from the API
                             println("most view")
+                            highRv.visibility = View.VISIBLE
                             lottie.visibility = View.GONE
                             lottie.pauseAnimation()
                             val companyDetailItem = announcementModel
@@ -855,7 +856,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             R.drawable.yenielan2 -> {
                 mainList2High.clear()
 
-                highRv.visibility = View.VISIBLE
+                highRv.visibility = View.GONE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
                 view.vipAnnouncementTextMain.text = "New Course"
@@ -875,6 +876,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                         .subscribe({ announcementModel ->
                             // Handle the response from the API
                             println("new course")
+                            highRv.visibility = View.VISIBLE
                             lottie.visibility = View.GONE
                             lottie.pauseAnimation()
                             val companyDetailItem = announcementModel
@@ -903,7 +905,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             R.drawable.vip -> {
                 mainList2High.clear()
 
-                highRv.visibility = View.VISIBLE
+                highRv.visibility = View.GONE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
                 view.vipAnnouncementTextMain.text = "VIP Courses"
@@ -921,6 +923,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ announcementModel ->
+                            highRv.visibility = View.VISIBLE
                             lottie.visibility = View.GONE
                             lottie.pauseAnimation()
                             // Handle the response from the API
