@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.adapter
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -36,8 +37,13 @@ class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, priva
 
         holder.imageView.setOnClickListener {
             val link = imageList[position].reklamLink
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-            context.startActivity(intent)
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                context.startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                // Handle the exception, e.g., show an error message
+                Toast.makeText(context, "No app found to handle this URL", Toast.LENGTH_SHORT).show()
+            }
         }
 
         if (position == imageList.size - 1) {
