@@ -14,7 +14,7 @@ import com.example.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.AdsModel.AdModelItem
 import com.squareup.picasso.Picasso
 
-class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, private val viewPager2: ViewPager2) :
+class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, private val viewPager2: ViewPager2,private val context: Context) :
     RecyclerView.Adapter<ViewPagerImageAdapter.ImageViewHolder>() {
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,7 +36,8 @@ class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, priva
 
         holder.imageView.setOnClickListener {
             val link = imageList[position].reklamLink
-            openReklamLink(holder.imageView.context, link)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+            context.startActivity(intent)
         }
 
         if (position == imageList.size - 1) {
@@ -59,6 +60,7 @@ class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, priva
         // Check if there's an app that can handle the intent
         if (intent.resolveActivity(context.packageManager) != null) {
             context.startActivity(intent)
+            intent.setPackage(intent.toString())
         } else {
             // Handle the case where no app can handle the link
             // You can show a message or take alternative actions here

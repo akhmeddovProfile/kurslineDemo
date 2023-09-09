@@ -746,7 +746,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                     // Handle the response from the API
                         println("1")
                     // Create the adapter and set it to the ViewPager2
-                    val adapter = ViewPagerImageAdapter(adModel, viewPager2)
+                    val adapter = ViewPagerImageAdapter(adModel, viewPager2,requireContext())
                     viewPager2.adapter = adapter
                     viewPager2.offscreenPageLimit = 3
                     viewPager2.clipToPadding = false
