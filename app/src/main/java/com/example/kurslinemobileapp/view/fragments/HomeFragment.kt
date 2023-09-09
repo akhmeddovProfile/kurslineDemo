@@ -85,6 +85,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private var currentOffset = 0
     lateinit var vipRv: RecyclerView
     lateinit var recycler: RecyclerView
+    lateinit var highRv: RecyclerView
     private val PAGE_SIZE = 5
     private var isLoading = false
 
@@ -122,6 +123,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         linearLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler.visibility = View.GONE
+
+        highRv = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+        highRv.visibility = View.GONE
         vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
         vipRv.visibility = View.GONE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
@@ -129,6 +133,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         lottie.playAnimation()
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         vipRv.layoutManager = GridLayoutManager(requireContext(), 2)
+        highRv.layoutManager = GridLayoutManager(requireContext(),2)
         //getProducts()
 
 
@@ -800,8 +805,8 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         when (item.highlightImage) {
             R.drawable.mainpage2 -> {
                 mainList2High.clear()
-                val recyclerHigh = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
-                recyclerHigh.visibility = View.VISIBLE
+
+                highRv.visibility = View.VISIBLE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
                 view.vipAnnouncementTextMain.text = "Most Viewed"
@@ -827,9 +832,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             mainList2High.addAll(companyDetailItem)
                             println("responseElan: " + announcementModel)
                             higlightProducAdapter = HiglighProducAdapter(mainList2High,requireContext())
-                            recyclerHigh.adapter = higlightProducAdapter
-                            recyclerHigh.isNestedScrollingEnabled = false
-                            higlightProducAdapter.notifyDataSetChanged()
+                            highRv.adapter = higlightProducAdapter
+                            highRv.isNestedScrollingEnabled = false
+                            higlightProducAdapter.notifySetChanged(mainList2High)
                             higlightProducAdapter.setOnItemClickListener {
 
                                 val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -849,8 +854,8 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             }
             R.drawable.yenielan2 -> {
                 mainList2High.clear()
-                val recyclerHigh = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
-                recyclerHigh.visibility = View.VISIBLE
+
+                highRv.visibility = View.VISIBLE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
                 view.vipAnnouncementTextMain.text = "New Course"
@@ -876,9 +881,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                             mainList2High.addAll(companyDetailItem)
                             println("responseElan: " + announcementModel)
                             higlightProducAdapter = HiglighProducAdapter(mainList2High,requireContext())
-                            recyclerHigh.adapter = higlightProducAdapter
-                            recyclerHigh.isNestedScrollingEnabled = false
-                            higlightProducAdapter.notifyDataSetChanged()
+                            highRv.adapter = higlightProducAdapter
+                            highRv.isNestedScrollingEnabled = false
+                            higlightProducAdapter.notifySetChanged(mainList2High)
                             higlightProducAdapter.setOnItemClickListener {
 
                                 val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -897,8 +902,8 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             }
             R.drawable.vip -> {
                 mainList2High.clear()
-                val recyclerHigh = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
-                recyclerHigh.visibility = View.VISIBLE
+
+                highRv.visibility = View.VISIBLE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
                 view.vipAnnouncementTextMain.text = "VIP Courses"
@@ -925,9 +930,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
                             println("responseElan: " + announcementModel)
                             higlightProducAdapter = HiglighProducAdapter(mainList2High,requireContext())
-                            recyclerHigh.adapter = higlightProducAdapter
-                            recyclerHigh.isNestedScrollingEnabled = false
-                            higlightProducAdapter.notifyDataSetChanged()
+                            highRv.adapter = higlightProducAdapter
+                            highRv.isNestedScrollingEnabled = false
+                            higlightProducAdapter.notifySetChanged(mainList2High)
                             higlightProducAdapter.setOnItemClickListener {
 
                                 val intent = Intent(activity, ProductDetailActivity::class.java)

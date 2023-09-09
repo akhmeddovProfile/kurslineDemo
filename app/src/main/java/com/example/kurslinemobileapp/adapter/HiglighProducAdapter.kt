@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kurslinemobileapp.R
+import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.higlightProduct.HiglightProductModel
 import com.example.kurslinemobileapp.api.announcement.higlightProduct.HiglightProductModelItem
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncementItem
@@ -89,6 +90,10 @@ class HiglighProducAdapter (var items: List<HiglightProductModelItem>, private v
 
     }
 
+    fun notifySetChanged(productList: MutableList<HiglightProductModelItem>){
+        items = productList
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         return items.size
