@@ -43,6 +43,7 @@ interface RegisterAPI {
         @Part("CompanyAbout") companyAbout: RequestBody,
         @Part Photo: MultipartBody.Part,
         @Part("CompanyStatusId") companyStatusId: RequestBody,
+        @Part("CompanyRegionId") companyRegionId: RequestBody,
         @Header("Authorization") token: String, @Path("userId") userId: Int
     ):Observable<UserToCompanyResponse>
 
