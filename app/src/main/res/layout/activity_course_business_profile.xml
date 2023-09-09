@@ -122,6 +122,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:text="Elanlar: 456"
+                android:visibility="gone"
                 android:textSize="16sp"
                 android:layout_marginTop="15dp"
                 android:layout_below="@id/courseBusinessLocationLl" />
@@ -132,6 +133,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/nunito"
                 android:text="Baxış sayı: 10000"
+                android:visibility="gone"
                 android:textSize="16sp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"

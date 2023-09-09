@@ -113,7 +113,7 @@ class CourseBusinessProfile : AppCompatActivity() {
             courseBusinessLocation.text = companyAddress
             businessCategoryText.text = category
 
-            if (companyImage == null) {
+            if (companyImage == null || companyImage.equals("")) {
                 courseBusinessPhoto.setImageResource(R.drawable.setpp)
             } else {
                 Picasso.get().load(companyImage).transform(ResizeTransformation(300, 300)).into(courseBusinessPhoto)
