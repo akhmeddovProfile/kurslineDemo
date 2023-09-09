@@ -81,21 +81,22 @@ interface AnnouncementAPI {
         @Body createAnnouncementRequest: CreateAnnouncementRequest
     ):Observable<UpdateAnnouncementResponse>
 
+    @Multipart
     @POST("PutAnnouncement/{userId}/{announcementId}")
     fun updateAnnouncementFormData(
-        @Header("Authorization")token:String,
-        @Path("userId")userId:Int,
-        @Path("announcementId")announcementId:Int,
         @Part("AnnouncementName")AnnouncementName:RequestBody,
         @Part("AnnouncementDesc")AnnouncementDesc:RequestBody,
         @Part("AnnouncementPrice")AnnouncementPrice:RequestBody,
         @Part("AnnouncementAddress")AnnouncementAddress:RequestBody,
         @Part("AnnouncementRegionId")AnnouncementRegionId:RequestBody,
         @Part("AnnouncementSubCategoryId")AnnouncementSubCategoryId:RequestBody,
-        @Part Img:MultipartBody.Part,
+        @Part Img:List<MultipartBody.Part>,
         @Part("Teacher")Teacher:RequestBody,
         @Part("AnnouncementIsOnlineId")AnnouncementIsOnlineId:RequestBody,
-        @Part("AnnouncementCategoryId")AnnouncementCategoryId:RequestBody
+        @Part("AnnouncementCategoryId")AnnouncementCategoryId:RequestBody,
+        @Header("Authorization")token:String,
+        @Path("userId")userId:Int,
+        @Path("announcementId")announcementId:Int
     ):Observable<UpdateAnnouncementResponse>
 
     @GET("GetHighLights")

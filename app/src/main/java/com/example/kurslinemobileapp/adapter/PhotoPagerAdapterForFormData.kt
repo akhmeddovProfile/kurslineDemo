@@ -29,7 +29,7 @@ class PhotoPagerAdapterForFormData (var photoList: List<ViewPagerFormData>) : Re
             holder.imageView.setImageBitmap(photo.compressedBitmap)
         } else if (photo.imagePath != null) {
             // Load the image from the imagePath
-            loadImageFromPath(holder.imageView, photo.imagePath)
+            loadImageFromPath(holder.imageView, photo.imagePath.toString() )
         } else {
             // Set a default image or handle the case where both imagePath and compressedBitmap are null.
             holder.imageView.setImageResource(R.drawable.kurslinelogo)

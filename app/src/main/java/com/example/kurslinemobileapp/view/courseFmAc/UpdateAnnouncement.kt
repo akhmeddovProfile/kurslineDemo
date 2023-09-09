@@ -92,6 +92,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
+    val imagesPaths = ArrayList<String>()
     private var block: Boolean = true
     private var job: Job? = null
 
@@ -104,6 +105,16 @@ class UpdateAnnouncement : AppCompatActivity() {
         private const val REQUEST_CODE_PICK_IMAGES = 102
     }
 
+    var courseName:String?=null
+    var aboutrcourse:String?=null
+    var teachersnames:String?=null
+    var announcementPrice:Double?=0.0
+    var announcementAdress:String?=null
+    lateinit var announcementModeId:String
+    lateinit var announcementCategoryId:String
+    lateinit var announcementSubcategoryId:String
+    lateinit var announcementRegionID:String
+
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
 
@@ -111,10 +122,10 @@ class UpdateAnnouncement : AppCompatActivity() {
     var imageData = mutableListOf<String>()
     var images = mutableListOf<Img>()
     var teachersname= mutableListOf<String>()
-    var allcategoriesId:Int=0
-    var categoryId: Int =0
-    var modeId: Int = 0
-    var regionId:Int = 0
+    lateinit var allcategoriesId:String
+    lateinit var categoryId:String
+    lateinit var modeId: String
+    lateinit var regionId:String
 
     var courseNameChanged = false
     var aboutCourseChanged = false
@@ -125,6 +136,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     var categoryChanged=false
     var subCategoryChanged=false
     var chooseRegionChaged=false
+
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
@@ -154,7 +166,10 @@ class UpdateAnnouncement : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_announcement)
 
-
+        modeId=""
+        allcategoriesId=""
+        categoryId=""
+        regionId=""
         //selectedPhotos= ArrayList<SelectionPhotoShowOnViewPager>()
         images= mutableListOf()
 
@@ -206,7 +221,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-        upcourseModeEditText.addTextChangedListener(object : TextWatcher {
+     /*   upcourseModeEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 modeChanged = true
@@ -233,7 +248,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 chooseRegionChaged = true
             }
             override fun afterTextChanged(s: Editable?) {}
-        })
+        })*/
 
         addupCoursePhotos.setOnClickListener {
             if(!checkPermission()){
@@ -248,6 +263,48 @@ class UpdateAnnouncement : AppCompatActivity() {
             }
             else{
                 openGalleryMultipart()
+            }
+
+            updateCourseBtn.setOnClickListener {
+                val modifiedCourseName = if (courseNameChanged) upcourseNameEditText.text.toString() else courseName
+                val modifiedAboutCourse = if (aboutCourseChanged) upcourseAboutEditText.text.toString() else aboutrcourse
+                val modifiedTeacherName = if (teacherNameChanged) upcourseTeacherEditText.text.toString() else teachersname
+                val modifiedPrice=if (coursePriceChanged)upcoursePriceEditText.text.toString().toDouble() else announcementPrice
+                val modifiedAddress=if (courseAddressChanged)upcourseAddressEditText.text.toString()else announcementAdress
+                val modifiedmodeId=if(modeChanged)modeId else announcementModeId
+                val modifiedCategoryId=if (categoryChanged)allcategoriesId else announcementCategoryId
+                val modifiedSubCategory=if (subCategoryChanged)categoryId else announcementSubcategoryId
+                val modifiefRegion=if (chooseRegionChaged)regionId else announcementRegionID
+              /*  for (imagepath in selectedImages){
+                    images= imagepath.imagePath
+
+                }*/
+
+                val modeid=if(modeChanged){
+                    modeId
+                }
+                else{
+                    announcementModeId
+                }
+
+                println("modifiedmodeId2: "+modifiedmodeId)
+                println("modeid: "+modeid)
+
+                sendUpdateAnnouncement(
+                    modifiedCourseName!!,
+                    modifiedAboutCourse!!,
+                    modifiedTeacherName.toString(),
+                    modifiedPrice!!,
+                    modifiedAddress!!,
+                    modifiedmodeId!!,
+                    modifiedCategoryId!!,
+                    modifiedSubCategory!!,
+                    modifiefRegion!!,
+                    imagesPaths,
+                    authHeader,
+                    userId,
+                    annId
+                )
             }
         }
 
@@ -267,6 +324,9 @@ class UpdateAnnouncement : AppCompatActivity() {
         upcourseModeEditText.setOnClickListener {
             showBottomSheetDialogMode()
 
+        }
+        upcourseAllCategoryEditText.setOnClickListener {
+            showBottomSheetDialogAllCatogories()
         }
         upcourseRegionEditText.setOnClickListener{
             showBottomSheetDialogRegions()
@@ -325,19 +385,19 @@ class UpdateAnnouncement : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun handleresponseforgetannUpdate(response:GetAnnouncementResponse){
         println("Response: "+response)
-        val courseName=response.announcementName
-        val aboutrcourse=response.announcementName
-        val teachersname=response.teacher.toString()
-        val announcementPrice=response.announcementPrice.toString()
-        val announcementAdress=response.announcementAddress
-        val announcementModeId=response.isOnline
-        val announcementCategoryId=response.announcementCategoryId
-        val announcementSubcategoryId=response.announcementSubCategoryId
-        val announcementRegionID=response.announcementRegionId
+         courseName=response.announcementName
+         aboutrcourse=response.announcementName
+        teachersnames=response.teacher.toString()
+         announcementPrice=response.announcementPrice.toDouble()
+         announcementAdress=response.announcementAddress
+         announcementModeId=response.isOnline.toString()
+         announcementCategoryId=response.announcementCategoryId.toString()
+         announcementSubcategoryId=response.announcementSubCategoryId.toString()
+         announcementRegionID=response.announcementRegionId.toString()
         upcourseNameEditText.setText(courseName)
         upcourseAboutEditText.setText(aboutrcourse)
-        upcourseTeacherEditText.setText(teachersname)
-        upcoursePriceEditText.setText(announcementPrice)
+        upcourseTeacherEditText.setText(teachersnames)
+        upcoursePriceEditText.setText(announcementPrice.toString())
         upcourseAddressEditText.setText(announcementAdress)
 /*        upcourseAllCategoryEditText.setText(announcementCategory)
         courseSubCategoryEditText.setText(announcementSubcategory)*/
@@ -345,9 +405,10 @@ class UpdateAnnouncement : AppCompatActivity() {
         var modeName=""
         var categoryname=""
         var subcategoryName=""
+        println("announcementModeId: "+announcementModeId)
         getRegionList()!!.subscribe({
             announcementRegionName=it.regions.find{
-                it.regionId==announcementRegionID
+                it.regionId==announcementRegionID.toInt()
             }?.regionName.toString()
             println(announcementRegionName)
             upcourseRegionEditText.setText(announcementRegionName.trim().toString())
@@ -359,7 +420,7 @@ class UpdateAnnouncement : AppCompatActivity() {
 
         getStatusList()!!.subscribe({
             modeName=it.isOnlines.find {
-                it.isOnlineId==announcementModeId
+                it.isOnlineId==announcementModeId.toInt()
             }?.isOnlineName.toString()
             upcourseModeEditText.setText(modeName.trim())
         },{throwable->
@@ -370,19 +431,105 @@ class UpdateAnnouncement : AppCompatActivity() {
         }
 
         getCategoryList()!!.subscribe({response->
-            val foundCategory = response.categories.find { it.categoryId == announcementCategoryId }
+            val foundCategory = response.categories.find { it.categoryId == announcementCategoryId.toInt() }
             categoryname = foundCategory?.categoryName ?: ""
             upcourseAllCategoryEditText.setText(categoryname)
             // Now, find the subcategory within the found category
-            val foundSubCategory = foundCategory?.subCategories?.find { it.subCategoryCategoryId == announcementSubcategoryId }
+            val foundSubCategory = foundCategory?.subCategories?.find { it.subCategoryCategoryId == announcementSubcategoryId.toInt() }
             subcategoryName = foundSubCategory?.subCategoryName ?: ""
             courseSubCategoryEditText.setText(subcategoryName)
+
+            // Add logging statements to check values
+            println("categoryname: $categoryname")
+            println("subcategoryName: $subcategoryName")
+        }, { throwable ->
+            println("Error getting categories: $throwable")
         })
 
     }
 
+    private fun sendUpdateAnnouncement(
+        nameofCourse:String,
+        courseDESC:String,
+        teachersname:String,
+        coursePrice:Double,
+        courseAddress:String,
+        courseMode:String,
+        courseCategory:String,
+        courseSubCategory:String,
+        courseRegion:String,
+        imagePath:List<String>?,
+        token: String,
+        userId:Int,
+        announcementId: Int)
+    {
+        val photos = ArrayList<MultipartBody.Part>()
 
-    private fun sendUpdateAnn(token: String,userId:Int,announcementId: Int,createAnnouncementRequest: CreateAnnouncementRequest){
+        if (imagePath != null) {
+            for (imagePath in imagePath) {
+                val file = File(imagePath)
+                val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                val photoPart=MultipartBody.Part.createFormData("Photos[]", file.name, reqFile)
+                    photos.add(photoPart)
+            }
+        }
+
+        val nameofUpCourse: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), nameofCourse)
+        val nameofUpDESC: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), courseDESC)
+        val nameofUpTeachers: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), teachersname)
+        val priceUp: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), coursePrice.toString())
+        val nameofUpAddress: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), courseAddress)
+        val modeofUpCourse: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), courseMode)
+        val cateegoryofUpCourse: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), courseCategory)
+        val subcateegoryofUpCourse: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), courseSubCategory)
+        val regionofUpCourse: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), courseRegion)
+
+        compositeDisposable= CompositeDisposable()
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+        compositeDisposable.add(
+            retrofit.updateAnnouncementFormData(
+                nameofUpCourse,
+                nameofUpDESC,
+                priceUp,
+                nameofUpAddress,
+                regionofUpCourse,
+                subcateegoryofUpCourse,
+                photos,
+                nameofUpTeachers,
+                modeofUpCourse,
+                cateegoryofUpCourse,
+                token,
+                userId,
+                announcementId,
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        Toast.makeText(this@UpdateAnnouncement,"Update Successfully.",Toast.LENGTH_SHORT).show()
+                        val intent:Intent
+                        intent=Intent(this@UpdateAnnouncement,ProductDetailActivity::class.java)
+                        startActivity(intent)
+                    },
+                    {
+                        println("Success: "+ it)
+                    }
+                )
+        )
+
+    }
+
+
+/*    private fun sendUpdateAnn(token: String,userId:Int,announcementId: Int,createAnnouncementRequest: CreateAnnouncementRequest){
         compositeDisposable=CompositeDisposable()
         val retrofitService=RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
         compositeDisposable.add(
@@ -396,7 +543,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 })
         )
 
-    }
+    }*/
 
     private fun handleresponseforUpdateAnnouncement(response:UpdateAnnouncementResponse){
         val intent=Intent(this@UpdateAnnouncement,MainActivity::class.java)
@@ -412,6 +559,15 @@ private fun setUpViewPagerFileFormat(){
     val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUpdate)
 
     // Create the adapter with the selected photos list
+
+    for (imageData in selectedImages) {
+        val imagePath = imageData.imagePath
+        if (imagePath != null) {
+            imagesPaths.add(imagePath)
+        }
+        println("SelectedImagesPath: $imagesPaths")
+
+    }
     val adapter = PhotoPagerAdapterForFormData(selectedImages)
     viewPager.adapter = adapter
 
@@ -450,7 +606,7 @@ private fun setUpViewPagerFileFormat(){
                     if (imagePath != null) {
                         val compressedBitmap = compressImageFile(imagePath)
                         val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap!!)
-                        val selectedImage = ViewPagerFormData(compressedImagePath!!, compressedBitmap)
+                        val selectedImage = ViewPagerFormData(compressedImagePath!! , compressedBitmap)
                         selectedImages.add(selectedImage)
                     }
                 }
@@ -515,7 +671,8 @@ private fun setUpViewPagerFileFormat(){
                 modeAdapter.setChanged(mode)
                 modeAdapter.setOnItemClickListener { mode ->
                     upcourseModeEditText.setText(mode.modeName)
-                    modeId = mode.modeId
+                    modeId = mode.modeId.toString()
+                    modeChanged=true
                     dialog.dismiss()
                 }
             }.catch {
@@ -539,9 +696,10 @@ private fun setUpViewPagerFileFormat(){
             recyclerViewCategories.adapter = categoryAdapter
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
-                allcategoriesId = categorywithsubcategory.category.categoryId
+                allcategoriesId = categorywithsubcategory.category.categoryId.toString()
                 upcourseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
                 showSubCategories(categorywithsubcategory.subCategories)
+                categoryChanged=true
                 dialog.dismiss()
             }
         }.catch {
@@ -564,8 +722,9 @@ private fun setUpViewPagerFileFormat(){
         recyclerViewSubCategories.adapter = subCategoryAdapter
         subCategoryAdapter.setOnItemClickListener { subCategory ->
             // Handle the subcategory selection here
-            categoryId = subCategory.subCategoryId
+            categoryId = subCategory.subCategoryId.toString()
             courseSubCategoryEditText.setText(subCategory.subCategoryName)
+            subCategoryChanged=true
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
         dialog.show()
@@ -590,7 +749,8 @@ private fun setUpViewPagerFileFormat(){
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
                     upcourseRegionEditText.setText(region.regionName)
-                    regionId = region.regionId
+                    regionId = region.regionId.toString()
+                    chooseRegionChaged
                     dialog.dismiss()
                 }
             }.catch {throwable->
