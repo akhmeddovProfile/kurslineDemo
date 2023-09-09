@@ -93,6 +93,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var modeAdapter: ModeAdapter
     val imagesPaths = ArrayList<String>()
+    val imagesPaths2 = ArrayList<String>()
     private var block: Boolean = true
     private var job: Job? = null
 
@@ -301,7 +302,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                     modifiedCategoryId!!,
                     modifiedSubCategory!!,
                     modifiefRegion!!,
-                    imagesPaths,
+                    imagesPaths2,
                     authHeader,
                     userId,
                     annId
@@ -470,7 +471,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             for (imagePath in imagePath) {
                 val file = File(imagePath)
                 val reqFile: RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-                val photoPart=MultipartBody.Part.createFormData("Photos[]", file.name, reqFile)
+                val photoPart=MultipartBody.Part.createFormData("Photos", file.name, reqFile)
                     photos.add(photoPart)
             }
         }
@@ -502,12 +503,12 @@ class UpdateAnnouncement : AppCompatActivity() {
                 nameofUpDESC,
                 priceUp,
                 nameofUpAddress,
-                regionofUpCourse,
+                cateegoryofUpCourse,
                 subcateegoryofUpCourse,
+                regionofUpCourse,
                 photos,
                 nameofUpTeachers,
                 modeofUpCourse,
-                cateegoryofUpCourse,
                 token,
                 userId,
                 announcementId,
@@ -568,9 +569,10 @@ private fun setUpViewPagerFileFormat(){
         if (imagePath != null) {
             imagesPaths.add(imagePath)
         }
-        println("SelectedImagesPath: $imagesPaths")
 
     }
+    println("SelectedImagesPath: $imagesPaths")
+
     val adapter = PhotoPagerAdapterForFormData(selectedImages)
     viewPager.adapter = adapter
 
@@ -579,7 +581,7 @@ private fun setUpViewPagerFileFormat(){
     @SuppressLint("IntentReset")
     private fun openGalleryMultipart() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
+        //intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         startActivityForResult(intent, Constant.PICK_IMAGE_REQUEST)
     }
@@ -602,21 +604,36 @@ private fun setUpViewPagerFileFormat(){
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constant.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             val selectedImageUris = data?.clipData
+            val singleSelectedImageUri = data?.data
+
             if (selectedImageUris != null) {
+                // Handle multiple selected images
                 for (i in 0 until selectedImageUris.itemCount) {
                     val selectedImageUri = selectedImageUris.getItemAt(i).uri
                     val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
                     if (imagePath != null) {
                         val compressedBitmap = compressImageFile(imagePath)
                         val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap!!)
-                        val selectedImage = ViewPagerFormData(compressedImagePath!! , compressedBitmap)
+                        val selectedImage = ViewPagerFormData(compressedImagePath!!, compressedBitmap)
                         selectedImages.add(selectedImage)
+                        imagesPaths2.add(imagePath)
                     }
                 }
 
-                // After adding the selected images to the list, update the ViewPager
-                setUpViewPagerFileFormat()
+            } else if (singleSelectedImageUri != null) {
+                // Handle single selected image
+                val imagePath = singleSelectedImageUri.let { getRealPathFromURI(it) }
+                if (imagePath != null) {
+                    val compressedBitmap = compressImageFile(imagePath)
+                    val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap!!)
+                    val selectedImage = ViewPagerFormData(compressedImagePath!!, compressedBitmap)
+                    selectedImages.add(selectedImage)
+                }
             }
+
+            println("imagesPaths2: "+ imagesPaths2)
+            // After adding the selected images to the list, update the ViewPager
+            setUpViewPagerFileFormat()
         }
     }
 
