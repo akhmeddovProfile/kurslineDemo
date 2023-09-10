@@ -258,7 +258,29 @@ class CourseUploadActivity : AppCompatActivity() {
         cursor?.close()
         return name
     }
+
+    private fun getFileSize(uri: Uri): Long {
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val sizeIndex = it.getColumnIndex(OpenableColumns.SIZE)
+                if (sizeIndex != -1) {
+                    return it.getLong(sizeIndex)
+                }
+            }
+        }
+        return 0
+    }
+
     private fun convertImageToBase64(imageUri: Uri,imageName:String?) {
+        val imageSize = getFileSize(imageUri) // Get the image size in bytes
+        val maxSizeBytes = 3 * 1024 * 1024 // 3MB in bytes
+
+        if (imageSize >= maxSizeBytes) {
+            // Show a toast message indicating that the image size is too large
+            Toast.makeText(this, "Image size is too large (Max: 3MB)", Toast.LENGTH_SHORT).show()
+            return // Don't proceed with processing the image
+        }
 
         val inputStream = contentResolver.openInputStream(imageUri)
 
