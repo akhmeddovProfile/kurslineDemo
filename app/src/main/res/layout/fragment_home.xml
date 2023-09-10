@@ -243,6 +243,26 @@
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/loading" />
+            <TextView
+                android:id="@+id/notFoundHomeCourseText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/LLfilter"
+                android:visibility="gone"
+                android:text="Burada heç bir kurs tapılmadı"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@drawable/notfoundpreview"
+                android:id="@+id/notFoundImageHome"
+                android:layout_below="@+id/notFoundHomeCourseText"/>
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
