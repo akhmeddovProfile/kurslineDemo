@@ -16,6 +16,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.InputFilter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
@@ -68,6 +69,7 @@ import java.io.IOException
 import java.util.regex.Pattern
 
 class CompanyUpdateActivity : AppCompatActivity() {
+    private var block: Boolean = true
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var categoryAdapter: CategoryAdapter
@@ -77,7 +79,6 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
-    private var block: Boolean = true
     lateinit var categoryId: String
     lateinit var statusId: String
     lateinit var regionId: String
@@ -175,56 +176,106 @@ class CompanyUpdateActivity : AppCompatActivity() {
             Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
         }
         savedUpdatesBtnCompany.setOnClickListener {
+            block = true
             val companyNameContainer = businessAccountUpdateNameEditText.text.toString().trim()
             val companyEmailContainer = businessAccountUpdateEmailEditText.text.toString().trim()
-            val companyFullNameContainer =
-                businessAccountUpdateCompanyEditText.text.toString().trim()
+            val companyFullNameContainer = businessAccountUpdateCompanyEditText.text.toString().trim()
             val companyAddressContainer = companyUpdateAdressEditText.text.toString().trim()
             val companyPhoneContainer = businessAccountUpdatePhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
-
             val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
-
-            val imageUrl = if (companyUpdatePhotoURLEditText.text.toString().isNotEmpty()) {
-                companyUpdatePhotoURLEditText.text.toString().trim()
-            } else {
-                null
+            val category = businessAccountUpdateCategoryEditText.text.toString().trim()
+            val status = companyUpdateStatusEditText.text.toString().trim()
+            val region = businessAccountUpdateRegionEditText.text.toString().trim()
+            businessAccountUpdatePhoneEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(13))
+            if(companyNameContainer.isEmpty()){
+                businessAccountUpdateNameEditText.requestFocus()
+                businessAccountUpdateNameEditText.error = "Full name is not be empty"
+                block  = false
+            }
+            if(companyEmailContainer.isEmpty()){
+                businessAccountUpdateEmailEditText.requestFocus()
+                businessAccountUpdateEmailEditText.error = "Email address is not be empty"
+                block  = false
+            }
+            if(companyFullNameContainer.isEmpty()){
+                businessAccountUpdateCompanyEditText.requestFocus()
+                businessAccountUpdateCompanyEditText.error = "Company Name is not be empty"
+                block  = false
+            }
+            if(companyAddressContainer.isEmpty()){
+                companyUpdateAdressEditText.requestFocus()
+                companyUpdateAdressEditText.error = "Company address is not be empty"
+                block  = false
+            }
+            if(companyPhoneContainer.isEmpty()){
+                businessAccountUpdatePhoneEditText.requestFocus()
+                businessAccountUpdatePhoneEditText.error =  "Phone is not be empty"
+                block  = false
+            }
+            if(aboutCompanyContainer.isEmpty()){
+                businessAccountAboutEditText.requestFocus()
+                businessAccountAboutEditText.error = "Company about is not be empty"
+                block  = false
+            }
+            if(category.isEmpty()){
+                businessAccountUpdateCategoryEditText.requestFocus()
+                businessAccountUpdateCategoryEditText.error = "Company category is not be empty"
+                block  = false
+            }
+            if(status.isEmpty()){
+                companyUpdateStatusEditText.requestFocus()
+                companyUpdateStatusEditText.error = "Company status is not be empty"
+                block  = false
+            }
+            if(region.isEmpty()){
+                businessAccountUpdateRegionEditText.requestFocus()
+                businessAccountUpdateRegionEditText.error = "Company region is not be empty"
+                block  = false
             }
 
-            val categoryContainer = if (isCategoryChanged) {
-                categoryId
-            } else {
-                categoryCMPid
-            }
 
-            val statusContainer = if (isStatusChanged) {
-                statusId
-            } else {
-                statusCMPid
-            }
+                val imageUrl = if (companyUpdatePhotoURLEditText.text.toString().isNotEmpty()) {
+                    companyUpdatePhotoURLEditText.text.toString().trim()
+                } else {
+                    null
+                }
 
-            val regionContainer = if (isRegionChanged) {
-                regionId
-            } else {
-                regionCMPid
-            }
+                val categoryContainer = if (isCategoryChanged) {
+                    categoryId
+                } else {
+                    categoryCMPid
+                }
+
+                val statusContainer = if (isStatusChanged) {
+                    statusId
+                } else {
+                    statusCMPid
+                }
+
+                val regionContainer = if (isRegionChanged) {
+                    regionId
+                } else {
+                    regionCMPid
+                }
 
 
-            showProgressButton(true)
-            sendCompanydata(
-                companyNameContainer,
-                companyEmailContainer,
-                companyPhoneContainer,
-                companyFullNameContainer,
-                companyAddressContainer,
-                aboutCompanyContainer,
-                imageUrl,
-                categoryContainer,
-                statusContainer,
-                regionContainer,
-                authHeader,
-                id
-            )
+                showProgressButton(true)
+                sendCompanydata(
+                    companyNameContainer,
+                    companyEmailContainer,
+                    companyPhoneContainer,
+                    companyFullNameContainer,
+                    companyAddressContainer,
+                    aboutCompanyContainer,
+                    imageUrl,
+                    categoryContainer,
+                    statusContainer,
+                    regionContainer,
+                    authHeader,
+                    id
+                )
+
         }
         myCompanyUpdateProfilePhoto.setOnClickListener {
             if(!checkPermission()){

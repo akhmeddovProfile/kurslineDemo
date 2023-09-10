@@ -564,25 +564,27 @@
                     android:background="@drawable/ic_baseline_arrow_upward_24"
                     android:layout_alignParentEnd="true"/>
 
-                <TextView
-                    android:id="@+id/sameCoursetextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/sendCommentBtn"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="60dp"
-                    android:fontFamily="@font/nunito"
-                    android:gravity="center_horizontal"
-                    android:text="@string/sameCourse"
-                    android:textColor="@color/greenColor"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    tools:ignore="NotSibling" />
+
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/sameCoursetextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearlayoutforinputComment"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="60dp"
+                android:fontFamily="@font/nunito"
+                android:gravity="center_horizontal"
+                android:text="@string/sameCourse"
+                android:textColor="@color/greenColor"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:ignore="NotSibling" />
 
             <RelativeLayout
                 android:id="@+id/relativeLayoutforsamecourse"
-                android:layout_below="@+id/linearlayoutforinputComment"
+                android:layout_below="@+id/sameCoursetextView"
                 android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:background="@color/grayColor3"

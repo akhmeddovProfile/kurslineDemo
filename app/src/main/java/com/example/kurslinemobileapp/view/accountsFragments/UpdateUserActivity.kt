@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.text.InputFilter
 import android.view.View
 import android.widget.ScrollView
 import android.widget.Toast
@@ -35,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_update_user.*
+import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -46,6 +48,7 @@ import java.io.IOException
 import java.security.AccessController.getContext
 
 class UpdateUserActivity : AppCompatActivity() {
+    private var block: Boolean = true
     private lateinit var compositeDisposable: CompositeDisposable
     private val REQUEST_IMAGE_CAPTURE = 1 // Request code for image capture
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
@@ -128,6 +131,27 @@ class UpdateUserActivity : AppCompatActivity() {
 
 
         savedUpdatesBtn.setOnClickListener {
+            block = true
+            val name = updateAccountNameEditText.text.toString().trim()
+            val email = updateAccountMailEditText.text.toString().trim()
+            val phone =updateAccountPhoneEditText.text.toString().trim()
+            updateAccountPhoneEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(13))
+            if(name.isEmpty()){
+                updateAccountNameEditText.requestFocus()
+                updateAccountNameEditText.error = "Full name is not be empty"
+                block  = false
+            }
+            if(email.isEmpty()){
+                updateAccountMailEditText.requestFocus()
+                updateAccountMailEditText.error = "Email address is not be empty"
+                block  = false
+            }
+            if(phone.isEmpty()){
+                updateAccountPhoneEditText.requestFocus()
+                updateAccountPhoneEditText.error ="Phone is not be empty"
+                block  = false
+            }
+
             showProgressButton(true)
             val imageUrl = if (photoUrlEditText.text.toString().isNotEmpty() )
             {

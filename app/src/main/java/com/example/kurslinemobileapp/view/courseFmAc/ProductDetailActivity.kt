@@ -354,8 +354,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         recyclerView.layoutManager = LinearLayoutManager(this)
 
 
-
-
         val viewPager: ViewPager2 = findViewById(R.id.viewPagerProductDetail)
         val photoAdapter = ProductDetailImageAdapter(imageUrls)
         viewPager.adapter = photoAdapter

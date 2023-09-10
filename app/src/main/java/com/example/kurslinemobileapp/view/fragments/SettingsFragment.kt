@@ -99,7 +99,13 @@ class SettingsFragment : Fragment() {
             showChangeLanguage()
         }
 
-        
+        val userType = sharedPreferences.getString("userType",null)
+        if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor" ){
+            view.exitCourseLL.visibility = View.VISIBLE
+        }else{
+            view.exitCourseLL.visibility = View.GONE
+        }
+
         view.exitCourseLL.setOnClickListener {
             val alertDialogBuilder=android.app.AlertDialog.Builder(ContextThemeWrapper(requireContext(),R.style.CustomAlertDialogTheme))
             alertDialogBuilder.setMessage("Are you sure you want to exit Kursline Application?")
