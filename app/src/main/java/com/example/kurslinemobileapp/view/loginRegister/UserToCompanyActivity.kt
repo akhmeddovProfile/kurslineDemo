@@ -334,9 +334,15 @@ class UserToCompanyActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UserToCompanyResponse) {
         println("Response: " + response.isSuccess)
-        val intent = Intent(this@UserToCompanyActivity, SuccessActivity::class.java)
-        startActivity(intent)
-        finish()
+            val sharedPreferences =
+                this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+            val intent = Intent(this@UserToCompanyActivity, SuccessActivity::class.java)
+            startActivity(intent)
+            finish()
+
     }
 
 

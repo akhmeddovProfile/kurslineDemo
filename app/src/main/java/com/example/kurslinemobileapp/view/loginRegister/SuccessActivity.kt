@@ -33,6 +33,7 @@ class SuccessActivity : AppCompatActivity() {
         // string in TextView
         backToHomeTv.text = mSpannableString
 
+
         Handler().postDelayed({
             val mainIntent = Intent(this, MainActivity::class.java)
             startActivity(mainIntent)
