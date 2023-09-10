@@ -35,8 +35,9 @@
         android:id="@+id/favoriteRelativeForproductStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
+        android:layout_toRightOf="@id/favoriteRelativeForCourseMode"
         android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
         android:background="@drawable/button_bg"
         >
 
@@ -57,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/vip_icon"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/favoriteRelativeForproductStatus"
         android:layout_marginTop="10dp"
         android:visibility="visible" />
@@ -72,8 +73,8 @@
         >
         <ImageView
             android:id="@+id/favorite_productImage"
-            android:layout_width="168dp"
-            android:layout_height="135dp"
+            android:layout_width="170dp"
+            android:layout_height="140dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:scaleType="centerCrop"
@@ -84,7 +85,7 @@
             android:layout_height="20dp"
             android:src="@drawable/favorite_border_for_product"
             android:background="@android:color/transparent"
-            android:layout_marginStart="130dp"
+           android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
