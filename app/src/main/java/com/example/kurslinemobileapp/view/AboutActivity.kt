@@ -1,8 +1,8 @@
 package com.example.kurslinemobileapp.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.kurslinemobileapp.R
+import androidx.appcompat.app.AppCompatActivity
+import com.app.kurslinemobileapp.R
 import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : AppCompatActivity() {

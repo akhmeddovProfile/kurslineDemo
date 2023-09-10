@@ -11,14 +11,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementSimilarCourse
-import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
-import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.squareup.picasso.Picasso
 
 class SimilarCoursesAdapter(private var items:ArrayList<AnnouncementSimilarCourse>, val context: Context, private val favoriteItemClickListener: FavoriteItemClickListener,

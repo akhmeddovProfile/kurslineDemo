@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.squareup.picasso.Picasso
 

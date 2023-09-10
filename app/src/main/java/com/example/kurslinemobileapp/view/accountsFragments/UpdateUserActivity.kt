@@ -3,7 +3,6 @@ package com.example.kurslinemobileapp.view.accountsFragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,27 +24,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.updateUserCompany.UpdateAPI
 import com.example.kurslinemobileapp.api.updateUserCompany.UpdateResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.MainActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_update_user.*
-import kotlinx.android.synthetic.main.activity_user_register.*
-import kotlinx.android.synthetic.main.activity_user_to_company.*
-import kotlinx.android.synthetic.main.fragment_account.view.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.security.AccessController.getContext
 
 class UpdateUserActivity : AppCompatActivity() {
     private var block: Boolean = true

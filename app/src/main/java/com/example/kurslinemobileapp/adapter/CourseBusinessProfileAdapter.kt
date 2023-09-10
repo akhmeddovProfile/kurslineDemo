@@ -12,7 +12,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.squareup.picasso.Picasso
 

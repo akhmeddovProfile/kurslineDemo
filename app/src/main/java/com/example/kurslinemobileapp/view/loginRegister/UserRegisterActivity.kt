@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LoginResponseX
 import com.example.kurslinemobileapp.api.register.RegisterAPI
 import com.example.kurslinemobileapp.api.register.UserRegisterRequest

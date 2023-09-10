@@ -5,17 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CourseBusinessProfileAdapter
-import com.example.kurslinemobileapp.adapter.MainListProductAdapter
 import com.example.kurslinemobileapp.adapter.ResizeTransformation
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.CompanyDetail
@@ -27,7 +25,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_course_business_profile.*
-import kotlinx.android.synthetic.main.activity_product_detail.*
 
 class CourseBusinessProfile : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable

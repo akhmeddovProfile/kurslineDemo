@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.kurslinemobileapp'
+    namespace 'com.app.kurslinemobileapp'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.kurslinemobileapp"
+        applicationId "com.app.kurslinemobileapp"
         minSdk 21
         targetSdk 33
         versionCode 2

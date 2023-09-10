@@ -15,7 +15,7 @@ import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfo
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequest
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequestBody

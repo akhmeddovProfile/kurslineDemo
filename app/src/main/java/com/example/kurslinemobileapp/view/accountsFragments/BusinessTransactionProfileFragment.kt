@@ -5,24 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTransactionAdapter
-import com.example.kurslinemobileapp.adapter.CourseBusinessProfileAdapter
-import com.example.kurslinemobileapp.adapter.MainListProductAdapter
-import com.example.kurslinemobileapp.adapter.ResizeTransformation
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
-import com.example.kurslinemobileapp.api.companyTeachers.companyProfile.Announcement
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
 import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.CompanyTransactionAnnouncement
@@ -34,7 +28,6 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_company_update.*
 import kotlinx.android.synthetic.main.fragment_business_account.view.*
 import kotlinx.android.synthetic.main.fragment_business_transactions_profile.view.*
 

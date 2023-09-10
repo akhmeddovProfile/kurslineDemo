@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.login.LoginRequest
 import com.example.kurslinemobileapp.api.login.LoginResponseX

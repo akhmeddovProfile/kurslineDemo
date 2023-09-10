@@ -18,7 +18,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant

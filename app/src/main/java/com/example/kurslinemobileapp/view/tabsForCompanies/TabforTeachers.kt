@@ -4,19 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CompanyTeacherAdapter
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModel
@@ -27,8 +24,6 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
-import kotlinx.android.synthetic.main.fragment_tabfor_teachers.view.*
 
 
 class TabforTeachers : Fragment() , androidx.appcompat.widget.SearchView.OnQueryTextListener{
@@ -60,12 +55,12 @@ class TabforTeachers : Fragment() , androidx.appcompat.widget.SearchView.OnQuery
         })
         recycler.adapter = companyTeacherAdapter
 
-        val searchView = view.findViewById<androidx.appcompat.widget.SearchView>(com.example.kurslinemobileapp.R.id.searchViewForTeachers)
+        val searchView = view.findViewById<androidx.appcompat.widget.SearchView>(com.app.kurslinemobileapp.R.id.searchViewForTeachers)
         val searchEditText = searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
         // Check if the searchEditText is not null before setting the text color
-        searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), com.example.kurslinemobileapp.R.color.black))
-        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), com.example.kurslinemobileapp.R.color.grayColor2))
+        searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), com.app.kurslinemobileapp.R.color.black))
+        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), com.app.kurslinemobileapp.R.color.grayColor2))
         searchView.setOnQueryTextListener(this)
         getCompanies()
         return view

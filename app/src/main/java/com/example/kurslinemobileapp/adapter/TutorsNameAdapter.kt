@@ -5,8 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsEntity
 
 class TutorsNameAdapter(

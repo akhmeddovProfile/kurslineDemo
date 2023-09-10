@@ -2,7 +2,6 @@ package com.example.kurslinemobileapp.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.view.LayoutInflater
@@ -10,18 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
-import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.product_item_row.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class VIPAdapter(private var items: List<Announcemenet>,
                              private val favoriteItemClickListener: VIPFavoriteItemClickListener,

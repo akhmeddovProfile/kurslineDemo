@@ -9,7 +9,7 @@ import android.os.Bundle
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import kotlinx.android.synthetic.main.activity_move_forward_ann.*

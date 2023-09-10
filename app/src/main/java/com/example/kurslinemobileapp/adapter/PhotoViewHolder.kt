@@ -3,7 +3,7 @@ package com.example.kurslinemobileapp.adapter
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
 import com.squareup.picasso.Picasso
 

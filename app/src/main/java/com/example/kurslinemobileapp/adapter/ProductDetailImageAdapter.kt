@@ -5,11 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
+import com.app.kurslinemobileapp.R
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.imagecontainer_post_detail.view.*
 
 class ProductDetailImageAdapter(private val photos: List<com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Photo>) : RecyclerView.Adapter<ProductDetailImageAdapter.PhotoViewHolder>() {
 

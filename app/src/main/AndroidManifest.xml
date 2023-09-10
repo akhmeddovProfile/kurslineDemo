@@ -31,120 +31,125 @@
         android:theme="@style/Theme.KurslineMobileApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:resource="@drawable/app_logo" />
+            />
+
         <activity
-            android:name=".view.loginRegister.SuccessActivity"
+            android:name="com.example.kurslinemobileapp.view.loginRegister.SuccessActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.AboutActivity"
+            android:name="com.example.kurslinemobileapp.view.AboutActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.PdfPrivacyPolicy"
+            android:name="com.example.kurslinemobileapp.view.PdfPrivacyPolicy"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.payment.EnterCardNumberPage"
+            android:name="com.example.kurslinemobileapp.view.payment.EnterCardNumberPage"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.payment.MoveForwardAnn"
+            android:name="com.example.kurslinemobileapp.view.payment.MoveForwardAnn"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.payment.VipPaymentPage"
+            android:name="com.example.kurslinemobileapp.view.payment.VipPaymentPage"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.courseFmAc.UpdateAnnouncement"
+            android:name="com.example.kurslinemobileapp.view.courseFmAc.UpdateAnnouncement"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.accountsFragments.CompanyUpdateActivity"
+            android:name="com.example.kurslinemobileapp.view.accountsFragments.CompanyUpdateActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.accountsFragments.UpdateUserActivity"
+            android:name="com.example.kurslinemobileapp.view.accountsFragments.UpdateUserActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.MainActivity"
+            android:name="com.example.kurslinemobileapp.view.MainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.loginRegister.UserToCompanyActivity"
+            android:name="com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.courseFmAc.ProductDetailActivity"
+            android:name="com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.courseFmAc.CourseBusinessProfile"
+            android:name="com.example.kurslinemobileapp.view.courseFmAc.CourseBusinessProfile"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.loginRegister.UserRegisterActivity"
+            android:name="com.example.kurslinemobileapp.view.loginRegister.UserRegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.loginRegister.MainRegisterActivity"
+            android:name="com.example.kurslinemobileapp.view.loginRegister.MainRegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.loginRegister.LoginActivity"
+            android:name="com.example.kurslinemobileapp.view.loginRegister.LoginActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.loginRegister.RegisterCompanyActivity"
+            android:name="com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -153,21 +158,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.tabsForCompanies.AllCompaniesActivity"
+            android:name="com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.courseFmAc.CourseUploadActivity"
+            android:name="com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.SplashScreen"
+            android:name="com.example.kurslinemobileapp.view.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

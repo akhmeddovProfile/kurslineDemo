@@ -1,6 +1,5 @@
 package com.example.kurslinemobileapp.view.tabsForCompanies
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
@@ -9,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.SearchView
-import android.widget.SearchView.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +22,6 @@ import com.example.kurslinemobileapp.service.RetrofitService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_tabfor_companies.view.*
 
 
 class TabforCompanies : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -39,10 +35,10 @@ class TabforCompanies : Fragment(), androidx.appcompat.widget.SearchView.OnQuery
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         view = inflater.inflate(com.example.kurslinemobileapp.R.layout.fragment_tabfor_companies, container, false) as ViewGroup
-        val recycler = view.findViewById<RecyclerView>(com.example.kurslinemobileapp.R.id.recyclerviewForCompanyteacher)
+         view = inflater.inflate(com.app.kurslinemobileapp.R.layout.fragment_tabfor_companies, container, false) as ViewGroup
+        val recycler = view.findViewById<RecyclerView>(com.app.kurslinemobileapp.R.id.recyclerviewForCompanyteacher)
         recycler.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(com.example.kurslinemobileapp.R.id.loadingTabCompany)
+        val lottie = view.findViewById<LottieAnimationView>(com.app.kurslinemobileapp.R.id.loadingTabCompany)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
 
@@ -58,12 +54,12 @@ class TabforCompanies : Fragment(), androidx.appcompat.widget.SearchView.OnQuery
         recycler.adapter = companyTeacherAdapter
 
 
-        val searchView = view.findViewById<androidx.appcompat.widget.SearchView>(com.example.kurslinemobileapp.R.id.searchViewCompanyEditText)
+        val searchView = view.findViewById<androidx.appcompat.widget.SearchView>(com.app.kurslinemobileapp.R.id.searchViewCompanyEditText)
         val searchEditText = searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
         // Check if the searchEditText is not null before setting the text color
-        searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), com.example.kurslinemobileapp.R.color.black))
-        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), com.example.kurslinemobileapp.R.color.grayColor2))
+        searchEditText?.setTextColor(ContextCompat.getColor(requireContext(), com.app.kurslinemobileapp.R.color.black))
+        searchEditText?.setHintTextColor(ContextCompat.getColor(requireContext(), com.app.kurslinemobileapp.R.color.grayColor2))
         searchView.setOnQueryTextListener(this)
 
 
@@ -82,9 +78,9 @@ class TabforCompanies : Fragment(), androidx.appcompat.widget.SearchView.OnQuery
     }
 
     private fun handleResponse(response: CompanyTeacherModel) {
-        val recycler = view.findViewById<RecyclerView>(com.example.kurslinemobileapp.R.id.recyclerviewForCompanyteacher)
+        val recycler = view.findViewById<RecyclerView>(com.app.kurslinemobileapp.R.id.recyclerviewForCompanyteacher)
         recycler.visibility = View.VISIBLE
-        val lottie = view.findViewById<LottieAnimationView>(com.example.kurslinemobileapp.R.id.loadingTabCompany)
+        val lottie = view.findViewById<LottieAnimationView>(com.app.kurslinemobileapp.R.id.loadingTabCompany)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
         response.get(0).companyPhone

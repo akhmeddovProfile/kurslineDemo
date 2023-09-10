@@ -3,7 +3,7 @@ package com.example.kurslinemobileapp.view.loginRegister
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import kotlinx.android.synthetic.main.activity_main_register.*
 
 class MainRegisterActivity : AppCompatActivity() {

@@ -1,18 +1,13 @@
 package com.example.kurslinemobileapp.adapter
 
-import android.content.Context
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.PagerAdapter
-import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.model.uploadPhoto.PhotoUpload
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
-import java.lang.Byte.decode
-import java.util.*
 
 class PhotoPagerAdapter(var photoList: List<SelectionPhotoShowOnViewPager>) :  RecyclerView.Adapter<PhotoPagerAdapter.PhotoViewHolder>() {
 

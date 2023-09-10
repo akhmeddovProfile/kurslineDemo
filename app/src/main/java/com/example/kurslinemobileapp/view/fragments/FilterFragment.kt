@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.CompanyNamesAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter

@@ -17,7 +17,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kurslinemobileapp.api.announcement.WriteUsResponse
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant

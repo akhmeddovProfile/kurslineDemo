@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
-import android.widget.Toast
-import com.example.kurslinemobileapp.R
+import androidx.appcompat.app.AppCompatActivity
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.service.Constant

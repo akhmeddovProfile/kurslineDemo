@@ -1,42 +1,27 @@
 package com.example.kurslinemobileapp.view.accountsFragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
+import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
-import com.example.kurslinemobileapp.api.updateUserCompany.UpdateAPI
-import com.example.kurslinemobileapp.api.updateUserCompany.UpdateResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_account.view.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 class UserAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable

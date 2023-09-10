@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.view.MainActivity
 import kotlinx.android.synthetic.main.activity_success.*
 

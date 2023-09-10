@@ -3,22 +3,17 @@ package com.example.kurslinemobileapp.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.adapter.CompanyNamesAdapter
-import com.example.kurslinemobileapp.adapter.StatusAdapter
+import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
-import com.example.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
@@ -34,16 +29,12 @@ import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import com.example.kurslinemobileapp.view.loginRegister.UserToCompanyActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_register_company.*
-import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 

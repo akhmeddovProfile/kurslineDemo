@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.companyData.Category
-import com.example.kurslinemobileapp.api.companyData.IsOnline
-import com.example.kurslinemobileapp.api.companyData.Statuse
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 
 class StatusAdapter (var status: List<StatusEntity>) :

@@ -3,17 +3,13 @@ package com.example.kurslinemobileapp.view.accountsFragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.example.kurslinemobileapp.R
+import androidx.fragment.app.Fragment
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.service.Constant.sharedkeyname
-import com.example.kurslinemobileapp.view.courseFmAc.CourseUploadActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
-import com.example.kurslinemobileapp.view.loginRegister.RegisterCompanyActivity
-import kotlinx.android.synthetic.main.activity_main.*
 
 class BlankAccountFragment : Fragment() {
     override fun onCreateView(

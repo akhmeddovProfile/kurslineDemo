@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kurslinemobileapp.R
+import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModelItem
 import com.squareup.picasso.Picasso
