@@ -160,7 +160,6 @@ class UserRegisterActivity : AppCompatActivity() {
 
     private fun handleResponse(response: LoginResponseX) {
         println("Response: " + response)
-        Toast.makeText(this,getString(R.string.registerSuccess),Toast.LENGTH_SHORT).show()
         val intent = Intent(this@UserRegisterActivity, MainActivity::class.java)
         startActivity(intent)
         finish()
