@@ -16,6 +16,7 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -431,8 +432,28 @@ class RegisterCompanyActivity : AppCompatActivity() {
         }
         return null
     }
+    private fun getFileSize(uri: Uri): Long {
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val sizeIndex = it.getColumnIndex(OpenableColumns.SIZE)
+                if (sizeIndex != -1) {
+                    return it.getLong(sizeIndex)
+                }
+            }
+        }
+        return 0
+    }
+
     private fun getRealPathFromURI(uri: Uri): String? {
         var path: String? = null
+        val imageSize = getFileSize(uri) // Get the image size in bytes
+        val maxSizeBytes = 3 * 1024 * 1024
+        if (imageSize > maxSizeBytes) {
+            // Show a toast message indicating that the image size is too large
+            Toast.makeText(this, "Image size is too large (Max: 3MB)", Toast.LENGTH_SHORT).show()
+            return null// Don't proceed with processing the image
+        }
         val projection = arrayOf(MediaStore.Images.Media.DATA)
         val cursor = contentResolver.query(uri, projection, null, null, null)
         cursor?.use {
