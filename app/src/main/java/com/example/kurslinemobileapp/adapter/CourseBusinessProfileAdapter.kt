@@ -72,6 +72,7 @@ class CourseBusinessProfileAdapter (var products: List<Announcement>) :
         holder.producttitle.text = productRow.announcementName
         holder.productOwnerName.text = productRow.companyName
         holder.productDescription.text = productRow.announcementDesc
+        holder.heartButton.visibility=View.GONE
         if (productRow.isVIP == true) {
             holder.imageVIPView.visibility = View.VISIBLE
         } else {
