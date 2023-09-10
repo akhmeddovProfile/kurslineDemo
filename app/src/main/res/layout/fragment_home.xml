@@ -161,7 +161,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/nunito"
-                android:text="VIP elanlar"
+                android:text="@string/vipTextAn"
                 android:textColor="@color/greenColor"
                 android:textSize="12sp" />
 
@@ -204,7 +204,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:fontFamily="@font/nunito"
-                android:text="Son elanlar"
+                android:text="@string/recentTextAn"
                 android:textColor="@color/greenColor"
                 android:textSize="12sp" />
 

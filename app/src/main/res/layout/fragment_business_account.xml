@@ -316,7 +316,7 @@
                     android:editable="false"
                     android:focusable="false"
                     android:fontFamily="@font/montserrat"
-                    android:hint="@string/select_course"
+                    android:hint="@string/courses"
                     android:inputType="none"
                     android:textColor="@color/black"
                     android:textColorHint="@color/mainPageBackgroundColor" />

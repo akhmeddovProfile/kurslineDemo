@@ -164,9 +164,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                     // The data has been successfully fetched from the server
                     // Now, you can update your imageWithTextList
                     val imageWithTextList = listOf(
-                        Highlight(R.drawable.mainpage2,"Ən çox baxılanlar ${highlightModel[0].mostView}" ),
-                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} yeni kurs"),
-                        Highlight(R.drawable.vip, "${highlightModel[0].vip} VIP kurs")
+                        Highlight(R.drawable.mainpage2,"${highlightModel[0].mostView} ${getString(R.string.mostViewHgText)}" ),
+                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} ${getString(R.string.newHgText)}"),
+                        Highlight(R.drawable.vip, "${highlightModel[0].vip} ${getString(R.string.vipHgText)}")
                     )
                     val recylerviewForHighlight = view.findViewById<RecyclerView>(R.id.topProductsRV)
                     val adapter = HiglightForMainListAdapter(imageWithTextList,this@HomeFragment)
@@ -809,7 +809,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 highRv.visibility = View.GONE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
-                view.vipAnnouncementTextMain.text = "Most Viewed"
+                view.vipAnnouncementTextMain.text = getString(R.string.mostViewHg)
                 view.line3Main.visibility = View.GONE
                 view.AnnouncementTextMain.visibility = View.GONE
                 view.line4Main.visibility = View.GONE
@@ -859,7 +859,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 highRv.visibility = View.GONE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
-                view.vipAnnouncementTextMain.text = "New Course"
+                view.vipAnnouncementTextMain.text = getString(R.string.newHg)
                 view.line3Main.visibility = View.GONE
                 view.AnnouncementTextMain.visibility = View.GONE
                 view.line4Main.visibility = View.GONE
@@ -908,7 +908,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 highRv.visibility = View.GONE
                 val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
                 recycler1.visibility = View.GONE
-                view.vipAnnouncementTextMain.text = "VIP Courses"
+                view.vipAnnouncementTextMain.text = getString(R.string.vipHg)
                 view.line3Main.visibility = View.GONE
                 view.AnnouncementTextMain.visibility = View.GONE
                 view.line4Main.visibility = View.GONE

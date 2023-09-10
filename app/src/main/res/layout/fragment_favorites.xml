@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
         android:gravity="center_horizontal"
-        android:text="Seçilmişlər"
+        android:text="@string/favText"
         android:layout_marginTop="30dp"
         android:textColor="@color/greenColor"
         android:textSize="36dp"

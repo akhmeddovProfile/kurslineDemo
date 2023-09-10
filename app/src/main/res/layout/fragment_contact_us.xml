@@ -101,7 +101,7 @@
         android:layout_marginBottom="25dp"
         android:layout_below="@id/writeUsLetterContainer"
         android:background="@drawable/button_bg"
-        android:text="Send"
+        android:text="@string/sendText"
         android:textAllCaps="false"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"

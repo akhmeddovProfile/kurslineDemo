@@ -127,4 +127,16 @@
     <string name="mailOrpassword">Mail ünvanı və ya parol yanlışdır</string>
     <string name="loginCtn">Giriş edilir...</string>
     <string name="commentSending">Rəyiniz göndərilir...</string>
+    <string name="kurslarText">Kurslar</string>
+    <string name="tutorText">Repititorlar</string>
+    <string name="vipTextAn">VIP elanlar</string>
+    <string name="recentTextAn">Son elanlar</string>
+    <string name="mostViewHg">Ən çox baxılan elanlar</string>
+    <string name="newHg">Yeni elanlar</string>
+    <string name="vipHg">VIP elanlar</string>
+    <string name="mostViewHgText">ən çox baxılan</string>
+    <string name="newHgText">yeni elan</string>
+    <string name="vipHgText">VIP elan</string>
+    <string name="sendText">Göndər</string>
+    <string name="favText">Seçilmişlər</string>
 </resources>

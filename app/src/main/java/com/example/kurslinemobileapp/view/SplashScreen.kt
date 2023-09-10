@@ -42,9 +42,9 @@ class SplashScreen : AppCompatActivity() {
                     // The data has been successfully fetched from the server
                     // Now, you can update your imageWithTextList
                     val imageWithTextList = listOf(
-                        Highlight(R.drawable.mainpage2,"Ən çox baxılanlar ${highlightModel[0].mostView}" ),
-                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} yeni kurs"),
-                        Highlight(R.drawable.vip, "${highlightModel[0].vip} VIP kurs")
+                        Highlight(R.drawable.mainpage2,"${highlightModel[0].mostView} ${getString(R.string.mostViewHgText)}" ),
+                        Highlight(R.drawable.yenielan2,"${highlightModel[0].newCourse} ${getString(R.string.newHgText)}"),
+                        Highlight(R.drawable.vip, "${highlightModel[0].vip} ${getString(R.string.vipHgText)}")
                     )
                     val gson = Gson()
                     val imageWithTextListJson = gson.toJson(imageWithTextList)
