@@ -138,4 +138,5 @@
     <string name="vipHgText">VIP elan</string>
     <string name="sendText">Göndər</string>
     <string name="favText">Seçilmişlər</string>
+    <string name="backToHome">Əsas ekrana qayıt</string>
 </resources>

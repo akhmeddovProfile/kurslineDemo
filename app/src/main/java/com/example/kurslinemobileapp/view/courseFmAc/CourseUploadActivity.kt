@@ -191,6 +191,7 @@ class CourseUploadActivity : AppCompatActivity() {
         }
 
         addCoursePhotos.setOnClickListener {
+            println("1111111")
             requestGalleryPermission()
             //openGallery()
         }

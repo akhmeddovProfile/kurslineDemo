@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:layout_gravity="center"
+    tools:context=".view.loginRegister.SuccessActivity">
+
+    <ImageView
+        android:layout_margin="10dp"
+        android:id="@+id/successImage"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:background="@drawable/success"/>
+
+    <TextView
+        android:layout_below="@id/successImage"
+        android:id="@+id/successtEXT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center_horizontal"
+        android:text="@string/registerSuccess"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/greenColor"
+        android:textSize="36dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/backToHomeTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:layout_below="@+id/successtEXT"
+        android:fontFamily="@font/nunito"
+        android:text="@string/backToHome"
+        android:textColor="@color/colorForCourseIntheMainScreen"
+        android:textSize="30dp" />
+
+</RelativeLayout>

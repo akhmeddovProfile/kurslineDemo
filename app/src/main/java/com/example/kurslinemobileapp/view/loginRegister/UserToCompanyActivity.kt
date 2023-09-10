@@ -334,8 +334,7 @@ class UserToCompanyActivity : AppCompatActivity() {
 
     private fun handleResponse(response: UserToCompanyResponse) {
         println("Response: " + response.isSuccess)
-        Toast.makeText(this,getString(R.string.registerSuccess),Toast.LENGTH_SHORT).show()
-        val intent = Intent(this@UserToCompanyActivity, LoginActivity::class.java)
+        val intent = Intent(this@UserToCompanyActivity, SuccessActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -138,4 +138,5 @@
     <string name="vipHgText">VIP announcements</string>
     <string name="sendText">Send</string>
     <string name="favText">Favorites</string>
+    <string name="backToHome">Back to home</string>
 </resources>
