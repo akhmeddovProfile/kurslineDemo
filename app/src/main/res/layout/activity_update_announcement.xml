@@ -240,7 +240,7 @@
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:hint="@string/enter_price"/>
             </com.google.android.material.textfield.TextInputLayout>
 

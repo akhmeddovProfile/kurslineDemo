@@ -192,7 +192,7 @@ class CourseUploadActivity : AppCompatActivity() {
 
         addCoursePhotos.setOnClickListener {
             requestGalleryPermission()
-            openGallery()
+            //openGallery()
         }
 
         courseAllCategoryEditText.setOnClickListener {
