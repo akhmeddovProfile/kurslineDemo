@@ -10,6 +10,9 @@ class TutorsEntity (
     @PrimaryKey
     val tutorsId:Int,
     @ColumnInfo
-    val tutorsName:String
+    val tutorsName:String,
+    @ColumnInfo
+    val tutorsCate:String
+
 )
 

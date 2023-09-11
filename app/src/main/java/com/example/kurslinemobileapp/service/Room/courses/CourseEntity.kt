@@ -10,5 +10,7 @@ class CourseEntity (
     @PrimaryKey
     val courseId: Int,
     @ColumnInfo(name = "modeName")
-    val courseName: String
+    val courseName: String,
+    @ColumnInfo
+    val courseCate: String
         )

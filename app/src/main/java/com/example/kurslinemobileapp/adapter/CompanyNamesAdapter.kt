@@ -34,6 +34,8 @@ class CompanyNamesAdapter(
         fun bind(response: CourseEntity) {
             val companyNameTextView: TextView = itemView.findViewById(R.id.companyNameTextView)
             companyNameTextView.text = response.courseName
+            val categoryName: TextView = itemView.findViewById(R.id.categoryTextView)
+            categoryName.text = response.courseCate
 
             itemView.setOnClickListener {
                 itemClickListener.invoke(response.courseName, response.courseId)

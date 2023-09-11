@@ -235,19 +235,19 @@ class MainActivity : AppCompatActivity() {
                 .subscribe({ companyNames ->
                     println("222")
                     val filteredCompanyNames = companyNames.filter {it->
-                        CourseEntity(it.companyId,it.companyName)
+                        CourseEntity(it.companyId,it.companyName,it.companyCategoryName)
                         it.companyStatusId == 1
                     }
                     val courseEntities = filteredCompanyNames.map {
-                        CourseEntity(it.companyId, it.companyName)
+                        CourseEntity(it.companyId, it.companyName,it.companyCategoryName)
                     }
 
                     val filteredTutorsNames = companyNames.filter {it->
-                        CourseEntity(it.companyId,it.companyName)
+                        TutorsEntity(it.companyId,it.companyName,it.companyCategoryName)
                         it.companyStatusId == 2
                     }
                     val tutorsEntities = filteredTutorsNames.map {
-                        TutorsEntity(it.companyId, it.companyName)
+                        TutorsEntity(it.companyId, it.companyName,it.companyCategoryName)
                     }
 
                     GlobalScope.launch {
@@ -257,7 +257,7 @@ class MainActivity : AppCompatActivity() {
 
                     GlobalScope.launch {
                         appDatabase.tutorsDao().insertAlltutors(tutorsEntities)
-                        println("courseEntities"+courseEntities)
+                        println("courseEntities"+tutorsEntities)
                     }
 
 
