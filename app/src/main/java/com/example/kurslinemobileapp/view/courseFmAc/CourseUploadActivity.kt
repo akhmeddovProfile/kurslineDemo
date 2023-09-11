@@ -344,7 +344,6 @@ class CourseUploadActivity : AppCompatActivity() {
             courseCategoryEditText.setText(subCategory.subCategoryName)
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
-
         dialog.setOnDismissListener {
             if (courseCategoryEditText.text!!.isEmpty()) {
                 courseAllCategoryEditText.text!!.clear()

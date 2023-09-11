@@ -403,7 +403,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginStart="15dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginEnd="0dp"
                     android:layout_marginTop="15dp"
                     android:layout_toRightOf="@id/upForwardTitle"
                     android:src="@drawable/upward_24" />

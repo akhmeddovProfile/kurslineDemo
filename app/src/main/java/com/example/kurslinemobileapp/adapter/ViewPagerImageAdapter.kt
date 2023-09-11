@@ -31,6 +31,7 @@ class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, priva
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val imageUrl = imageList[position].reklamPhoto
         // Load the image into the ImageView
+        println("imageUrl: "+imageUrl)
         Picasso.get().load(imageUrl).into(holder.imageView)
 
 

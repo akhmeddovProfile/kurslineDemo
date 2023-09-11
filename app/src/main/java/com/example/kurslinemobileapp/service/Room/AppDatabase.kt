@@ -12,8 +12,6 @@ import com.example.kurslinemobileapp.service.Room.courses.CourseEntity
 import com.example.kurslinemobileapp.service.Room.courses.CoursesDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeDao
 import com.example.kurslinemobileapp.service.Room.mode.ModeEntity
-import com.example.kurslinemobileapp.service.Room.moveforwardinfo.MoveForwardDao
-import com.example.kurslinemobileapp.service.Room.moveforwardinfo.MoveForwardEntity
 import com.example.kurslinemobileapp.service.Room.region.RegionDao
 import com.example.kurslinemobileapp.service.Room.region.RegionEntity
 import com.example.kurslinemobileapp.service.Room.status.StatusDao
@@ -21,7 +19,7 @@ import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsDao
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsEntity
 
-@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class], version = 7)
+@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class], version = 8)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun regionDao(): RegionDao
     abstract fun modeDao(): ModeDao

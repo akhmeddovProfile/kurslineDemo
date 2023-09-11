@@ -742,6 +742,11 @@ private fun setUpViewPagerFileFormat(){
             subCategoryChanged=true
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
+        dialog.setOnDismissListener {
+            if (courseSubCategoryEditText.text!!.isEmpty()) {
+                upcourseAllCategoryEditText.text!!.clear()
+            }
+        }
         dialog.show()
     }
 
