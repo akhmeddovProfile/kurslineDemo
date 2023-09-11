@@ -26,6 +26,7 @@ import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementDetailModel
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.AnnouncementSimilarCourse
 import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Comment
+import com.example.kurslinemobileapp.api.announcement.getDetailAnnouncement.Photo
 import com.example.kurslinemobileapp.api.announcement.payment.priceMoveForward.MoveforwardPriceResponseX
 import com.example.kurslinemobileapp.api.announcement.payment.priceVIP.VipPriceResponse
 import com.example.kurslinemobileapp.api.announcement.updateanddelete.DeleteAnnouncementResponse
@@ -451,7 +452,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponse,
-                    { throwable ->println("MyTests: $throwable")
+                    { throwable ->println("MyTests7: $throwable")
                     })
         )
     }
@@ -461,22 +462,24 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         Toast.makeText(this, getString(R.string.commentSending), Toast.LENGTH_SHORT).show()
     }
     private fun getUserAnnouncement(id: Int,annId: Int,token: String) {
+        println("AnnouncId: "+annId)
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
         compositeDisposable.add(retrofit.getAnnouncementForUser(id,annId,token)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests8: $throwable") }
             ))
     }
 
     private fun handleResponse(response: GetUserAnn) {
         deleteCourse.visibility = View.VISIBLE
         editCourse.visibility = View.VISIBLE
+        println("response: "+response)
         println("Image: "+response.photos)
 
-        val annPhoto=response.photos
+        val annPhoto = response.photos ?: emptyList<Photo>() // Replace Photo with your actual data type
         val gson = Gson()
         val jsonPhotoList = gson.toJson(annPhoto)
 
@@ -504,7 +507,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
         var categoryName = ""
 
-        getCategoryList()!!.subscribe({ categories ->
+        getCategoryList()?.subscribe({ categories ->
             println("333")
             categoryName = categories.categories.find { it.categoryId == annCategory }?.categoryName.toString()
             println(categoryName)
@@ -514,7 +517,9 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             // Handle error during category retrieval
             println("Category retrieval error: $throwable")
         }).let {
-            compositeDisposable.add(it)
+            if (it != null) {
+                compositeDisposable.add(it)
+            }
         }
 
         editCourse.setOnClickListener {

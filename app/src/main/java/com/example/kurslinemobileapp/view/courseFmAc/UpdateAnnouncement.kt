@@ -227,7 +227,7 @@ class UpdateAnnouncement : AppCompatActivity() {
         })*/
 
         addupCoursePhotos.setOnClickListener {
-            if(!checkPermission()){
+            if (!checkPermission()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     checkAndRequestPermissions()
                 }
@@ -236,11 +236,10 @@ class UpdateAnnouncement : AppCompatActivity() {
                            showMIUIExplanationDialog() // Show a custom explanation
                        }*/
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE) // Launch permission request directly
-            }
-            else{
+            } else {
                 openGalleryMultipart()
             }
-
+        }
             updateCourseBtn.setOnClickListener {
                 showProgressButton(true)
                 val modifiedCourseName = if (courseNameChanged) upcourseNameEditText.text.toString() else courseName
@@ -263,7 +262,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 else{
                     announcementModeId
                 }
-
+                val imagesPaths = imagesPaths2 ?: emptyList<String>()
                 println("modifiedmodeId2: "+modifiedmodeId)
                 println("modeid: "+modeid)
 
@@ -277,13 +276,13 @@ class UpdateAnnouncement : AppCompatActivity() {
                     modifiedCategoryId!!,
                     modifiedSubCategory!!,
                     modifiefRegion!!,
-                    imagesPaths2,
+                    imagesPaths,
                     authHeader,
                     userId,
                     annId
                 )
             }
-        }
+
 
 
         backtoMainFromUpdateCourse.setOnClickListener {
@@ -766,7 +765,7 @@ private fun setUpViewPagerFileFormat(){
                 regionAdapter.setOnItemClickListener { region ->
                     upcourseRegionEditText.setText(region.regionName)
                     regionId = region.regionId.toString()
-                    chooseRegionChaged
+                    chooseRegionChaged=true
                     dialog.dismiss()
                 }
             }.catch {throwable->

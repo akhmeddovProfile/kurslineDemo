@@ -24,6 +24,7 @@ import com.example.kurslinemobileapp.api.getUserCmpDatas.companyAnnouncement.Com
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
+import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -43,7 +44,7 @@ class BusinessTransactionProfileFragment : Fragment() {
     private lateinit var mainList2: ArrayList<CompanyTransactionAnnouncementItem>
     private lateinit var sharedPreferences: SharedPreferences
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint("ResourceAsColor", "SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +60,7 @@ class BusinessTransactionProfileFragment : Fragment() {
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
         val authHeader = "Bearer $token"
-getDataFromServer(id,authHeader)
+            getDataFromServer(id,authHeader)
         val userFullName = sharedPreferences.getString("companyOwnerName1","")?:""
         val userPhoto = sharedPreferences.getString("companyPhoto1","")?:""
         view.businessTransName.setText(userFullName)
@@ -194,7 +195,7 @@ getDataFromServer(id,authHeader)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponseActive,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests1: $throwable") }
             ))
     }
 
@@ -250,7 +251,7 @@ getDataFromServer(id,authHeader)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponseDeactive,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests2: $throwable") }
             ))
     }
 
@@ -305,7 +306,7 @@ getDataFromServer(id,authHeader)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponseWait,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests3: $throwable") }
             ))
     }
 
@@ -354,18 +355,19 @@ getDataFromServer(id,authHeader)
     }
 
     private fun getDataFromServer(id: Int,token:String) {
+
         compositeDisposable = CompositeDisposable()
         val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
         compositeDisposable.add(retrofit.getUserInfo(token,id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests4: $throwable") }
             ))
     }
 
     private fun handleResponse(response: UserInfoModel) {
-
+        println("Response: "+response)
         val companyPhoto = response.photo
         if (companyPhoto == null){
             view.myBusinessImage.setImageResource(R.drawable.setpp)
@@ -379,7 +381,14 @@ getDataFromServer(id,authHeader)
         editor.putString("companyOwnerName1",userFullName)
         editor.putString("companyPhoto1",companyPhoto)
         editor.apply()
-        view.businessAccountNameEditText.setText(userFullName)
+        val businessAccountNameEditText = view.findViewById<TextInputEditText>(R.id.businessAccountNameEditText)
+        if (businessAccountNameEditText != null) {
+            businessAccountNameEditText.setText(userFullName)
+            // Other operations with businessAccountNameEditText
+        } else {
+            // Handle the case where businessAccountNameEditText is null
+        }
+        //view.businessAccountNameEditText.setText(userFullName)
 
     }
 

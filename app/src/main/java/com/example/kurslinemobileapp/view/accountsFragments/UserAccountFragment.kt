@@ -79,12 +79,12 @@ class UserAccountFragment : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests5: $throwable") }
             ))
     }
 
     private fun handleResponse(response: UserInfoModel) {
-
+        println("Response: "+response)
         //  Picasso.get().load(response.photo.toString()).into(myProfileImage)
         val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
         scroll.visibility = View.VISIBLE

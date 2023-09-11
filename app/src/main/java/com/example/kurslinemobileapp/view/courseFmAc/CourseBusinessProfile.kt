@@ -66,7 +66,7 @@ class CourseBusinessProfile : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::handleResponse,
-                { throwable -> println("MyTests: $throwable") }
+                { throwable -> println("MyTests6: $throwable") }
             ))
     }
 
