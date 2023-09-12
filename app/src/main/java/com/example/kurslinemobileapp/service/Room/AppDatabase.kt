@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.app.kurslinemobileapp.service.Room.advertising.advDao
+import com.example.kurslinemobileapp.service.Room.advertising.advEntity
 import com.example.kurslinemobileapp.service.Room.category.CategoryDao
 import com.example.kurslinemobileapp.service.Room.category.CategoryEntity
 import com.example.kurslinemobileapp.service.Room.category.SubCategoryDao
@@ -19,7 +21,7 @@ import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsDao
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsEntity
 
-@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class], version = 8)
+@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class,advEntity::class], version = 9)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun regionDao(): RegionDao
     abstract fun modeDao(): ModeDao
@@ -28,6 +30,7 @@ abstract class AppDatabase :RoomDatabase(){
     abstract fun statusDao():StatusDao
     abstract fun courseDao():CoursesDao
     abstract fun tutorsDao():TutorsDao
+    abstract fun advDao(): advDao
     companion object {
 
         @Volatile

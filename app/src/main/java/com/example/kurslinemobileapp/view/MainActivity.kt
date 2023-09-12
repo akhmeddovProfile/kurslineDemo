@@ -12,11 +12,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.ActivityMainBinding
+import com.example.kurslinemobileapp.api.ad.AdAPI
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
+import com.example.kurslinemobileapp.service.Room.advertising.advEntity
 import com.example.kurslinemobileapp.service.Room.category.CategoryEntity
 import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.example.kurslinemobileapp.service.Room.category.SubCategoryEntity
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         saveCategoryInRoom()
         saveStatusInRoom()
         saveCourseInRoom()
+        saveAdvertisingInRoom()
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(applicationContext).categoryDao(),
             AppDatabase.getDatabase(applicationContext).subCategoryDao()
@@ -144,6 +147,31 @@ class MainActivity : AppCompatActivity() {
                         }
                     },
                     {thorawable->
+                        println("Error for Region: "+thorawable.message)
+                    }
+                )
+        )
+    }
+
+    private fun saveAdvertisingInRoom(){
+        val appDatabase = AppDatabase.getDatabase(applicationContext)
+        compositeDisposable= CompositeDisposable()
+        val retrofit=RetrofitService(Constant.BASE_URL).retrofit.create(AdAPI::class.java)
+        compositeDisposable.add(
+            retrofit.getAds()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {it->
+                        val adv=it.map { advertising->
+                            advEntity(advertising.reklamId,advertising.reklamText,advertising.reklamPhoto,advertising.reklamLink)
+                        }
+                        GlobalScope.launch {
+                            val advArrayList = ArrayList(adv) // Convert List to ArrayList
+                            appDatabase.advDao().insertAllAdv(advArrayList)
+                            println("Added Room ADV: "+advArrayList)
+                        }
+                    },{thorawable->
                         println("Error for Region: "+thorawable.message)
                     }
                 )

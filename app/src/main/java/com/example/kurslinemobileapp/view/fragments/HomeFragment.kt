@@ -18,6 +18,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.adapter.*
-import com.example.kurslinemobileapp.api.ad.AdAPI
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.GetAllAnnouncement
@@ -37,6 +37,7 @@ import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,6 +48,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListener,VIPAdapter.VIPFavoriteItemClickListener,
@@ -78,6 +83,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     lateinit var highRv: RecyclerView
     private val PAGE_SIZE = 5
     private var isLoading = false
+    private var job: Job? = null
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
@@ -739,12 +745,30 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     }
 
     private fun init() {
+        val appdatabase = AppDatabase.getDatabase(requireContext())
         viewPager2 = view.findViewById(R.id.viewPager2)
         handler = Handler(Looper.myLooper()!!)
 
+/*
         compositeDisposable = CompositeDisposable()
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(AdAPI::class.java)
+*/
+
+        job=appdatabase.advDao().getAllAdv().onEach { adModel->
+            val advArrayList=ArrayList(adModel)
+            val adapter = ViewPagerImageAdapter(advArrayList, viewPager2,requireContext())
+            viewPager2.adapter = adapter
+            viewPager2.offscreenPageLimit = 3
+            viewPager2.clipToPadding = false
+            viewPager2.clipChildren = false
+            viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        }.catch {throwable->
+            println("MyTests: $throwable")
+
+        }.launchIn(lifecycleScope)
+
+/*
 
         compositeDisposable.add(
             retrofit.getAds()
@@ -765,6 +789,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 })
         )
 
+*/
 
     }
 
