@@ -5,5 +5,4 @@ data class AdModelItem(
     val reklamText: String,
     val reklamPhoto: String,
     val reklamLink: String
-
 )

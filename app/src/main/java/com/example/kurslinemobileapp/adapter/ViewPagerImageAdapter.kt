@@ -12,10 +12,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.app.kurslinemobileapp.R
-import com.example.kurslinemobileapp.model.AdsModel.AdModelItem
+import com.example.kurslinemobileapp.service.Room.advertising.advEntity
 import com.squareup.picasso.Picasso
 
-class ViewPagerImageAdapter(private val imageList: ArrayList<AdModelItem>, private val viewPager2: ViewPager2,private val context: Context) :
+class ViewPagerImageAdapter(private val imageList: ArrayList<advEntity>, private val viewPager2: ViewPager2,private val context: Context) :
     RecyclerView.Adapter<ViewPagerImageAdapter.ImageViewHolder>() {
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
