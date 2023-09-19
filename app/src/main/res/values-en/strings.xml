@@ -5,7 +5,7 @@
     <string name="home">Home</string>
     <string name="my_account">My Account</string>
     <string name="favorites">Favorite</string>
-    <string name="setting">Setting</string>
+    <string name="setting">Settings</string>
     <string name="the_most_of_seen">The most of seen</string>
     <string name="select_course">Choose Course</string>
     <string name="filter">Filter</string>
@@ -120,7 +120,7 @@
     <string name="offlineTxt">Offline</string>
     <string name="onOffTxt">Offline/Online</string>
     <string name="resetTxt">Reset</string>
-    <string name="searchAd">Search Announcement</string>
+    <string name="searchAd">Search announcement</string>
     <string name="searchCourse">Search course</string>
     <string name="searchTutor">Search tutor</string>
     <string name="mailOrpassword">The email address or password is incorrect</string>
