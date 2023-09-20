@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityCourseBusinessProfileBinding
 import com.example.kurslinemobileapp.adapter.CourseBusinessProfileAdapter
 import com.example.kurslinemobileapp.adapter.ResizeTransformation
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
@@ -31,13 +32,17 @@ class CourseBusinessProfile : AppCompatActivity() {
     private lateinit var courseBusinessProfileAdapter: CourseBusinessProfileAdapter
     private lateinit var mainList : ArrayList<Announcement>
     private lateinit var mainList2 : ArrayList<Announcement>
+    private lateinit var bindingCourseBusiness: ActivityCourseBusinessProfileBinding
     private lateinit var sharedPreferences: SharedPreferences
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_course_business_profile)
+        bindingCourseBusiness= ActivityCourseBusinessProfileBinding.inflate(layoutInflater)
+        val view=bindingCourseBusiness.root
+        setContentView(view)
+        //setContentView(R.layout.activity_course_business_profile)
         sharedPreferences =this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        scrollBusinessProfile.visibility = View.GONE
+        bindingCourseBusiness.scrollBusinessProfile.visibility = View.GONE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingCourseBusinessProfile)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
@@ -52,7 +57,7 @@ class CourseBusinessProfile : AppCompatActivity() {
         getDataFromServer(companyId)
         }
 
-        backToCourseDesc.setOnClickListener {
+        bindingCourseBusiness.backToCourseDesc.setOnClickListener {
             val intent = Intent(this@CourseBusinessProfile,AllCompaniesActivity::class.java)
             startActivity(intent)
             finish()
@@ -100,20 +105,20 @@ class CourseBusinessProfile : AppCompatActivity() {
             val companyImage = companyDetailItem.companyImage
             val category = companyDetailItem.companyCategory
             // Use the retrieved values as needed
-            businessCompanyName.text = companyName
-            courseBusinessNumber.text = companyPhone
-            courseBusinessNumber.setOnClickListener {
+            bindingCourseBusiness.businessCompanyName.text = companyName
+            bindingCourseBusiness.courseBusinessNumber.text = companyPhone
+            bindingCourseBusiness.courseBusinessNumber.setOnClickListener {
                 val intent = Intent(Intent.ACTION_DIAL)
                 intent.data = Uri.parse("tel:$companyPhone")
                 startActivity(intent)
             }
-            courseBusinessLocation.text = companyAddress
-            businessCategoryText.text = category
+            bindingCourseBusiness.courseBusinessLocation.text = companyAddress
+            bindingCourseBusiness.businessCategoryText.text = category
 
             if (companyImage == null || companyImage.equals("")) {
-                courseBusinessPhoto.setImageResource(R.drawable.setpp)
+                bindingCourseBusiness.courseBusinessPhoto.setImageResource(R.drawable.setpp)
             } else {
-                Picasso.get().load(companyImage).transform(ResizeTransformation(300, 300)).into(courseBusinessPhoto)
+                Picasso.get().load(companyImage).transform(ResizeTransformation(300, 300)).into(bindingCourseBusiness.courseBusinessPhoto)
             }
         } else {
             // Handle the case when the response is empty or null

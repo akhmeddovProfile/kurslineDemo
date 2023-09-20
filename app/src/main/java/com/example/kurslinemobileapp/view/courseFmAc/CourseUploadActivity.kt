@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityCourseUploadBinding
 import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreataAnnouncementApi
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.CreateAnnouncementRequest
@@ -35,7 +36,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_course_upload.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -52,7 +52,7 @@ class CourseUploadActivity : AppCompatActivity() {
     private lateinit var modeAdapter: ModeAdapter
     private var job: Job? = null
     private lateinit var repository: MyRepositoryForCategory
-
+    private lateinit var bindingCourseUploadActivity: ActivityCourseUploadBinding
     var imageNames = mutableListOf<String>()
     var imageData = mutableListOf<String>()
     var images = mutableListOf<Img>()
@@ -84,7 +84,10 @@ class CourseUploadActivity : AppCompatActivity() {
     @SuppressLint("WrongViewCast", "WrongThread", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_course_upload)
+        bindingCourseUploadActivity= ActivityCourseUploadBinding.inflate(layoutInflater)
+        val view=bindingCourseUploadActivity.root
+        setContentView(view)
+        //setContentView(R.layout.activity_course_upload)
         imageNames= mutableListOf()
         imageData= mutableListOf()
         images= mutableListOf()
@@ -99,51 +102,51 @@ class CourseUploadActivity : AppCompatActivity() {
             AppDatabase.getDatabase(this).categoryDao(),
             AppDatabase.getDatabase(this).subCategoryDao()
         )
-            backtoMainFromCourseUpload.setOnClickListener {
+            bindingCourseUploadActivity.backtoMainFromCourseUpload.setOnClickListener {
                 val intent = Intent(this@CourseUploadActivity,MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
 
         setupViewPager()
-        uploadCourse.setOnClickListener {
+        bindingCourseUploadActivity.uploadCourse.setOnClickListener {
         block=true
-            val courseNameContainer = courseNameEditText.text.toString().trim()
-            val courseAddressContainer = courseAddressEditText.text.toString().trim()
-            val companyAboutContainer=courseAboutEditText.text.toString().trim()
-            val companyTeacherContainer=courseTeacherEditText.text.toString().trim()
-            val companyPriceContainer : Int =coursePriceEditText.text.toString().toInt()
+            val courseNameContainer = bindingCourseUploadActivity.courseNameEditText.text.toString().trim()
+            val courseAddressContainer = bindingCourseUploadActivity.courseAddressEditText.text.toString().trim()
+            val companyAboutContainer=bindingCourseUploadActivity.courseAboutEditText.text.toString().trim()
+            val companyTeacherContainer=bindingCourseUploadActivity.courseTeacherEditText.text.toString().trim()
+            val companyPriceContainer : Int =bindingCourseUploadActivity.coursePriceEditText.text.toString().toInt()
             val companyModeContainer = modeId
             val companySubCategoryContainer = categoryId
             val companyRegionContainer = regionId
             val companyAllCategoryContainer=allcategoriesId
             if (courseNameContainer.isEmpty()){
-                courseNameEditText.error="Course Name required"
-                courseNameEditText.requestFocus()
+                bindingCourseUploadActivity.courseNameEditText.error="Course Name required"
+                bindingCourseUploadActivity.courseNameEditText.requestFocus()
                 block=false
             }
             if (courseAddressContainer.isEmpty()){
-                courseAddressEditText.error="Course Address required"
-                courseAddressEditText.requestFocus()
+                bindingCourseUploadActivity.courseAddressEditText.error="Course Address required"
+                bindingCourseUploadActivity.courseAddressEditText.requestFocus()
                 block=false
             }
 
             if (companyAboutContainer.isEmpty()){
-                courseAboutEditText.error="About the Course required"
-                courseAboutEditText.requestFocus()
+                bindingCourseUploadActivity.courseAboutEditText.error="About the Course required"
+                bindingCourseUploadActivity.courseAboutEditText.requestFocus()
                 block=false
             }
             if (companyTeacherContainer.isEmpty()){
-                courseTeacherEditText.error="Teacher required"
-                courseTeacherEditText.requestFocus()
+                bindingCourseUploadActivity.courseTeacherEditText.error="Teacher required"
+                bindingCourseUploadActivity.courseTeacherEditText.requestFocus()
                 block=false
             }
             if (companyPriceContainer.equals("")){
-                coursePriceEditText.error="Price required"
-                coursePriceEditText.requestFocus()
+                bindingCourseUploadActivity.coursePriceEditText.error="Price required"
+                bindingCourseUploadActivity.coursePriceEditText.requestFocus()
                 block=false
             }
-            val name = courseTeacherEditText.text.toString().trim()
+            val name = bindingCourseUploadActivity.courseTeacherEditText.text.toString().trim()
             if (name.isNotEmpty()){
                 teachersname.add(name)
             }
@@ -158,19 +161,19 @@ class CourseUploadActivity : AppCompatActivity() {
                  CreateAnnouncementRequest(courseNameContainer,companyAboutContainer,companyPriceContainer,courseAddressContainer,companyModeContainer,companyAllCategoryContainer,companySubCategoryContainer,companyRegionContainer,images,teachersname))
         }
 
-        addCoursePhotos.setOnClickListener {
+        bindingCourseUploadActivity.addCoursePhotos.setOnClickListener {
             println("1111111")
             requestGalleryPermission()
             //openGallery()
         }
 
-        courseAllCategoryEditText.setOnClickListener {
+        bindingCourseUploadActivity.courseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()
         }
-        courseRegionEditText.setOnClickListener {
+        bindingCourseUploadActivity.courseRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
-        courseModeEditText.setOnClickListener {
+        bindingCourseUploadActivity.courseModeEditText.setOnClickListener {
             showBottomSheetDialogMode()
         }
 
@@ -273,9 +276,9 @@ class CourseUploadActivity : AppCompatActivity() {
         inputStream?.close()
 
         // Use the base64String as needed
-        setImageUrl.setText(imageName?.trim().toString())
-        setImageUrl.visibility=View.GONE
-        println("Image Name: "+setImageUrl.text.toString()+".JPG")
+        bindingCourseUploadActivity.setImageUrl.setText(imageName?.trim().toString())
+        bindingCourseUploadActivity.setImageUrl.visibility=View.GONE
+        println("Image Name: "+bindingCourseUploadActivity.setImageUrl.text.toString()+".JPG")
         imageNames.add(imageName!!)
         selectedPhotos.add(SelectionPhotoShowOnViewPager(imageName,imageUri,base64String))
         imageData.add(base64String)
@@ -316,7 +319,7 @@ class CourseUploadActivity : AppCompatActivity() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
                 allcategoriesId = categorywithsubcategory.category.categoryId
-                courseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
+                bindingCourseUploadActivity.courseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
                 showSubCategories(categorywithsubcategory.subCategories)
                 dialog.dismiss()
             }
@@ -341,12 +344,12 @@ class CourseUploadActivity : AppCompatActivity() {
         subCategoryAdapter.setOnItemClickListener { subCategory ->
             // Handle the subcategory selection here
             categoryId = subCategory.subCategoryId
-            courseCategoryEditText.setText(subCategory.subCategoryName)
+            bindingCourseUploadActivity.courseCategoryEditText.setText(subCategory.subCategoryName)
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
         dialog.setOnDismissListener {
-            if (courseCategoryEditText.text!!.isEmpty()) {
-                courseAllCategoryEditText.text!!.clear()
+            if (bindingCourseUploadActivity.courseCategoryEditText.text!!.isEmpty()) {
+                bindingCourseUploadActivity.courseAllCategoryEditText.text!!.clear()
             }
         }
 
@@ -371,7 +374,7 @@ class CourseUploadActivity : AppCompatActivity() {
                recyclerviewRegions.adapter = regionAdapter
                regionAdapter.setChanged(reg)
                regionAdapter.setOnItemClickListener { region ->
-                   courseRegionEditText.setText(region.regionName)
+                   bindingCourseUploadActivity.courseRegionEditText.setText(region.regionName)
                    regionId = region.regionId
                    dialog.dismiss()
                }
@@ -401,7 +404,7 @@ class CourseUploadActivity : AppCompatActivity() {
                 recyclerViewMode.adapter = modeAdapter
                 modeAdapter.setChanged(mode)
                 modeAdapter.setOnItemClickListener { mode ->
-                    courseModeEditText.setText(mode.modeName)
+                    bindingCourseUploadActivity.courseModeEditText.setText(mode.modeName)
                     modeId = mode.modeId
                     dialog.dismiss()
                 }
@@ -414,13 +417,13 @@ class CourseUploadActivity : AppCompatActivity() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            uploadCourse.apply {
+            bindingCourseUploadActivity.uploadCourse.apply {
                 isEnabled = false
                 text = "Kurs elanı yaradılır..."  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            uploadCourse.apply {
+            bindingCourseUploadActivity.uploadCourse.apply {
                 isEnabled = true
                 text = "Kursu əlavə et"
                 // Restore original background, text color, etc., if modified

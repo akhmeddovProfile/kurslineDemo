@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:id="@+id/productDetail_Rl"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.courseFmAc.ProductDetailActivity">
+    tools:context="com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity">
 
     <ScrollView
         android:id="@+id/scrollViewforProductDescription"

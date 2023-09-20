@@ -2,13 +2,16 @@ package com.example.kurslinemobileapp.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.app.kurslinemobileapp.R
-import kotlinx.android.synthetic.main.activity_pdf_privacy_policy.*
+import com.app.kurslinemobileapp.databinding.ActivityPdfPrivacyPolicyBinding
 
 class PdfPrivacyPolicy : AppCompatActivity() {
+    private lateinit var bindingPdfPrivacyPolicyBinding: ActivityPdfPrivacyPolicyBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pdf_privacy_policy)
-        pdfPrivacyView.fromAsset("mexfilikword.pdf").load()
+        bindingPdfPrivacyPolicyBinding=ActivityPdfPrivacyPolicyBinding.inflate(layoutInflater)
+        val view=bindingPdfPrivacyPolicyBinding.root
+        setContentView(view)
+        //setContentView(R.layout.activity_pdf_privacy_policy)
+        bindingPdfPrivacyPolicyBinding.pdfPrivacyView.fromAsset("mexfilikword.pdf").load()
     }
 }

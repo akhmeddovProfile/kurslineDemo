@@ -9,8 +9,11 @@ import android.net.Network
 import android.net.NetworkInfo
 import android.os.Build
 import androidx.lifecycle.LiveData
+import com.app.kurslinemobileapp.databinding.NetworkErrorLayoutBinding
 
 class NetworkConnection(private val context:Context):LiveData<Boolean>() {
+
+    private lateinit var bindingNetworkConnection: NetworkErrorLayoutBinding
 
     private val connectivityManager:ConnectivityManager=context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

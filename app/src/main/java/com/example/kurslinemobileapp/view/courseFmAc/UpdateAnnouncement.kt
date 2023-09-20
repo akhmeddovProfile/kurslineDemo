@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityUpdateAnnouncementBinding
 import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.createAnnouncement.Img
@@ -71,7 +72,7 @@ class UpdateAnnouncement : AppCompatActivity() {
     val imagesPaths2 = ArrayList<String>()
     private var block: Boolean = true
     private var job: Job? = null
-
+    private lateinit var bindingUpdateAnnouncementBinding: ActivityUpdateAnnouncementBinding
     private val viewModel: RegionViewModel by viewModels()
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var repository: MyRepositoryForCategory
@@ -140,7 +141,10 @@ class UpdateAnnouncement : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update_announcement)
+        bindingUpdateAnnouncementBinding= ActivityUpdateAnnouncementBinding.inflate(layoutInflater)
+        val view=bindingUpdateAnnouncementBinding.root
+        setContentView(view)
+        //setContentView(R.layout.activity_update_announcement)
 
         modeId=""
         allcategoriesId=""
@@ -161,14 +165,14 @@ class UpdateAnnouncement : AppCompatActivity() {
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
 
-        upcourseNameEditText.addTextChangedListener(object : TextWatcher {
+        bindingUpdateAnnouncementBinding.upcourseNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 courseNameChanged = true
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-        upcourseAboutEditText.addTextChangedListener(object : TextWatcher {
+        bindingUpdateAnnouncementBinding.upcourseAboutEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 aboutCourseChanged = true
@@ -176,21 +180,21 @@ class UpdateAnnouncement : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        upcourseTeacherEditText.addTextChangedListener(object : TextWatcher {
+        bindingUpdateAnnouncementBinding.upcourseTeacherEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 teacherNameChanged = true
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-        upcoursePriceEditText.addTextChangedListener(object : TextWatcher {
+        bindingUpdateAnnouncementBinding.upcoursePriceEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 coursePriceChanged = true
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-        upcourseAddressEditText.addTextChangedListener(object : TextWatcher {
+        bindingUpdateAnnouncementBinding.upcourseAddressEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 courseAddressChanged = true
@@ -226,7 +230,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })*/
 
-        addupCoursePhotos.setOnClickListener {
+        bindingUpdateAnnouncementBinding.addupCoursePhotos.setOnClickListener {
             if (!checkPermission()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     checkAndRequestPermissions()
@@ -240,13 +244,13 @@ class UpdateAnnouncement : AppCompatActivity() {
                 openGalleryMultipart()
             }
         }
-            updateCourseBtn.setOnClickListener {
+            bindingUpdateAnnouncementBinding.updateCourseBtn.setOnClickListener {
                 showProgressButton(true)
-                val modifiedCourseName = if (courseNameChanged) upcourseNameEditText.text.toString() else courseName
-                val modifiedAboutCourse = if (aboutCourseChanged) upcourseAboutEditText.text.toString() else aboutrcourse
-                val modifiedTeacherName = if (teacherNameChanged) upcourseTeacherEditText.text.toString() else teachersname
-                val modifiedPrice=if (coursePriceChanged)upcoursePriceEditText.text.toString().toDouble() else announcementPrice
-                val modifiedAddress=if (courseAddressChanged)upcourseAddressEditText.text.toString()else announcementAdress
+                val modifiedCourseName = if (courseNameChanged) bindingUpdateAnnouncementBinding.upcourseNameEditText.text.toString() else courseName
+                val modifiedAboutCourse = if (aboutCourseChanged) bindingUpdateAnnouncementBinding.upcourseAboutEditText.text.toString() else aboutrcourse
+                val modifiedTeacherName = if (teacherNameChanged) bindingUpdateAnnouncementBinding.upcourseTeacherEditText.text.toString() else teachersname
+                val modifiedPrice=if (coursePriceChanged)bindingUpdateAnnouncementBinding.upcoursePriceEditText.text.toString().toDouble() else announcementPrice
+                val modifiedAddress=if (courseAddressChanged)bindingUpdateAnnouncementBinding.upcourseAddressEditText.text.toString()else announcementAdress
                 val modifiedmodeId=if(modeChanged)modeId else announcementModeId
                 val modifiedCategoryId=if (categoryChanged)allcategoriesId else announcementCategoryId
                 val modifiedSubCategory=if (subCategoryChanged)categoryId else announcementSubcategoryId
@@ -285,7 +289,7 @@ class UpdateAnnouncement : AppCompatActivity() {
 
 
 
-        backtoMainFromUpdateCourse.setOnClickListener {
+        bindingUpdateAnnouncementBinding.backtoMainFromUpdateCourse.setOnClickListener {
             val intent=Intent(this,ProductDetailActivity::class.java)
             startActivity(intent)
             finish()
@@ -297,14 +301,14 @@ class UpdateAnnouncement : AppCompatActivity() {
         println("Category: "+category)
 
         getUpdateAnnouncement(userId,annId,authHeader)
-        upcourseModeEditText.setOnClickListener {
+        bindingUpdateAnnouncementBinding.upcourseModeEditText.setOnClickListener {
             showBottomSheetDialogMode()
 
         }
-        upcourseAllCategoryEditText.setOnClickListener {
+        bindingUpdateAnnouncementBinding.upcourseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()
         }
-        upcourseRegionEditText.setOnClickListener{
+        bindingUpdateAnnouncementBinding.upcourseRegionEditText.setOnClickListener{
             showBottomSheetDialogRegions()
         }
     }
@@ -370,11 +374,11 @@ class UpdateAnnouncement : AppCompatActivity() {
          announcementCategoryId=response.announcementCategoryId.toString()
          announcementSubcategoryId=response.announcementSubCategoryId.toString()
          announcementRegionID=response.announcementRegionId.toString()
-        upcourseNameEditText.setText(courseName)
-        upcourseAboutEditText.setText(aboutrcourse)
-        upcourseTeacherEditText.setText(teachersnames)
-        upcoursePriceEditText.setText(announcementPrice.toString())
-        upcourseAddressEditText.setText(announcementAdress)
+        bindingUpdateAnnouncementBinding.upcourseNameEditText.setText(courseName)
+        bindingUpdateAnnouncementBinding.upcourseAboutEditText.setText(aboutrcourse)
+        bindingUpdateAnnouncementBinding.upcourseTeacherEditText.setText(teachersnames)
+        bindingUpdateAnnouncementBinding.upcoursePriceEditText.setText(announcementPrice.toString())
+        bindingUpdateAnnouncementBinding.upcourseAddressEditText.setText(announcementAdress)
 /*        upcourseAllCategoryEditText.setText(announcementCategory)
         courseSubCategoryEditText.setText(announcementSubcategory)*/
         var announcementRegionName=""
@@ -387,7 +391,7 @@ class UpdateAnnouncement : AppCompatActivity() {
                 it.regionId==announcementRegionID.toInt()
             }?.regionName.toString()
             println(announcementRegionName)
-            upcourseRegionEditText.setText(announcementRegionName.trim().toString())
+            bindingUpdateAnnouncementBinding.upcourseRegionEditText.setText(announcementRegionName.trim().toString())
         },{throwable->
             println("Category retrieval error: $throwable")
 
@@ -409,11 +413,11 @@ class UpdateAnnouncement : AppCompatActivity() {
         getCategoryList()!!.subscribe({response->
             val foundCategory = response.categories.find { it.categoryId == announcementCategoryId.toInt() }
             categoryname = foundCategory?.categoryName ?: ""
-            upcourseAllCategoryEditText.setText(categoryname)
+            bindingUpdateAnnouncementBinding.upcourseAllCategoryEditText.setText(categoryname)
             // Now, find the subcategory within the found category
             val foundSubCategory = foundCategory?.subCategories?.find { it.subCategoryCategoryId == announcementSubcategoryId.toInt() }
             subcategoryName = foundSubCategory?.subCategoryName ?: ""
-            courseSubCategoryEditText.setText(subcategoryName)
+            bindingUpdateAnnouncementBinding.courseSubCategoryEditText.setText(subcategoryName)
 
             // Add logging statements to check values
             println("categoryname: $categoryname")
@@ -685,7 +689,7 @@ private fun setUpViewPagerFileFormat(){
                 recyclerViewMode.adapter = modeAdapter
                 modeAdapter.setChanged(mode)
                 modeAdapter.setOnItemClickListener { mode ->
-                    upcourseModeEditText.setText(mode.modeName)
+                    bindingUpdateAnnouncementBinding.upcourseModeEditText.setText(mode.modeName)
                     modeId = mode.modeId.toString()
                     modeChanged=true
                     dialog.dismiss()
@@ -712,7 +716,7 @@ private fun setUpViewPagerFileFormat(){
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { categorywithsubcategory ->
                 allcategoriesId = categorywithsubcategory.category.categoryId.toString()
-                upcourseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
+                bindingUpdateAnnouncementBinding.upcourseAllCategoryEditText.setText(categorywithsubcategory.category.categoryName)
                 showSubCategories(categorywithsubcategory.subCategories)
                 categoryChanged=true
                 dialog.dismiss()
@@ -738,7 +742,7 @@ private fun setUpViewPagerFileFormat(){
         subCategoryAdapter.setOnItemClickListener { subCategory ->
             // Handle the subcategory selection here
             categoryId = subCategory.subCategoryId.toString()
-            courseSubCategoryEditText.setText(subCategory.subCategoryName)
+            bindingUpdateAnnouncementBinding.courseSubCategoryEditText.setText(subCategory.subCategoryName)
             subCategoryChanged=true
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
@@ -768,7 +772,7 @@ private fun setUpViewPagerFileFormat(){
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
-                    upcourseRegionEditText.setText(region.regionName)
+                    bindingUpdateAnnouncementBinding.upcourseRegionEditText.setText(region.regionName)
                     regionId = region.regionId.toString()
                     chooseRegionChaged=true
                     dialog.dismiss()
@@ -781,13 +785,13 @@ private fun setUpViewPagerFileFormat(){
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            updateCourseBtn.apply {
+            bindingUpdateAnnouncementBinding.updateCourseBtn.apply {
                 isEnabled = false
                 text = "Kurs elanı yenilənir..."  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            updateCourseBtn.apply {
+            bindingUpdateAnnouncementBinding.updateCourseBtn.apply {
                 isEnabled = true
                 text = "Kursu əlavə et"
                 // Restore original background, text color, etc., if modified

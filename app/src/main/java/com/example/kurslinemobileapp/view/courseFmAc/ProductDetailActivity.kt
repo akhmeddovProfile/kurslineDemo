@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityProductDetailBinding
 import com.example.kurslinemobileapp.adapter.CommentAdapter
 import com.example.kurslinemobileapp.adapter.ProductDetailImageAdapter
 import com.example.kurslinemobileapp.adapter.SimilarCoursesAdapter
@@ -68,14 +69,16 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     lateinit var vipList:ArrayList<VipPriceResponse>
     private var check:Boolean=false
     private lateinit var sharedPreferences: SharedPreferences
-
+    private lateinit var bindingProductDetailActivity: ActivityProductDetailBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_detail)
+        bindingProductDetailActivity=ActivityProductDetailBinding.inflate(layoutInflater)
+        val view=bindingProductDetailActivity.root
+        setContentView(view)
 
-
-        scrollViewforProductDescription.visibility = View.GONE
+        //setContentView(R.layout.activity_product_detail)
+        bindingProductDetailActivity.scrollViewforProductDescription.visibility = View.GONE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
@@ -93,23 +96,23 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         similarcourseList= ArrayList<AnnouncementSimilarCourse>()
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
-            linearlayoutforinputComment.visibility = View.VISIBLE
+            bindingProductDetailActivity.linearlayoutforinputComment.visibility = View.VISIBLE
         }
 
         else{
-            linearlayoutforinputComment.visibility = View.GONE
+            bindingProductDetailActivity.linearlayoutforinputComment.visibility = View.GONE
         }
 
         getUserAnnouncement(userId,annId,authHeader)
 
-        relativeLayoutClickUpForward.setOnClickListener {
+        bindingProductDetailActivity.relativeLayoutClickUpForward.setOnClickListener {
             getPriceforMoveForward(userId,annId,authHeader)
         }
-        relativeLayoutClickVIP.setOnClickListener {
+        bindingProductDetailActivity.relativeLayoutClickVIP.setOnClickListener {
             getPriceForVip(userId,annId,authHeader)
         }
 
-        deleteCourse.setOnClickListener {
+        bindingProductDetailActivity.deleteCourse.setOnClickListener {
             val alertDialogBuilder = AlertDialog.Builder(
                 ContextThemeWrapper(this,R.style.CustomAlertDialogTheme))
             alertDialogBuilder.setMessage("Are you sure you want to delete this item?")
@@ -127,7 +130,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         }
 
 
-        commentEditText.addTextChangedListener(object : TextWatcher {
+        bindingProductDetailActivity.commentEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -139,7 +142,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             override fun afterTextChanged(s: Editable?) {
                 val name = s.toString().trim()
                 val characterCount = name.length
-                characterCountTextViewComment.text = "Comment must be between 3 and 100 characters: " +
+                bindingProductDetailActivity.characterCountTextViewComment.text = "Comment must be between 3 and 100 characters: " +
                          "$characterCount / 100"
             }
         })
@@ -168,11 +171,11 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             }
             }
 
-        favorite_button_for_detail.setOnClickListener {
+        bindingProductDetailActivity.favoriteButtonForDetail.setOnClickListener {
             if(checkLogin==true){
                 isFavorite=!isFavorite
                 isFavoriteFromFavoriteFragment=!isFavoriteFromFavoriteFragment
-                favorite_button_for_detail.setImageResource(if (isFavorite&&isFavoriteFromFavoriteFragment) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
+                bindingProductDetailActivity.favoriteButtonForDetail.setImageResource(if (isFavorite&&isFavoriteFromFavoriteFragment) R.drawable.favorite_for_product else R.drawable.favorite_border_for_product)
                 postOrdeletefav(authHeader,userId,annId)
             }
             else{
@@ -180,8 +183,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             }
         }
 
-        sendCommentBtn.setOnClickListener {
-            val comment = commentEditText.text.toString()
+        bindingProductDetailActivity.sendCommentBtn.setOnClickListener {
+            val comment = bindingProductDetailActivity.commentEditText.text.toString()
             // Validate user input
             if ( comment.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
@@ -263,7 +266,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         )
     }
     private fun handleResponseforItemsWhichFav(response: AnnouncementDetailModel) {
-        scrollViewforProductDescription.visibility = View.VISIBLE
+        bindingProductDetailActivity.scrollViewforProductDescription.visibility = View.VISIBLE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         lottie.pauseAnimation()
         lottie.visibility = View.GONE
@@ -281,7 +284,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val phoneNumber = response.phone
         val count = response.countView
         if (response.isVIP == true){
-            vip_product_for_detail.visibility = View.VISIBLE
+            bindingProductDetailActivity.vipProductForDetail.visibility = View.VISIBLE
         }else{
             vip_product_for_detail.visibility = View.GONE
         }
@@ -306,19 +309,19 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         editor.putString("productDetailImages", jsonPhotoList)
         editor.apply()
 
-        addresTitle.setText(address)
-        courseownerName.setText(companyName)
-        detailCoursePrice.setText(price + " AZN")
-        coursecontentname.setText(courseName)
-        aboutCourse.setText(courseDesc)
+        bindingProductDetailActivity.addresTitle.setText(address)
+        bindingProductDetailActivity.courseownerName.setText(companyName)
+        bindingProductDetailActivity.detailCoursePrice.setText(price + " AZN")
+        bindingProductDetailActivity.coursecontentname.setText(courseName)
+        bindingProductDetailActivity.aboutCourse.setText(courseDesc)
         //catagoryTitle.setText(categoryId)
-        regionTitle.setText(regionId)
-        rejimTitle.setText(modeId)
-        teacherTitle.setText(teacherName.toString())
-        contactTitle.setText(phoneNumber)
-        viewCount.setText(count.toString())
-        categoryTitle.setText(category)
-        catagoryTitle.setText(subcategory)
+        bindingProductDetailActivity.regionTitle.setText(regionId)
+        bindingProductDetailActivity.rejimTitle.setText(modeId)
+        bindingProductDetailActivity.teacherTitle.setText(teacherName.toString())
+        bindingProductDetailActivity.contactTitle.setText(phoneNumber)
+        bindingProductDetailActivity.viewCount.setText(count.toString())
+        bindingProductDetailActivity.categoryTitle.setText(category)
+        bindingProductDetailActivity.catagoryTitle.setText(subcategory)
 
         println("sub: " + subcategory)
 
@@ -389,7 +392,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
 
     private fun handleResponse(response: AnnouncementDetailModel) {
-        scrollViewforProductDescription.visibility = View.VISIBLE
+        bindingProductDetailActivity.scrollViewforProductDescription.visibility = View.VISIBLE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingDetail)
         lottie.pauseAnimation()
         lottie.visibility = View.GONE
@@ -412,23 +415,23 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val phoneNumber = response.phone
         val count = response.countView
         if (response.isVIP == true){
-            vip_product_for_detail.visibility = View.VISIBLE
+            bindingProductDetailActivity.vipProductForDetail.visibility = View.VISIBLE
         }else{
-            vip_product_for_detail.visibility = View.GONE
+            bindingProductDetailActivity.vipProductForDetail.visibility = View.GONE
         }
 
 
-        courseownerName.setText(companyName)
-        detailCoursePrice.setText(price + " AZN")
-        coursecontentname.setText(courseName)
-        aboutCourse.setText(courseDesc)
-        catagoryTitle.setText(categoryId)
-        regionTitle.setText(regionId)
-        catagoryTitle.setText(valueFromIntent)
-        rejimTitle.setText(modeId)
-        teacherTitle.setText(teacherName.toString())
-        contactTitle.setText(phoneNumber)
-        viewCount.setText(count.toString())
+        bindingProductDetailActivity.courseownerName.setText(companyName)
+        bindingProductDetailActivity.detailCoursePrice.setText(price + " AZN")
+        bindingProductDetailActivity.coursecontentname.setText(courseName)
+        bindingProductDetailActivity.aboutCourse.setText(courseDesc)
+        bindingProductDetailActivity.catagoryTitle.setText(categoryId)
+        bindingProductDetailActivity.regionTitle.setText(regionId)
+        bindingProductDetailActivity.catagoryTitle.setText(valueFromIntent)
+        bindingProductDetailActivity.rejimTitle.setText(modeId)
+        bindingProductDetailActivity.teacherTitle.setText(teacherName.toString())
+        bindingProductDetailActivity.contactTitle.setText(phoneNumber)
+        bindingProductDetailActivity.viewCount.setText(count.toString())
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewUserComment)
         val commentList: List<Comment> = response.comments
 
@@ -458,7 +461,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     }
 
     private fun handleResponse(response: CommentResponse) {
-        commentEditText.text!!.clear()
+        bindingProductDetailActivity.commentEditText.text!!.clear()
         Toast.makeText(this, getString(R.string.commentSending), Toast.LENGTH_SHORT).show()
     }
     private fun getUserAnnouncement(id: Int,annId: Int,token: String) {
@@ -474,8 +477,8 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
     }
 
     private fun handleResponse(response: GetUserAnn) {
-        deleteCourse.visibility = View.VISIBLE
-        editCourse.visibility = View.VISIBLE
+        bindingProductDetailActivity.deleteCourse.visibility = View.VISIBLE
+        bindingProductDetailActivity.editCourse.visibility = View.VISIBLE
         println("response: "+response)
         println("Image: "+response.photos)
 
@@ -522,7 +525,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             }
         }
 
-        editCourse.setOnClickListener {
+        bindingProductDetailActivity.editCourse.setOnClickListener {
             val intent=Intent(this@ProductDetailActivity,UpdateAnnouncement::class.java)
             startActivity(intent)
         }
