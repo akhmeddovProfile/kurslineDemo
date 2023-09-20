@@ -39,7 +39,7 @@ class BusinessAccountFragment : Fragment() {
         val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
         scroll.visibility = View.GONE
         val lottie = bindingBusinessAccountBinding.loadingBusinessAccount
-        lottie.visibility = View.VISIBLE
+        lottie.visibility = View.GONE
         lottie.playAnimation()
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID",0)

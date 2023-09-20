@@ -42,7 +42,7 @@ class UserAccountFragment : Fragment() {
         val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
         scroll.visibility = View.GONE
         val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
-        lottie.visibility = View.VISIBLE
+        lottie.visibility = View.GONE
         lottie.playAnimation()
         // Get the SharedPreferences object
          sharedPreferences =

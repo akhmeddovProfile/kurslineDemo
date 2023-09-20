@@ -19,69 +19,36 @@ class BlankAccountFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_blank_account, container, false)
         val sharedPreferences = requireActivity().getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
-        // Get the saved account information from SharedPreferences
         val isRegistered = sharedPreferences.getBoolean("token", false)
+
         if (!isRegistered) {
-            // User is not registered, navigate to the registration fragment
+            // User is not registered, navigate to the login activity
             val intent = Intent(activity, LoginActivity::class.java)
             activity?.startActivity(intent)
             activity?.finish()
         } else {
-            val userType = sharedPreferences.getString("userType",null)
-            // User is already registered, stay on the current fragment/activity
-            if (userType == "İstifadəçi") {
-// User is not registered, navigate to the registration fragment
-                val fragmentManager = requireFragmentManager()
-                // Start a fragment transaction
-                val transaction = fragmentManager.beginTransaction()
+            val userType = sharedPreferences.getString("userType", null)
 
-                // Replace the first fragment with the second fragment
-                transaction.replace(R.id.frameLayoutforChange, UserAccountFragment())
-                transaction.setReorderingAllowed(true)
-
-                // Add the transaction to the back stack
-                transaction.addToBackStack(null)
-                // Commit the transaction
-                transaction.commit()
-// User is already registered, stay on the current fragment/activity
-            } else if(userType == "Kurs") {
-                // Required data is present, display it
-                val fragmentManager = requireFragmentManager()
-
-                // Start a fragment transaction
-                val transaction = fragmentManager.beginTransaction()
-
-                // Replace the first fragment with the second fragment
-                transaction.replace(R.id.frameLayoutforChange, BusinessTransactionProfileFragment())
-                transaction.setReorderingAllowed(true)
-
-                // Add the transaction to the back stack
-                transaction.addToBackStack(null)
-
-                // Commit the transaction
-                transaction.commit()
-            }else if(userType == "Repititor") {
-                // Required data is present, display it
-                val fragmentManager = requireFragmentManager()
-
-                // Start a fragment transaction
-                val transaction = fragmentManager.beginTransaction()
-
-                // Replace the first fragment with the second fragment
-                transaction.replace(R.id.frameLayoutforChange, BusinessTransactionProfileFragment())
-                transaction.setReorderingAllowed(true)
-
-                // Add the transaction to the back stack
-                transaction.addToBackStack(null)
-
-                // Commit the transaction
-                transaction.commit()
-            } else{
-                val intent = Intent(activity, LoginActivity::class.java)
-                activity?.startActivity(intent)
+            when (userType) {
+                "İstifadəçi" -> replaceFragment(UserAccountFragment())
+                "Kurs", "Repititor" -> replaceFragment(BusinessTransactionProfileFragment())
+                else -> {
+                    // Handle the case when userType is unknown
+                    val intent = Intent(activity, LoginActivity::class.java)
+                    activity?.startActivity(intent)
+                }
             }
         }
 
         return view
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = requireFragmentManager()
+        val transaction = fragmentManager.beginTransaction()
+        transaction.replace(R.id.frameLayoutforChange, fragment)
+        transaction.setReorderingAllowed(true)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 }
