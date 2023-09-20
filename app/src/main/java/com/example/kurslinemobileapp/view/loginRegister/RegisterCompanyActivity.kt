@@ -3,7 +3,6 @@ package com.example.kurslinemobileapp.view.loginRegister
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -17,23 +16,19 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityRegisterCompanyBinding
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.ModeAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
@@ -49,13 +44,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.regex.Pattern
 
 
@@ -68,7 +66,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
     lateinit var companyPhotoUrl : String
     private lateinit var repository: MyRepositoryForCategory
     private var job: Job? = null
-
+    private lateinit var bindingRegComp:ActivityRegisterCompanyBinding
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
 
@@ -122,6 +120,9 @@ class RegisterCompanyActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        bindingRegComp=ActivityRegisterCompanyBinding.inflate(layoutInflater)
+        val view=bindingRegComp.root
+        setContentView(view)
         setContentView(R.layout.activity_register_company)
 
 
@@ -134,7 +135,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
 
 
-        companyFullNameEditText.addTextChangedListener(object : TextWatcher {
+        bindingRegComp.companyFullNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -148,16 +149,16 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    companyFullNameContainer.error = getString(R.string.nameCharacterCount)
+                    bindingRegComp.companyFullNameContainer.error = getString(R.string.nameCharacterCount)
                 } else {
-                    companyFullNameContainer.error = null
+                    bindingRegComp.companyFullNameContainer.error = null
                 }
 
-                characterCountTextViewcmpname.text = "$characterCount / 50"
+                bindingRegComp.characterCountTextViewcmpname.text = "$characterCount / 50"
             }
         })
 
-        CompanypasswordEditText.addTextChangedListener(object : TextWatcher {
+        bindingRegComp.CompanypasswordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -171,14 +172,14 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val isValid = isPasswordValid(password)
 
                 if (!isValid) {
-                    companyPasswordContainer.error = getString(R.string.passwordCount)
+                    bindingRegComp.companyPasswordContainer.error = getString(R.string.passwordCount)
                 } else {
-                    companyPasswordContainer.error = null
+                    bindingRegComp.companyPasswordContainer.error = null
                 }
             }
         })
 
-        companyFullNameEditText.addTextChangedListener(object : TextWatcher {
+        bindingRegComp.companyFullNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -192,20 +193,20 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    companyFullNameContainer.error = getString(R.string.busienssNameCharacterCount)
+                    bindingRegComp.companyFullNameContainer.error = getString(R.string.busienssNameCharacterCount)
                 } else {
-                    companyFullNameContainer.error = null
+                    bindingRegComp.companyFullNameContainer.error = null
                 }
 
-                characterCountTextViewcmpname.text = "$characterCount / 50"
+                bindingRegComp.characterCountTextViewcmpname.text = "$characterCount / 50"
             }
         })
 
 
-        companyCategoryEditText.setOnClickListener {
+        bindingRegComp.companyCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
         }
-        compantStatusEditText.setOnClickListener {
+        bindingRegComp.compantStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
         categoryId = ""
@@ -213,67 +214,67 @@ class RegisterCompanyActivity : AppCompatActivity() {
         regionId = ""
         companyPhotoUrl = ""
 
-        createBusinessAccountBtn.setOnClickListener {
+        bindingRegComp.createBusinessAccountBtn.setOnClickListener {
             block = true
             //val companyNameContainer = companyNameEditText.text.toString().trim()
-            val companyEmailContainer = companyEmailEditText.text.toString().trim()
-            val companyPasswordContainer = CompanypasswordEditText.text.toString().trim()
-            val companyFullNameContainer = companyFullNameEditText.text.toString().trim()
-            val companyPhoneContainer = companyPhoneEditText.text.toString().trim()
-            val statusContainer = compantStatusEditText.text.toString().trim()
-            val categoryContainer = companyCategoryEditText.text.toString().trim()
+            val companyEmailContainer = bindingRegComp.companyEmailEditText.text.toString().trim()
+            val companyPasswordContainer = bindingRegComp.CompanypasswordEditText.text.toString().trim()
+            val companyFullNameContainer = bindingRegComp.companyFullNameEditText.text.toString().trim()
+            val companyPhoneContainer = bindingRegComp.companyPhoneEditText.text.toString().trim()
+            val statusContainer = bindingRegComp.compantStatusEditText.text.toString().trim()
+            val categoryContainer = bindingRegComp.companyCategoryEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             //val companyRegionContainer = regionId
-            val aboutCompanyContainer = aboutCompanyEditText.text.toString().trim()
-            val companyPhotoContainer = companyPhoto.text.toString().trim()
+            val aboutCompanyContainer = bindingRegComp.aboutCompanyEditText.text.toString().trim()
+            val companyPhotoContainer = bindingRegComp.companyPhoto.text.toString().trim()
 
             if(companyEmailContainer.isEmpty()){
-                companyEmailEditText.requestFocus()
-                companyEmailEditText.error = "Email address is not be empty"
+                bindingRegComp.companyEmailEditText.requestFocus()
+                bindingRegComp.companyEmailEditText.error = "Email address is not be empty"
                 block = false
             }
             if(companyPasswordContainer.isEmpty()){
-                CompanypasswordEditText.requestFocus()
-                CompanypasswordEditText.error = "Password is not be empty"
+                bindingRegComp.CompanypasswordEditText.requestFocus()
+                bindingRegComp.CompanypasswordEditText.error = "Password is not be empty"
                 block = false
             }
             if(companyFullNameContainer.isEmpty()){
-                companyFullNameEditText.requestFocus()
-                companyFullNameEditText.error = "Company Name is not be empty"
+                bindingRegComp.companyFullNameEditText.requestFocus()
+                bindingRegComp.companyFullNameEditText.error = "Company Name is not be empty"
                 block  = false
             }
             if(companyPhoneContainer.isEmpty()){
-                companyPhoneEditText.requestFocus()
-                companyPhoneEditText.error = "Phone is not be empty"
+                bindingRegComp.companyPhoneEditText.requestFocus()
+                bindingRegComp.companyPhoneEditText.error = "Phone is not be empty"
                 block  = false
             }
          if(statusContainer.isEmpty()){
-                compantStatusEditText.requestFocus()
-                compantStatusEditText.error = "Status is not be empty"
+             bindingRegComp.compantStatusEditText.requestFocus()
+             bindingRegComp.compantStatusEditText.error = "Status is not be empty"
                 block  = false
             }
             if(categoryContainer.isEmpty()){
-                companyCategoryEditText.requestFocus()
-                companyCategoryEditText.error = "Category is not be empty"
+                bindingRegComp.companyCategoryEditText.requestFocus()
+                bindingRegComp.companyCategoryEditText.error = "Category is not be empty"
                 block  = false
             }
             if(aboutCompanyContainer.isEmpty()){
-                aboutCompanyEditText.requestFocus()
-                aboutCompanyEditText.error ="Company about is not be empty"
+                bindingRegComp.aboutCompanyEditText.requestFocus()
+                bindingRegComp.aboutCompanyEditText.error ="Company about is not be empty"
                 block  = false
             }
             if(companyPhotoContainer.isEmpty()){
-                companyPhoto.requestFocus()
-                companyPhoto.error ="Company photo is not be empty"
+                bindingRegComp.companyPhoto.requestFocus()
+                bindingRegComp.companyPhoto.error ="Company photo is not be empty"
                 block  = false
             }else{
                 showProgressButton(true)
                 sendCompanydata(companyEmailContainer,"+994"+companyPhoneContainer,companyPasswordContainer,companyFullNameContainer ,aboutCompanyContainer,companyCategoryContainer,companyPhotoUrl,companyStatusContainer)
             }
         }
-        companyPhoto.setOnClickListener {
+        bindingRegComp.companyPhoto.setOnClickListener {
             if(!checkPermission()){
                 checkAndRequestPermissions()
          /*       val miuiVersion = BuildProperties.getMIUIVersion()
@@ -405,11 +406,11 @@ class RegisterCompanyActivity : AppCompatActivity() {
             val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
             if (imagePath != null) {
                 val compressedBitmap = compressImageFile(imagePath)
-                companyPhoto.setText(imagePath)
+                bindingRegComp.companyPhoto.setText(imagePath)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
                     companyPhotoUrl = compressedImagePath!!
-                    companyPhoto.setText("Şəkil seçildi!")
+                    bindingRegComp.companyPhoto.setText("Şəkil seçildi!")
                     println("CompressedImagePath"+compressedImagePath)
                 }
                 println(imagePath)
@@ -487,7 +488,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
                 categoryId = category.category.categoryId.toString()
-                companyCategoryEditText.setText(category.category.categoryName)
+                bindingRegComp.companyCategoryEditText.setText(category.category.categoryName)
                 dialog.dismiss()
             }
         }.catch { throwable ->
@@ -583,7 +584,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
                 recyclerViewStatus.adapter = statusAdapter
                 statusAdapter.setChanged(status)
                 statusAdapter.setOnItemClickListener { status ->
-                    compantStatusEditText.setText(status.statusName)
+                    bindingRegComp.compantStatusEditText.setText(status.statusName)
                     statusId = status.statusId.toString()
                     dialog.dismiss()
                 }
@@ -595,13 +596,13 @@ class RegisterCompanyActivity : AppCompatActivity() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            createBusinessAccountBtn.apply {
+            bindingRegComp.createBusinessAccountBtn.apply {
                 isEnabled = false
                 text = getString(R.string.registerContinue)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            createBusinessAccountBtn.apply {
+            bindingRegComp.createBusinessAccountBtn.apply {
                 isEnabled = true
                 text = getString(R.string.registerString)
                 // Restore original background, text color, etc., if modified

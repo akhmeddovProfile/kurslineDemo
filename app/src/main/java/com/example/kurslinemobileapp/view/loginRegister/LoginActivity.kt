@@ -3,11 +3,12 @@ package com.example.kurslinemobileapp.view.loginRegister
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityLoginBinding
 import com.example.kurslinemobileapp.api.login.LogInAPi
 import com.example.kurslinemobileapp.api.login.LoginRequest
 import com.example.kurslinemobileapp.api.login.LoginResponseX
@@ -18,40 +19,43 @@ import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.*
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import okhttp3.RequestBody
-import kotlin.coroutines.CoroutineContext
 
 class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
     private var compositeDisposableLogin: CompositeDisposable? = null
     private lateinit var sharedPreferences: SharedPreferences
-
+    private lateinit var  bindinglogIn:ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        bindinglogIn= ActivityLoginBinding.inflate(layoutInflater)
+        val view = bindinglogIn.root
+        setContentView(view)
+        //setContentView(R.layout.activity_login)
 
-        goToRegister.setOnClickListener {
+        bindinglogIn.goToRegister.setOnClickListener {
             val intent = Intent(this@LoginActivity, MainRegisterActivity::class.java)
             startActivity(intent)
         }
-        createNewPassword.setOnClickListener {
-            passwordLoginContainer.visibility=View.INVISIBLE
-            loginButton.visibility=View.INVISIBLE
-            enterEmailAddress.visibility=View.VISIBLE
-            enterEmailAddress.setOnClickListener {
-                val email = emailLoginEditText.text.toString()
+        bindinglogIn.createNewPassword.setOnClickListener {
+            bindinglogIn.passwordLoginContainer.visibility=View.INVISIBLE
+            bindinglogIn.loginButton.visibility=View.INVISIBLE
+            bindinglogIn.enterEmailAddress.visibility=View.VISIBLE
+            bindinglogIn.enterEmailAddress.setOnClickListener {
+                val email = bindinglogIn.emailLoginEditText.text.toString()
                 if(email.isEmpty()){
                     Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)
                         .show()
                 }else{
                     resetPassword(email)
-                    passwordLoginContainer.visibility=View.VISIBLE
-                    loginButton.visibility=View.VISIBLE
-                    enterEmailAddress.visibility=View.VISIBLE
+                    bindinglogIn.passwordLoginContainer.visibility=View.VISIBLE
+                    bindinglogIn.loginButton.visibility=View.VISIBLE
+                    bindinglogIn.enterEmailAddress.visibility=View.VISIBLE
                 }
 
                 showProgressButton(true)
@@ -59,7 +63,7 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
         }
 
 
-        loginButton.setOnClickListener {
+        bindinglogIn.loginButton.setOnClickListener {
             val email = emailLoginEditText.text.toString()
             val password = passwordLoginEditText.text.toString()
             // Validate user input
@@ -147,13 +151,13 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            loginButton.apply {
+            bindinglogIn.loginButton.apply {
                 isEnabled = false
                 text = getString(R.string.loginCtn)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            loginButton.apply {
+            bindinglogIn.loginButton.apply {
                 isEnabled = true
                 text = getString(R.string.LOGIN)
                 // Restore original background, text color, etc., if modified

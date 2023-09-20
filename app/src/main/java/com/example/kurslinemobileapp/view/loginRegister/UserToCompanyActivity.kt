@@ -11,12 +11,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -24,20 +22,17 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityUserToCompanyBinding
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
-import com.example.kurslinemobileapp.adapter.ModeAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
 import com.example.kurslinemobileapp.adapter.StatusAdapter
-import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.register.RegisterAPI
-import com.example.kurslinemobileapp.api.register.RegisterCompanyResponse
 import com.example.kurslinemobileapp.api.register.UserToCompanyResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -47,8 +42,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_register_company.*
-import kotlinx.android.synthetic.main.activity_user_register.*
 import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
@@ -65,6 +58,7 @@ class UserToCompanyActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var statusAdapter: StatusAdapter
+    private lateinit var bindingUserToComp: ActivityUserToCompanyBinding
     var compositeDisposable = CompositeDisposable()
     lateinit var companyPhotoUrl : String
     //Gallery
@@ -114,7 +108,10 @@ class UserToCompanyActivity : AppCompatActivity() {
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_to_company)
+        bindingUserToComp= ActivityUserToCompanyBinding.inflate(layoutInflater)
+        val view=bindingUserToComp.root
+        setContentView(view)
+        //setContentView(R.layout.activity_user_to_company)
         repository = MyRepositoryForCategory(
             AppDatabase.getDatabase(this).categoryDao(),
             AppDatabase.getDatabase(this).subCategoryDao()
@@ -127,7 +124,7 @@ class UserToCompanyActivity : AppCompatActivity() {
         println("userid" + userId)
         println("token:"+authHeader)
 
-        userToCompanyNameEditText.addTextChangedListener(object : TextWatcher {
+        bindingUserToComp.userToCompanyNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -141,18 +138,18 @@ class UserToCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    characterCountTextViewuserToCompanyName.visibility=View.VISIBLE
-                    userToCompanyNameContainer.error = getString(R.string.busienssNameCharacterCount)
+                    bindingUserToComp.characterCountTextViewuserToCompanyName.visibility=View.VISIBLE
+                    bindingUserToComp.userToCompanyNameContainer.error = getString(R.string.busienssNameCharacterCount)
                 } else {
-                    characterCountTextViewuserToCompanyName.visibility=View.GONE
-                    userToCompanyNameContainer.error = null
+                    bindingUserToComp.characterCountTextViewuserToCompanyName.visibility=View.GONE
+                    bindingUserToComp.userToCompanyNameContainer.error = null
                 }
 
-                characterCountTextViewuserToCompanyName.text = "$characterCount / 50"
+                bindingUserToComp.characterCountTextViewuserToCompanyName.text = "$characterCount / 50"
             }
         })
 
-        userToCompanyAddressEditText.addTextChangedListener(object : TextWatcher {
+        bindingUserToComp.userToCompanyAddressEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -166,16 +163,16 @@ class UserToCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 200) {
-                    userToCompanyAddressContainer.error = getString(R.string.addressCharacterCount)
+                    bindingUserToComp.userToCompanyAddressContainer.error = getString(R.string.addressCharacterCount)
                 } else {
-                    userToCompanyAddressContainer.error = null
+                    bindingUserToComp.userToCompanyAddressContainer.error = null
                 }
 
-                characterCountTextViewuserToCompanyAddress.text = "$characterCount / 200"
+                bindingUserToComp.characterCountTextViewuserToCompanyAddress.text = "$characterCount / 200"
             }
         })
 
-        userToCompanyAboutEditText.addTextChangedListener(object : TextWatcher {
+        bindingUserToComp.userToCompanyAboutEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -189,24 +186,24 @@ class UserToCompanyActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 1500) {
-                    userToCompanyAboutContainer.error = getString(R.string.aboutCharacterCount)
+                    bindingUserToComp.userToCompanyAboutContainer.error = getString(R.string.aboutCharacterCount)
                 } else {
-                    userToCompanyAboutContainer.error = null
+                    bindingUserToComp.userToCompanyAboutContainer.error = null
                 }
 
-                characterCountTextViewuserToCompanyAbout.text = "$characterCount / 1500"
+                bindingUserToComp.characterCountTextViewuserToCompanyAbout.text = "$characterCount / 1500"
             }
         })
 
-        userToCompanyCategoryEditText.setOnClickListener {
+        bindingUserToComp.userToCompanyCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
         }
 
-        userToCompanyStatusEditText.setOnClickListener {
+        bindingUserToComp.userToCompanyStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
 
-        userToCompanyRegionEditText.setOnClickListener {
+        bindingUserToComp.userToCompanyRegionEditText.setOnClickListener {
             showBottomSheetDialogRegions()
         }
         categoryId = ""
@@ -214,52 +211,52 @@ class UserToCompanyActivity : AppCompatActivity() {
         companyPhotoUrl = ""
         regionId = ""
 
-        userToCompanyRegisterBtn.setOnClickListener{
+        bindingUserToComp.userToCompanyRegisterBtn.setOnClickListener{
             block = true
-            val companyNameContainer = userToCompanyNameEditText.text.toString().trim()
-            val companyAddressContainer = userToCompanyAddressEditText.text.toString().trim()
-            val photoContainer = userToCompanyPhotoEditText.text.toString().trim()
+            val companyNameContainer = bindingUserToComp.userToCompanyNameEditText.text.toString().trim()
+            val companyAddressContainer = bindingUserToComp.userToCompanyAddressEditText.text.toString().trim()
+            val photoContainer = bindingUserToComp.userToCompanyPhotoEditText.text.toString().trim()
             val companyStatusContainer = statusId
             val companyCategoryContainer = categoryId
             val regionContainer = regionId
-            val statusContainer = userToCompanyStatusEditText.text.toString().trim()
-            val categoryContainer = userToCompanyCategoryEditText.text.toString().trim()
-            val aboutCompanyContainer = userToCompanyAboutEditText.text.toString().trim()
-            val region = userToCompanyRegionEditText.text.toString().trim()
+            val statusContainer = bindingUserToComp.userToCompanyStatusEditText.text.toString().trim()
+            val categoryContainer = bindingUserToComp.userToCompanyCategoryEditText.text.toString().trim()
+            val aboutCompanyContainer = bindingUserToComp.userToCompanyAboutEditText.text.toString().trim()
+            val region = bindingUserToComp.userToCompanyRegionEditText.text.toString().trim()
 
             if(companyNameContainer.isEmpty()){
-                userToCompanyNameEditText.requestFocus()
-                userToCompanyNameEditText.error = "Company Name is not be empty"
+                bindingUserToComp.userToCompanyNameEditText.requestFocus()
+                bindingUserToComp.userToCompanyNameEditText.error = "Company Name is not be empty"
                 block  = false
             }
             if(companyAddressContainer.isEmpty()){
-                userToCompanyAddressEditText.requestFocus()
-                userToCompanyAddressEditText.error = "Address is not be empty"
+                bindingUserToComp.userToCompanyAddressEditText.requestFocus()
+                bindingUserToComp.userToCompanyAddressEditText.error = "Address is not be empty"
                 block  = false
             }
             if(statusContainer.isEmpty()){
-                userToCompanyStatusEditText.requestFocus()
-                userToCompanyStatusEditText.error = "Status is not be empty"
+                bindingUserToComp.userToCompanyStatusEditText.requestFocus()
+                bindingUserToComp.userToCompanyStatusEditText.error = "Status is not be empty"
                 block  = false
             }
             if(categoryContainer.isEmpty()){
-                userToCompanyCategoryEditText.requestFocus()
-                userToCompanyCategoryEditText.error = "Category is not be empty"
+                bindingUserToComp.userToCompanyCategoryEditText.requestFocus()
+                bindingUserToComp.userToCompanyCategoryEditText.error = "Category is not be empty"
                 block  = false
             }
             if(aboutCompanyContainer.isEmpty()){
-                userToCompanyAboutEditText.requestFocus()
-                userToCompanyAboutEditText.error ="Company about is not be empty"
+                bindingUserToComp.userToCompanyAboutEditText.requestFocus()
+                bindingUserToComp.userToCompanyAboutEditText.error ="Company about is not be empty"
                 block  = false
             }
             if(photoContainer.isEmpty()){
-                userToCompanyPhotoEditText.requestFocus()
-                userToCompanyPhotoEditText.error ="Company photo is not be empty"
+                bindingUserToComp.userToCompanyPhotoEditText.requestFocus()
+                bindingUserToComp.userToCompanyPhotoEditText.error ="Company photo is not be empty"
                 block  = false
             }
             if(region.isEmpty()){
-                userToCompanyRegionEditText.requestFocus()
-                userToCompanyRegionEditText.error ="Region is not be empty"
+                bindingUserToComp.userToCompanyRegionEditText.requestFocus()
+                bindingUserToComp.userToCompanyRegionEditText.error ="Region is not be empty"
                 block  = false
             }else{
                 showProgressButton(true)
@@ -404,10 +401,10 @@ class UserToCompanyActivity : AppCompatActivity() {
             val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
             if (imagePath != null) {
                 val compressedBitmap = compressImageFile(imagePath)
-                userToCompanyPhotoEditText.setText(imagePath)
+                bindingUserToComp.userToCompanyPhotoEditText.setText(imagePath)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    userToCompanyPhotoEditText.setText("Şəkil seçildi!")
+                    bindingUserToComp.userToCompanyPhotoEditText.setText("Şəkil seçildi!")
                     companyPhotoUrl = compressedImagePath!!
                     println("CompressedImagePath"+compressedImagePath)
                 }
@@ -481,7 +478,7 @@ class UserToCompanyActivity : AppCompatActivity() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
                 categoryId = category.category.categoryId.toString()
-                userToCompanyCategoryEditText.setText(category.category.categoryName)
+                bindingUserToComp.userToCompanyCategoryEditText.setText(category.category.categoryName)
                 dialog.dismiss()
             }
         }.catch {
@@ -511,7 +508,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 statusAdapter.setChanged(status)
                 statusAdapter.setOnItemClickListener { status ->
                     statusId = status.statusId.toString()
-                    userToCompanyStatusEditText.setText(status.statusName)
+                    bindingUserToComp.userToCompanyStatusEditText.setText(status.statusName)
                     dialog.dismiss()
                 }
             }.catch { throwable ->
@@ -543,7 +540,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 regionAdapter.setOnItemClickListener { region ->
                     //   companyRegionEditText.setText(region.regionName)
                     regionId = region.regionId.toString()
-                    userToCompanyRegionEditText.setText(region.regionName)
+                    bindingUserToComp.userToCompanyRegionEditText.setText(region.regionName)
                     dialog.dismiss()
                 }
 

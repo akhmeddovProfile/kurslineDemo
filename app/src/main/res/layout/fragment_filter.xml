@@ -6,7 +6,7 @@
     android:id="@+id/filterRl"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".view.accountsFragments.UserAccountFragment">
+    tools:context="com.example.kurslinemobileapp.view.fragments.FilterFragment">
 
 
     <ImageView

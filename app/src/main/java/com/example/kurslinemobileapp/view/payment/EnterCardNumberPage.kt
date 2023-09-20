@@ -2,7 +2,6 @@ package com.example.kurslinemobileapp.view.payment
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -12,10 +11,9 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityEnterCardNumberPageBinding
 import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfo
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequest
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequestBody
@@ -23,8 +21,6 @@ import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.GetStatus
 import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.GetStatusOrderRequestBody
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.MainActivity
-import kotlinx.android.synthetic.main.activity_enter_card_number_page.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,14 +33,16 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 class EnterCardNumberPage : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     var paymentState = false
+    private lateinit var bindingEnterCardNumberPageBinding: ActivityEnterCardNumberPageBinding
     private lateinit var sharedPreferences: SharedPreferences
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_enter_card_number_page)
+        bindingEnterCardNumberPageBinding= ActivityEnterCardNumberPageBinding.inflate(layoutInflater)
+        val view=bindingEnterCardNumberPageBinding.root
+        setContentView(view)
+        //setContentView(R.layout.activity_enter_card_number_page)
 
  /*       println("Value: "+intent.getStringExtra("selectedText"))
         priceSum.text="${intent.getStringExtra("selectedText")}"
@@ -100,15 +98,15 @@ class EnterCardNumberPage : AppCompatActivity() {
                 val encryptedData= encryptSecretKey(secretKey,iv)
                 println("Encrypted data: $encryptedData")
                 val apiService=RetrofitService(Constant.BASE_URL_PAYMENT).apiServicePaymentPayriff.createOrder(Constant.secretKey,"createOrder",request).await()
-                paymentWebView.visibility = View.VISIBLE
-                paymentWebView.loadUrl(apiService.payload.paymentUrl)
-                paymentWebView.webViewClient=object :WebViewClient(){
+                bindingEnterCardNumberPageBinding.paymentWebView.visibility = View.VISIBLE
+                bindingEnterCardNumberPageBinding.paymentWebView.loadUrl(apiService.payload.paymentUrl)
+                bindingEnterCardNumberPageBinding.paymentWebView.webViewClient=object :WebViewClient(){
                     override fun shouldOverrideUrlLoading(
                         view: WebView?,
                         request: WebResourceRequest?
                     ): Boolean {
                         val url = request?.url ?: return false
-                        paymentWebView.loadUrl(url.toString())
+                        bindingEnterCardNumberPageBinding.paymentWebView.loadUrl(url.toString())
                         println("url: "+url)
                         println("OrderId: "+apiService.payload.orderId)
                         println("SessionId: " + apiService.payload.sessionId)
@@ -150,7 +148,7 @@ class EnterCardNumberPage : AppCompatActivity() {
                         super.onReceivedError(view, request, error)
                     }
                 }
-                paymentWebView.settings.javaScriptEnabled = true
+                bindingEnterCardNumberPageBinding.paymentWebView.settings.javaScriptEnabled = true
 
             }catch (e:HttpException){
                 println("Code: "+e.code())
@@ -195,7 +193,7 @@ class EnterCardNumberPage : AppCompatActivity() {
                 if (apiService.payload.orderStatus.equals("APPROVED")){
                     paymentState=true
                 }
-                paymentWebView.visibility = View.GONE
+                bindingEnterCardNumberPageBinding.paymentWebView.visibility = View.GONE
             }catch (e:HttpException){
                 println("Code: "+e.code())
                 println("Response: "+e.response())

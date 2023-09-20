@@ -12,7 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
 import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.activity_update_announcement.*
+//import kotlinx.android.synthetic.main.activity_update_announcement.*
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 

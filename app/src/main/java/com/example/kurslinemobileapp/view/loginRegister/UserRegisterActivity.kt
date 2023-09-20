@@ -3,41 +3,39 @@ package com.example.kurslinemobileapp.view.loginRegister
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityUserRegisterBinding
 import com.example.kurslinemobileapp.api.login.LoginResponseX
 import com.example.kurslinemobileapp.api.register.RegisterAPI
-import com.example.kurslinemobileapp.api.register.UserRegisterRequest
-import com.example.kurslinemobileapp.api.register.UserRegisterResponse
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_register_company.*
 import kotlinx.android.synthetic.main.activity_user_register.*
-import kotlinx.android.synthetic.main.activity_user_register.nameEditText
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
 import java.util.regex.Pattern
 
 class UserRegisterActivity : AppCompatActivity() {
     private var block: Boolean = true
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var bindinguserREG: ActivityUserRegisterBinding
     var compositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_register)
+        bindinguserREG=ActivityUserRegisterBinding.inflate(layoutInflater)
+        val view=bindinguserREG.root
+        setContentView(view)
+        //setContentView(R.layout.activity_user_register)
 
-        nameEditText.addTextChangedListener(object : TextWatcher {
+        bindinguserREG.nameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -51,16 +49,16 @@ class UserRegisterActivity : AppCompatActivity() {
                 val characterCount = name.length
 
                 if (characterCount < 3 || characterCount > 50) {
-                    nameContainer.error = getString(R.string.nameCharacterCount)
+                    bindinguserREG.nameContainer.error = getString(R.string.nameCharacterCount)
                 } else {
-                    nameContainer.error = null
+                    bindinguserREG.nameContainer.error = null
                 }
 
-                characterCountTextViewUsername.text = "$characterCount / 50"
+                bindinguserREG.characterCountTextViewUsername.text = "$characterCount / 50"
             }
         })
 
-        passwordEditText.addTextChangedListener(object : TextWatcher {
+        bindinguserREG.passwordEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Not used
             }
@@ -74,40 +72,40 @@ class UserRegisterActivity : AppCompatActivity() {
                 val isValid = isPasswordValid(password)
 
                if (!isValid) {
-                    passwordContainer.error =getString(R.string.passwordCount)
+                   bindinguserREG.passwordContainer.error =getString(R.string.passwordCount)
                 } else {
-                    passwordContainer.error = null
+                   bindinguserREG.passwordContainer.error = null
                 }
             }
         })
 
-        registerButton.setOnClickListener {
+        bindinguserREG.registerButton.setOnClickListener {
             block = true
-            val name = nameEditText.text.toString().trim()
-            val email = mailEditText.text.toString().trim()
-            val phone =phoneEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
+            val name = bindinguserREG.nameEditText.text.toString().trim()
+            val email = bindinguserREG.mailEditText.text.toString().trim()
+            val phone =bindinguserREG.phoneEditText.text.toString().trim()
+            val password = bindinguserREG.passwordEditText.text.toString().trim()
             // Validate input fields
                 // Save user registration data to shared preferences
 
             if(name.isEmpty()){
-                nameEditText.requestFocus()
-                nameEditText.error = "Full name is not be empty"
+                bindinguserREG.nameEditText.requestFocus()
+                bindinguserREG.nameEditText.error = "Full name is not be empty"
                 block  = false
             }
             if(email.isEmpty()){
-                mailEditText.requestFocus()
-                mailEditText.error = "Email address is not be empty"
+                bindinguserREG.mailEditText.requestFocus()
+                bindinguserREG.mailEditText.error = "Email address is not be empty"
                 block  = false
             }
             if(phone.isEmpty()){
-                phoneEditText.requestFocus()
-                phoneEditText.error ="Phone is not be empty"
+                bindinguserREG.phoneEditText.requestFocus()
+                bindinguserREG.phoneEditText.error ="Phone is not be empty"
                 block  = false
             }
             if(password.isEmpty()){
-                passwordEditText.requestFocus()
-                passwordEditText.error ="Password is not be empty"
+                bindinguserREG.passwordEditText.requestFocus()
+                bindinguserREG.passwordEditText.error ="Password is not be empty"
                 block  = false
             }else{
                 val sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)

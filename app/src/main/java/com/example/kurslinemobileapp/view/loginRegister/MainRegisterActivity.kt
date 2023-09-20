@@ -1,22 +1,26 @@
 package com.example.kurslinemobileapp.view.loginRegister
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.app.kurslinemobileapp.R
-import kotlinx.android.synthetic.main.activity_main_register.*
+import androidx.appcompat.app.AppCompatActivity
+import com.app.kurslinemobileapp.databinding.ActivityMainRegisterBinding
 
 class MainRegisterActivity : AppCompatActivity() {
+    private lateinit var  bindingMReg: ActivityMainRegisterBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_register)
+        bindingMReg= ActivityMainRegisterBinding.inflate(layoutInflater)
+        val view = bindingMReg.root
+        setContentView(view)
+        //setContentView(R.layout.activity_main_register)
 
-        goToUserRegister.setOnClickListener {
+        bindingMReg.goToUserRegister.setOnClickListener {
             val intent = Intent(this@MainRegisterActivity, UserRegisterActivity::class.java)
             startActivity(intent)
         }
 
-        goToBusinessRegister.setOnClickListener {
+        bindingMReg.goToBusinessRegister.setOnClickListener {
             val intent = Intent(this@MainRegisterActivity, RegisterCompanyActivity::class.java)
             startActivity(intent)
         }
