@@ -18,7 +18,6 @@ import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_user_register.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import java.util.regex.Pattern
@@ -176,13 +175,13 @@ class UserRegisterActivity : AppCompatActivity() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            registerButton.apply {
+            bindinguserREG.registerButton.apply {
                 isEnabled = false
                 text = getString(R.string.registerContinue)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            registerButton.apply {
+            bindinguserREG.registerButton.apply {
                 isEnabled = true
                 text = getString(R.string.registerString)
                 // Restore original background, text color, etc., if modified

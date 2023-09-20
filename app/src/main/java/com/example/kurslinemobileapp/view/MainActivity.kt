@@ -34,7 +34,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -66,23 +65,23 @@ class MainActivity : AppCompatActivity() {
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi") {
 // User is not registered, navigate to the registration fragment
-            goToUploadActivity.visibility = View.VISIBLE
-            goToUploadActivity.setOnClickListener{
+            binding.goToUploadActivity.visibility = View.VISIBLE
+            binding.goToUploadActivity.setOnClickListener{
                 val intent = Intent(this@MainActivity, UserToCompanyActivity::class.java)
                 startActivity(intent)
             }
 // User is already registered, stay on the current fragment/activity
         } else if(userType == "Kurs" || userType == "Repititor") {
             // Required data is present, display it
-            goToUploadActivity.visibility = View.VISIBLE
-            goToUploadActivity.setOnClickListener {
+            binding.goToUploadActivity.visibility = View.VISIBLE
+            binding.goToUploadActivity.setOnClickListener {
                 val intent = Intent(this@MainActivity, CourseUploadActivity::class.java)
                 startActivity(intent)
             }
         }
         else{
-            goToUploadActivity.visibility = View.VISIBLE
-            goToUploadActivity.setOnClickListener {
+            binding.goToUploadActivity.visibility = View.VISIBLE
+            binding.goToUploadActivity.setOnClickListener {
                 val intent = Intent(this@MainActivity, LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -96,15 +95,15 @@ class MainActivity : AppCompatActivity() {
             if (it){
                 Toast.makeText(this,"Connected", Toast.LENGTH_SHORT).show()
                 inflateLayout.visibility= View.GONE
-                fragmentContainerView.visibility=View.VISIBLE
-                goToUploadActivity.visibility = View.VISIBLE
-                bottom_nav.visibility=View.VISIBLE
+                binding.fragmentContainerView.visibility=View.VISIBLE
+                binding.goToUploadActivity.visibility = View.VISIBLE
+                binding.bottomNav.visibility=View.VISIBLE
             }
             else{
                 Toast.makeText(this,"Not Connected", Toast.LENGTH_SHORT).show()
-                fragmentContainerView.visibility=View.GONE
-                bottom_nav.visibility=View.GONE
-                goToUploadActivity.visibility = View.GONE
+                binding.fragmentContainerView.visibility=View.GONE
+                binding.bottomNav.visibility=View.GONE
+                binding.goToUploadActivity.visibility = View.GONE
                 inflateLayout.visibility= View.VISIBLE
             }
         }

@@ -20,7 +20,6 @@ import com.example.kurslinemobileapp.view.MainActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -64,8 +63,8 @@ class LoginActivity : AppCompatActivity(),CoroutineScope by  MainScope() {
 
 
         bindinglogIn.loginButton.setOnClickListener {
-            val email = emailLoginEditText.text.toString()
-            val password = passwordLoginEditText.text.toString()
+            val email = bindinglogIn.emailLoginEditText.text.toString()
+            val password = bindinglogIn.passwordLoginEditText.text.toString()
             // Validate user input
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT)

@@ -49,7 +49,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_product_detail.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -162,11 +161,11 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
        // var itemFavorite=sharedPreferences.getBoolean("isFavoriteItemForDetail_${position}",false)
         if (checkLogin==true){
             if (isFavorite==true||isFavoriteFromFavoriteFragment==true){
-                favorite_button_for_detail.setImageResource(R.drawable.favorite_for_product)
+                bindingProductDetailActivity.favoriteButtonForDetail.setImageResource(R.drawable.favorite_for_product)
                 println("Check2: "+isFavorite)
             }
             else{
-                favorite_button_for_detail.setImageResource(R.drawable.favorite_border_for_product)
+                bindingProductDetailActivity.favoriteButtonForDetail.setImageResource(R.drawable.favorite_border_for_product)
                 println("Check3: "+isFavorite)
             }
             }
@@ -286,7 +285,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         if (response.isVIP == true){
             bindingProductDetailActivity.vipProductForDetail.visibility = View.VISIBLE
         }else{
-            vip_product_for_detail.visibility = View.GONE
+            bindingProductDetailActivity.vipProductForDetail.visibility = View.GONE
         }
 
         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)

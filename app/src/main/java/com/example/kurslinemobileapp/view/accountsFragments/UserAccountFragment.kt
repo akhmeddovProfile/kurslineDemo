@@ -11,6 +11,7 @@ import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentAccountBinding
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
 import com.example.kurslinemobileapp.service.Constant
@@ -21,7 +22,6 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_account.view.*
 
 class UserAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -30,12 +30,13 @@ class UserAccountFragment : Fragment() {
     private val REQUEST_IMAGE_CAPTURE = 1 // Request code for image capture
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
-
+    private lateinit var bindingUserAccount:FragmentAccountBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        bindingUserAccount=FragmentAccountBinding.inflate(inflater,container,false)
         view = inflater.inflate(R.layout.fragment_account, container, false) as ViewGroup
 
         val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
@@ -54,22 +55,22 @@ class UserAccountFragment : Fragment() {
 
         getDataFromServer(id, authHeader)
 
-        view.goToBusinessCreate.setOnClickListener {
+        bindingUserAccount.goToBusinessCreate.setOnClickListener {
             val intent = Intent(requireContext(), UserToCompanyActivity::class.java)
             startActivity(intent)
         }
         // Display the account information in the UI
 
-        view.backtoMainPage.setOnClickListener {
+        bindingUserAccount.backtoMainPage.setOnClickListener {
         }
 
-        view.userUpdateTxt.setOnClickListener {
+        bindingUserAccount.userUpdateTxt.setOnClickListener {
             val intent = Intent(requireContext(), UpdateUserActivity::class.java)
             startActivity(intent)
 
         }
 
-        return view
+        return bindingUserAccount.root
     }
 
     private fun getDataFromServer(id: Int, token: String) {
@@ -97,14 +98,14 @@ class UserAccountFragment : Fragment() {
 
         println("userfullname:" + response.fullName + response.mobileNumber + response.email)
 
-        view.accountNameEditText.setText(userFullName)
-        view.accountPhoneEditText.setText(userPhoneNumber)
-        view.accountMailEditText.setText(userEmail)
+        bindingUserAccount.accountNameEditText.setText(userFullName)
+        bindingUserAccount.accountPhoneEditText.setText(userPhoneNumber)
+        bindingUserAccount.accountMailEditText.setText(userEmail)
 
         if (response.photo == null) {
-            view.myProfileImage.setImageResource(R.drawable.setpp)
+            bindingUserAccount.myProfileImage.setImageResource(R.drawable.setpp)
         } else {
-            Picasso.get().load(response.photo).into(view.myProfileImage)
+            Picasso.get().load(response.photo).into(bindingUserAccount.myProfileImage)
         }
         val editor = sharedPreferences.edit()
         editor.putString("profilePhotoUrl", response.photo)

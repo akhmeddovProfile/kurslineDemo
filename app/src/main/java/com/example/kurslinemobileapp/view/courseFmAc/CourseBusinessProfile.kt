@@ -25,7 +25,6 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_course_business_profile.*
 
 class CourseBusinessProfile : AppCompatActivity() {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -76,7 +75,7 @@ class CourseBusinessProfile : AppCompatActivity() {
     }
 
     private fun handleResponse(response: CompanyDetail) {
-        scrollBusinessProfile.visibility = View.VISIBLE
+        bindingCourseBusiness.scrollBusinessProfile.visibility = View.VISIBLE
         val lottie = findViewById<LottieAnimationView>(R.id.loadingCourseBusinessProfile)
         lottie.visibility = View.GONE
         lottie.pauseAnimation()

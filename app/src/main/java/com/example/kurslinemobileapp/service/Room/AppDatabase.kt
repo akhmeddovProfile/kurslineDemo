@@ -21,7 +21,7 @@ import com.example.kurslinemobileapp.service.Room.status.StatusEntity
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsDao
 import com.example.kurslinemobileapp.service.Room.tutors.TutorsEntity
 
-@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class,advEntity::class], version = 9)
+@Database(entities = [RegionEntity::class, ModeEntity::class,CategoryEntity::class,SubCategoryEntity::class,StatusEntity::class,CourseEntity::class,TutorsEntity::class,advEntity::class], version = 9,exportSchema=false)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun regionDao(): RegionDao
     abstract fun modeDao(): ModeDao

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentBusinessTransactionsProfileBinding
 import com.example.kurslinemobileapp.adapter.CompanyTransactionAdapter
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
 import com.example.kurslinemobileapp.api.getUserCmpDatas.UserCmpInfoModel.UserInfoModel
@@ -29,8 +30,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_business_account.view.*
-import kotlinx.android.synthetic.main.fragment_business_transactions_profile.view.*
+
 
 class BusinessTransactionProfileFragment : Fragment() {
     private lateinit var button1: Button
@@ -43,13 +43,14 @@ class BusinessTransactionProfileFragment : Fragment() {
     private lateinit var mainList: ArrayList<CompanyTransactionAnnouncementItem>
     private lateinit var mainList2: ArrayList<CompanyTransactionAnnouncementItem>
     private lateinit var sharedPreferences: SharedPreferences
-
+    private lateinit var bindingBusinesTransaction:FragmentBusinessTransactionsProfileBinding
     @SuppressLint("ResourceAsColor", "SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        bindingBusinesTransaction=FragmentBusinessTransactionsProfileBinding.inflate(inflater,container,false)
         view = inflater.inflate(
             R.layout.fragment_business_transactions_profile,
             container,
@@ -63,11 +64,11 @@ class BusinessTransactionProfileFragment : Fragment() {
             getDataFromServer(id,authHeader)
         val userFullName = sharedPreferences.getString("companyOwnerName1","")?:""
         val userPhoto = sharedPreferences.getString("companyPhoto1","")?:""
-        view.businessTransName.setText(userFullName)
+        bindingBusinesTransaction.businessTransName.setText(userFullName)
         if (userPhoto.isEmpty()){
-            view.businessTransProfileImage.setImageResource(R.drawable.setpp)
+            bindingBusinesTransaction.businessTransProfileImage.setImageResource(R.drawable.setpp)
         }else {
-            Picasso.get().load(userPhoto).into(view.businessTransProfileImage)
+            Picasso.get().load(userPhoto).into(bindingBusinesTransaction.businessTransProfileImage)
         }
         button1 = view.findViewById(R.id.button1BusinessTrans)
         button2 = view.findViewById(R.id.button2BusinessTrans)
@@ -166,7 +167,7 @@ class BusinessTransactionProfileFragment : Fragment() {
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getWaitingAnnouncements(id, authHeader)
         }
-        return view
+        return bindingBusinesTransaction.root
     }
 
     @SuppressLint("ResourceAsColor")
@@ -370,9 +371,9 @@ class BusinessTransactionProfileFragment : Fragment() {
         println("Response: "+response)
         val companyPhoto = response.photo
         if (companyPhoto == null){
-            view.myBusinessImage.setImageResource(R.drawable.setpp)
+            bindingBusinesTransaction.businessTransProfileImage.setImageResource(R.drawable.setpp)
         }else{
-            Picasso.get().load(companyPhoto).into(view.businessTransProfileImage)
+            Picasso.get().load(companyPhoto).into(bindingBusinesTransaction.businessTransProfileImage)
         }
 
         val userFullName = response.fullName

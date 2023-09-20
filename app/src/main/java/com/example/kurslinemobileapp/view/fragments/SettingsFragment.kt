@@ -4,70 +4,62 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
-import android.os.ParcelFileDescriptor.open
 import android.view.ContextThemeWrapper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentSettingsBinding
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.view.AboutActivity
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.PdfPrivacyPolicy
-import com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment
-import com.example.kurslinemobileapp.view.accountsFragments.UpdateUserActivity
-import com.example.kurslinemobileapp.view.accountsFragments.UserAccountFragment
-import com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity
 import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
+import com.example.kurslinemobileapp.view.tabsForCompanies.AllCompaniesActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.fragment_settings.view.*
-import kotlinx.android.synthetic.main.pdfview.view.*
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.nio.channels.AsynchronousFileChannel.open
-import java.util.Locale
+import java.util.*
 
 
 class SettingsFragment : Fragment() {
     private lateinit var contactAdapter: ContactUsAdapter
     private lateinit var contactList: List<ContactItem>
+    private lateinit var bindingSettings:FragmentSettingsBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        bindingSettings=FragmentSettingsBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        //val view = inflater.inflate(R.layout.fragment_settings, container, false)
 
         val sharedPreferences =
             requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
         loadLocate()
-        view.privacySettingsId.setOnClickListener {
+        bindingSettings.privacySettingsId.setOnClickListener {
             val intent = Intent(requireContext(), PdfPrivacyPolicy::class.java)
             startActivity(intent)
         }
 
-        view.aboutSettingsId.setOnClickListener {
+        bindingSettings.aboutSettingsId.setOnClickListener {
             val intent = Intent(requireContext(), AboutActivity::class.java)
             startActivity(intent)
         }
 
         // Get the saved account information from SharedPreferences
         val isRegistered = sharedPreferences.getBoolean("token", false)
-        view.goToMyAccount.setOnClickListener {
+        bindingSettings.goToMyAccount.setOnClickListener {
             if (!isRegistered) {
                 // User is not registered, navigate to the registration fragment
                 val intent = Intent(activity, LoginActivity::class.java)
@@ -88,25 +80,24 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
-        view.drawer
-        view.allCoursesLl.setOnClickListener {
+        bindingSettings.allCoursesLl.setOnClickListener {
             val intent = Intent(requireContext(), AllCompaniesActivity::class.java)
             startActivity(intent)
         }
 
 
-        view.languageMode.setOnClickListener {
+        bindingSettings.languageMode.setOnClickListener {
             showChangeLanguage()
         }
 
         val userType = sharedPreferences.getString("userType",null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor" ){
-            view.exitCourseLL.visibility = View.VISIBLE
+            bindingSettings.exitCourseLL.visibility = View.VISIBLE
         }else{
-            view.exitCourseLL.visibility = View.GONE
+            bindingSettings.exitCourseLL.visibility = View.GONE
         }
 
-        view.exitCourseLL.setOnClickListener {
+        bindingSettings.exitCourseLL.setOnClickListener {
             val alertDialogBuilder=android.app.AlertDialog.Builder(ContextThemeWrapper(requireContext(),R.style.CustomAlertDialogTheme))
             alertDialogBuilder.setMessage("Are you sure you want to exit Kursline Application?")
             alertDialogBuilder.setPositiveButton("Yes"){dialog, which->
@@ -118,12 +109,12 @@ class SettingsFragment : Fragment() {
             val alertDialog =alertDialogBuilder.create()
             alertDialog.show()
         }
-        view.helpLl.setOnClickListener {
+        bindingSettings.helpLl.setOnClickListener {
             showBottomSheedDialogHelp()
 
         }
 
-        return view
+        return bindingSettings.root
     }
 
     private fun showBottomSheedDialogHelp(){

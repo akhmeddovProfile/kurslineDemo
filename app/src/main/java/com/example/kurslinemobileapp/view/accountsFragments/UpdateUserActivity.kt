@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityUpdateUserBinding
 import com.example.kurslinemobileapp.api.updateUserCompany.UpdateAPI
 import com.example.kurslinemobileapp.api.updateUserCompany.UpdateResponse
 import com.example.kurslinemobileapp.service.Constant
@@ -33,7 +34,6 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_update_user.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -47,7 +47,7 @@ class UpdateUserActivity : AppCompatActivity() {
     private val REQUEST_IMAGE_CAPTURE = 1 // Request code for image capture
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
-
+    private lateinit var bindingUpdateUser:ActivityUpdateUserBinding
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
@@ -76,7 +76,10 @@ class UpdateUserActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId", "SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update_user)
+        bindingUpdateUser= ActivityUpdateUserBinding.inflate(layoutInflater)
+        val view=bindingUpdateUser.root
+        setContentView(view)
+        //setContentView(R.layout.activity_update_user)
 
         val scroll = findViewById<ScrollView>(R.id.scrollUserUpdateAccount)
         scroll.visibility = View.VISIBLE
@@ -96,17 +99,17 @@ class UpdateUserActivity : AppCompatActivity() {
         val accountMail = sharedPreferences.getString("accountMail", "")
           val accountPhoto = sharedPreferences.getString("profilePhotoUrl", "")
 
-        updateAccountNameEditText.setText(accountName)
-        updateAccountPhoneEditText.setText(accountPhone)
-        updateAccountMailEditText.setText(accountMail)
+        bindingUpdateUser.updateAccountNameEditText.setText(accountName)
+        bindingUpdateUser.updateAccountPhoneEditText.setText(accountPhone)
+        bindingUpdateUser.updateAccountMailEditText.setText(accountMail)
        // photoUrlEditText.setText(accountPhoto)
 
         // Load the image using Picasso into the circular ImageView
 
-        Picasso.get().load(accountPhoto).into(myUserUpdateProfileImage)
+        Picasso.get().load(accountPhoto).into(bindingUpdateUser.myUserUpdateProfileImage)
 
 
-        myUserUpdateProfileImage.setOnClickListener {
+        bindingUpdateUser.myUserUpdateProfileImage.setOnClickListener {
             if(!checkPermission()){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     checkAndRequestPermissions()
@@ -124,52 +127,52 @@ class UpdateUserActivity : AppCompatActivity() {
 
 
 
-        savedUpdatesBtn.setOnClickListener {
+        bindingUpdateUser.savedUpdatesBtn.setOnClickListener {
             block = true
-            val name = updateAccountNameEditText.text.toString().trim()
-            val email = updateAccountMailEditText.text.toString().trim()
-            val phone =updateAccountPhoneEditText.text.toString().trim()
-            updateAccountPhoneEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(13))
+            val name = bindingUpdateUser.updateAccountNameEditText.text.toString().trim()
+            val email = bindingUpdateUser.updateAccountMailEditText.text.toString().trim()
+            val phone =bindingUpdateUser.updateAccountPhoneEditText.text.toString().trim()
+            bindingUpdateUser.updateAccountPhoneEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(13))
             if(name.isEmpty()){
-                updateAccountNameEditText.requestFocus()
-                updateAccountNameEditText.error = "Full name is not be empty"
+                bindingUpdateUser.updateAccountNameEditText.requestFocus()
+                bindingUpdateUser.updateAccountNameEditText.error = "Full name is not be empty"
                 block  = false
             }
             if(email.isEmpty()){
-                updateAccountMailEditText.requestFocus()
-                updateAccountMailEditText.error = "Email address is not be empty"
+                bindingUpdateUser.updateAccountMailEditText.requestFocus()
+                bindingUpdateUser.updateAccountMailEditText.error = "Email address is not be empty"
                 block  = false
             }
             if(phone.isEmpty()){
-                updateAccountPhoneEditText.requestFocus()
-                updateAccountPhoneEditText.error ="Phone is not be empty"
+                bindingUpdateUser.updateAccountPhoneEditText.requestFocus()
+                bindingUpdateUser.updateAccountPhoneEditText.error ="Phone is not be empty"
                 block  = false
             }
 
             showProgressButton(true)
-            val imageUrl = if (photoUrlEditText.text.toString().isNotEmpty() )
+            val imageUrl = if (bindingUpdateUser.photoUrlEditText.text.toString().isNotEmpty() )
             {
-                photoUrlEditText.text.toString().trim()
+                bindingUpdateUser.photoUrlEditText.text.toString().trim()
             } else {
                 null
             }
 
-            val userName = if(  updateAccountNameEditText.text.toString().isNotEmpty()){
-                updateAccountNameEditText.text.toString().trim()
+            val userName = if(  bindingUpdateUser.updateAccountNameEditText.text.toString().isNotEmpty()){
+                bindingUpdateUser.updateAccountNameEditText.text.toString().trim()
             } else {
-                updateAccountNameEditText.text.toString().trim()
+                bindingUpdateUser.updateAccountNameEditText.text.toString().trim()
             }
 
-            val userPhone = if(  updateAccountPhoneEditText.text.toString().isNotEmpty()){
-                updateAccountPhoneEditText.text.toString().trim()
+            val userPhone = if(  bindingUpdateUser.updateAccountPhoneEditText.text.toString().isNotEmpty()){
+                bindingUpdateUser.updateAccountPhoneEditText.text.toString().trim()
             } else {
-                updateAccountPhoneEditText.text.toString().trim()
+                bindingUpdateUser.updateAccountPhoneEditText.text.toString().trim()
             }
 
-            val userMail = if(  updateAccountMailEditText.text.toString().isNotEmpty()){
-                updateAccountMailEditText.text.toString().trim()
+            val userMail = if(  bindingUpdateUser.updateAccountMailEditText.text.toString().isNotEmpty()){
+                bindingUpdateUser.updateAccountMailEditText.text.toString().trim()
             } else {
-                updateAccountMailEditText.text.toString().trim()
+                bindingUpdateUser.updateAccountMailEditText.text.toString().trim()
             }
 
             updateUser(userName, userMail, userPhone, 1, imageUrl, authHeader, id)
@@ -292,11 +295,11 @@ class UpdateUserActivity : AppCompatActivity() {
             val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
             if (imagePath != null) {
                 val compressedBitmap = compressImageFile(imagePath)
-                photoUrlEditText.setText(imagePath)
-                myUserUpdateProfileImage.setImageBitmap(compressedBitmap)
+                bindingUpdateUser.photoUrlEditText.setText(imagePath)
+                bindingUpdateUser.myUserUpdateProfileImage.setImageBitmap(compressedBitmap)
                 if(compressedBitmap!=null){
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    photoUrlEditText.setText(compressedImagePath)
+                    bindingUpdateUser.photoUrlEditText.setText(compressedImagePath)
                     println("CompressedImagePath"+compressedImagePath)
                 }
                 println(imagePath)
@@ -352,13 +355,13 @@ class UpdateUserActivity : AppCompatActivity() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            savedUpdatesBtn.apply {
+            bindingUpdateUser.savedUpdatesBtn.apply {
                 isEnabled = false
                 text = getString(R.string.savingChange)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            savedUpdatesBtn.apply {
+            bindingUpdateUser.savedUpdatesBtn.apply {
                 isEnabled = true
                 text = getString(R.string.saveChange)
                 // Restore original background, text color, etc., if modified

@@ -2,7 +2,13 @@
 plugins {
     id 'com.android.application' version '7.3.0' apply false
     id 'com.android.library' version '7.3.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
+
+    /*   dependencies{
+           classpath 'com.android.tools.build:gradle:7.3.1' // downloads 1.7.1 Metadata
+           classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+       }*/
+
 }
 
 task clean(type: Delete) {

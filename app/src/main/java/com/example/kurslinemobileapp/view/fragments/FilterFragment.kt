@@ -2,31 +2,25 @@ package com.example.kurslinemobileapp.view.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentFilterBinding
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.CompanyNamesAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
 import com.example.kurslinemobileapp.adapter.TutorsNameAdapter
-import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
-import com.example.kurslinemobileapp.service.Constant
-import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.service.Room.category.MyRepositoryForCategory
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_filter.*
-import kotlinx.android.synthetic.main.fragment_filter.view.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -46,6 +40,7 @@ class FilterFragment : Fragment() {
     lateinit var categoryId: String
     lateinit var regionId:String
     lateinit var courseId: String
+    private lateinit var binding: FragmentFilterBinding
     private var job: Job? = null
     private lateinit var repository: MyRepositoryForCategory
 
@@ -54,8 +49,9 @@ class FilterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding=FragmentFilterBinding.inflate(inflater,container,false)
          view =  inflater.inflate(R.layout.fragment_filter, container, false) as ViewGroup
-        view.backtoMainPage.setOnClickListener {
+        binding.backtoMainPage.setOnClickListener {
             findNavController().navigate(R.id.action_filterFragment_to_homeFragment)
         }
 
@@ -66,25 +62,25 @@ class FilterFragment : Fragment() {
         categoryId = ""
         regionId = ""
         courseId = ""
-        button1 = view.findViewById(R.id.coursefilter)
-        button2 = view.findViewById(R.id.repititorfilter)
-        button3 = view.findViewById(R.id.allcourseFilter)
+        button1 = binding.coursefilter
+        button2 = binding.repititorfilter
+        button3 = binding.allcourseFilter
 
-        button4 = view.findViewById(R.id.onlinemodeBtn)
-        button5 = view.findViewById(R.id.offlineModebtn)
-        button6 = view.findViewById(R.id.allModesbtn)
+        button4 = binding.onlinemodeBtn
+        button5 = binding.offlineModebtn
+        button6 = binding.allModesbtn
 
-        view.allCategoriesFilterTxt.setOnClickListener {
+        binding.allCategoriesFilterTxt.setOnClickListener {
             showBottomSheetDialog()
         }
-        view.filterRegionsTxt.setOnClickListener {
+        binding.filterRegionsTxt.setOnClickListener {
             showBottomSheetDialogRegions()
         }
-        view.filterCourses.setOnClickListener {
+        binding.filterCourses.setOnClickListener {
             println("repid")
             showBottomSheetDialogCourses()
         }
-        view.filterTeachers.setOnClickListener {
+        binding.filterTeachers.setOnClickListener {
             showBottomSheetDialogTutors()
         }
 
@@ -120,14 +116,14 @@ class FilterFragment : Fragment() {
             isOnlineId = "3"
         }
 
-        view.resetFilter.setOnClickListener {
+        binding.resetFilter.setOnClickListener {
             categoryId = ""
             regionId = ""
             courseId = ""
-            view.filterRegionsTxt.text = getString(R.string.regions)
-            view.allCategoriesFilterTxt.text = getString(R.string.categories)
-            view.filterCourseId.text = getString(R.string.tutors)
-            view.tutorsFilterId.text = getString(R.string.kurslar)
+            binding.filterRegionsTxt.text = getString(R.string.regions)
+            binding.allCategoriesFilterTxt.text = getString(R.string.categories)
+            binding.filterCourseId.text = getString(R.string.tutors)
+            binding.tutorsFilterId.text = getString(R.string.kurslar)
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
             resetBtnsBackground(button3)
@@ -136,16 +132,16 @@ class FilterFragment : Fragment() {
             resetBtnsBackground(button6)
             statusId = ""
             isOnlineId = ""
-            view.maxEditText.text?.clear()
-         view.minEditText.text?.clear()
+            binding.maxEditText.text?.clear()
+         binding.minEditText.text?.clear()
         }
 
-        view.showCoursesFilterBtn.setOnClickListener {
+        binding.showCoursesFilterBtn.setOnClickListener {
             val region = regionId
             println("regionId: "+region)
             val category = categoryId
-            val maxPrice = view.maxEditText.text.toString().trim()
-            val minPrice = view.minEditText.text.toString().trim()
+            val maxPrice = binding.maxEditText.text.toString().trim()
+            val minPrice = binding.minEditText.text.toString().trim()
             val course = courseId
             val bundle = Bundle()
             bundle.putString("search", search)
@@ -166,7 +162,7 @@ class FilterFragment : Fragment() {
             // Navigate to the HomeFragment and pass the filter parameters
             findNavController().navigate(R.id.action_filterFragment_to_homeFragment, bundle)
         }
-        return view
+        return binding.root
     }
 
 
@@ -229,7 +225,7 @@ class FilterFragment : Fragment() {
             println("Received ${courses.size} courses")  // Debug log
 
             val adapter = CompanyNamesAdapter(courses) { companyName,companyId ->
-                filterCourseId.text = companyName
+                binding.filterCourseId.text = companyName
                 courseId = companyId.toString()
                 println("courseId: $courseId")
                 dialog.dismiss()
@@ -258,7 +254,7 @@ class FilterFragment : Fragment() {
             println("Received ${tutors.size} courses")  // Debug log
 
             val adapter = TutorsNameAdapter(tutors) { companyName,companyId ->
-                filterCourseId.text = companyName
+                binding.filterCourseId.text = companyName
                 courseId = companyId.toString()
                 println("courseId: $courseId")
                 dialog.dismiss()
@@ -289,7 +285,7 @@ class FilterFragment : Fragment() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
                 categoryId = category.category.categoryId.toString()
-                allCategoriesFilterTxt.setText(category.category.categoryName)
+                binding.allCategoriesFilterTxt.setText(category.category.categoryName)
                 dialog.dismiss()
             }
         }.catch { throwable ->
@@ -317,7 +313,7 @@ class FilterFragment : Fragment() {
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
-                    view.filterRegionsTxt.setText(region.regionName)
+                    binding.filterRegionsTxt.setText(region.regionName)
                     regionId = region.regionId.toString()
                     dialog.dismiss()
                 }

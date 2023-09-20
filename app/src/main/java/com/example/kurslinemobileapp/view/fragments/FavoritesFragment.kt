@@ -5,17 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentFavoritesBinding
 import com.example.kurslinemobileapp.adapter.FavoriteAdapter
 import com.example.kurslinemobileapp.api.favorite.FavoriteApi
 import com.example.kurslinemobileapp.api.favorite.favoriteGet.FavoriteGetModel
@@ -27,7 +28,6 @@ import com.example.kurslinemobileapp.view.loginRegister.LoginActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_favorites.view.*
 
 class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
     private lateinit var favoriteAdapter: FavoriteAdapter
@@ -36,13 +36,14 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
     private var isFavorite: Boolean = false
-
+    private lateinit var favoritesBinding: FragmentFavoritesBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_favorites, container, false)
+        favoritesBinding=FragmentFavoritesBinding.inflate(inflater,container,false)
+        //val view = inflater.inflate(R.layout.fragment_favorites, container, false)
 
          sharedPreferences =
             requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -64,23 +65,23 @@ class FavoritesFragment : Fragment(),FavoriteAdapter.DeleteItemFromFavorite {
 // User is already registered, stay on the current fragment/activity
         } else {
             // Required data is present, display it
-            view.favoritesRl.visibility = View.VISIBLE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.favoriteLoading)
+            favoritesBinding.favoritesRl.visibility = View.VISIBLE
+            val lottie = favoritesBinding.favoriteLoading
             lottie.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundFavoritesCourseText)
+            val text = favoritesBinding.notFoundFavoritesCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.notFoundImageFav)
+            val image = favoritesBinding.notFoundImageFav
             image.visibility = View.GONE
             lottie.playAnimation()
-            val recycler = view.findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            val recycler = favoritesBinding.favoritesItemRecycler
             recycler.visibility = View.GONE
-            val coursesRV = view.findViewById<RecyclerView>(R.id.favorites_item_recycler)
+            val coursesRV = favoritesBinding.favoritesItemRecycler
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getFavItems(authHeader,id)
         }
 
 
-        return view
+        return favoritesBinding.root
     }
 
 

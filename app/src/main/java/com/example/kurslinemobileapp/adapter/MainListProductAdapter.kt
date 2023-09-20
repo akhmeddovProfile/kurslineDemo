@@ -20,7 +20,6 @@ import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Photo
 import com.example.kurslinemobileapp.api.companyTeachers.companyTeacherRow.CompanyTeacherModelItem
 import com.example.kurslinemobileapp.service.Constant
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.product_item_row.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 

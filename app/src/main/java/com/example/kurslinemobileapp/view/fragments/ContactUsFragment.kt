@@ -2,29 +2,32 @@ package com.example.kurslinemobileapp.view.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentContactUsBinding
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import kotlinx.android.synthetic.main.fragment_contact_us.view.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.view.MenuInflater
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.HttpException
 
 class ContactUsFragment : Fragment() {
     private lateinit var view: ViewGroup
+    private lateinit var bindingContactUsBinding: FragmentContactUsBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        bindingContactUsBinding=FragmentContactUsBinding.inflate(inflater,container,false)
         view = inflater.inflate(R.layout.fragment_contact_us, container, false) as ViewGroup
 
         val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
@@ -32,18 +35,18 @@ class ContactUsFragment : Fragment() {
         // Hide the BottomNavigationView
         goToUploadActivity.visibility=View.GONE
         bottomNavigationView.visibility = View.GONE
-        view?.sendLetterBtn?.setOnClickListener {
+        bindingContactUsBinding.sendLetterBtn?.setOnClickListener {
             sendMessage(requireContext())
         }
-        view.backtoHomePage.setOnClickListener {
+        bindingContactUsBinding.backtoHomePage.setOnClickListener {
             findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
         }
-        return view
+        return bindingContactUsBinding.root
     }
 
     fun sendMessage(context: Context){
-        val phoneNumber ="+994"+view.writeUsPhoneText?.text.toString()
-        val message = view.writeUsLetterEdittext?.text.toString()
+        val phoneNumber ="+994"+bindingContactUsBinding.writeUsPhoneText?.text.toString()
+        val message = bindingContactUsBinding.writeUsLetterEdittext?.text.toString()
         CoroutineScope(Dispatchers.Main).launch {
             val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber,message).await()
             try {

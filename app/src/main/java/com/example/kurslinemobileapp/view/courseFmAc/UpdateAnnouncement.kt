@@ -49,7 +49,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_update_announcement.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -402,7 +401,7 @@ class UpdateAnnouncement : AppCompatActivity() {
             modeName=it.isOnlines.find {
                 it.isOnlineId==announcementModeId.toInt()
             }?.isOnlineName.toString()
-            upcourseModeEditText.setText(modeName.trim())
+            bindingUpdateAnnouncementBinding.upcourseModeEditText.setText(modeName.trim())
         },{throwable->
             println("Region retrieval error: $throwable")
 
@@ -747,8 +746,8 @@ private fun setUpViewPagerFileFormat(){
             dialog.dismiss() // Dismiss the bottom sheet dialog when a subcategory is selected
         }
         dialog.setOnDismissListener {
-            if (courseSubCategoryEditText.text!!.isEmpty()) {
-                upcourseAllCategoryEditText.text!!.clear()
+            if (bindingUpdateAnnouncementBinding.courseSubCategoryEditText.text!!.isEmpty()) {
+                bindingUpdateAnnouncementBinding.upcourseAllCategoryEditText.text!!.clear()
             }
         }
         dialog.show()

@@ -42,7 +42,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_user_to_company.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -265,7 +264,7 @@ class UserToCompanyActivity : AppCompatActivity() {
 
 
         }
-        userToCompanyPhotoEditText.setOnClickListener {
+        bindingUserToComp.userToCompanyPhotoEditText.setOnClickListener {
             if(!checkPermission()){
                 checkAndRequestPermissions()
                 /*       val miuiVersion = BuildProperties.getMIUIVersion()
@@ -553,13 +552,13 @@ class UserToCompanyActivity : AppCompatActivity() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            userToCompanyRegisterBtn.apply {
+            bindingUserToComp.userToCompanyRegisterBtn.apply {
                 isEnabled = false
                 text = getString(R.string.registerContinue)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            userToCompanyRegisterBtn.apply {
+            bindingUserToComp.userToCompanyRegisterBtn.apply {
                 isEnabled = true
                 text = getString(R.string.createBusiness)
                 // Restore original background, text color, etc., if modified

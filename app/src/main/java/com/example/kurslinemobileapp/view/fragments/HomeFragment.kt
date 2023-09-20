@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
@@ -28,6 +27,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentHomeBinding
 import com.example.kurslinemobileapp.adapter.*
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.api.announcement.getmainAnnouncement.Announcemenet
@@ -41,13 +41,11 @@ import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.view.courseFmAc.ProductDetailActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -58,7 +56,6 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     SearchView.OnQueryTextListener, HiglightForMainListAdapter.OnHighlightItemClickListener{
     private lateinit var view: ViewGroup
     private lateinit var higlightProducAdapter: HiglighProducAdapter
-
     private lateinit var viewPager2: ViewPager2
     private lateinit var handler: Handler
     private lateinit var imageList: ArrayList<Int>
@@ -85,14 +82,16 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     private var isLoading = false
     private var job: Job? = null
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    private lateinit var binding: FragmentHomeBinding
+    //@RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding=FragmentHomeBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
-        val createAccount = view.findViewById<ImageView>(R.id.writeus)
+        val createAccount = binding.writeus
 
        // viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
 /*
@@ -115,16 +114,16 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         mainList2High = ArrayList<HiglightProductModelItem>()
         vipList = ArrayList<Announcemenet>()
 
-        recycler = view.findViewById<RecyclerView>(R.id.allCoursesRV)
+        recycler = binding.allCoursesRV
         linearLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recycler.visibility = View.GONE
 
-        highRv = view.findViewById<RecyclerView>(R.id.higlightCoursesRV)
+        highRv = binding.higlightCoursesRV
         highRv.visibility = View.GONE
-        vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        vipRv = binding.vipCoursesRV
         vipRv.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingHome)
+        val lottie = binding.loadingHome
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -142,7 +141,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             val type = object : TypeToken<List<Highlight>>() {}.type
             val imageWithTextList = gson.fromJson<List<Highlight>>(imageWithTextListJson, type)
 
-            val recylerviewForHighlight = view.findViewById<RecyclerView>(R.id.topProductsRV)
+            val recylerviewForHighlight = binding.topProductsRV
             val adapter = HiglightForMainListAdapter(imageWithTextList,this@HomeFragment)
             recylerviewForHighlight.adapter = adapter
             recylerviewForHighlight.layoutManager =
@@ -200,7 +199,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             findNavController().navigate(R.id.action_homeFragment_to_contactUsFragment)
         }
 
-        val goToFilter = view.findViewById<TextInputEditText>(R.id.mainFilterEditText)
+        val goToFilter = binding.mainFilterEditText
         goToFilter.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_filterFragment)
         }
@@ -208,9 +207,9 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
         val userType = sharedPreferences.getString("userType", null)
         if (userType == "İstifadəçi" || userType == "Kurs" || userType == "Repititor") {
-            view.writeus.visibility = View.VISIBLE
+            binding.writeus.visibility = View.VISIBLE
         } else {
-            view.writeus.visibility = View.VISIBLE
+            binding.writeus.visibility = View.VISIBLE
         }
         //setscroollListenerGuest()
 
@@ -258,7 +257,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         }
 //elanlar gorurem istesen emulatorda run ver ram yaxsidir komo ses exo verir google meet baglayaq istesen wpdan zeng vurum
 
-        val searchView = view.findViewById<SearchView>(R.id.searchViewAnnEditText)
+        val searchView = binding.searchViewAnnEditText
         val searchEditText =
             searchView?.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
 
@@ -275,7 +274,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
         init()
         setUpTransformer()
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 handler.removeCallbacks(runnable)
@@ -284,7 +283,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         })
 
 
-        return view
+        return binding.root
     }
 
 /*    private fun getProductsAndSetupScrollListener(offset: Int) {
@@ -482,11 +481,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     }
 
     private fun handleResponseforAllItemsAndFavItems(response: GetAllAnnouncement) {
-        val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+        val recycler = binding.allCoursesRV
         recycler.visibility = View.VISIBLE
-        val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+        val vipRv = binding.vipCoursesRV
         vipRv.visibility = View.VISIBLE
-        val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+        val lottie = binding.loadingHome
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
         announcements.addAll(response.announcemenets)
@@ -600,11 +599,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         mainList2.clear()
         vipList.clear()
         if (response.announcemenets.isNotEmpty()){
-            val recycler = requireView().findViewById<RecyclerView>(R.id.allCoursesRV)
+            val recycler = binding.allCoursesRV
             recycler.visibility = View.VISIBLE
-            val vipRv = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+            val vipRv = binding.vipCoursesRV
             vipRv.visibility = View.VISIBLE
-            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+            val lottie = binding.loadingHome
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             for (newList in response.announcemenets) {
@@ -654,17 +653,17 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 editor.apply()
             }
         }else{
-            view.notFoundHomeCourseText.visibility =View.VISIBLE
-            view.notFoundImageHome.visibility =View.VISIBLE
-            view.line1Main.visibility = View.GONE
-            view.vipAnnouncementTextMain.visibility = View.GONE
-            view.line2Main.visibility = View.GONE
-            view.vipCoursesRV.visibility =View.GONE
-            view.line3Main.visibility = View.GONE
-            view.AnnouncementTextMain.visibility = View.GONE
-            view.line4Main.visibility = View.GONE
-            view.allCoursesRV.visibility = View.GONE
-            val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
+            binding.notFoundHomeCourseText.visibility =View.VISIBLE
+            binding.notFoundImageHome.visibility =View.VISIBLE
+            binding.line1Main.visibility = View.GONE
+            binding.vipAnnouncementTextMain.visibility = View.GONE
+            binding.line2Main.visibility = View.GONE
+            binding.vipCoursesRV.visibility =View.GONE
+            binding.line3Main.visibility = View.GONE
+            binding.AnnouncementTextMain.visibility = View.GONE
+            binding.line4Main.visibility = View.GONE
+            binding.allCoursesRV.visibility = View.GONE
+            val lottie = binding.loadingHome
             lottie.visibility =View.GONE
             lottie.pauseAnimation()
 
@@ -730,7 +729,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     }
 
     private val runnable = Runnable {
-        viewPager2.currentItem = viewPager2.currentItem + 1
+        binding.viewPager2.currentItem = binding.viewPager2.currentItem + 1
     }
 
     private fun setUpTransformer() {
@@ -741,12 +740,12 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             page.scaleY = 0.85f + r * 0.14f
         }
 
-        viewPager2.setPageTransformer(transformer)
+        binding.viewPager2.setPageTransformer(transformer)
     }
 
     private fun init() {
         val appdatabase = AppDatabase.getDatabase(requireContext())
-        viewPager2 = view.findViewById(R.id.viewPager2)
+        viewPager2 = binding.viewPager2
         handler = Handler(Looper.myLooper()!!)
 
 /*
@@ -758,11 +757,11 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         job=appdatabase.advDao().getAllAdv().onEach { adModel->
             val advArrayList=ArrayList(adModel)
             val adapter = ViewPagerImageAdapter(advArrayList, viewPager2,requireContext())
-            viewPager2.adapter = adapter
-            viewPager2.offscreenPageLimit = 3
-            viewPager2.clipToPadding = false
-            viewPager2.clipChildren = false
-            viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            binding.viewPager2.adapter = adapter
+            binding.viewPager2.offscreenPageLimit = 3
+            binding.viewPager2.clipToPadding = false
+            binding.viewPager2.clipChildren = false
+            binding.viewPager2.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         }.catch {throwable->
             println("MyTests: $throwable")
 
@@ -840,14 +839,14 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 mainList2High.clear()
 
                 highRv.visibility = View.GONE
-                val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                val recycler1 = binding.vipCoursesRV
                 recycler1.visibility = View.GONE
-                view.vipAnnouncementTextMain.text = getString(R.string.mostViewHg)
-                view.line3Main.visibility = View.GONE
-                view.AnnouncementTextMain.visibility = View.GONE
-                view.line4Main.visibility = View.GONE
-                view.allCoursesRV.visibility = View.GONE
-                view.filteredCoursesRV.visibility = View.GONE
+                binding.vipAnnouncementTextMain.text = getString(R.string.mostViewHg)
+                binding.line3Main.visibility = View.GONE
+                binding.AnnouncementTextMain.visibility = View.GONE
+                binding.line4Main.visibility = View.GONE
+                binding.allCoursesRV.visibility = View.GONE
+                binding.filteredCoursesRV.visibility = View.GONE
                 val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
                 lottie.visibility = View.VISIBLE
                 lottie.playAnimation()
@@ -890,14 +889,14 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 mainList2High.clear()
 
                 highRv.visibility = View.GONE
-                val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                val recycler1 = binding.vipCoursesRV
                 recycler1.visibility = View.GONE
-                view.vipAnnouncementTextMain.text = getString(R.string.newHg)
-                view.line3Main.visibility = View.GONE
-                view.AnnouncementTextMain.visibility = View.GONE
-                view.line4Main.visibility = View.GONE
-                view.allCoursesRV.visibility = View.GONE
-                view.filteredCoursesRV.visibility = View.GONE
+                binding.vipAnnouncementTextMain.text = getString(R.string.newHg)
+                binding.line3Main.visibility = View.GONE
+                binding.AnnouncementTextMain.visibility = View.GONE
+                binding.line4Main.visibility = View.GONE
+                binding.allCoursesRV.visibility = View.GONE
+                binding.filteredCoursesRV.visibility = View.GONE
                 val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
                 lottie.visibility = View.VISIBLE
                 lottie.playAnimation()
@@ -939,14 +938,14 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 mainList2High.clear()
 
                 highRv.visibility = View.GONE
-                val recycler1 = view.findViewById<RecyclerView>(R.id.vipCoursesRV)
+                val recycler1 = binding.vipCoursesRV
                 recycler1.visibility = View.GONE
-                view.vipAnnouncementTextMain.text = getString(R.string.vipHg)
-                view.line3Main.visibility = View.GONE
-                view.AnnouncementTextMain.visibility = View.GONE
-                view.line4Main.visibility = View.GONE
-                view.allCoursesRV.visibility = View.GONE
-                view.filteredCoursesRV.visibility = View.GONE
+                binding.vipAnnouncementTextMain.text = getString(R.string.vipHg)
+                binding.line3Main.visibility = View.GONE
+                binding.AnnouncementTextMain.visibility = View.GONE
+                binding.line4Main.visibility = View.GONE
+                binding.allCoursesRV.visibility = View.GONE
+                binding.filteredCoursesRV.visibility = View.GONE
                 val lottie = requireView().findViewById<LottieAnimationView>(R.id.loadingHome)
                 lottie.visibility = View.VISIBLE
                 lottie.playAnimation()

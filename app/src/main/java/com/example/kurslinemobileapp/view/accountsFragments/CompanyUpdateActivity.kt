@@ -26,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivityCompanyUpdateBinding
 import com.example.kurslinemobileapp.adapter.CategoryAdapter
 import com.example.kurslinemobileapp.adapter.ModeAdapter
 import com.example.kurslinemobileapp.adapter.RegionAdapter
@@ -41,7 +42,6 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_company_update.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -61,7 +61,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
     private lateinit var regionAdapter: RegionAdapter
     private lateinit var modeAdapter: ModeAdapter
     private lateinit var statusAdapter: StatusAdapter
-
+    private lateinit var bindingCompanyBinding: ActivityCompanyUpdateBinding
     val MAX_IMAGE_WIDTH = 800 // Maximum width for the compressed image
     val MAX_IMAGE_HEIGHT = 600 // Maximum height for the compressed image
     lateinit var categoryId: String
@@ -102,10 +102,10 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_company_update)
-
-
-
+        bindingCompanyBinding=ActivityCompanyUpdateBinding.inflate(layoutInflater)
+        val view=bindingCompanyBinding.root
+        setContentView(view)
+        //setContentView(R.layout.activity_company_update)
         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID", 0)
         val token = sharedPreferences.getString("USERTOKENNN", "")
@@ -118,14 +118,14 @@ class CompanyUpdateActivity : AppCompatActivity() {
             AppDatabase.getDatabase(this).subCategoryDao()
         )
 
-        businessAccountUpdateCategoryEditText.setOnClickListener {
+        bindingCompanyBinding.businessAccountUpdateCategoryEditText.setOnClickListener {
             showBottomSheetDialog()
         }
-        businessAccountUpdateRegionEditText.setOnClickListener {
+        bindingCompanyBinding.businessAccountUpdateRegionEditText.setOnClickListener {
             println("onclcik")
             showBottomSheetDialogRegions()
         }
-        companyUpdateStatusEditText.setOnClickListener {
+        bindingCompanyBinding.companyUpdateStatusEditText.setOnClickListener {
             showBottomSheetDialogStatus()
         }
 
@@ -146,82 +146,82 @@ class CompanyUpdateActivity : AppCompatActivity() {
         val companyCategory = sharedPreferences.getString("companyCategory", "") ?: ""
         val companyStatus = sharedPreferences.getString("companyStatus", "") ?: ""
         val companyRegion = sharedPreferences.getString("companyRegion", "") ?: ""
-        businessAccountUpdateNameEditText.setText(userFullName)
-        businessAccountUpdateEmailEditText.setText(userEmail)
-        businessAccountUpdateCompanyEditText.setText(companyName)
-        companyUpdateAdressEditText.setText(userAddress)
-        businessAccountUpdatePhoneEditText.setText(userPhoneNumber)
-        businessAccountAboutEditText.setText(userAbout)
-        businessAccountUpdateCategoryEditText.setText(companyCategory)
-        companyUpdateStatusEditText.setText(companyStatus)
-        businessAccountUpdateRegionEditText.setText(companyRegion)
+        bindingCompanyBinding.businessAccountUpdateNameEditText.setText(userFullName)
+        bindingCompanyBinding.businessAccountUpdateEmailEditText.setText(userEmail)
+        bindingCompanyBinding.businessAccountUpdateCompanyEditText.setText(companyName)
+        bindingCompanyBinding.companyUpdateAdressEditText.setText(userAddress)
+        bindingCompanyBinding.businessAccountUpdatePhoneEditText.setText(userPhoneNumber)
+        bindingCompanyBinding.businessAccountAboutEditText.setText(userAbout)
+        bindingCompanyBinding.businessAccountUpdateCategoryEditText.setText(companyCategory)
+        bindingCompanyBinding.companyUpdateStatusEditText.setText(companyStatus)
+        bindingCompanyBinding.businessAccountUpdateRegionEditText.setText(companyRegion)
         if (userPhoto == null){
-             myCompanyUpdateProfilePhoto.setImageResource(R.drawable.setpp)
+             bindingCompanyBinding.myCompanyUpdateProfilePhoto.setImageResource(R.drawable.setpp)
         }else{
-            Picasso.get().load(userPhoto).into(myCompanyUpdateProfilePhoto)
+            Picasso.get().load(userPhoto).into(bindingCompanyBinding.myCompanyUpdateProfilePhoto)
         }
-        savedUpdatesBtnCompany.setOnClickListener {
+        bindingCompanyBinding.savedUpdatesBtnCompany.setOnClickListener {
             block = true
-            val companyNameContainer = businessAccountUpdateNameEditText.text.toString().trim()
-            val companyEmailContainer = businessAccountUpdateEmailEditText.text.toString().trim()
-            val companyFullNameContainer = businessAccountUpdateCompanyEditText.text.toString().trim()
-            val companyAddressContainer = companyUpdateAdressEditText.text.toString().trim()
-            val companyPhoneContainer = businessAccountUpdatePhoneEditText.text.toString().trim()
+            val companyNameContainer = bindingCompanyBinding.businessAccountUpdateNameEditText.text.toString().trim()
+            val companyEmailContainer = bindingCompanyBinding.businessAccountUpdateEmailEditText.text.toString().trim()
+            val companyFullNameContainer = bindingCompanyBinding.businessAccountUpdateCompanyEditText.text.toString().trim()
+            val companyAddressContainer = bindingCompanyBinding.companyUpdateAdressEditText.text.toString().trim()
+            val companyPhoneContainer = bindingCompanyBinding.businessAccountUpdatePhoneEditText.text.toString().trim()
             //  val companyModeContainer = companyModeEditText.text.toString().trim()
-            val aboutCompanyContainer = businessAccountAboutEditText.text.toString().trim()
-            val category = businessAccountUpdateCategoryEditText.text.toString().trim()
-            val status = companyUpdateStatusEditText.text.toString().trim()
-            val region = businessAccountUpdateRegionEditText.text.toString().trim()
-            businessAccountUpdatePhoneEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(13))
+            val aboutCompanyContainer = bindingCompanyBinding.businessAccountAboutEditText.text.toString().trim()
+            val category = bindingCompanyBinding.businessAccountUpdateCategoryEditText.text.toString().trim()
+            val status = bindingCompanyBinding.companyUpdateStatusEditText.text.toString().trim()
+            val region = bindingCompanyBinding.businessAccountUpdateRegionEditText.text.toString().trim()
+            bindingCompanyBinding.businessAccountUpdatePhoneEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(13))
             if(companyNameContainer.isEmpty()){
-                businessAccountUpdateNameEditText.requestFocus()
-                businessAccountUpdateNameEditText.error = "Full name is not be empty"
+                bindingCompanyBinding.businessAccountUpdateNameEditText.requestFocus()
+                bindingCompanyBinding.businessAccountUpdateNameEditText.error = "Full name is not be empty"
                 block  = false
             }
             if(companyEmailContainer.isEmpty()){
-                businessAccountUpdateEmailEditText.requestFocus()
-                businessAccountUpdateEmailEditText.error = "Email address is not be empty"
+                bindingCompanyBinding.businessAccountUpdateEmailEditText.requestFocus()
+                bindingCompanyBinding.businessAccountUpdateEmailEditText.error = "Email address is not be empty"
                 block  = false
             }
             if(companyFullNameContainer.isEmpty()){
-                businessAccountUpdateCompanyEditText.requestFocus()
-                businessAccountUpdateCompanyEditText.error = "Company Name is not be empty"
+                bindingCompanyBinding.businessAccountUpdateCompanyEditText.requestFocus()
+                bindingCompanyBinding.businessAccountUpdateCompanyEditText.error = "Company Name is not be empty"
                 block  = false
             }
             if(companyAddressContainer.isEmpty()){
-                companyUpdateAdressEditText.requestFocus()
-                companyUpdateAdressEditText.error = "Company address is not be empty"
+                bindingCompanyBinding.companyUpdateAdressEditText.requestFocus()
+                bindingCompanyBinding.companyUpdateAdressEditText.error = "Company address is not be empty"
                 block  = false
             }
             if(companyPhoneContainer.isEmpty()){
-                businessAccountUpdatePhoneEditText.requestFocus()
-                businessAccountUpdatePhoneEditText.error =  "Phone is not be empty"
+                bindingCompanyBinding.businessAccountUpdatePhoneEditText.requestFocus()
+                bindingCompanyBinding.businessAccountUpdatePhoneEditText.error =  "Phone is not be empty"
                 block  = false
             }
             if(aboutCompanyContainer.isEmpty()){
-                businessAccountAboutEditText.requestFocus()
-                businessAccountAboutEditText.error = "Company about is not be empty"
+                bindingCompanyBinding.businessAccountAboutEditText.requestFocus()
+                bindingCompanyBinding.businessAccountAboutEditText.error = "Company about is not be empty"
                 block  = false
             }
             if(category.isEmpty()){
-                businessAccountUpdateCategoryEditText.requestFocus()
-                businessAccountUpdateCategoryEditText.error = "Company category is not be empty"
+                bindingCompanyBinding.businessAccountUpdateCategoryEditText.requestFocus()
+                bindingCompanyBinding.businessAccountUpdateCategoryEditText.error = "Company category is not be empty"
                 block  = false
             }
             if(status.isEmpty()){
-                companyUpdateStatusEditText.requestFocus()
-                companyUpdateStatusEditText.error = "Company status is not be empty"
+                bindingCompanyBinding.companyUpdateStatusEditText.requestFocus()
+                bindingCompanyBinding.companyUpdateStatusEditText.error = "Company status is not be empty"
                 block  = false
             }
             if(region.isEmpty()){
-                businessAccountUpdateRegionEditText.requestFocus()
-                businessAccountUpdateRegionEditText.error = "Company region is not be empty"
+                bindingCompanyBinding.businessAccountUpdateRegionEditText.requestFocus()
+                bindingCompanyBinding.businessAccountUpdateRegionEditText.error = "Company region is not be empty"
                 block  = false
             }
 
 
-                val imageUrl = if (companyUpdatePhotoURLEditText.text.toString().isNotEmpty()) {
-                    companyUpdatePhotoURLEditText.text.toString().trim()
+                val imageUrl = if (bindingCompanyBinding.companyUpdatePhotoURLEditText.text.toString().isNotEmpty()) {
+                    bindingCompanyBinding.companyUpdatePhotoURLEditText.text.toString().trim()
                 } else {
                     null
                 }
@@ -262,7 +262,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 )
 
         }
-        myCompanyUpdateProfilePhoto.setOnClickListener {
+        bindingCompanyBinding.myCompanyUpdateProfilePhoto.setOnClickListener {
             if(!checkPermission()){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     checkAndRequestPermissions()
@@ -425,11 +425,11 @@ class CompanyUpdateActivity : AppCompatActivity() {
             val imagePath = selectedImageUri?.let { getRealPathFromURI(it) }
             if (imagePath != null) {
                 val compressedBitmap = compressImageFile(imagePath)
-                companyUpdatePhotoURLEditText.setText(imagePath)
-                myCompanyUpdateProfilePhoto.setImageBitmap(compressedBitmap)
+                bindingCompanyBinding.companyUpdatePhotoURLEditText.setText(imagePath)
+                bindingCompanyBinding.myCompanyUpdateProfilePhoto.setImageBitmap(compressedBitmap)
                 if (compressedBitmap != null) {
                     val compressedImagePath = saveCompressedBitmapToFile(compressedBitmap)
-                    companyUpdatePhotoURLEditText.setText(compressedImagePath)
+                    bindingCompanyBinding.companyUpdatePhotoURLEditText.setText(compressedImagePath)
                     println("CompressedImagePath: " + compressedImagePath)
                 }
                 println(imagePath)
@@ -507,7 +507,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
             categoryAdapter.setChanged(categories)
             categoryAdapter.setOnItemClickListener { category ->
                 categoryId = category.category.categoryId.toString()
-                businessAccountUpdateCategoryEditText.setText(category.category.categoryName)
+                bindingCompanyBinding.businessAccountUpdateCategoryEditText.setText(category.category.categoryName)
                 isCategoryChanged = true
                 dialog.dismiss()
             }
@@ -537,7 +537,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
                 recyclerviewRegions.adapter = regionAdapter
                 regionAdapter.setChanged(reg)
                 regionAdapter.setOnItemClickListener { region ->
-                    businessAccountUpdateRegionEditText.setText(region.regionName)
+                    bindingCompanyBinding.businessAccountUpdateRegionEditText.setText(region.regionName)
                     regionId = region.regionId.toString()
                     isRegionChanged = false
                     dialog.dismiss()
@@ -575,7 +575,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
             recyclerViewStatus.adapter = statusAdapter
             statusAdapter.setChanged(status)
             statusAdapter.setOnItemClickListener { status ->
-                companyUpdateStatusEditText.setText(status.statusName)
+                bindingCompanyBinding.companyUpdateStatusEditText.setText(status.statusName)
                 statusId = status.statusId.toString()
                 isStatusChanged = true
                 dialog.dismiss()
@@ -588,13 +588,13 @@ class CompanyUpdateActivity : AppCompatActivity() {
 
     private fun showProgressButton(show: Boolean) {
         if (show) {
-            savedUpdatesBtnCompany.apply {
+            bindingCompanyBinding.savedUpdatesBtnCompany.apply {
                 isEnabled = false
                 text = getString(R.string.savingChange)  // Set empty text or loading indicator text
                 // Add loading indicator drawable or ProgressBar if needed
             }
         } else {
-            savedUpdatesBtnCompany.apply {
+            bindingCompanyBinding.savedUpdatesBtnCompany.apply {
                 isEnabled = true
                 text = getString(R.string.saveChange)
                 // Restore original background, text color, etc., if modified

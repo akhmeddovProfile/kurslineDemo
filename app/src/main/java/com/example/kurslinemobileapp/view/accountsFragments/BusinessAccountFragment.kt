@@ -11,6 +11,7 @@ import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.FragmentBusinessAccountBinding
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyData.CompanyRegisterData
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
@@ -22,21 +23,22 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_business_account.view.*
 
 class BusinessAccountFragment : Fragment() {
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var view : ViewGroup
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var bindingBusinessAccountBinding: FragmentBusinessAccountBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        bindingBusinessAccountBinding=FragmentBusinessAccountBinding.inflate(inflater,container,false)
          view = inflater.inflate(R.layout.fragment_business_account, container, false) as ViewGroup
         val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
         scroll.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        val lottie = bindingBusinessAccountBinding.loadingBusinessAccount
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
          sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
@@ -46,7 +48,7 @@ class BusinessAccountFragment : Fragment() {
         println("userID"+id)
         println("userToken"+token)
         getDataFromServer(id,authHeader)
-            view.backtoMainPageFromBusinessAcc.setOnClickListener {
+        bindingBusinessAccountBinding.backtoMainPageFromBusinessAcc.setOnClickListener {
                 val fragmentManager = requireFragmentManager()
                 // Start a fragment transaction
                 val transaction = fragmentManager.beginTransaction()
@@ -59,11 +61,11 @@ class BusinessAccountFragment : Fragment() {
                 transaction.commit()
             }
 
-        view.companyUpdateTxt.setOnClickListener {
+        bindingBusinessAccountBinding.companyUpdateTxt.setOnClickListener {
             val intent = Intent(requireContext(), CompanyUpdateActivity::class.java)
             startActivity(intent)
         }
-        return view
+        return bindingBusinessAccountBinding.root
     }
 
     private fun getDataFromServer(id: Int,token:String) {
@@ -78,16 +80,16 @@ class BusinessAccountFragment : Fragment() {
     }
 
     private fun handleResponse(response: UserInfoModel) {
-        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+        val scroll = bindingBusinessAccountBinding.scrollBusinessAccount
         scroll.visibility = View.VISIBLE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        val lottie = bindingBusinessAccountBinding.loadingBusinessAccount
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
        val companyPhoto = response.photo
         if (companyPhoto == null){
-            view.myBusinessImage.setImageResource(R.drawable.setpp)
+            bindingBusinessAccountBinding.myBusinessImage.setImageResource(R.drawable.setpp)
         }else{
-            Picasso.get().load(companyPhoto).into(view.myBusinessImage)
+            Picasso.get().load(companyPhoto).into(bindingBusinessAccountBinding.myBusinessImage)
         }
 
         val userFullName = response.fullName
@@ -120,7 +122,7 @@ class BusinessAccountFragment : Fragment() {
         getCategoryList()!!.subscribe({ categories ->
             println("333")
              categoryName = categories.categories.find { it.categoryId == category }?.categoryName.toString()
-            view.businessAccountCategoryEditText.setText(categoryName)
+            bindingBusinessAccountBinding.businessAccountCategoryEditText.setText(categoryName)
             editor.putString("companyCategory",categoryName)
             editor.apply()
         }, { throwable ->
@@ -131,7 +133,7 @@ class BusinessAccountFragment : Fragment() {
         var statusName = ""
         getStatusList()!!.subscribe({ status ->
             statusName = status.statuses.find { it.statusId == userstaus }?.statusName.toString()
-            view.compantStatusEditText.setText(statusName)
+            bindingBusinessAccountBinding.compantStatusEditText.setText(statusName)
             editor.putString("companyStatus",statusName)
             editor.apply()
         }, { throwable ->
@@ -142,7 +144,7 @@ class BusinessAccountFragment : Fragment() {
         var regionName = ""
         getRegionList()!!.subscribe({ region ->
             regionName = region.regions.find { it.regionId == regionCompany }?.regionName.toString()
-            view.businessAccountRegionEditText.setText(regionName)
+            bindingBusinessAccountBinding.businessAccountRegionEditText.setText(regionName)
             editor.putString("companyRegion",regionName)
             editor.apply()
         }, { throwable ->
@@ -151,15 +153,15 @@ class BusinessAccountFragment : Fragment() {
         }).let { compositeDisposable.add(it) }
 
 
-        view.businessAccountNameEditText.setText(userFullName)
-        view.businessAccountPhoneEditText.setText(userPhoneNumber)
-        view.businessAccountEmailEditText.setText(userEmail)
-        view.businessAccountCompanyEditText.setText(companyName)
-    view.companyAdressEditText.setText(companyAddress)
-        view.businessAccountAboutEditText.setText(about)
-        view.compantStatusEditText.setText(userstaus)
-        view.businessAccountCategoryEditText.setText(category)
-        view.businessAccountRegionEditText.setText(regionCompany)
+        bindingBusinessAccountBinding.businessAccountNameEditText.setText(userFullName)
+        bindingBusinessAccountBinding.businessAccountPhoneEditText.setText(userPhoneNumber)
+        bindingBusinessAccountBinding.businessAccountEmailEditText.setText(userEmail)
+        bindingBusinessAccountBinding.businessAccountCompanyEditText.setText(companyName)
+        bindingBusinessAccountBinding.companyAdressEditText.setText(companyAddress)
+        bindingBusinessAccountBinding.businessAccountAboutEditText.setText(about)
+        bindingBusinessAccountBinding.compantStatusEditText.setText(userstaus)
+        bindingBusinessAccountBinding.businessAccountCategoryEditText.setText(category)
+        bindingBusinessAccountBinding.businessAccountRegionEditText.setText(regionCompany)
 
     }
 

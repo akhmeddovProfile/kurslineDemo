@@ -1,12 +1,20 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id "kotlin-android-extensions"
+    //id "kotlin-android-extensions"
     id 'kotlin-kapt'
 }
 
 android {
 
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\Muhammed-Emin\\key.jks')
+            storePassword 'kursline2023'
+            keyPassword 'kursline2023'
+            keyAlias 'upload'
+        }
+    }
     namespace 'com.app.kurslinemobileapp'
     compileSdk 34
 
@@ -43,6 +51,7 @@ android {
         buildFeatures {
             viewBinding = true
         }
+    ndkVersion '26.0.10792818'
 
 }
 def retrofitVersion = '2.5.0'
@@ -60,6 +69,7 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
+
     def nav_version = "2.7.2"
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
