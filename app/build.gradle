@@ -6,13 +6,14 @@ plugins {
 }
 
 android {
+
     namespace 'com.app.kurslinemobileapp'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.app.kurslinemobileapp"
-        minSdk 21
-        targetSdk 33
+        minSdk 33
+        targetSdk 34
         versionCode 3
         versionName "1.1.1"
 
@@ -32,17 +33,25 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        viewBinding = true
+    buildscript {
+        ext.kotlin_version = '1.8.0'
+        repositories {
+            google()
+            mavenCentral()
+        }
     }
+        buildFeatures {
+            viewBinding = true
+        }
+
 }
 def retrofitVersion = '2.5.0'
 def rxJavaVersion = '2.1.1'
 def roomVersion = "2.5.0"
+def kotlin_version="1.8.0"
 
 dependencies {
-
-    implementation 'androidx.paging:paging-rxjava3:3.2.1'
+    //implementation 'androidx.paging:paging-rxjava3:3.2.1'
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
             because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
@@ -51,8 +60,8 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
-    def nav_version = "2.5.3"
-    implementation 'androidx.core:core-ktx:1.10.1'
+    def nav_version = "2.7.2"
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -74,7 +83,7 @@ dependencies {
     implementation("androidx.room:room-rxjava2:2.5.2")
 
     //RxPagingSource
-    implementation "androidx.paging:paging-runtime:3.2.1"
+    //implementation "androidx.paging:paging-runtime:3.2.1"
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 //    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1" // RxAndroid
@@ -103,9 +112,9 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.9.3"
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0' // Replace 'x' and 'z' with the appropriate version.
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0' // Replace 'x' and 'z' with the appropriate version.
 
-    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation 'androidx.annotation:annotation:1.7.0'
 
     //CircularImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
