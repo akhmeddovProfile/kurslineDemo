@@ -1,12 +1,16 @@
 package com.example.kurslinemobileapp.view.courseFmAc
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.OpenableColumns
 import android.util.Base64
 import android.view.View
@@ -14,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -77,7 +82,19 @@ class CourseUploadActivity : AppCompatActivity() {
                 convertImageToBase64(imageUri,imageName)
             }
         }
-
+    private fun checkPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Environment.isExternalStorageManager()
+        } else {
+            val result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            val result1 = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED
+        }
+    }
     private var block: Boolean = true
 
 
@@ -187,8 +204,13 @@ class CourseUploadActivity : AppCompatActivity() {
 
         bindingCourseUploadActivity.addCoursePhotos.setOnClickListener {
             println("1111111")
-            requestGalleryPermission()
-            openGallery()
+            if (!checkPermission()){
+                requestGalleryPermission()
+            }else{
+                openGallery()
+            }
+
+
         }
 
         bindingCourseUploadActivity.courseAllCategoryEditText.setOnClickListener {
