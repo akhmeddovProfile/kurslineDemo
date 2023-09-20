@@ -1,12 +1,10 @@
 package com.example.kurslinemobileapp.api.announcement.createAnnouncement
 
 
-import com.google.gson.annotations.SerializedName
-
 data class CreateAnnouncementRequest(
     val announcementName: String,
     val announcementDesc: String,
-    val announcementPrice: Int,
+    val announcementPrice: String,
     val announcementAddress: String,
     val announcementIsOnlineId: Int,
     val announcementCategoryId:Int,

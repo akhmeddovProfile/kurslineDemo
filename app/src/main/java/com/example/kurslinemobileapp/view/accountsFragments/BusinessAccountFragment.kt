@@ -7,9 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
 import androidx.fragment.app.Fragment
-import com.airbnb.lottie.LottieAnimationView
+import androidx.navigation.fragment.findNavController
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.FragmentBusinessAccountBinding
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
@@ -35,8 +34,8 @@ class BusinessAccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         bindingBusinessAccountBinding=FragmentBusinessAccountBinding.inflate(inflater,container,false)
-         view = inflater.inflate(R.layout.fragment_business_account, container, false) as ViewGroup
-        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+         //view = inflater.inflate(R.layout.fragment_business_account, container, false) as ViewGroup
+        val scroll = bindingBusinessAccountBinding.scrollBusinessAccount
         scroll.visibility = View.GONE
         val lottie = bindingBusinessAccountBinding.loadingBusinessAccount
         lottie.visibility = View.GONE
@@ -49,17 +48,10 @@ class BusinessAccountFragment : Fragment() {
         println("userToken"+token)
         getDataFromServer(id,authHeader)
         bindingBusinessAccountBinding.backtoMainPageFromBusinessAcc.setOnClickListener {
-                val fragmentManager = requireFragmentManager()
-                // Start a fragment transaction
-                val transaction = fragmentManager.beginTransaction()
-                // Replace the first fragment with the second fragment
-                transaction.replace(R.id.businessAccountRL, BusinessTransactionProfileFragment())
-                transaction.setReorderingAllowed(true)
-                // Add the transaction to the back stack
-                transaction.addToBackStack(null)
-                // Commit the transaction
-                transaction.commit()
-            }
+
+            findNavController().navigate(R.id.action_businessAccountFragment_to_businessTransactionProfileFragment)
+
+        }
 
         bindingBusinessAccountBinding.companyUpdateTxt.setOnClickListener {
             val intent = Intent(requireContext(), CompanyUpdateActivity::class.java)
@@ -187,9 +179,9 @@ class BusinessAccountFragment : Fragment() {
     }
 
     override fun onResume() {
-        val scroll = view.findViewById<ScrollView>(R.id.scrollBusinessAccount)
+        val scroll = bindingBusinessAccountBinding.scrollBusinessAccount
         scroll.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessAccount)
+        val lottie = bindingBusinessAccountBinding.loadingBusinessAccount
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         val id = sharedPreferences.getInt("userID", 0)

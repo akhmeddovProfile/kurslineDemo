@@ -234,10 +234,6 @@ class UpdateAnnouncement : AppCompatActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     checkAndRequestPermissions()
                 }
-                /*       val miuiVersion = BuildProperties.getMIUIVersion()
-                       if (miuiVersion == "14.0.3") {
-                           showMIUIExplanationDialog() // Show a custom explanation
-                       }*/
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE) // Launch permission request directly
             } else {
                 openGalleryMultipart()

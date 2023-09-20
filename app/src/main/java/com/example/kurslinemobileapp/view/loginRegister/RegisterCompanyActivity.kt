@@ -18,6 +18,7 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -123,7 +124,7 @@ class RegisterCompanyActivity : AppCompatActivity() {
         bindingRegComp=ActivityRegisterCompanyBinding.inflate(layoutInflater)
         val view=bindingRegComp.root
         setContentView(view)
-        setContentView(R.layout.activity_register_company)
+        //setContentView(R.layout.activity_register_company)
 
 
         sharedPreferences = getSharedPreferences(sharedkeyname, Context.MODE_PRIVATE)
@@ -207,6 +208,8 @@ class RegisterCompanyActivity : AppCompatActivity() {
             showBottomSheetDialog()
         }
         bindingRegComp.compantStatusEditText.setOnClickListener {
+            Log.d("MyTag","Test")
+            println("TestStatus")
             showBottomSheetDialogStatus()
         }
         categoryId = ""

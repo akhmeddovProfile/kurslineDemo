@@ -115,11 +115,15 @@ class CourseUploadActivity : AppCompatActivity() {
             val courseAddressContainer = bindingCourseUploadActivity.courseAddressEditText.text.toString().trim()
             val companyAboutContainer=bindingCourseUploadActivity.courseAboutEditText.text.toString().trim()
             val companyTeacherContainer=bindingCourseUploadActivity.courseTeacherEditText.text.toString().trim()
-            val companyPriceContainer : Int =bindingCourseUploadActivity.coursePriceEditText.text.toString().toInt()
+            val companyPriceContainer  =bindingCourseUploadActivity.coursePriceEditText.text.toString().trim()
             val companyModeContainer = modeId
             val companySubCategoryContainer = categoryId
             val companyRegionContainer = regionId
             val companyAllCategoryContainer=allcategoriesId
+            val companyModeCon = bindingCourseUploadActivity.courseModeEditText.text.toString().trim()
+            val courseCat = bindingCourseUploadActivity.courseAllCategoryEditText.text.toString().trim()
+            val companySubCat = bindingCourseUploadActivity.courseCategoryEditText.text.toString().trim()
+            val companyReg = bindingCourseUploadActivity.courseRegionEditText.text.toString().trim()
             if (courseNameContainer.isEmpty()){
                 bindingCourseUploadActivity.courseNameEditText.error="Course Name required"
                 bindingCourseUploadActivity.courseNameEditText.requestFocus()
@@ -141,9 +145,29 @@ class CourseUploadActivity : AppCompatActivity() {
                 bindingCourseUploadActivity.courseTeacherEditText.requestFocus()
                 block=false
             }
-            if (companyPriceContainer.equals("")){
+            if (companyPriceContainer.isEmpty()){
                 bindingCourseUploadActivity.coursePriceEditText.error="Price required"
                 bindingCourseUploadActivity.coursePriceEditText.requestFocus()
+                block=false
+            }
+            if (companyModeCon.isEmpty()){
+                bindingCourseUploadActivity.courseModeEditText.error="Mode required"
+                bindingCourseUploadActivity.courseModeEditText.requestFocus()
+                block=false
+            }
+            if (courseCat.isEmpty()){
+                bindingCourseUploadActivity.courseAllCategoryEditText.error="Category required"
+                bindingCourseUploadActivity.courseAllCategoryEditText.requestFocus()
+                block=false
+            }
+            if (companySubCat.isEmpty()){
+                bindingCourseUploadActivity.courseCategoryEditText.error="Sub Category required"
+                bindingCourseUploadActivity.courseCategoryEditText.requestFocus()
+                block=false
+            }
+            if (companyReg.isEmpty()){
+                bindingCourseUploadActivity.courseRegionEditText.error="Region required"
+                bindingCourseUploadActivity.courseRegionEditText.requestFocus()
                 block=false
             }
             val name = bindingCourseUploadActivity.courseTeacherEditText.text.toString().trim()
@@ -164,7 +188,7 @@ class CourseUploadActivity : AppCompatActivity() {
         bindingCourseUploadActivity.addCoursePhotos.setOnClickListener {
             println("1111111")
             requestGalleryPermission()
-            //openGallery()
+            openGallery()
         }
 
         bindingCourseUploadActivity.courseAllCategoryEditText.setOnClickListener {

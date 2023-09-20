@@ -9,12 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.FragmentBusinessTransactionsProfileBinding
 import com.example.kurslinemobileapp.adapter.CompanyTransactionAdapter
@@ -51,11 +48,11 @@ class BusinessTransactionProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         bindingBusinesTransaction=FragmentBusinessTransactionsProfileBinding.inflate(inflater,container,false)
-        view = inflater.inflate(
+    /*    view = inflater.inflate(
             R.layout.fragment_business_transactions_profile,
             container,
             false
-        ) as ViewGroup
+        ) as ViewGroup*/
 
         sharedPreferences = requireContext().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val id = sharedPreferences.getInt("userID", 0)
@@ -70,38 +67,29 @@ class BusinessTransactionProfileFragment : Fragment() {
         }else {
             Picasso.get().load(userPhoto).into(bindingBusinesTransaction.businessTransProfileImage)
         }
-        button1 = view.findViewById(R.id.button1BusinessTrans)
-        button2 = view.findViewById(R.id.button2BusinessTrans)
-        button3 = view.findViewById(R.id.button3BusinessTrans)
-        button4 = view.findViewById(R.id.button4BusinessTrans)
+        button1 = bindingBusinesTransaction.button1BusinessTrans
+        button2 = bindingBusinesTransaction.button2BusinessTrans
+        button3 = bindingBusinesTransaction.button3BusinessTrans
+        button4 = bindingBusinesTransaction.button4BusinessTrans
 
         updateButtonBackgrounds(button1)
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+        val lottie = bindingBusinesTransaction.loadingBusinessTrans
         lottie.visibility = View.VISIBLE
-        val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+        val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
         text.visibility = View.GONE
-        val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+        val recycler = bindingBusinesTransaction.businessTransRv
         recycler.visibility = View.GONE
-        val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+        val image = bindingBusinesTransaction.businessTransNotFoundImage
         image.visibility = View.GONE
         lottie.playAnimation()
-        val coursesRV = view.findViewById<RecyclerView>(R.id.businessTransRv)
+        val coursesRV = bindingBusinesTransaction.businessTransRv
         coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
         getWaitingAnnouncements(id, authHeader)
 
-        val goButton = view.findViewById<ImageView>(R.id.goToBusinessAccountFragment)
+        val goButton = bindingBusinesTransaction.goToBusinessAccountFragment
         goButton.setOnClickListener {
             println("1")
-            val fragmentManager = requireFragmentManager()
-            // Start a fragment transaction
-            val transaction = fragmentManager.beginTransaction()
-            // Replace the first fragment with the second fragment
-            transaction.replace(R.id.transactionProfileRl, BusinessAccountFragment())
-            transaction.setReorderingAllowed(true)
-            // Add the transaction to the back stack
-            transaction.addToBackStack(null)
-            // Commit the transaction
-            transaction.commit()
+        findNavController().navigate(R.id.action_businessTransactionProfileFragment_to_businessAccountFragment)
         }
 
         mainList = ArrayList<CompanyTransactionAnnouncementItem>()
@@ -109,61 +97,61 @@ class BusinessTransactionProfileFragment : Fragment() {
 
         button1.setOnClickListener {
             updateButtonBackgrounds(button1)
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
             lottie.playAnimation()
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val coursesRV = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val coursesRV = bindingBusinesTransaction.businessTransRv
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getWaitingAnnouncements(id, authHeader)
         }
         button2.setOnClickListener {
             updateButtonBackgrounds(button2)
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
             lottie.playAnimation()
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val coursesRV = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val coursesRV = bindingBusinesTransaction.businessTransRv
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getActiveAnnouncements(id, authHeader)
         }
         button3.setOnClickListener {
             updateButtonBackgrounds(button3)
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
             lottie.playAnimation()
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val coursesRV = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val coursesRV = bindingBusinesTransaction.businessTransRv
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getDeactiveAnnouncements(id, authHeader)
         }
         button4.setOnClickListener {
             updateButtonBackgrounds(button4)
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
             lottie.playAnimation()
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val coursesRV = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val coursesRV = bindingBusinesTransaction.businessTransRv
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getWaitingAnnouncements(id, authHeader)
         }
@@ -207,13 +195,13 @@ class BusinessTransactionProfileFragment : Fragment() {
             val companyDetailItem = response
             mainList.addAll(companyDetailItem)
             mainList2.addAll(companyDetailItem)
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             println("responseElan: " + response)
@@ -233,13 +221,13 @@ class BusinessTransactionProfileFragment : Fragment() {
                 editor.apply()
             }
         }else{
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.VISIBLE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.VISIBLE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
         }
@@ -263,13 +251,13 @@ class BusinessTransactionProfileFragment : Fragment() {
             val companyDetailItem = response
             mainList.addAll(companyDetailItem)
             mainList2.addAll(companyDetailItem)
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             println("responseElan: " + response)
@@ -288,13 +276,13 @@ class BusinessTransactionProfileFragment : Fragment() {
                 editor.apply()
             }
         }else{
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.VISIBLE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.VISIBLE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
         }
@@ -318,13 +306,13 @@ class BusinessTransactionProfileFragment : Fragment() {
             val companyDetailItem = response
             mainList.addAll(companyDetailItem)
             mainList2.addAll(companyDetailItem)
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.VISIBLE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.GONE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.GONE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
             println("responseElan: " + response)
@@ -343,13 +331,13 @@ class BusinessTransactionProfileFragment : Fragment() {
                 editor.apply()
             }
         }else{
-            val recycler = view.findViewById<RecyclerView>(R.id.businessTransRv)
+            val recycler = bindingBusinesTransaction.businessTransRv
             recycler.visibility = View.GONE
-            val text = view.findViewById<TextView>(R.id.notFoundBusinessTransCourseText)
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
             text.visibility = View.VISIBLE
-            val image = view.findViewById<ImageView>(R.id.businessTransNotFoundImage)
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
             image.visibility = View.VISIBLE
-            val lottie = view.findViewById<LottieAnimationView>(R.id.loadingBusinessTrans)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
             lottie.visibility = View.GONE
             lottie.pauseAnimation()
         }
