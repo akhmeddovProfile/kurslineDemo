@@ -127,9 +127,9 @@ class SettingsFragment : Fragment() {
         recyclerviewContact.setLayoutManager(LinearLayoutManager(requireContext()))
         recyclerviewContact.layoutManager = LinearLayoutManager(requireContext())
         contactList= listOf(
-            ContactItem("Məktub yazın",R.drawable.email),
-            ContactItem("Instagram",R.drawable.insta),
-            ContactItem("Facebook",R.drawable.facebook)
+            ContactItem("Məktub yazın",R.drawable.mailnew),
+            ContactItem("Instagram",R.drawable.instagramnew),
+            ContactItem("Facebook",R.drawable.facebooknew)
         )
         contactAdapter = ContactUsAdapter(contactList)
         recyclerviewContact.adapter = contactAdapter
