@@ -70,7 +70,7 @@ class MoveForwardAnn : AppCompatActivity() {
                     intent.putExtra("selectedCost", it)
                 }
                 selectedButtonId?.let { it->
-                    intent.putExtra("selectedId",it)
+                    intent.putExtra("selectedIdMove",it)
                 }
                 startActivity(intent)
 

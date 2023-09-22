@@ -58,7 +58,7 @@ class EnterCardNumberPage : AppCompatActivity() {
         val secretKey = generateSecretKey(originalSecretKey)
         val iv = ByteArray(16)
         SecureRandom().nextBytes(iv)
-        val selectedPriceIdVip=intent.getIntExtra("selectedId",0)
+        val selectedPriceIdVip=intent.getIntExtra("selectedIdMove",0)
         println("selectedPriceIdVip: $selectedPriceIdVip")
        val encryptedData= encryptSecretKey(secretKey,iv)
         println("Encrypted data: $encryptedData")
@@ -76,7 +76,7 @@ class EnterCardNumberPage : AppCompatActivity() {
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
         val selectedPriceIdVip=intent.getIntExtra("selectedId",0)
-        val selectedPriceIdForward=intent.getIntExtra("selectedId",0)
+        val selectedPriceIdForward=intent.getIntExtra("selectedIdMove",0)
         val amount=intent.getDoubleExtra("selectedCost",1.5)
         val totalAmount =amount
 
