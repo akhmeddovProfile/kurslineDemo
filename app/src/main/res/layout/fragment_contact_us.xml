@@ -85,6 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="5"
+            android:gravity="start"
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat"
             android:inputType="textMultiLine|textCapSentences"

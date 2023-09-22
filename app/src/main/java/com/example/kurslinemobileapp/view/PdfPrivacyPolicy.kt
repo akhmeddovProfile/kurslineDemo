@@ -12,6 +12,6 @@ class PdfPrivacyPolicy : AppCompatActivity() {
         val view=bindingPdfPrivacyPolicyBinding.root
         setContentView(view)
         //setContentView(R.layout.activity_pdf_privacy_policy)
-        bindingPdfPrivacyPolicyBinding.pdfPrivacyView.fromAsset("mexfilikword.pdf").load()
+        bindingPdfPrivacyPolicyBinding.pdfPrivacyView.fromAsset("privacyandpolicylastversion.pdf").load()
     }
 }

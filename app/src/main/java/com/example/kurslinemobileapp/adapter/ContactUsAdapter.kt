@@ -13,12 +13,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.kurslinemobileapp.api.announcement.WriteUsResponse
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
-import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
@@ -28,7 +24,6 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.RequestBody
 
 class ContactUsAdapter (private val contactList: List<ContactItem>) :
     RecyclerView.Adapter<ContactUsAdapter.ContactViewHolder>() {
@@ -72,6 +67,9 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
         val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.write_letter, null)
         val dialog = BottomSheetDialog(context)
         dialog.setContentView(bottomSheetView)
+        /*val behavior=BottomSheetBehavior.from(bottomSheetView)
+        behavior.isDraggable=true
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
 
         val telnumber=bottomSheetView.findViewById<TextInputEditText>(R.id.phoneEditText)
         val letter=bottomSheetView.findViewById<EditText>(R.id.writeletter)

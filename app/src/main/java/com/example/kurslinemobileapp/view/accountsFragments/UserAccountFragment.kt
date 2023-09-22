@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
 import androidx.fragment.app.Fragment
-import com.airbnb.lottie.LottieAnimationView
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.FragmentAccountBinding
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
@@ -37,11 +35,11 @@ class UserAccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         bindingUserAccount=FragmentAccountBinding.inflate(inflater,container,false)
-        view = inflater.inflate(R.layout.fragment_account, container, false) as ViewGroup
+        //view = inflater.inflate(R.layout.fragment_account, container, false) as ViewGroup
 
-        val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
+        val scroll = bindingUserAccount.scrollUserAccount
         scroll.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
+        val lottie = bindingUserAccount.loadingUserAccount
         lottie.visibility = View.GONE
         lottie.playAnimation()
         // Get the SharedPreferences object
@@ -87,9 +85,9 @@ class UserAccountFragment : Fragment() {
     private fun handleResponse(response: UserInfoModel) {
         println("Response: "+response)
         //  Picasso.get().load(response.photo.toString()).into(myProfileImage)
-        val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
+        val scroll = bindingUserAccount.scrollUserAccount
         scroll.visibility = View.VISIBLE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
+        val lottie = bindingUserAccount.loadingUserAccount
         lottie.visibility = View.GONE
         lottie.pauseAnimation()
         val userFullName = response.fullName
@@ -116,9 +114,9 @@ class UserAccountFragment : Fragment() {
     }
 
     override fun onResume() {
-        val scroll = view.findViewById<ScrollView>(R.id.scrollUserAccount)
+        val scroll = bindingUserAccount.scrollUserAccount
         scroll.visibility = View.GONE
-        val lottie = view.findViewById<LottieAnimationView>(R.id.loadingUserAccount)
+        val lottie = bindingUserAccount.loadingUserAccount
         lottie.visibility = View.VISIBLE
         lottie.playAnimation()
         val id = sharedPreferences.getInt("userID", 0)

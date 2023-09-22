@@ -1,20 +1,6 @@
 package com.example.kurslinemobileapp
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.provider.OpenableColumns
-import android.util.Base64
-import android.view.View
-import android.widget.RelativeLayout
-import androidx.viewpager2.widget.ViewPager2
-import com.example.kurslinemobileapp.adapter.PhotoPagerAdapter
-import com.example.kurslinemobileapp.model.uploadPhoto.SelectionPhotoShowOnViewPager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 //import kotlinx.android.synthetic.main.activity_update_announcement.*
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
 
 /*
 val mainpageFragment=MainPageFragment()
@@ -828,7 +814,6 @@ fun showBottomSheetDialogPrice() {
                 convertImageToBase64(imageUri,imageName)
             }
         }*/
-
 /*
 private fun requestGalleryPermission() {
     permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -903,3 +888,74 @@ private fun setupViewPager() {
     val adapter = PhotoPagerAdapter(selectedPhotos)
     viewPager.adapter = adapter
  */
+
+ */
+
+
+/*@RequiresApi(Build.VERSION_CODES.M)
+private fun setscroollListenerGuest() {
+// cox guman ram  zen edirem
+    recycler.layoutManager = linearLayoutManager
+
+    val nestedScrollView = view.findViewById<NestedScrollView>(R.id.nestedScrollHome)
+    nestedScrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        *//* if (scrollY == v.(0).measuredHeight - v.measuredHeight)*//*
+*//*
+                viewModel.loadMoreData()
+*//*
+    }
+
+    *//*  recycler.addOnScrollListener( object: PaginationScrollListener(linearLayoutManager){
+          lateinit var compositeDisposable:CompositeDisposable
+          private var currentOffset = 0
+          private val PAGE_SIZE = 10
+          private var isLoading = false
+          override fun loadMoreItems() {
+              if (isLoading) {
+                  return
+              }
+              isLoading = true
+              compositeDisposable = CompositeDisposable()
+              val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
+              compositeDisposable.add(
+                  retrofit.getAnnouncement(limit = PAGE_SIZE, offset = currentOffset)
+                      .subscribeOn(Schedulers.io())
+                      .observeOn(AndroidSchedulers.mainThread())
+                      .subscribe({ response ->
+                          isLoading = false
+//                            onPaginationResponseListener.run(response)
+                          if(response != null){
+                              println("Emin:" + response.announcemenets)
+                              handleResponseforAllItemsAndFavItems(response)
+                          }
+                          currentOffset += PAGE_SIZE
+                      }, { throwable ->
+                          isLoading = false
+                          println("Error: $throwable")
+                      })
+              )
+          }
+
+          override fun isLastPage(): Boolean {
+              return false
+          }
+
+          override fun isLoading(): Boolean {
+              return isLoading
+          }
+
+      }
+      )*//*
+    *//*recycler.addOnScrollListener(
+        NormalAnnouncementPagination(linearLayoutManager,
+            object : OnPaginationResponseListener {
+
+                override fun <T> run(response: T?) {
+                    if ((response as GetAllAnnouncement) != null) {
+                        handleResponseforAllItemsAndFavItems(response)
+                    }
+                }
+
+            })
+    )*//*
+}*/

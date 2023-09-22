@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/writeusLl"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
@@ -67,16 +71,36 @@
             android:fontFamily="@font/montserrat"
             android:textColor="@color/greenColor"
             android:textSize="18sp" />
-        <EditText
-            android:id="@+id/writeletter"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/writeUsLetterContainer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
-            android:fontFamily="@font/nunito"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:imeOptions="actionDone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:layout_below="@+id/textViewEnterLetter"
-            android:layout_height="wrap_content"/>
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/grayColor1"
+            app:hintTextColor="@color/grayColor1"
+            android:textColorHint="@color/grayColor1"
+            app:prefixTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/writeletter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat"
+                android:inputType="textMultiLine|textCapSentences"
+                android:imeOptions="actionDone"
+                android:hint="@string/writeletter"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
     </RelativeLayout>
 
 

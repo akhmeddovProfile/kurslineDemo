@@ -1,6 +1,7 @@
 package com.example.kurslinemobileapp.view.fragments
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,19 @@ class ContactUsFragment : Fragment() {
 
         val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
         val goToUploadActivity=requireActivity().findViewById<FloatingActionButton>(R.id.goToUploadActivity)
+        val writeusLetterContainer=bindingContactUsBinding.writeUsLetterContainer
+        val writeusEditText=bindingContactUsBinding.writeUsLetterEdittext
+        writeusLetterContainer.setOnClickListener {
+            writeusEditText.requestFocus()
+            writeusEditText.viewTreeObserver.addOnGlobalLayoutListener {
+                val rect=Rect()
+                writeusEditText.getGlobalVisibleRect(rect)
+                val screenHeight = resources.displayMetrics.heightPixels
+                if (rect.bottom > screenHeight) {
+                    writeusLetterContainer.scrollBy(0, rect.bottom - screenHeight)
+                }
+            }
+        }
         // Hide the BottomNavigationView
         goToUploadActivity.visibility=View.GONE
         bottomNavigationView.visibility = View.GONE
