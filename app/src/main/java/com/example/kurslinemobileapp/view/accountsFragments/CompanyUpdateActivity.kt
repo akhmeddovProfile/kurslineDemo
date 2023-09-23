@@ -150,7 +150,14 @@ class CompanyUpdateActivity : AppCompatActivity() {
         bindingCompanyBinding.businessAccountUpdateEmailEditText.setText(userEmail)
         bindingCompanyBinding.businessAccountUpdateCompanyEditText.setText(companyName)
         bindingCompanyBinding.companyUpdateAdressEditText.setText(userAddress)
-        bindingCompanyBinding.businessAccountUpdatePhoneEditText.setText(userPhoneNumber)
+
+        val number2 = if (userPhoneNumber.startsWith("+994")) {
+            userPhoneNumber.substring(4)
+        } else {
+            userPhoneNumber
+        }
+
+        bindingCompanyBinding.businessAccountUpdatePhoneEditText.setText(number2)
         bindingCompanyBinding.businessAccountAboutEditText.setText(userAbout)
         bindingCompanyBinding.businessAccountUpdateCategoryEditText.setText(companyCategory)
         bindingCompanyBinding.companyUpdateStatusEditText.setText(companyStatus)
@@ -160,27 +167,7 @@ class CompanyUpdateActivity : AppCompatActivity() {
         }else{
             Picasso.get().load(userPhoto).into(bindingCompanyBinding.myCompanyUpdateProfilePhoto)
         }
-        val phoneNumberEditText = bindingCompanyBinding.businessAccountUpdatePhoneEditText
 
-        phoneNumberEditText.setOnClickListener {
-            phoneNumberEditText.text?.clear()
-            phoneNumberEditText.text?.append("+994 ")
-        }
-        phoneNumberEditText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                // Check if the text starts with the prefix, and add it if not present
-                val text = phoneNumberEditText.text?.toString()
-                if (text == null || !text.startsWith("+994 ")) {
-                    phoneNumberEditText.setText("+994 ")
-                }
-            } else {
-                // Check if the text is just the prefix, and clear it if so
-                val text = phoneNumberEditText.text?.toString()
-                if (text == "+994 ") {
-                    phoneNumberEditText.text?.clear()
-                }
-            }
-        }
         bindingCompanyBinding.savedUpdatesBtnCompany.setOnClickListener {
             block = true
             val companyNameContainer = bindingCompanyBinding.businessAccountUpdateNameEditText.text.toString().trim()

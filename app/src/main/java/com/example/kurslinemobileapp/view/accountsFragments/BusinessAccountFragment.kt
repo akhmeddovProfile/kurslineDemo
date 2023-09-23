@@ -86,6 +86,7 @@ class BusinessAccountFragment : Fragment() {
 
         val userFullName = response.fullName
         val userPhoneNumber = response.mobileNumber
+        val number2 = userPhoneNumber.replace("+994 ","")
         val userEmail  = response.email
         val companyName = response.companyName.toString()
       val companyAddress = response.companyAddress.toString()
@@ -103,7 +104,7 @@ class BusinessAccountFragment : Fragment() {
        editor.putString("companyRegionId",regionId)
         editor.putString("companyOwnerName",userFullName)
         editor.putString("companyEmail",userEmail)
-        editor.putString("companyNumber",userPhoneNumber)
+        editor.putString("companyNumber",number2)
         editor.putString("companyName",companyName)
       editor.putString("companyAddress",companyAddress)
         editor.putString("companyAbout",about)

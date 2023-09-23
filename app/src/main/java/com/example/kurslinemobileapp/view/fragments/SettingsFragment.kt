@@ -126,11 +126,14 @@ class SettingsFragment : Fragment() {
         recyclerviewContact.setHasFixedSize(true)
         recyclerviewContact.setLayoutManager(LinearLayoutManager(requireContext()))
         recyclerviewContact.layoutManager = LinearLayoutManager(requireContext())
+        /*
         contactList= listOf(
             ContactItem("Məktub yazın",R.drawable.mailnew),
             ContactItem("Instagram",R.drawable.instagramnew),
             ContactItem("Facebook",R.drawable.facebooknew)
         )
+
+         */
         contactAdapter = ContactUsAdapter(contactList)
         recyclerviewContact.adapter = contactAdapter
         dialog.show()
