@@ -42,7 +42,7 @@ class SettingsFragment : Fragment() {
         bindingSettings=FragmentSettingsBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
         //val view = inflater.inflate(R.layout.fragment_settings, container, false)
-
+        //contactAdapter=ContactUsAdapter(contactList)
         val sharedPreferences =
             requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
@@ -126,14 +126,12 @@ class SettingsFragment : Fragment() {
         recyclerviewContact.setHasFixedSize(true)
         recyclerviewContact.setLayoutManager(LinearLayoutManager(requireContext()))
         recyclerviewContact.layoutManager = LinearLayoutManager(requireContext())
-        /*
+
         contactList= listOf(
             ContactItem("Məktub yazın",R.drawable.mailnew),
             ContactItem("Instagram",R.drawable.instagramnew),
             ContactItem("Facebook",R.drawable.facebooknew)
         )
-
-         */
         contactAdapter = ContactUsAdapter(contactList)
         recyclerviewContact.adapter = contactAdapter
         dialog.show()

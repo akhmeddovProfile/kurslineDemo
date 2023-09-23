@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayoutMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainPageBackgroundColor"
+    android:background="@color/white"
     tools:context="com.example.kurslinemobileapp.view.fragments.HomeFragment">
 
 
@@ -25,7 +25,7 @@
                 android:id="@+id/mainFirstRl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainPageBackgroundColor"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <ImageView

@@ -445,7 +445,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
 
 
     private fun sendComment(comment:String,token:String,userId:Int,annId:Int) {
-        compositeDisposable   = CompositeDisposable()
+        compositeDisposable=CompositeDisposable()
         val retrofitService =
             RetrofitService(Constant.BASE_URL).retrofit.create(CommentAPI::class.java)
         val request = CommentRequest(comment)

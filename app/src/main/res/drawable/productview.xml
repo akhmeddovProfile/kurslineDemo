@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <stroke
-        android:color="@color/white"
+        android:color="@color/mainPageBackgroundColor"
         android:width="10dp">
     </stroke>
     <solid
-        android:color="@color/white">
+        android:color="@color/mainPageBackgroundColor">
     </solid>
     <corners
         android:radius="10dp">

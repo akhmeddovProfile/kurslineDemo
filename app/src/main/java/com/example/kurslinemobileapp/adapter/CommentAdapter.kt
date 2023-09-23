@@ -35,4 +35,9 @@ class CommentAdapter(private val comments: List<Comment>) :
             contentTextView.text = comment.commentContent
         }
     }
+
+    fun commentAnnouncement(position: Int,isCommentedItemId:Int){
+        comments[position].commentId=isCommentedItemId
+        notifyItemChanged(position)
+    }
 }
