@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.ActivityMainBinding
@@ -106,6 +107,10 @@ class MainActivity : AppCompatActivity() {
                 binding.goToUploadActivity.visibility = View.GONE
                 inflateLayout.visibility= View.VISIBLE
             }
+        }
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            NavigationUI.onNavDestinationSelected(item, navController)
+            true
         }
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment

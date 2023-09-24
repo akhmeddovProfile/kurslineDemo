@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -147,18 +148,20 @@ class SettingsFragment : Fragment() {
         startActivity(intent)
         requireActivity().finish()
     }
+
     private fun showChangeLanguage() {
         val listofItems = arrayOf("Azərbaycan", "English")
         val mBuilder = AlertDialog.Builder(requireContext())
         mBuilder.setTitle("Choose Language")
         mBuilder.setSingleChoiceItems(listofItems, -1) { dialog, which ->
             if (which == 0) {
-                setLocate("av")
+                setLocate("az")
                 Toast.makeText(
                     requireContext(),
                     "Azərbaycan dilinə dəyişdirildi",
                     Toast.LENGTH_SHORT
                 ).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 requireActivity().recreate()
 
             } else if (which == 1) {
@@ -168,6 +171,7 @@ class SettingsFragment : Fragment() {
                     "Application language change to English",
                     Toast.LENGTH_SHORT
                 ).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 requireActivity().recreate()
             }
             dialog.dismiss()

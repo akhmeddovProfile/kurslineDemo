@@ -61,10 +61,10 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_filterFragment"
+            android:id="@+id/action_homeFragment1_to_filterFragment1"
             app:destination="@id/filterFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_contactUsFragment"
+            android:id="@+id/action_homeFragment1_to_contactUsFragment1"
             app:destination="@id/contactUsFragment" />
     </fragment>
     <fragment
