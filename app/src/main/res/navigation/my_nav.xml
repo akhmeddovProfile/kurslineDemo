@@ -67,6 +67,7 @@
             android:id="@+id/action_homeFragment1_to_contactUsFragment1"
             app:destination="@id/contactUsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.kurslinemobileapp.view.fragments.FilterFragment"
