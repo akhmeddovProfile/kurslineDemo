@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.app.kurslinemobileapp.databinding.ActivityEnterCardNumberPageBinding
 import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfo
+import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfoVip
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequest
 import com.example.kurslinemobileapp.api.paymentPayriff.createOrder.CreateOrderRequestBody
 import com.example.kurslinemobileapp.api.paymentPayriff.getStatusOrder.GetStatusOrderRequest
@@ -112,7 +113,7 @@ class EnterCardNumberPage : AppCompatActivity() {
                         println("SessionId: " + apiService.payload.sessionId)
                         getStatusOrderMethod(apiService.payload.orderId,apiService.payload.sessionId)
 
-                        if(selectedPriceIdVip!=0 || selectedPriceIdForward !=0){
+                        if(selectedPriceIdForward !=0){
                             postOrderInfoToServer(authHeader,
                                 userId,
                                 RequestOrderInfo(
@@ -120,8 +121,17 @@ class EnterCardNumberPage : AppCompatActivity() {
                                     selectedPriceIdForward,
                                 apiService.payload.orderId,
                                 apiService.payload.sessionId,
-                                selectedPriceIdVip))
+                                0))
 
+                        }else{
+                            postOrderInfoToServerVip(authHeader,
+                                userId,
+                                RequestOrderInfoVip(
+                                    annId,
+                                   0,
+                                    apiService.payload.orderId,
+                                    apiService.payload.sessionId,
+                                    selectedPriceIdVip))
                         }
                         return super.shouldOverrideUrlLoading(view, request)
                     }
@@ -163,6 +173,20 @@ class EnterCardNumberPage : AppCompatActivity() {
     fun postOrderInfoToServer(token:String,userId:Int,createOrderRequest: RequestOrderInfo){
         CoroutineScope(Dispatchers.IO).launch {
             val apiservice=RetrofitService(Constant.BASE_URL).apipaymentpostorderinfo.postOrderIformation(userId,token,createOrderRequest).await()
+            try {
+                Log.d("MyTag","Success: ${apiservice.success}")
+            }catch (e:HttpException){
+                Log.d("MyTag","message:${e.message}, code: ${e.code()}")
+            }
+            catch (e:java.lang.Exception){
+                Log.d("MyTag","${e.message}")
+            }
+        }
+    }
+
+    fun postOrderInfoToServerVip(token:String,userId:Int,createOrderRequest: RequestOrderInfoVip){
+        CoroutineScope(Dispatchers.IO).launch {
+            val apiservice=RetrofitService(Constant.BASE_URL).apipaymentpostorderinfo.postOrderIformationVip(userId,token,createOrderRequest).await()
             try {
                 Log.d("MyTag","Success: ${apiservice.success}")
             }catch (e:HttpException){

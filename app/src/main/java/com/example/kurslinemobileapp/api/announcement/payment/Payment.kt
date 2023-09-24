@@ -3,6 +3,7 @@ package com.example.kurslinemobileapp.api.announcement.payment
 import com.example.kurslinemobileapp.api.announcement.payment.priceMoveForward.MoveforwardPriceResponseX
 import com.example.kurslinemobileapp.api.announcement.payment.priceVIP.VipPriceResponse
 import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfo
+import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.RequestOrderInfoVip
 import com.example.kurslinemobileapp.api.announcement.payment.sendOrderInfo.ResponsePostInfo
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
@@ -41,11 +42,18 @@ interface Payment {
         @Header("Authorization") token: String
     ):Observable<MoveforwardPriceResponseX>
 
-    @POST("PostpaymentData/{userId}")
+    @POST("PostpaymentIreliData/{userId}")
     fun postOrderIformation(
         @Path("userId")userId: Int,
         @Header("Authorization")token: String,
         @Body requestInfo: RequestOrderInfo
+    ):Deferred<ResponsePostInfo>
+
+    @POST("PostpaymentVipData/{userId}")
+    fun postOrderIformationVip(
+        @Path("userId")userId: Int,
+        @Header("Authorization")token: String,
+        @Body requestInfo: RequestOrderInfoVip
     ):Deferred<ResponsePostInfo>
 
 }
