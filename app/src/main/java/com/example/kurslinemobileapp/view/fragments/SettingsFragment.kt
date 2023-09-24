@@ -175,6 +175,13 @@ class SettingsFragment : Fragment() {
         val mdialog = mBuilder.create()
         mdialog.show()
     }
+    fun setLocale(context: Context, languageCode: String) {
+        val resources = context.resources
+        val configuration = resources.configuration
+        val locale = Locale(languageCode)
+        configuration.setLocale(locale)
+        context.createConfigurationContext(configuration)
+    }
 
     @SuppressLint("SuspiciousIndentation")
     private fun setLocate(Lang: String) {

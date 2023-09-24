@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.app.kurslinemobileapp.R
+import com.app.kurslinemobileapp.databinding.ActivitySplashScreenBinding
 import com.example.kurslinemobileapp.api.announcement.AnnouncementAPI
 import com.example.kurslinemobileapp.model.mainpage.Highlight
 import com.example.kurslinemobileapp.service.Constant
@@ -21,11 +22,13 @@ class SplashScreen : AppCompatActivity() {
     private val splashDuration = 3000L
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var bindingSplashScreenBinding: ActivitySplashScreenBinding
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
-
+        bindingSplashScreenBinding= ActivitySplashScreenBinding.inflate(layoutInflater)
+        val view=bindingSplashScreenBinding.root
+        setContentView(view)
         sharedPreferences =
            this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 

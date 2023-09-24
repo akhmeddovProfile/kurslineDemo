@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.ActivityMainBinding
 import com.example.kurslinemobileapp.api.ad.AdAPI
@@ -111,7 +111,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
         bottomNavigationView = binding.bottomNav
-        setupWithNavController(bottomNavigationView, navController)
+        //setupWithNavController(bottomNavigationView,navController)
+        bottomNavigationView.setupWithNavController(navController)
     }
 
 

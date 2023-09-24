@@ -87,7 +87,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
     ): View? {
         binding=FragmentHomeBinding.inflate(inflater,container,false)
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
+        //view = inflater.inflate(R.layout.fragment_home, container, false) as ViewGroup
         val createAccount = binding.writeus
 
        // viewModel = ViewModelProvider(this).get(ViewModelPagination::class.java)
