@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:id="@+id/transactionProfileRl"
-    tools:context=".view.accountsFragments.BusinessTransactionProfileFragment">
+    tools:context="com.example.kurslinemobileapp.view.accountsFragments.BusinessTransactionProfileFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginTop="20dp"
@@ -112,7 +112,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainPageBackgroundColor"
+        android:background="@color/white"
         android:layout_below="@+id/horizontalBusinessScrollView">
         <RelativeLayout
             android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.FragmentAccountBinding
 import com.example.kurslinemobileapp.api.getUserCmpDatas.InfoAPI
@@ -60,6 +61,7 @@ class UserAccountFragment : Fragment() {
         // Display the account information in the UI
 
         bindingUserAccount.backtoMainPage.setOnClickListener {
+            findNavController().navigate(R.id.action_accountFragment_to_homeFragment)
         }
 
         bindingUserAccount.userUpdateTxt.setOnClickListener {

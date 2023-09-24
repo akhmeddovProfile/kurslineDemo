@@ -147,7 +147,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         })
 
         if(userId==0){
-            getDataFromServer(annId,0)
+            //getDataFromServer(annId,0)
             getProductWhichIncludeFavorite(annId,0)
         }else{
             getProductWhichIncludeFavorite(annId,userId)
@@ -336,6 +336,9 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         viewPager.adapter = photoAdapter
 
 
+        similarcourseList.addAll(response.announcements)
+        // Instead of adding to similarcourseList, replace it with the new data
+        similarcourseList.clear()
         similarcourseList.addAll(response.announcements)
         println("size:"+similarcourseList)
         val recyclerViewSimilarCourse:RecyclerView=findViewById(R.id.recyclerviewforSameCourse)

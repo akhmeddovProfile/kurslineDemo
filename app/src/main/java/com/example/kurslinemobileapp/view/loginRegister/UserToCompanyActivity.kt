@@ -356,7 +356,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
             }
         } else {
-            showPermissionMessageForOlderDevices()
+            //showPermissionMessageForOlderDevices()
             // Handle devices with API level lower than 31
             // You might want to show a message or handle it differently
         }
