@@ -37,4 +37,5 @@ class RetrofitService(url: String) {
     val apiServicePaymentPayriff:PaymentApiCreateOrder=retrofit2.create(PaymentApiCreateOrder::class.java)
     val apiservicePaymentGetOrderPayriff:PaymentApiGetOrderStatus=retrofit2.create(PaymentApiGetOrderStatus::class.java)
     val apipaymentpostorderinfo:Payment=retrofit2.create(Payment::class.java)
+    val apipaymentpostorderinfoVip:Payment=retrofit2.create(Payment::class.java)
 }

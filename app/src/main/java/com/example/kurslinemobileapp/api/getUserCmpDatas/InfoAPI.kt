@@ -19,4 +19,11 @@ interface InfoAPI {
 
     @GET("User/GetAnnouncements/{userId}?limit=10&offset=0&IsActive=2")
     fun getDeactiveAnnouncements(@Header("Authorization") token: String,@Path("userId") userId: Int ): Observable<CompanyTransactionAnnouncement>
+
+
+    @GET("User/GetVipAnnouncements/{userId}")
+    fun getVipAnnoucnementsTransaction(@Header("Authorization") token: String,@Path("userId") userId: Int ): Observable<CompanyTransactionAnnouncement>
+
+    @GET("User/GetIreliAnnouncements/{userId}")
+    fun getMovingAnnoucnementsTransaction(@Header("Authorization") token: String,@Path("userId") userId: Int ): Observable<CompanyTransactionAnnouncement>
 }

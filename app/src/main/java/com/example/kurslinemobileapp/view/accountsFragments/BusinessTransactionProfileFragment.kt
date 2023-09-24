@@ -34,6 +34,8 @@ class BusinessTransactionProfileFragment : Fragment() {
     private lateinit var button2: Button
     private lateinit var button3: Button
     private lateinit var button4: Button
+    private lateinit var button5: Button
+    private lateinit var button6: Button
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var companyTransactionAdapter: CompanyTransactionAdapter
     private lateinit var view: ViewGroup
@@ -71,6 +73,8 @@ class BusinessTransactionProfileFragment : Fragment() {
         button2 = bindingBusinesTransaction.button2BusinessTrans
         button3 = bindingBusinesTransaction.button3BusinessTrans
         button4 = bindingBusinesTransaction.button4BusinessTrans
+        button5 = bindingBusinesTransaction.buttonVipAnn
+        button6 = bindingBusinesTransaction.buttonMoveAnn
 
         updateButtonBackgrounds(button1)
         val lottie = bindingBusinesTransaction.loadingBusinessTrans
@@ -155,12 +159,45 @@ class BusinessTransactionProfileFragment : Fragment() {
             coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
             getWaitingAnnouncements(id, authHeader)
         }
+
+        button5.setOnClickListener {
+            updateButtonBackgrounds(button5)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
+            lottie.visibility = View.VISIBLE
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
+            text.visibility = View.GONE
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
+            image.visibility = View.GONE
+            lottie.playAnimation()
+            val recycler = bindingBusinesTransaction.businessTransRv
+            recycler.visibility = View.GONE
+            val coursesRV = bindingBusinesTransaction.businessTransRv
+            coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
+            getVipAnnouncements(id, authHeader)
+        }
+
+        button6.setOnClickListener {
+            updateButtonBackgrounds(button6)
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
+            lottie.visibility = View.VISIBLE
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
+            text.visibility = View.GONE
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
+            image.visibility = View.GONE
+            lottie.playAnimation()
+            val recycler = bindingBusinesTransaction.businessTransRv
+            recycler.visibility = View.GONE
+            val coursesRV = bindingBusinesTransaction.businessTransRv
+            coursesRV.layoutManager = GridLayoutManager(requireContext(), 2)
+            getMovingAnnouncements(id, authHeader)
+        }
+
         return bindingBusinesTransaction.root
     }
 
     @SuppressLint("ResourceAsColor")
     private fun updateButtonBackgrounds(selectedButton: Button) {
-        val buttons = arrayOf(button1, button2, button3, button4)
+        val buttons = arrayOf(button1, button2, button3, button4,button5,button6)
 
         for (button in buttons) {
             if (button == selectedButton) {
@@ -342,6 +379,118 @@ class BusinessTransactionProfileFragment : Fragment() {
             lottie.pauseAnimation()
         }
     }
+
+
+    private fun getVipAnnouncements(id: Int, token: String) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
+        compositeDisposable.add(retrofit.getVipAnnoucnementsTransaction(token, id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponseVip,
+                { throwable -> println("MyTests3: $throwable") }
+            ))
+    }
+
+    private fun handleResponseVip(response: CompanyTransactionAnnouncement) {
+        mainList.clear()
+        mainList2.clear()
+        if (response.isNotEmpty()) {
+            val companyDetailItem = response
+            mainList.addAll(companyDetailItem)
+            mainList2.addAll(companyDetailItem)
+            val recycler = bindingBusinesTransaction.businessTransRv
+            recycler.visibility = View.VISIBLE
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
+            text.visibility = View.GONE
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
+            image.visibility = View.GONE
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
+            println("responseElan: " + response)
+            companyTransactionAdapter = CompanyTransactionAdapter(mainList2,requireContext())
+            recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
+            companyTransactionAdapter.notifyDataSetChanged()
+            companyTransactionAdapter.setOnItemClickListener {
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                activity?.startActivity(intent)
+                sharedPreferences =
+                    requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                println("gedenId-----" + it.id)
+                editor.apply()
+            }
+        }else{
+            val recycler = bindingBusinesTransaction.businessTransRv
+            recycler.visibility = View.GONE
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
+            text.visibility = View.VISIBLE
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
+            image.visibility = View.VISIBLE
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
+        }
+    }
+
+    private fun getMovingAnnouncements(id: Int, token: String) {
+        compositeDisposable = CompositeDisposable()
+        val retrofit = RetrofitService(Constant.BASE_URL).retrofit.create(InfoAPI::class.java)
+        compositeDisposable.add(retrofit.getMovingAnnoucnementsTransaction(token, id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleResponseMove,
+                { throwable -> println("MyTests3: $throwable") }
+            ))
+    }
+
+    private fun handleResponseMove(response: CompanyTransactionAnnouncement) {
+        mainList.clear()
+        mainList2.clear()
+        if (response.isNotEmpty()) {
+            val companyDetailItem = response
+            mainList.addAll(companyDetailItem)
+            mainList2.addAll(companyDetailItem)
+            val recycler = bindingBusinesTransaction.businessTransRv
+            recycler.visibility = View.VISIBLE
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
+            text.visibility = View.GONE
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
+            image.visibility = View.GONE
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
+            println("responseElan: " + response)
+            companyTransactionAdapter = CompanyTransactionAdapter(mainList2,requireContext())
+            recycler.adapter = companyTransactionAdapter
+            recycler.isNestedScrollingEnabled = false
+            companyTransactionAdapter.notifyDataSetChanged()
+            companyTransactionAdapter.setOnItemClickListener {
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                activity?.startActivity(intent)
+                sharedPreferences =
+                    requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                sharedPreferences.edit().putInt("announcementId", it.id).apply()
+                println("gedenId-----" + it.id)
+                editor.apply()
+            }
+        }else{
+            val recycler = bindingBusinesTransaction.businessTransRv
+            recycler.visibility = View.GONE
+            val text = bindingBusinesTransaction.notFoundBusinessTransCourseText
+            text.visibility = View.VISIBLE
+            val image = bindingBusinesTransaction.businessTransNotFoundImage
+            image.visibility = View.VISIBLE
+            val lottie = bindingBusinesTransaction.loadingBusinessTrans
+            lottie.visibility = View.GONE
+            lottie.pauseAnimation()
+        }
+    }
+
 
     private fun getDataFromServer(id: Int,token:String) {
 
