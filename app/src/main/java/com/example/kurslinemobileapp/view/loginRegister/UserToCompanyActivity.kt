@@ -318,7 +318,7 @@ class UserToCompanyActivity : AppCompatActivity() {
                     { throwable ->
                         println(throwable.message)
                         if (throwable.message!!.contains("HTTP 409")){
-                            Toast.makeText(this,getString(R.string.http409String),Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this,getString(R.string.http409Stringupdate),Toast.LENGTH_SHORT).show()
                         }else{
                             val text = getString(R.string.infosWrong)
                             Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
