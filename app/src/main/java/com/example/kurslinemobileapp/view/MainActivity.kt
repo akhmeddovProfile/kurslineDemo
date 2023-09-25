@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -114,10 +115,38 @@ class MainActivity : AppCompatActivity() {
         }
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        navController = navHostFragment.navController
-        bottomNavigationView = binding.bottomNav
-        //setupWithNavController(bottomNavigationView,navController)
+        val navController = navHostFragment.navController
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavigationView.setupWithNavController(navController)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.homeFragment -> {
+                    Log.d("Navigation", "Home Fragment selected")
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
+                R.id.blankAccountFragment -> {
+                    Log.d("Navigation", "Blank Account Fragment selected")
+                    navController.navigate(R.id.blankAccountFragment)
+                    true
+                }
+                R.id.favoritesFragment -> {
+                    Log.d("Navigation", "Favorite Account Fragment selected")
+                    navController.navigate(R.id.favoritesFragment)
+                    true
+                }
+                R.id.settingsFragment -> {
+                    Log.d("Navigation", "Settings Account Fragment selected")
+                    navController.navigate(R.id.settingsFragment)
+                    true
+                }
+                // Add other menu items here
+                else -> false
+            }
+        }
+
     }
 
 
