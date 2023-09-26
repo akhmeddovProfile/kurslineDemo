@@ -142,4 +142,6 @@
     <string name="sendText">Göndər</string>
     <string name="favText">Seçilmişlər</string>
     <string name="backToHome">Əsas ekrana qayıt</string>
+    <string name="movetextTran">İrəli çəkişmiş kurslar</string>
+    <string name="vipTextTran">VIP kurslar</string>
 </resources>

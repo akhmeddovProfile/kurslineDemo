@@ -158,11 +158,13 @@ class UpdateAnnouncement : AppCompatActivity() {
         )
 
 
-        val sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+         sharedPreferences = this.getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
         val annId = sharedPreferences.getInt("announcementId",0)
         val userId = sharedPreferences.getInt("userID",0)
         val token = sharedPreferences.getString("USERTOKENNN","")
         val authHeader = "Bearer $token"
+
+
 
         bindingUpdateAnnouncementBinding.upcourseNameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -409,10 +411,12 @@ class UpdateAnnouncement : AppCompatActivity() {
             val foundCategory = response.categories.find { it.categoryId == announcementCategoryId.toInt() }
             categoryname = foundCategory?.categoryName ?: ""
             bindingUpdateAnnouncementBinding.upcourseAllCategoryEditText.setText(categoryname)
+            val subcategoryname1 = sharedPreferences.getString("productDetailSubCategory", "") ?:""
+            bindingUpdateAnnouncementBinding.courseSubCategoryEditText.setText(subcategoryname1)
+            println("subcategoryname:" + subcategoryname1)
             // Now, find the subcategory within the found category
             val foundSubCategory = foundCategory?.subCategories?.find { it.subCategoryCategoryId == announcementSubcategoryId.toInt() }
-            subcategoryName = foundSubCategory?.subCategoryName ?: ""
-            bindingUpdateAnnouncementBinding.courseSubCategoryEditText.setText(subcategoryName)
+
 
             // Add logging statements to check values
             println("categoryname: $categoryname")

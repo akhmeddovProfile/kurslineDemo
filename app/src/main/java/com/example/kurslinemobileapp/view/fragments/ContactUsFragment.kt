@@ -25,7 +25,7 @@ import retrofit2.HttpException
 class ContactUsFragment : Fragment() {
     private lateinit var view: ViewGroup
     private lateinit var bindingContactUsBinding: FragmentContactUsBinding
-    private lateinit var job: Job
+    private var job: Job = Job()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,27 +61,27 @@ class ContactUsFragment : Fragment() {
         return bindingContactUsBinding.root
     }
 
-    fun sendMessage(context: Context){
-        val phoneNumber ="+994"+bindingContactUsBinding.writeUsPhoneText?.text.toString()
+    fun sendMessage(context: Context) {
+        val phoneNumber = "+994" + bindingContactUsBinding.writeUsPhoneText?.text.toString()
         val message = bindingContactUsBinding.writeUsLetterEdittext?.text.toString()
-         lifecycleScope.launch(Dispatchers.Main) {
-            val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber,message).await()
+        lifecycleScope.launch(Dispatchers.Main) {
             try {
-                if (apiService.isSuccess){
+                val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber, message).await()
+
+                if (apiService.isSuccess) {
                     launch(Dispatchers.Main) {
-                        Toast.makeText(context,"Your message had been sent successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Your message had been sent successfully", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
                     }
-
-                }else{
-                    launch(Dispatchers.Main){
-                        Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show()
+                } else {
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }catch (e: HttpException) {
-                if (isActive){
+            } catch (e: HttpException) {
+                if (isActive) {
                     if (e.code() == 404) {
-                        launch(Dispatchers.Main){
+                        launch(Dispatchers.Main) {
                             Toast.makeText(context, "HTTP 404 - ${context.getString(R.string.http404)}", Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
                         }
@@ -90,14 +90,12 @@ class ContactUsFragment : Fragment() {
                             Toast.makeText(context, "HTTP Error: ${e.code()}", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    // Handle HTTP error
+                    // Handle other HTTP errors if needed
                     println("HTTP Error: ${e.code()}")
                 }
-
-            }
-            catch (e:java.lang.Exception){
+            } catch (e: java.lang.Exception) {
                 if (isActive) {
-                    launch(Dispatchers.Main){
+                    launch(Dispatchers.Main) {
                         Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
