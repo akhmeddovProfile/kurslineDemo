@@ -202,7 +202,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:maxLength="18"
+                    android:maxLength="9"
                     android:inputType="phone"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"

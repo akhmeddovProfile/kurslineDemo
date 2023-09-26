@@ -95,12 +95,19 @@ class UpdateUserActivity : AppCompatActivity() {
         println("userToken" + authHeader)
 
         val accountName = sharedPreferences.getString("accountName", "")
-        val accountPhone = sharedPreferences.getString("accountPhone", "")
+        val accountPhone = sharedPreferences.getString("accountPhone", "") ?:""
         val accountMail = sharedPreferences.getString("accountMail", "")
           val accountPhoto = sharedPreferences.getString("profilePhotoUrl", "")
 
+        val number2 = if (accountPhone.startsWith("+994")) {
+            accountPhone.substring(4)
+        } else {
+            accountPhone
+        }
+
+
         bindingUpdateUser.updateAccountNameEditText.setText(accountName)
-        bindingUpdateUser.updateAccountPhoneEditText.setText(accountPhone)
+        bindingUpdateUser.updateAccountPhoneEditText.setText(number2)
         bindingUpdateUser.updateAccountMailEditText.setText(accountMail)
        // photoUrlEditText.setText(accountPhoto)
 
