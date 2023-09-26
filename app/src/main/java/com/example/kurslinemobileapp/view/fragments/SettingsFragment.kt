@@ -47,7 +47,7 @@ class SettingsFragment : Fragment() {
         val sharedPreferences =
             requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
 
-        loadLocate()
+        //loadLocate()
         bindingSettings.privacySettingsId.setOnClickListener {
             val intent = Intent(requireContext(), PdfPrivacyPolicy::class.java)
             startActivity(intent)

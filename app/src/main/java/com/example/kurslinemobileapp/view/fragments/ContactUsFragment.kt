@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.app.kurslinemobileapp.R
 import com.app.kurslinemobileapp.databinding.FragmentContactUsBinding
@@ -15,14 +16,16 @@ import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class ContactUsFragment : Fragment() {
     private lateinit var view: ViewGroup
     private lateinit var bindingContactUsBinding: FragmentContactUsBinding
+    private lateinit var job: Job
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,23 +64,49 @@ class ContactUsFragment : Fragment() {
     fun sendMessage(context: Context){
         val phoneNumber ="+994"+bindingContactUsBinding.writeUsPhoneText?.text.toString()
         val message = bindingContactUsBinding.writeUsLetterEdittext?.text.toString()
-        CoroutineScope(Dispatchers.Main).launch {
+         lifecycleScope.launch(Dispatchers.Main) {
             val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber,message).await()
             try {
                 if (apiService.isSuccess){
-                    Toast.makeText(context,"Your message had been sent successfully", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(context,"Your message had been sent successfully", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
+                    }
+
                 }else{
-                    Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show()
+                    launch(Dispatchers.Main){
+                        Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }catch (e: HttpException) {
-                // Handle HTTP error
-                println("HTTP Error: ${e.code()}")
+                if (isActive){
+                    if (e.code() == 404) {
+                        launch(Dispatchers.Main){
+                            Toast.makeText(context, "HTTP 404 - ${context.getString(R.string.http404)}", Toast.LENGTH_SHORT).show()
+                            findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
+                        }
+                    } else {
+                        launch(Dispatchers.Main) {
+                            Toast.makeText(context, "HTTP Error: ${e.code()}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    // Handle HTTP error
+                    println("HTTP Error: ${e.code()}")
+                }
+
             }
             catch (e:java.lang.Exception){
-                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                if (isActive) {
+                    launch(Dispatchers.Main){
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
 }

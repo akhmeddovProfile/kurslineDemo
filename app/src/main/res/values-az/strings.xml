@@ -3,6 +3,7 @@
     <string name="app_name">Kursline</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="http404">Zəhmət olmazsa biraz sonra yenidən cəhd edin</string>
     <string name="home">Əsas</string>
     <string name="my_account">Kabinet</string>
     <string name="favorites">Seçilmişlər</string>

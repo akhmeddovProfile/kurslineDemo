@@ -2,8 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Kursline</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="http404">Try again later please</string>
-
     <string name="home">Home</string>
     <string name="my_account">My Account</string>
     <string name="favorites">Favorite</string>
@@ -74,7 +72,7 @@
     <string name="registerContinue"> Creating an account...</string>
     <string name="registerString">Register</string>
     <string name="phoneString">Enter phone number*</string>
-=    <string name="userRegister">User Register</string>
+    =    <string name="userRegister">User Register</string>
     <string name="businessRegister">Business Register</string>
     <string name="businessName">Enter company name*</string>
     <string name="businessRegisterPhoto">Enter company photo</string>
@@ -141,5 +139,4 @@
     <string name="sendText">Send</string>
     <string name="favText">Favorites</string>
     <string name="backToHome">Back to home</string>
-
 </resources>
