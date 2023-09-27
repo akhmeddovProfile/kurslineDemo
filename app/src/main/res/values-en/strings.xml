@@ -136,6 +136,7 @@
     <string name="newHg">New announcements</string>
     <string name="vipHg">VIP announcements</string>
     <string name="mostViewHgText">most viewed</string>
+    <string name="writeusToast">Telephone or message must be not null</string>
     <string name="newHgText">new announcements</string>
     <string name="vipHgText">VIP announcements</string>
     <string name="sendText">Send</string>

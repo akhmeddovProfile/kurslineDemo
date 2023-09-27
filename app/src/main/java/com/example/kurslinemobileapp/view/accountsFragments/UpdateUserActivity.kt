@@ -182,7 +182,11 @@ class UpdateUserActivity : AppCompatActivity() {
                 bindingUpdateUser.updateAccountMailEditText.text.toString().trim()
             }
 
-            updateUser(userName, userMail, userPhone, 1, imageUrl, authHeader, id)
+            println("About Update0: "+ name)
+            println("About Update0: "+ userMail)
+            println("About Update0: "+ phone)
+            println("About Update0: "+ 1)
+            updateUser(userName, userMail,"+994"+userPhone, 1, imageUrl, authHeader, id)
         }
 
     }
@@ -213,6 +217,10 @@ class UpdateUserActivity : AppCompatActivity() {
 
         compositeDisposable = CompositeDisposable()
 
+        println("About Update: "+ name)
+        println("About Update: "+ mail)
+        println("About Update: "+ phone)
+        println("About Update: "+ gender)
         compositeDisposable.add(
             retrofit.userUpdateMethod(name, mail, phone, gender, photo, token, userId)
                 .subscribeOn(Schedulers.io())

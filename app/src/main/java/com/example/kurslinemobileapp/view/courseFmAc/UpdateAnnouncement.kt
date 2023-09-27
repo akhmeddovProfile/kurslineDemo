@@ -256,6 +256,22 @@ class UpdateAnnouncement : AppCompatActivity() {
                     images= imagepath.imagePath
 
                 }*/
+                if (modifiedCourseName!!.isEmpty()){
+                    bindingUpdateAnnouncementBinding.upcourseNameEditText.requestFocus()
+                    bindingUpdateAnnouncementBinding.upcourseNameEditText.error="Course name is not be empty"
+                }
+                if (modifiedAboutCourse!!.isEmpty()){
+                    bindingUpdateAnnouncementBinding.upcourseAboutEditText.requestFocus()
+                    bindingUpdateAnnouncementBinding.upcourseAboutEditText.error="About course is not be empty"
+                }
+                if (modifiedPrice!!.equals(null)){
+                    bindingUpdateAnnouncementBinding.upcoursePriceEditText.requestFocus()
+                    bindingUpdateAnnouncementBinding.upcoursePriceEditText.error="Price is not be empty"
+                }
+                if (modifiedAddress!!.isEmpty()){
+                    bindingUpdateAnnouncementBinding.upcourseAddressEditText.requestFocus()
+                    bindingUpdateAnnouncementBinding.upcourseAddressEditText.error="Address must be not empty"
+                }
 
                 val modeid=if(modeChanged){
                     modeId
@@ -364,7 +380,8 @@ class UpdateAnnouncement : AppCompatActivity() {
         println("Response: "+response)
          courseName=response.announcementName
          aboutrcourse=response.announcementName
-        teachersnames=response.teacher.toString()
+        teachersnames=response.teacher.joinToString(", ")
+
          announcementPrice=response.announcementPrice.toDouble()
          announcementAdress=response.announcementAddress
          announcementModeId=response.isOnline.toString()

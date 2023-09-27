@@ -120,6 +120,7 @@
     <string name="onlineTxt">Onlayn</string>
     <string name="offlineTxt">Ənənəvi</string>
     <string name="onOffTxt">Ənənəvi/Onlayn</string>
+    <string name="writeusToast">Telefon və ya mesaj boş ola bilməz</string>
     <string name="resetTxt">Sıfırla</string>
     <string name="searchAd">Elan axtar</string>
     <string name="searchCourse">Kurs axtar</string>

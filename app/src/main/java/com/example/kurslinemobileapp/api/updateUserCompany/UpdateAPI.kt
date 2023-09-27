@@ -9,11 +9,11 @@ interface UpdateAPI {
     @Multipart
     @POST("Update-user/{userId}")
     fun userUpdateMethod(
-        @Part("FullName") fullName: RequestBody,
-        @Part("Email") email: RequestBody,
-        @Part("MobileNumber") mobileNumber: RequestBody,
-        @Part("Gender") gender: RequestBody,
-        @Part photos: MultipartBody.Part?,
+        @Part("FullName") FullName: RequestBody,
+        @Part("Email") Email: RequestBody,
+        @Part("MobileNumber") MobileNumber: RequestBody,
+        @Part("Gender") Gender: RequestBody,
+        @Part Photos: MultipartBody.Part?,
         @Header("Authorization") token: String,
         @Path("userId") userId: Int
     ): Observable<UpdateResponse>

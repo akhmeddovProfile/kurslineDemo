@@ -52,6 +52,7 @@ class ContactUsFragment : Fragment() {
         // Hide the BottomNavigationView
         goToUploadActivity.visibility=View.GONE
         bottomNavigationView.visibility = View.GONE
+
         bindingContactUsBinding.sendLetterBtn?.setOnClickListener {
             sendMessage(requireContext())
         }
@@ -64,43 +65,49 @@ class ContactUsFragment : Fragment() {
     fun sendMessage(context: Context) {
         val phoneNumber = "+994" + bindingContactUsBinding.writeUsPhoneText?.text.toString()
         val message = bindingContactUsBinding.writeUsLetterEdittext?.text.toString()
-        lifecycleScope.launch(Dispatchers.Main) {
-            try {
-                val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber, message).await()
+        if (message.isEmpty() || phoneNumber.isEmpty() ) {
+            Toast.makeText(context,getString(R.string.writeusToast),Toast.LENGTH_SHORT).show()
+        }
+        else{
+            lifecycleScope.launch(Dispatchers.Main) {
+                try {
+                    val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber, message).await()
 
-                if (apiService.isSuccess) {
-                    launch(Dispatchers.Main) {
-                        Toast.makeText(context, "Your message had been sent successfully", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
-                    }
-                } else {
-                    launch(Dispatchers.Main) {
-                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: HttpException) {
-                if (isActive) {
-                    if (e.code() == 404) {
+                    if (apiService.isSuccess) {
                         launch(Dispatchers.Main) {
-                            Toast.makeText(context, "HTTP 404 - ${context.getString(R.string.http404)}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Your message had been sent successfully", Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
                         }
                     } else {
                         launch(Dispatchers.Main) {
-                            Toast.makeText(context, "HTTP Error: ${e.code()}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    // Handle other HTTP errors if needed
-                    println("HTTP Error: ${e.code()}")
-                }
-            } catch (e: java.lang.Exception) {
-                if (isActive) {
-                    launch(Dispatchers.Main) {
-                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                } catch (e: HttpException) {
+                    if (isActive) {
+                        if (e.code() == 404) {
+                            launch(Dispatchers.Main) {
+                                Toast.makeText(context, "HTTP 404 - ${context.getString(R.string.http404)}", Toast.LENGTH_SHORT).show()
+                                findNavController().navigate(R.id.action_contactUsFragment_to_homeFragment)
+                            }
+                        } else {
+                            launch(Dispatchers.Main) {
+                                Toast.makeText(context, "HTTP Error: ${e.code()}", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        // Handle other HTTP errors if needed
+                        println("HTTP Error: ${e.code()}")
+                    }
+                } catch (e: java.lang.Exception) {
+                    if (isActive) {
+                        launch(Dispatchers.Main) {
+                            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
         }
+
     }
 
     override fun onDestroy() {

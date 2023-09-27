@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +50,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 
-class CourseUploadActivity : AppCompatActivity() {
+class CourseUploadActivity : AppCompatActivity(),PhotoPagerAdapter.OnItemClickListener {
     private val selectedPhotos = mutableListOf<SelectionPhotoShowOnViewPager>()
     var compositeDisposable = CompositeDisposable()
     private lateinit var regionAdapter: RegionAdapter
@@ -66,6 +67,10 @@ class CourseUploadActivity : AppCompatActivity() {
      var categoryId: Int =0
      var modeId: Int = 0
      var regionId:Int = 0
+    private lateinit var adapter: PhotoPagerAdapter
+    private lateinit var viewPager :ViewPager2
+
+    var isPermissionRequestInProgress = false
 
     private val permissionLauncher: ActivityResultLauncher<String> =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -124,7 +129,10 @@ class CourseUploadActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-
+        adapter = PhotoPagerAdapter(selectedPhotos, this)
+        viewPager=bindingCourseUploadActivity.viewPagerCourseUploadNew
+        //viewPager.adapter=adapter
+        //viewPager.adapter = adapter
         setupViewPager()
         bindingCourseUploadActivity.uploadCourse.setOnClickListener {
         block=true
@@ -203,14 +211,13 @@ class CourseUploadActivity : AppCompatActivity() {
         }
 
         bindingCourseUploadActivity.addCoursePhotos.setOnClickListener {
-            println("1111111")
-            if (!checkPermission()){
+            if (!checkPermission()) {
+                // Permission is not granted, so request it
                 requestGalleryPermission()
-            }else{
+            } else {
+                // Permission is granted, proceed with opening the gallery
                 openGallery()
             }
-
-
         }
 
         bindingCourseUploadActivity.courseAllCategoryEditText.setOnClickListener {
@@ -257,8 +264,17 @@ class CourseUploadActivity : AppCompatActivity() {
     }
 
     private fun requestGalleryPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            // Permission rationale should be shown
+            Toast.makeText(
+                this,
+                "Permission is required to access the gallery.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
         permissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
+
     private fun openGallery() {
         galleryLauncher.launch("image/*")
     }
@@ -275,6 +291,35 @@ class CourseUploadActivity : AppCompatActivity() {
         }
         cursor?.close()
         return name
+    }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        // Check if the request code matches the one you used for the permission request
+        if (requestCode == Constant.PERMISSION_READ_EXTERNAL_STORAGE) {
+            // Reset the flag to indicate that the permission request is complete
+            // Check if the permission was granted
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can proceed with the gallery opening or other actions
+                openGallery()
+            } else {
+                // Permission denied, you can show a message to the user
+                Toast.makeText(
+                    this,
+                    "Permission denied. You can enable it in the app settings.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 
     private fun getFileSize(uri: Uri): Long {
@@ -321,6 +366,10 @@ class CourseUploadActivity : AppCompatActivity() {
 
         inputStream?.close()
 
+        if(selectedPhotos.size>=4){
+            Toast.makeText(this, "Maximum photo limit reached (4 photos)", Toast.LENGTH_SHORT).show()
+            return
+        }
         // Use the base64String as needed
         bindingCourseUploadActivity.setImageUrl.setText(imageName?.trim().toString())
         bindingCourseUploadActivity.setImageUrl.visibility=View.GONE
@@ -343,11 +392,24 @@ class CourseUploadActivity : AppCompatActivity() {
     }
 
     private fun setupViewPager() {
-        val viewPager = findViewById<ViewPager2>(R.id.viewPagerCourseUploadNew)
-
         // Create the adapter with the selected photos list
-        val adapter = PhotoPagerAdapter( selectedPhotos)
+        val adapter = PhotoPagerAdapter( selectedPhotos,this)
         viewPager.adapter = adapter
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onItemClick(position: Int) {
+        if (position >= 0 && position < selectedPhotos.size) {
+            // Remove the item from the data source
+            selectedPhotos.removeAt(position)
+            val adapter = PhotoPagerAdapter( selectedPhotos,this)
+            // Notify the adapter that an item has been removed
+            adapter.notifyItemRemoved(position)
+            // Notify the adapter of the range of items that have changed
+            adapter.notifyItemRangeChanged(position, selectedPhotos.size)
+            viewPager.adapter = adapter
+
+        }
     }
     private fun showBottomSheetDialogAllCatogories() {
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
@@ -485,4 +547,8 @@ class CourseUploadActivity : AppCompatActivity() {
         super.onDestroy()
         cancelJob()
     }
+
+
+
+
 }

@@ -12,4 +12,14 @@
         android:scaleType="fitXY"
         android:src="@drawable/coursephoto" />
 
+    <ImageView
+        android:id="@+id/deleteimage"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="350dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/deleteimageview"
+        />
+
+
 </androidx.cardview.widget.CardView>

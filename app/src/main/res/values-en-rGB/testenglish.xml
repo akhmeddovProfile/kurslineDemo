@@ -132,6 +132,8 @@
     <string name="recentTextAn">Recent announcements</string>
     <string name="mostViewHg">Most viewed announcements</string>
     <string name="newHg">New announcements</string>
+    <string name="writeusToast">Telephone or message must be not null</string>
+
     <string name="vipHg">VIP announcements</string>
     <string name="mostViewHgText">most viewed</string>
     <string name="newHgText">new announcements</string>

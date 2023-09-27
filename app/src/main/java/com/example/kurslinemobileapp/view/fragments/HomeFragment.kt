@@ -260,7 +260,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
                 handler.postDelayed(runnable, 4000)
             }
         })
-
+        //binding.viewPager2.autoScroll(3000)
 
         return binding.root
     }
@@ -547,6 +547,37 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
 
         binding.viewPager2.setPageTransformer(transformer)
     }
+/*    fun ViewPager2.smoothScrollToPage(targetPage: Int, duration: Float) {
+        val recyclerView = getChildAt(0) as RecyclerView
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val linearSmoothScroller = object : LinearSmoothScroller(context) {
+            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                return duration
+            }
+        }
+        linearSmoothScroller.targetPosition = targetPage
+        layoutManager.startSmoothScroll(linearSmoothScroller)
+    }
+    fun ViewPager2.autoScroll(intervalMillis: Long) {
+        val recyclerView = getChildAt(0) as RecyclerView
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+
+        val maxPage = recyclerView.adapter?.itemCount ?: 0
+        var currentPage = 0
+
+        val handler = Handler()
+        val runnable = object : Runnable {
+            override fun run() {
+                // Calculate the next page to scroll to
+                val nextPage = (currentPage + 1) % maxPage
+                smoothScrollToPage(nextPage, 5000.toflo) // Adjust the duration as needed
+                currentPage = nextPage
+                handler.postDelayed(this, intervalMillis)
+            }
+        }
+
+        handler.postDelayed(runnable, intervalMillis)
+    }*/
 
     private fun init() {
         val appdatabase = AppDatabase.getDatabase(requireContext())

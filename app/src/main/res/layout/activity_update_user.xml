@@ -128,7 +128,7 @@
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:editable="false"
+                    android:editable="true"
                     android:clickable="false"
                     android:inputType="none"
                     android:hint="@string/email"/>

@@ -279,7 +279,15 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val courseDesc = response.announcementDesc
         val regionId = response.announcementRegionId
         val modeId = response.isOnline
-        val teacherName = response.teacher
+        val teacherName = response.teacher.joinToString(", ")
+        println("Teacher name1: ${teacherName}")
+
+        if (teacherName.isNullOrEmpty()){
+            println("Test Null")
+            bindingProductDetailActivity.teacherTitle.setText("Qeyd olunmayib")
+        }else{
+            bindingProductDetailActivity.teacherTitle.setText(teacherName.toString())
+        }
         val phoneNumber = response.phone
         val count = response.countView
         if (response.isVIP == true){
@@ -316,7 +324,6 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         //catagoryTitle.setText(categoryId)
         bindingProductDetailActivity.regionTitle.setText(regionId)
         bindingProductDetailActivity.rejimTitle.setText(modeId)
-        bindingProductDetailActivity.teacherTitle.setText(teacherName.toString())
         bindingProductDetailActivity.contactTitle.setText(phoneNumber)
         bindingProductDetailActivity.viewCount.setText(count.toString())
         bindingProductDetailActivity.categoryTitle.setText(category)
@@ -414,6 +421,13 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         //println("Similar course: "+response.announcement.size)
         val modeId = response.isOnline
         val teacherName = response.teacher
+        println("Teachername2: "+teacherName)
+        if (teacherName.isEmpty()||teacherName.size == 1 && teacherName[0] == null){
+            bindingProductDetailActivity.teacherTitle.text="Qeyd olunmayib"
+        }
+        else{
+            teacherName.filterNotNull().joinToString(", ")
+        }
         val phoneNumber = response.phone
         val count = response.countView
         if (response.isVIP == true){
@@ -491,6 +505,15 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val announcmentname=response.announcementName
         val aboutannouncement=response.announcementDesc
         val announcementteacher=response.teacher
+        val teacherName = response.teacher.joinToString(", ")
+        println("Teacher name3: ${teacherName}")
+
+        if (teacherName.equals(null)){
+            println("Test Null")
+            bindingProductDetailActivity.teacherTitle.setText("Qeyd olunmayib")
+        }else{
+            bindingProductDetailActivity.teacherTitle.setText(teacherName.toString())
+        }
         val price=response.announcementPrice
         val adressid=response.announcementRegionId.toString()
         val annCategory=response.categoryId
