@@ -209,10 +209,11 @@
                 android:id="@+id/aboutCompanyEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
+                android:lines="5"
+                android:gravity="start"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine|textCapSentences"
                 android:hint="@string/businessAbout"/>
             <TextView
                 android:id="@+id/characterCountTextViewcmpabout"
