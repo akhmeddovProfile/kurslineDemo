@@ -294,11 +294,12 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         for (newList in response.announcemenets) {
             if (newList.isVIP) {
                 vipList.add(newList)
-            } else {
-                mainList2.add(newList)
             }
         }
 
+        for (newList in response.announcemenets) {
+            mainList2.add(newList)
+        }
         println("responseElanFavoriteTrue: " + response.announcemenets)
 
         /* for (favItems in response.announcemenets){
@@ -410,10 +411,13 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
             for (newList in response.announcemenets) {
                 if (newList.isVIP) {
                     vipList.add(newList)
-                } else {
-                    mainList2.add(newList)
                 }
             }
+
+            for (newList in response.announcemenets) {
+                    mainList2.add(newList)
+                }
+
             mainListProductAdapter =
                 MainListProductAdapter(mainList2, this@HomeFragment, requireActivity())
             recycler.adapter = mainListProductAdapter

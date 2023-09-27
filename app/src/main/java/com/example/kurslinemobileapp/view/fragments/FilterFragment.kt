@@ -122,8 +122,8 @@ class FilterFragment : Fragment() {
             courseId = ""
             binding.filterRegionsTxt.text = getString(R.string.regions)
             binding.allCategoriesFilterTxt.text = getString(R.string.categories)
-            binding.filterCourseId.text = getString(R.string.tutors)
-            binding.tutorsFilterId.text = getString(R.string.kurslar)
+            binding.filterCourseId.text = getString(R.string.kurslar)
+            binding.tutorsFilterId.text = getString(R.string.tutors)
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
             resetBtnsBackground(button3)
@@ -254,7 +254,7 @@ class FilterFragment : Fragment() {
             println("Received ${tutors.size} courses")  // Debug log
 
             val adapter = TutorsNameAdapter(tutors) { companyName,companyId ->
-                binding.filterCourseId.text = companyName
+                binding.tutorsFilterId.text = companyName
                 courseId = companyId.toString()
                 println("courseId: $courseId")
                 dialog.dismiss()
