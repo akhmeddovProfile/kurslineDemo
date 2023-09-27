@@ -217,6 +217,18 @@
             android:id="@+id/statustxt"
             />
 
+        <HorizontalScrollView
+            android:id="@+id/horizontalBusinessScrollViewFilter"
+            android:layout_below="@id/statustxt"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/allcourseFilter"
             android:layout_width="wrap_content"
@@ -248,6 +260,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/repititorfilter"
             android:layout_width="wrap_content"
@@ -264,11 +277,14 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />
+        </LinearLayout>
+
+        </HorizontalScrollView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/allcourseFilter"
+            android:layout_below="@+id/horizontalBusinessScrollViewFilter"
             android:layout_marginTop="28dp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
@@ -352,6 +368,18 @@
             android:id="@+id/modeText"
             />
 
+        <HorizontalScrollView
+            android:id="@+id/horizontalBusinessScrollViewFilter1"
+            android:layout_below="@id/modeText"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/allModesbtn"
             android:layout_width="wrap_content"
@@ -399,7 +427,9 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />
+        </LinearLayout>
 
+        </HorizontalScrollView>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/showCoursesFilterBtn"
             android:layout_width="match_parent"
@@ -408,7 +438,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat"
             android:layout_marginBottom="25dp"
-            android:layout_below="@id/onlinemodeBtn"
+            android:layout_below="@id/horizontalBusinessScrollViewFilter1"
             android:background="@drawable/button_bg"
             android:text="@string/elanlari_goster"
             android:textAllCaps="false"

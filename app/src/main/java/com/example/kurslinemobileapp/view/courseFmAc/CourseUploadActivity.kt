@@ -257,6 +257,7 @@ class CourseUploadActivity : AppCompatActivity(),PhotoPagerAdapter.OnItemClickLi
         )
     }
     private fun handleResponse(response: CreateAnnouncementResponse) {
+
         val intent = Intent(this@CourseUploadActivity,MainActivity::class.java)
         startActivity(intent)
         finish()

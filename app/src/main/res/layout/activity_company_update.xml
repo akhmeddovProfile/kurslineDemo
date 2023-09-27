@@ -94,9 +94,7 @@
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
-                    android:editable="true"
-                    android:clickable="false"
-                    android:inputType="none"
+                    android:inputType="textEmailAddress"
                     android:hint="@string/email"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
