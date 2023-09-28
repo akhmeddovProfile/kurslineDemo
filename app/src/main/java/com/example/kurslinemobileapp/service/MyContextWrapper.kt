@@ -1,30 +1,63 @@
-package com.example.kurslinemobileapp.service
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.os.Build
+import android.util.Log
 import java.util.*
 
-class MyContextWrapper(base:Context):ContextWrapper(base) {
-    companion object {
-        fun wrap(context: Context, language: String): ContextWrapper {
-            val config: Configuration = context.resources.configuration
-            val sysLocale: Locale = getSystemLocale(config)
 
-            if (sysLocale.language != language) {
+class MyContextWrapper(base: Context) : ContextWrapper(base) {
+    companion object {
+
+        @Suppress("DEPRECATION")
+        fun wrap(ctx: Context, language: String): ContextWrapper {
+            var context = ctx
+            val config = context.resources.configuration
+            val sysLocale: Locale?
+            sysLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                getSystemLocale(config)
+            } else {
+                getSystemLocaleLegacy(config)
+            }
+            if (language != "" && sysLocale.language != language) {
                 val locale = Locale(language)
                 Locale.setDefault(locale)
-                setSystemLocale(config, locale)
-            }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d("MYTAGLAN1","Isledi")
+                    setSystemLocale(config, locale)
+                } else {
+                    Log.d("MYTAGLAN2","Isledi")
+                    setSystemLocaleLegacy(config, locale)
+                }
 
-            return MyContextWrapper( context.createConfigurationContext(config))
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                context = context.createConfigurationContext(config)
+            } else {
+                context.resources.updateConfiguration(config, context.resources.displayMetrics)
+            }
+            return MyContextWrapper(context)
         }
 
-        private fun getSystemLocale(config: Configuration): Locale {
+        @Suppress("DEPRECATION")
+        private fun getSystemLocaleLegacy(config: Configuration): Locale {
+            return config.locale
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        fun getSystemLocale(config: Configuration): Locale {
             return config.locales.get(0)
         }
 
-        private fun setSystemLocale(config: Configuration, locale: Locale?) {
+        @Suppress("DEPRECATION")
+        private fun setSystemLocaleLegacy(config: Configuration, locale: Locale) {
+            config.locale = locale
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        fun setSystemLocale(config: Configuration, locale: Locale) {
             config.setLocale(locale)
         }
     }

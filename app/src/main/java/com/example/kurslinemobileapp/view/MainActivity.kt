@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view
 
+import MyContextWrapper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -18,6 +19,7 @@ import com.example.kurslinemobileapp.api.ad.AdAPI
 import com.example.kurslinemobileapp.api.companyData.CompanyDatasAPI
 import com.example.kurslinemobileapp.api.companyTeachers.CompanyTeacherAPI
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.MyPreference
 import com.example.kurslinemobileapp.service.RetrofitService
 import com.example.kurslinemobileapp.service.Room.AppDatabase
 import com.example.kurslinemobileapp.service.Room.advertising.advEntity
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var compositeDisposable: CompositeDisposable
     private lateinit var repository: MyRepositoryForCategory
+    lateinit var myPreference: MyPreference
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,7 +152,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun attachBaseContext(newBase: Context?) {
+        myPreference=MyPreference(newBase!!)
+        val lang=myPreference.getLangugae()
+        super.attachBaseContext(MyContextWrapper.wrap(newBase,lang))
 
+    }
     private fun saveCategoryInRoom(){
         compositeDisposable= CompositeDisposable()
         val retrofit =

@@ -1,5 +1,6 @@
 package com.example.kurslinemobileapp.view.fragments
 
+import MyContextWrapper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -10,6 +11,8 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -20,6 +23,7 @@ import com.app.kurslinemobileapp.databinding.FragmentSettingsBinding
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.MyPreference
 import com.example.kurslinemobileapp.view.AboutActivity
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.PdfPrivacyPolicy
@@ -33,6 +37,7 @@ class SettingsFragment : Fragment() {
     private lateinit var contactAdapter: ContactUsAdapter
     private lateinit var contactList: List<ContactItem>
     private lateinit var bindingSettings:FragmentSettingsBinding
+    private val preference: MyPreference by lazy { MyPreference(requireContext()) }
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +49,6 @@ class SettingsFragment : Fragment() {
         //contactAdapter=ContactUsAdapter(contactList)
         val sharedPreferences =
             requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
-
         //loadLocate()
         bindingSettings.privacySettingsId.setOnClickListener {
             val intent = Intent(requireContext(), PdfPrivacyPolicy::class.java)
@@ -147,27 +151,83 @@ class SettingsFragment : Fragment() {
         requireActivity().finish()
     }
 
-    private fun showChangeLanguage() {
-        val listofItems = arrayOf("Azərbaycan", "English")
-        val mBuilder = AlertDialog.Builder(requireContext())
-        mBuilder.setTitle("Choose Language")
-        val currentLanguage = getCurrentLanguage(requireContext()) // Helper function to get the current language
+    private fun spinnerLanguag(){
+        val listofItems = arrayOf("az", "en")
+        bindingSettings.languageSpinner.adapter=ArrayAdapter(requireActivity(),R.layout.spinnerlanguageitems,listofItems)
+        val lang=preference.getLangugae()
+        val index=listofItems.indexOf(lang)
+        if (index>=0){
+            bindingSettings.languageSpinner.setSelection(index)
+        }
+        bindingSettings.languageSpinner.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                preference.setLangugae(listofItems[p2])
+               val selectedItem= p0?.getItemAtPosition(p2).toString()
+                if (selectedItem.equals("az")){
+                    setAppLocale(requireContext(),selectedItem)
+                    intent()
+                }
+                else if(selectedItem.equals("az")){
+                    setAppLocale(requireContext(),selectedItem)
+                    intent()
+                }
 
-        // Determine the initially checked item based on the current language
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+    }
+    fun intent(){
+        val intent=Intent(requireContext(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
+    private fun showChangeLanguage() {
+        val listofItems = arrayOf("az", "en")
+        val lang = preference.getLangugae()
+        val currentLanguage = getCurrentLanguage(requireContext())
         val initiallyCheckedItem = if (currentLanguage == "az") 0 else 1
 
-        mBuilder.setSingleChoiceItems(listofItems, initiallyCheckedItem) { dialog, which ->
-            val selectedLanguageCode = if (which == 0) "az" else "en"
-            setAppLocale(requireContext(), selectedLanguageCode)
-            saveCurrentLanguage(requireContext(),selectedLanguageCode) // Helper function to save the selected language
-            val mainIntent = Intent(requireActivity(), MainActivity::class.java)
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            requireActivity().startActivity(mainIntent)
-            requireActivity().finish()   //requireActivity().recreate() // Recreate the activity to apply the new language
-            dialog.dismiss()
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Choose Language")
+            .setSingleChoiceItems(listofItems, initiallyCheckedItem) { dialog, which ->
+                // Handle language selection
+                val selectedLanguageCode = if (which == 0) "az" else "en"
+                //preference.setLangugae(selectedLanguageCode)
+                saveCurrentLanguage(requireActivity(),selectedLanguageCode)
+            }.setPositiveButton("OK") { _, _ ->
+                val selectedLanguage = getCurrentLanguage(requireActivity())
+                // Change the app's language
+                MyContextWrapper.wrap(requireContext(), selectedLanguage)
+
+                // Restart the app to apply the new language
+                val intent = requireActivity().baseContext.packageManager
+                    .getLaunchIntentForPackage(requireActivity().baseContext.packageName)
+                if (intent != null) {
+                    intent.addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+            }
+            .setNegativeButton("Cancel") { _, _ -> }
+            .create()
+
+        alertDialog.show()
+    }
+    private fun updateAppLanguage(language: String) {
+        val contextWrapper = MyContextWrapper.wrap(requireContext(), language)
+        requireActivity().apply {
+            val newContext = contextWrapper.baseContext
+            recreate() // Recreate the activity to apply the new context
         }
-        val mdialog = mBuilder.create()
-        mdialog.show()
+
     }
     fun setAppLocale(context: Context, languageCode: String) {
         val locale = Locale(languageCode)
