@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         val networkConnection=NetworkConnection(applicationContext)
         networkConnection.observe(this){
             if (it){
-                Toast.makeText(this,"Connected", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"Connected", Toast.LENGTH_SHORT).show()
                 inflateLayout.visibility= View.GONE
                 binding.fragmentContainerView.visibility=View.VISIBLE
                 binding.goToUploadActivity.visibility = View.VISIBLE
