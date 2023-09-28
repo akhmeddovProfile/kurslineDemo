@@ -9,10 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.ContactItem
@@ -25,7 +24,9 @@ import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class ContactUsAdapter (private val contactList: List<ContactItem>) :
     RecyclerView.Adapter<ContactUsAdapter.ContactViewHolder>() {
@@ -66,16 +67,72 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
 
     @SuppressLint("MissingInflatedId")
     private fun openwWriteUs(context: Context){
-            if (context is MainActivity) {
-                val fragmentManager = context.supportFragmentManager
-                val fragmentTransaction = fragmentManager.beginTransaction()
+        val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.write_letter, null)
+        val dialog = BottomSheetDialog(context)
+        dialog.setContentView(bottomSheetView)
+        /*val behavior=BottomSheetBehavior.from(bottomSheetView)
+        behavior.isDraggable=true
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
+        val telnumber=bottomSheetView.findViewById<TextInputEditText>(R.id.phoneEditText)
+        val letter=bottomSheetView.findViewById<TextInputEditText>(R.id.writeletter)
+        val btn=bottomSheetView.findViewById<Button>(R.id.sendLetterBtnSettings)
+                val phoneNumber ="+994"+telnumber.text.toString()
+                val message = letter.text.toString()
+btn.setOnClickListener {
 
-                val writeUsFragment = ContactUsFragment()
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(
+                    phoneNumber,
+                    message
+                ).await()
 
-                fragmentTransaction.replace(R.id.settingsLayout, writeUsFragment)
-                fragmentTransaction.addToBackStack(null) // Optional: Add to back stack
-                fragmentTransaction.commit()
+                if (apiService.isSuccess) {
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(
+                            context,
+                            "Your message had been sent successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+                } else {
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: HttpException) {
+                if (isActive) {
+                    if (e.code() == 404 || e.code() == 400) {
+                        launch(Dispatchers.Main) {
+                            Toast.makeText(
+                                context,
+                                "HTTP 404 - ${context.getString(R.string.http404)}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+                    } else {
+                        launch(Dispatchers.Main) {
+                            Toast.makeText(context, "HTTP Error: ${e.code()}", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                    // Handle other HTTP errors if needed
+                    println("HTTP Error: ${e.code()}")
+                }
+            } catch (e: java.lang.Exception) {
+                if (isActive) {
+                    launch(Dispatchers.Main) {
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
+        }
+    }
+
+        dialog.show()
+
     }
 
 
