@@ -6,33 +6,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="5dp"
-    android:layout_width="120dp"
-    android:layout_height="80dp">
+    android:layout_width="140dp"
+    android:layout_height="90dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
+        android:layout_width="140dp"
+        android:layout_height="90dp"
         app:cardCornerRadius="20dp">
         <ImageView
             android:layout_gravity="center"
             android:id="@+id/imageText"
-            android:layout_width="120dp"
-            android:layout_height="80dp"
+            android:layout_width="140dp"
+            android:layout_height="90dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
         <TextView
-            android:gravity="center_horizontal"
             android:id="@+id/textImage"
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:maxLines="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:textStyle="bold"
-            android:layout_gravity="start"
             android:layout_below="@+id/cardView"
             android:text="Micheal Jackson"
             android:textSize="10sp" />

@@ -211,14 +211,9 @@ class CourseUploadActivity : AppCompatActivity(),PhotoPagerAdapter.OnItemClickLi
         }
 
         bindingCourseUploadActivity.addCoursePhotos.setOnClickListener {
-            if (!checkPermission()) {
-                // Permission is not granted, so request it
-                requestGalleryPermission()
-            } else {
-                // Permission is granted, proceed with opening the gallery
                 openGallery()
             }
-        }
+
 
         bindingCourseUploadActivity.courseAllCategoryEditText.setOnClickListener {
             showBottomSheetDialogAllCatogories()

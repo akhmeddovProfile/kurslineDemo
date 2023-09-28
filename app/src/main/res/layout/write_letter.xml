@@ -101,6 +101,22 @@
                 android:hint="@string/writeletter"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sendLetterBtnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat"
+            android:layout_marginBottom="25dp"
+            android:layout_below="@id/writeUsLetterContainer"
+            android:background="@drawable/button_bg"
+            android:text="@string/sendText"
+            android:textAllCaps="false"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"/>
+
     </RelativeLayout>
 
 
