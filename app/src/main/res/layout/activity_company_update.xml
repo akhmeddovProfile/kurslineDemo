@@ -327,25 +327,11 @@
                     android:hint="@string/about_course"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/companyUpdatePhotoURLContainer"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/businessAccountUpdateAboutContainer"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_marginHorizontal="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:boxBackgroundColor="@color/white"
-                app:boxStrokeColor="@color/grayColor1"
-                app:hintTextColor="@color/grayColor1"
-                android:textColorHint="@color/grayColor1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/companyUpdatePhotoURLEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/businessAccountUpdateAboutContainer"
                     android:lines="1"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
@@ -353,7 +339,7 @@
                     android:clickable="false"
                     android:inputType="none"
                     android:hint="URL"/>
-            </com.google.android.material.textfield.TextInputLayout>
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/savedUpdatesBtnCompany"
@@ -364,7 +350,7 @@
                 android:textColor="@color/white"
                 android:fontFamily="@font/montserrat"
                 android:layout_marginBottom="25dp"
-                android:layout_below="@id/companyUpdatePhotoURLContainer"
+                android:layout_below="@id/companyUpdatePhotoURLEditText"
                 android:background="@drawable/button_bg"
                 android:text="@string/saveChange"
                 android:textAllCaps="false"

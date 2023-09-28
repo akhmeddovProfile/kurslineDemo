@@ -18,6 +18,8 @@ import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
+import com.example.kurslinemobileapp.view.MainActivity
+import com.example.kurslinemobileapp.view.fragments.ContactUsFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.disposables.CompositeDisposable
@@ -64,40 +66,16 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
 
     @SuppressLint("MissingInflatedId")
     private fun openwWriteUs(context: Context){
-        val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.write_letter, null)
-        val dialog = BottomSheetDialog(context)
-        dialog.setContentView(bottomSheetView)
-        /*val behavior=BottomSheetBehavior.from(bottomSheetView)
-        behavior.isDraggable=true
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
+            if (context is MainActivity) {
+                val fragmentManager = context.supportFragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction()
 
-        val telnumber=bottomSheetView.findViewById<TextInputEditText>(R.id.phoneEditText)
-        val letter=bottomSheetView.findViewById<EditText>(R.id.writeletter)
-        letter.setOnEditorActionListener { textView, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_DONE){
-                val phoneNumber ="+994"+telnumber.text.toString()
-                val message = textView.text.toString()
-                CoroutineScope(Dispatchers.Main).launch {
-                    val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(phoneNumber,message).await()
-                    try {
-                        if (apiService.isSuccess){
-                        Toast.makeText(context,"Your message had been sent successfully",Toast.LENGTH_SHORT).show()
-                            dialog.dismiss() // Close the dialog if needed
-                        }else{
-                            Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show()
-                        }
-                    }catch (e:java.lang.Exception){
-                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                true
-            }
-            else{
-                false
-            }
-        }
+                val writeUsFragment = ContactUsFragment()
 
-        dialog.show()
+                fragmentTransaction.replace(R.id.settingsLayout, writeUsFragment)
+                fragmentTransaction.addToBackStack(null) // Optional: Add to back stack
+                fragmentTransaction.commit()
+            }
     }
 
 

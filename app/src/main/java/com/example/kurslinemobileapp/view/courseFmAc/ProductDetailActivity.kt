@@ -282,12 +282,13 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val teacherName = response.teacher.joinToString(", ")
         println("Teacher name1: ${teacherName}")
 
-        if (teacherName.isNullOrEmpty()){
+        if (teacherName.equals("[null]")){
             println("Test Null")
-            bindingProductDetailActivity.teacherTitle.setText("Qeyd olunmayib")
+            bindingProductDetailActivity.teacherTitle.setText("Qeyd olunmayıb")
         }else{
             bindingProductDetailActivity.teacherTitle.setText(teacherName.toString())
         }
+
         val phoneNumber = response.phone
         val count = response.countView
         if (response.isVIP == true){

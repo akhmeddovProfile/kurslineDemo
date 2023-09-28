@@ -257,7 +257,7 @@ class CourseUploadActivity : AppCompatActivity(),PhotoPagerAdapter.OnItemClickLi
         )
     }
     private fun handleResponse(response: CreateAnnouncementResponse) {
-
+        Toast.makeText(this@CourseUploadActivity,getString(R.string.approvalText),Toast.LENGTH_SHORT).show()
         val intent = Intent(this@CourseUploadActivity,MainActivity::class.java)
         startActivity(intent)
         finish()

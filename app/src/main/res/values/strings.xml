@@ -143,5 +143,5 @@
     <string name="backToHome">Əsas ekrana qayıt</string>
     <string name="vipTextTran">VIP kurslar</string>
     <string name="movetextTran">İrəli çəkişmiş kurslar</string>
-
+    <string name="approvalText">Elanınız gözləmədədir. Təsdiqləndikdən sonra görsənəcək.</string>
 </resources>
