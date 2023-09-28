@@ -161,7 +161,6 @@ class SettingsFragment : Fragment() {
                     "Azərbaycan dilinə dəyişdirildi",
                     Toast.LENGTH_SHORT
                 ).show()
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 requireActivity().recreate()
 
             } else if (which == 1) {
@@ -171,7 +170,6 @@ class SettingsFragment : Fragment() {
                     "Application language change to English",
                     Toast.LENGTH_SHORT
                 ).show()
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 requireActivity().recreate()
             }
             dialog.dismiss()
