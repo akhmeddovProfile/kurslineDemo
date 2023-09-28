@@ -165,6 +165,7 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:focusable="false"
+
                     android:hint="@string/region"
                     android:drawableEnd="@drawable/drowpdown"
                     android:drawableTintMode="src_in"
@@ -342,7 +343,8 @@
                     android:id="@+id/businessAccountAboutEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="1"
+                    android:lines="5"
+                    android:gravity="start"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:editable="false"
