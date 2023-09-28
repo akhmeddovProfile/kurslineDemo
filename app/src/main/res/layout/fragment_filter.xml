@@ -226,24 +226,11 @@
             android:layout_height="wrap_content">
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/allcourseFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/statustxt"
-            android:background="@drawable/business_button_bg_2"
-            android:text="@string/courseandtutors"
-            android:layout_marginLeft="25dp"
-            android:padding="8dp"
-            android:textAllCaps="false"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/nunito"
-            android:layout_marginTop="28dp"
-            />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/coursefilter"
             android:layout_width="wrap_content"
@@ -273,7 +260,6 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
-            android:layout_toRightOf="@id/allcourseFilter"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="28dp"
             />

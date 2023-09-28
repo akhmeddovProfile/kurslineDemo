@@ -64,7 +64,7 @@ class FilterFragment : Fragment() {
         courseId = ""
         button1 = binding.coursefilter
         button2 = binding.repititorfilter
-        button3 = binding.allcourseFilter
+
 
         button4 = binding.onlinemodeBtn
         button5 = binding.offlineModebtn
@@ -98,10 +98,7 @@ class FilterFragment : Fragment() {
             updateButtonBackgroundsStatus(button2)
             statusId = "2"
         }
-        button3.setOnClickListener {
-            updateButtonBackgroundsStatus(button3)
-            statusId = "3"
-        }
+
 
         button4.setOnClickListener {
             updateButtonBackgroundsMode(button4)
