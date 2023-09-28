@@ -207,7 +207,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         if (regionId != null || categoryId != null || search != null || minPrice != null || maxPrice != null || statusId != null || isOnlineId != null || course != null) {
             recycler.layoutManager = GridLayoutManager(requireContext(), 2)
             getFilterProducts(
-                limit,
+                1000000,
                 offset,
                 regionId!!,
                 categoryId!!,
@@ -273,7 +273,7 @@ class HomeFragment : Fragment(), MainListProductAdapter.FavoriteItemClickListene
         val retrofit =
             RetrofitService(Constant.BASE_URL).retrofit.create(AnnouncementAPI::class.java)
         compositeDisposable.add(
-            retrofit.getAnnouncementFavoriteForUserId(id, 10000, 0).subscribeOn(Schedulers.io())
+            retrofit.getAnnouncementFavoriteForUserId(id, 1000000, 0).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResponseforAllItemsAndFavItems, {
 
