@@ -1,6 +1,5 @@
 package com.example.kurslinemobileapp.view.fragments
 
-import MyContextWrapper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -11,9 +10,9 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,6 @@ import com.app.kurslinemobileapp.databinding.FragmentSettingsBinding
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
-import com.example.kurslinemobileapp.service.MyPreference
 import com.example.kurslinemobileapp.view.AboutActivity
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.PdfPrivacyPolicy
@@ -37,7 +35,6 @@ class SettingsFragment : Fragment() {
     private lateinit var contactAdapter: ContactUsAdapter
     private lateinit var contactList: List<ContactItem>
     private lateinit var bindingSettings:FragmentSettingsBinding
-    private val preference: MyPreference by lazy { MyPreference(requireContext()) }
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +46,7 @@ class SettingsFragment : Fragment() {
         //contactAdapter=ContactUsAdapter(contactList)
         val sharedPreferences =
             requireActivity().getSharedPreferences(Constant.sharedkeyname, Context.MODE_PRIVATE)
+
         //loadLocate()
         bindingSettings.privacySettingsId.setOnClickListener {
             val intent = Intent(requireContext(), PdfPrivacyPolicy::class.java)
@@ -151,118 +149,42 @@ class SettingsFragment : Fragment() {
         requireActivity().finish()
     }
 
-    private fun spinnerLanguag(){
-        val listofItems = arrayOf("az", "en")
-        bindingSettings.languageSpinner.adapter=ArrayAdapter(requireActivity(),R.layout.spinnerlanguageitems,listofItems)
-        val lang=preference.getLangugae()
-        val index=listofItems.indexOf(lang)
-        if (index>=0){
-            bindingSettings.languageSpinner.setSelection(index)
-        }
-        bindingSettings.languageSpinner.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                preference.setLangugae(listofItems[p2])
-               val selectedItem= p0?.getItemAtPosition(p2).toString()
-                if (selectedItem.equals("az")){
-                    setAppLocale(requireContext(),selectedItem)
-                    intent()
-                }
-                else if(selectedItem.equals("az")){
-                    setAppLocale(requireContext(),selectedItem)
-                    intent()
-                }
-
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-    }
-    fun intent(){
-        val intent=Intent(requireContext(), MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-    }
     private fun showChangeLanguage() {
-        val listofItems = arrayOf("az", "en")
-        val lang = preference.getLangugae()
-        val currentLanguage = getCurrentLanguage(requireContext())
-        val initiallyCheckedItem = if (currentLanguage == "az") 0 else 1
+        val listofItems = arrayOf("Azərbaycan", "English")
+        val mBuilder = AlertDialog.Builder(requireContext())
+        mBuilder.setTitle("Choose Language")
+        mBuilder.setSingleChoiceItems(listofItems, -1) { dialog, which ->
+            if (which == 0) {
+                setLocate("az")
+                Toast.makeText(
+                    requireContext(),
+                    "Azərbaycan dilinə dəyişdirildi",
+                    Toast.LENGTH_SHORT
+                ).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                requireActivity().recreate()
 
-        val alertDialog = AlertDialog.Builder(requireContext())
-            .setTitle("Choose Language")
-            .setSingleChoiceItems(listofItems, initiallyCheckedItem) { dialog, which ->
-                // Handle language selection
-                val selectedLanguageCode = if (which == 0) "az" else "en"
-                //preference.setLangugae(selectedLanguageCode)
-                saveCurrentLanguage(requireActivity(),selectedLanguageCode)
-            }.setPositiveButton("OK") { _, _ ->
-                val selectedLanguage = getCurrentLanguage(requireActivity())
-                // Change the app's language
-                MyContextWrapper.wrap(requireContext(), selectedLanguage)
-
-                // Restart the app to apply the new language
-                val intent = requireActivity().baseContext.packageManager
-                    .getLaunchIntentForPackage(requireActivity().baseContext.packageName)
-                if (intent != null) {
-                    intent.addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                                Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                    startActivity(intent)
-                    requireActivity().finish()
-                }
+            } else if (which == 1) {
+                setLocate("en")
+                Toast.makeText(
+                    requireContext(),
+                    "Application language change to English",
+                    Toast.LENGTH_SHORT
+                ).show()
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                requireActivity().recreate()
             }
-            .setNegativeButton("Cancel") { _, _ -> }
-            .create()
-
-        alertDialog.show()
-    }
-    private fun updateAppLanguage(language: String) {
-        val contextWrapper = MyContextWrapper.wrap(requireContext(), language)
-        requireActivity().apply {
-            val newContext = contextWrapper.baseContext
-            recreate() // Recreate the activity to apply the new context
+            dialog.dismiss()
         }
-
+        val mdialog = mBuilder.create()
+        mdialog.show()
     }
-    fun setAppLocale(context: Context, languageCode: String) {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-
+    fun setLocale(context: Context, languageCode: String) {
         val resources = context.resources
-        val configuration = Configuration(resources.configuration)
+        val configuration = resources.configuration
+        val locale = Locale(languageCode)
         configuration.setLocale(locale)
-
-        val displayMetrics = resources.displayMetrics
-        context.resources.updateConfiguration(configuration, displayMetrics)
-    }
-    fun restartApp(context: Context) {
-        val packageManager = context.packageManager
-        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
-        if (intent != null) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-            System.exit(0) // Ensure the app process is killed
-        }
-    }
-    // Helper function to get the current language from shared preferences
-    fun getCurrentLanguage(context: Context): String {
-        val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("My_Lang", "az") ?: "az"
-    }
-
-    // Helper function to save the selected language to shared preferences
-    fun saveCurrentLanguage(context: Context, languageCode: String) {
-        val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("My_Lang", languageCode)
-        editor.apply()
+        context.createConfigurationContext(configuration)
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -271,17 +193,10 @@ class SettingsFragment : Fragment() {
         Locale.setDefault(locale)
         val config = Configuration()
         config.locale = locale
-        // Create a new context with the updated configuration
-        val contextWithLocale = requireContext().createConfigurationContext(config)
-
-        // Use the updated context to update resources
-        val updatedResources = contextWithLocale.resources
-        // Update the configuration and resources in your app
-        requireActivity().resources.updateConfiguration(config, updatedResources.displayMetrics)
-       /* requireActivity().resources?.updateConfiguration(
+        requireActivity().resources?.updateConfiguration(
             config,
             requireActivity().resources.displayMetrics
-        )*/
+        )
         val editor = context?.getSharedPreferences("Settings", Context.MODE_PRIVATE)?.edit()
         editor?.putString("My_Lang", Lang)
         editor?.apply()
