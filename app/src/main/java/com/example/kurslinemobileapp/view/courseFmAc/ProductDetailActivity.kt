@@ -282,7 +282,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         val teacherName = response.teacher.joinToString(", ")
         println("Teacher name1: ${teacherName}")
 
-        if (teacherName.equals("[null]")){
+        if (teacherName.equals("[null]") || teacherName.equals("null") ||teacherName.equals("[[null]]") ){
             println("Test Null")
             bindingProductDetailActivity.teacherTitle.setText("Qeyd olunmayıb")
         }else{
