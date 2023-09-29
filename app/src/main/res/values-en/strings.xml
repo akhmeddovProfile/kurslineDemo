@@ -145,4 +145,6 @@
     <string name="vipTextTran">VIP courses</string>
     <string name="movetextTran">Forwarded courses</string>
     <string name="approvalText">Your ad is pending. Will be seen after approval.</string>
+    <string name="aboutPayment">Your announcement will appear randomly on the home page and in the VIP section of search results</string>
+    <string name="aboutMoveFRW">Your announcement will appear first on the home page and in the Recent announcements section of search results</string>
 </resources>

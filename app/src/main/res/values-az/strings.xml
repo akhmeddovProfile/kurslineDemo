@@ -144,4 +144,6 @@
     <string name="vipTextTran">VIP kurslar</string>
     <string name="movetextTran">İrəli çəkişmiş kurslar</string>
     <string name="approvalText">Elanınız gözləmədədir. Təsdiqləndikdən sonra görsənəcək.</string>
+    <string name="aboutPayment">Elanınız ana səhifədə və axtarış nəticələrindəki VİP bölməsində təsadüfi qaydada görünəcək</string>
+    <string name="aboutMoveFRW">Elanınız ana sıhifədə və axtarış nəticələrindəki Son elanlar bölməsində ilk sıralarda görünəcək</string>
 </resources>

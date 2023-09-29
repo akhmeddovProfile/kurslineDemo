@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +21,7 @@ import com.app.kurslinemobileapp.databinding.FragmentSettingsBinding
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
+import com.example.kurslinemobileapp.service.MiuiLocaleHelper
 import com.example.kurslinemobileapp.view.AboutActivity
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.PdfPrivacyPolicy
@@ -112,7 +112,6 @@ class SettingsFragment : Fragment() {
         }
         bindingSettings.helpLl.setOnClickListener {
             showBottomSheedDialogHelp()
-
         }
 
         return bindingSettings.root
@@ -154,7 +153,10 @@ class SettingsFragment : Fragment() {
         val mBuilder = AlertDialog.Builder(requireContext())
         mBuilder.setTitle("Choose Language")
         mBuilder.setSingleChoiceItems(listofItems, -1) { dialog, which ->
+            var selectedLanguage:String="az"
+
             if (which == 0) {
+                selectedLanguage="az"
                 setLocate("az")
                 Toast.makeText(
                     requireContext(),
@@ -164,6 +166,7 @@ class SettingsFragment : Fragment() {
                 requireActivity().recreate()
 
             } else if (which == 1) {
+                selectedLanguage="en"
                 setLocate("en")
                 Toast.makeText(
                     requireContext(),
@@ -172,6 +175,16 @@ class SettingsFragment : Fragment() {
                 ).show()
                 requireActivity().recreate()
             }
+            if (isXiaomiDevice()) {
+                val updatedContext = MiuiLocaleHelper.setLocale(requireContext(), selectedLanguage)
+
+                // Update your UI with the new context
+                // Example: textView.text = updatedContext.getString(R.string.my_string)
+            }
+
+            // Save the selected language to shared preferences
+            saveCurrentLanguage(requireContext(), selectedLanguage)
+
             dialog.dismiss()
         }
         val mdialog = mBuilder.create()
@@ -184,7 +197,17 @@ class SettingsFragment : Fragment() {
         configuration.setLocale(locale)
         context.createConfigurationContext(configuration)
     }
-
+    private fun isXiaomiDevice(): Boolean {
+        // Check if the device manufacturer is Xiaomi
+        val manufacturer = android.os.Build.MANUFACTURER
+        return manufacturer.equals("Xiaomi", ignoreCase = true)
+    }
+    fun saveCurrentLanguage(context: Context, languageCode: String) {
+        val sharedPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("My_Lang", languageCode)
+        editor.apply()
+    }
     @SuppressLint("SuspiciousIndentation")
     private fun setLocate(Lang: String) {
         val locale = Locale(Lang)
