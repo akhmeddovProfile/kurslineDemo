@@ -30,17 +30,27 @@
         android:text="@string/forward_anntxt"
         android:textColor="@color/greenColor"
         android:textSize="36sp"
-
         android:layout_marginTop="21dp"
          android:layout_marginStart="120dp"
         android:textStyle="bold"
         tools:ignore="MissingConstraints" />
-
+    <TextView
+        android:id="@+id/aboutVip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:gravity="center"
+        android:layout_marginStart="20dp"
+        android:text="@string/aboutMoveFRW"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:layout_below="@+id/uploadCoureText"
+        />
     <ImageView
         android:id="@+id/lineForCourseUpload"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/uploadCoureText"
+        android:layout_below="@id/aboutVip"
         android:layout_marginTop="0dp"
         android:src="@color/grayColor1"
         android:layout_marginBottom="0dp"

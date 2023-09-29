@@ -28,8 +28,8 @@ android {
         applicationId "com.app.kurslinemobileapp"
         minSdk 28
         targetSdk 34
-        versionCode 6
-        versionName "1.1.2"
+        versionCode 7
+        versionName "1.1.2-alfa"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
