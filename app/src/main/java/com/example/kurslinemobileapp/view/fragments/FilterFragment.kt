@@ -123,7 +123,6 @@ class FilterFragment : Fragment() {
             binding.tutorsFilterId.text = getString(R.string.tutors)
             resetBtnsBackground(button1)
             resetBtnsBackground(button2)
-            resetBtnsBackground(button3)
             resetBtnsBackground(button4)
             resetBtnsBackground(button5)
             resetBtnsBackground(button6)
@@ -183,7 +182,7 @@ class FilterFragment : Fragment() {
 
 
     private fun resetBtnsBackground(selectedButton: Button){
-        val buttons = arrayOf(button1, button2, button3,button4, button5, button6)
+        val buttons = arrayOf(button1, button2,button4, button5, button6)
         for (button in buttons){
             button.setBackgroundResource(R.drawable.business_button_bg_2)
             button.setTextColor(this.getResources().getColor(R.color.black))
