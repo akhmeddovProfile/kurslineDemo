@@ -165,7 +165,7 @@ class FilterFragment : Fragment() {
 
     @SuppressLint("ResourceAsColor")
     private fun updateButtonBackgroundsStatus(selectedButton: Button) {
-        val buttons = arrayOf(button1, button2, button3)
+        val buttons = arrayOf(button1, button2)
 
         for (button in buttons) {
             if (button == selectedButton) {
