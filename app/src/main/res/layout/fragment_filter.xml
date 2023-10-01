@@ -394,7 +394,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_toRightOf="@id/allModesbtn"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="28dp"
             />
         <androidx.appcompat.widget.AppCompatButton
@@ -410,7 +410,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/nunito"
             android:layout_toRightOf="@id/offlineModebtn"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="28dp"
             />
         </LinearLayout>
