@@ -53,6 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.text.SimpleDateFormat
 
 class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.FavoriteItemClickListener {
     private lateinit var compositeDisposable: CompositeDisposable
@@ -90,6 +91,7 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
         println("gelenid" + annId)
         println("userid" + userId)
         println("token:"+authHeader)
+
         moveforwardList= ArrayList<MoveforwardPriceResponseX>()
         vipList = ArrayList<VipPriceResponse>()
         similarcourseList= ArrayList<AnnouncementSimilarCourse>()
@@ -368,6 +370,23 @@ class ProductDetailActivity : AppCompatActivity(),SimilarCoursesAdapter.Favorite
             println("gedenId-----"+it.id)
             editor.apply()
         }
+
+        val startDate = response.announcementStartDate
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S")
+
+        // Parse the ISO date
+        val date = inputFormat.parse(startDate)
+
+        // Define the desired output format (24-hour format)
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy, HH:mm:ss")
+
+        // Format the date as a string
+        val normalDate = outputFormat.format(date)
+
+        bindingProductDetailActivity.startDateTxt.setText(normalDate)
+
+val adsId = response.id
+        bindingProductDetailActivity.adsNormalId.setText(adsId)
 
 
     }

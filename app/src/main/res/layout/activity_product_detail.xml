@@ -124,13 +124,26 @@
                 android:textSize="14sp"
                 android:text="Test asdkakjsdkhasd"
                 />
+            <TextView
+                android:id="@+id/startDateTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutCourse"
+                android:layout_marginStart="27dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                android:text="Start Date: "
+                />
 
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/aboutCourse"
+                android:layout_below="@+id/startDateTxt"
                 android:layout_marginTop="33dp"
                 android:layout_marginStart="17dp"
                 android:text="@string/category"
@@ -142,7 +155,7 @@
                 android:id="@+id/categoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/aboutCourse"
+                android:layout_below="@+id/startDateTxt"
                 android:layout_marginTop="33dp"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
@@ -373,11 +386,46 @@
                 android:layout_below="@+id/contactTitle"
                 android:src="@color/grayColor2"/>
 
+            <TextView
+                android:id="@+id/adId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contactTitle"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/adsNom"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/colorForCourseIntheMainScreen"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/adsNormalId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contactTitle"
+                android:layout_marginTop="33dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:layout_marginEnd="15dp"
+                android:text=""
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/greenColor"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/imageViewIdNom"
+                android:layout_below="@+id/adId"
+                android:src="@color/grayColor2"/>
+
             <RelativeLayout
                 android:id="@+id/relativeLayoutClickUpForward"
                 android:layout_width="160dp"
                 android:layout_height="60dp"
-                android:layout_below="@+id/imageView5"
+                android:layout_below="@+id/imageViewIdNom"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="31dp"
@@ -413,7 +461,7 @@
                 android:id="@+id/relativeLayoutClickVIP"
                 android:layout_width="160dp"
                 android:layout_height="60dp"
-                android:layout_below="@+id/imageView5"
+                android:layout_below="@+id/imageViewIdNom"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="31dp"

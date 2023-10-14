@@ -21,7 +21,7 @@ import com.app.kurslinemobileapp.databinding.FragmentSettingsBinding
 import com.example.kurslinemobileapp.adapter.ContactUsAdapter
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
-import com.example.kurslinemobileapp.service.MiuiLocaleHelper
+
 import com.example.kurslinemobileapp.view.AboutActivity
 import com.example.kurslinemobileapp.view.MainActivity
 import com.example.kurslinemobileapp.view.PdfPrivacyPolicy
@@ -176,7 +176,7 @@ class SettingsFragment : Fragment() {
                 requireActivity().recreate()
             }
             if (isXiaomiDevice()) {
-                val updatedContext = MiuiLocaleHelper.setLocale(requireContext(), selectedLanguage)
+             //   val updatedContext = MiuiLocaleHelper.setLocale(requireContext(), selectedLanguage)
 
                 // Update your UI with the new context
                 // Example: textView.text = updatedContext.getString(R.string.my_string)

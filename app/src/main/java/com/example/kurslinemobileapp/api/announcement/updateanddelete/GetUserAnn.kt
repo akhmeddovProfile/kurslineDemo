@@ -6,6 +6,7 @@ data class GetUserAnn(
     val announcementAddress: String,
     val announcementDesc: String,
     val announcementEndDate: String,
+    val announcementStartDate: String,
     val announcementIsActive: Boolean,
     val announcementName: String,
     val announcementPrice: Int,
