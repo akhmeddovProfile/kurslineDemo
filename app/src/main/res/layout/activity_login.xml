@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/white"
+                app:prefixText="+994 "
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 android:textColorHint="@color/grayColor1"
@@ -58,14 +59,15 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailLoginEditText"
+                    android:id="@+id/telephoneLoginEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
+                    android:maxLength="9"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textEmailAddress"
-                    android:hint="@string/entermail"/>
+                    android:hint="Telefon nömrəsi"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -77,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:boxBackgroundColor="@color/white"
+                android:visibility="gone"
                 app:boxStrokeColor="@color/grayColor1"
                 app:hintTextColor="@color/grayColor1"
                 app:passwordToggleEnabled="true"
@@ -92,6 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
+                    android:visibility="gone"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat"
                     android:inputType="textPassword"
@@ -100,6 +104,7 @@
 
             <LinearLayout
                 android:id="@+id/resetPassword"
+                android:visibility="gone"
                 android:layout_below="@+id/passwordLoginContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,6 +132,7 @@
 
             <LinearLayout
                 android:id="@+id/goToRegister"
+                android:visibility="gone"
                 android:layout_below="@+id/resetPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

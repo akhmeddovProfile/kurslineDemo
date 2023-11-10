@@ -504,7 +504,6 @@ class RegisterCompanyActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     private fun showBottomSheetDialogRegions() {
         val appDatabase = AppDatabase.getDatabase(applicationContext)
-
         val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog_region, null)
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(bottomSheetView)

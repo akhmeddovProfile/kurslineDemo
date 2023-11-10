@@ -20,4 +20,14 @@ interface LogInAPi {
     fun resetPassword(
         @Part("email")email:RequestBody
     ): Deferred<ResetPasswordResponse>
+
+    @POST("Autorization")
+    fun sendOTPCode(
+        @Body number:OTPRequest
+    ):Observable<OTPResponse>
+
+    @POST("Login")
+    fun LoginWithOTP(
+        @Body params:LoginOTPRequest
+    ):Observable<LogInResponseOTP>
 }

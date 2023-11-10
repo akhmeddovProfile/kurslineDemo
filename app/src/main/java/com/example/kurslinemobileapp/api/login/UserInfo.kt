@@ -6,4 +6,5 @@ data class UserInfo(
     val userType: String,
     val userStatus:Int,
     val isFavorite:Boolean
+    //number gelecek
 )

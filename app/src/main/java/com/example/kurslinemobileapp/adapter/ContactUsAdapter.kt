@@ -8,17 +8,15 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.*
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.app.kurslinemobileapp.R
 import com.example.kurslinemobileapp.model.ContactItem
 import com.example.kurslinemobileapp.service.Constant
 import com.example.kurslinemobileapp.service.RetrofitService
-import com.example.kurslinemobileapp.view.MainActivity
-import com.example.kurslinemobileapp.view.fragments.ContactUsFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import io.reactivex.disposables.CompositeDisposable
@@ -70,16 +68,12 @@ class ContactUsAdapter (private val contactList: List<ContactItem>) :
         val bottomSheetView = LayoutInflater.from(context).inflate(R.layout.write_letter, null)
         val dialog = BottomSheetDialog(context)
         dialog.setContentView(bottomSheetView)
-        /*val behavior=BottomSheetBehavior.from(bottomSheetView)
-        behavior.isDraggable=true
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED*/
         val telnumber=bottomSheetView.findViewById<TextInputEditText>(R.id.phoneEditText)
         val letter=bottomSheetView.findViewById<TextInputEditText>(R.id.writeletter)
         val btn=bottomSheetView.findViewById<Button>(R.id.sendLetterBtnSettings)
-                val phoneNumber ="+994"+telnumber.text.toString()
-                val message = letter.text.toString()
-btn.setOnClickListener {
-
+        val phoneNumber ="+994"+telnumber.text.toString()
+        val message = letter.text.toString()
+        btn.setOnClickListener {
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val apiService = RetrofitService(Constant.BASE_URL).apiServicewriteUs.writeUs(

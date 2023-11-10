@@ -6,3 +6,4 @@ data class LoginResponseX(
     val refreshToken: RefreshToken,
     val userInfo: UserInfo
 )
+
